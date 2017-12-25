@@ -37,3 +37,4 @@ set_target_properties(ansilove PROPERTIES VERSION ${LIB_VERSION_STRING}
                                SOVERSION ${LIB_VERSION_MAJOR})
 
 install(TARGETS ansilove DESTINATION lib)
+install(FILES include/ansilove.h DESTINATION include)
