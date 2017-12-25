@@ -11,9 +11,19 @@
 
 #define _XOPEN_SOURCE 700
 #define _NETBSD_SOURCE
-#include <string.h>
+#include "../ansilove.h"
 
-#include "ansi.h"
+// Character structure
+struct ansiChar {
+        int32_t column;
+        int32_t row;
+        int32_t background;
+        int32_t foreground;
+        int32_t current_character;
+        bool bold;
+        bool italics;
+        bool underline;
+};
 
 void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFile, char *retinaout, char *font, int32_t bits, char *mode, bool icecolors, char *fext, int retinaScaleFactor)
 {

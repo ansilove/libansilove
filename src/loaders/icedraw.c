@@ -9,7 +9,7 @@
 //  See the LICENSE file for details.
 //
 
-#include "icedraw.h"
+#include "../ansilove.h"
 
 void icedraw(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFile, char *retinaout, int retinaScaleFactor)
 {

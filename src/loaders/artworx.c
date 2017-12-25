@@ -9,7 +9,7 @@
 //  See the LICENSE file for details.
 //
 
-#include "artworx.h"
+#include "../ansilove.h"
 
 void artworx(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFile, char *retinaout, int retinaScaleFactor)
 {
