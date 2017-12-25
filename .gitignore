@@ -1,0 +1,13 @@
+#gitignore for libansilove
+
+# Mac OS X Finder
+.DS_Store
+
+# build products
+build/
+
+# CMake
+CMakeFiles
+CMakeCache.txt
+Makefile
+cmake_install.cmake
