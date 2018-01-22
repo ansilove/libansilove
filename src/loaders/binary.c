@@ -11,10 +11,10 @@
 
 #include "../ansilove.h"
 
-void binary(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFile, char *retinaout, int32_t columns, char *font, int32_t bits, bool icecolors, int retinaScaleFactor)
+void binary(struct input *inputFile, struct output *outputFile)
 {
 	// binary files must have an even size
-	if (inputFileSize % 2) {
+	if (inputFile->size % 2) {
 		fprintf(stderr, "\nBinary file is not valid.\n");
 		exit(1);
 	}
@@ -23,14 +23,14 @@ void binary(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputF
 	struct fontStruct fontData;
 
 	// font selection
-	alSelectFont(&fontData, font);
+	alSelectFont(&fontData, outputFile->font);
 
 	// libgd image pointers
 	gdImagePtr canvas;
 
 	// allocate buffer image memory
-	canvas = gdImageCreate(columns * bits,
-	    ((inputFileSize / 2) / columns * fontData.height));
+	canvas = gdImageCreate(inputFile->columns * outputFile->bits,
+	    ((inputFile->size / 2) / inputFile->columns * fontData.height));
 
 	if (!canvas) {
 		perror("Error, can't allocate buffer image memory");
@@ -50,29 +50,29 @@ void binary(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputF
 	}
 
 	// process binary
-	int32_t character, attribute, background, foreground;
-	int32_t loop = 0, column = 0, row = 0;
+	uint32_t character, attribute, background, foreground;
+	uint32_t loop = 0, column = 0, row = 0;
 
-	while (loop < inputFileSize)
+	while (loop < inputFile->size)
 	{
-		if (column == columns)
+		if (column == inputFile->columns)
 		{
 			column = 0;
 			row++;
 		}
 
-		character = inputFileBuffer[loop];
-		attribute = inputFileBuffer[loop+1];
+		character = inputFile->data[loop];
+		attribute = inputFile->data[loop+1];
 
 		background = (attribute & 240) >> 4;
 		foreground = (attribute & 15);
 
-		if (background > 8 && !icecolors)
+		if (background > 8 && !outputFile->icecolors)
 		{
 			background -= 8;
 		}
 
-		drawchar(canvas, fontData.font_data, bits, fontData.height,
+		drawchar(canvas, fontData.font_data, outputFile->bits, fontData.height,
 		    column, row, colors[background], colors[foreground], character);
 
 		column++;
@@ -80,5 +80,5 @@ void binary(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputF
 	}
 
 	// create output image
-	output(canvas, outputFile, retinaout, retinaScaleFactor);
+	output(canvas, outputFile->fileName, outputFile->retina, outputFile->retinaScaleFactor);
 }

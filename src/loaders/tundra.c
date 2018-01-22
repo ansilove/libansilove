@@ -11,23 +11,22 @@
 
 #include "../ansilove.h"
 
-void tundra(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFile, char *retinaout, char *font, int32_t bits, int retinaScaleFactor)
+void tundra(struct input *inputFile, struct output *outputFile)
 {
 	// some type declarations
 	struct fontStruct fontData;
-	int32_t columns = 80;
 	char tundra_version;
 	char tundra_header[8];
 
 	// font selection
-	alSelectFont(&fontData, font);
+	alSelectFont(&fontData, outputFile->font);
 
 	// libgd image pointers
 	gdImagePtr canvas;
 
 	// extract tundra header
-	tundra_version = inputFileBuffer[0];
-	memcpy(&tundra_header, inputFileBuffer+1, 8);
+	tundra_version = inputFile->data[0];
+	memcpy(&tundra_header, inputFile->data+1, 8);
 
 	// need to add check for "TUNDRA24" string in the header
 	if (tundra_version != 24)
@@ -36,10 +35,10 @@ void tundra(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputF
 	}
 
 	// read tundra file a first time to find the image size
-	int32_t character, background = 0, foreground = 0;
-	int32_t loop = 9, column = 0, row = 1;
+	uint32_t character, background = 0, foreground = 0;
+	uint32_t loop = 9, column = 0, row = 1;
 
-	while (loop < inputFileSize)
+	while (loop < inputFile->size)
 	{
 		if (column == 80)
 		{
@@ -47,38 +46,38 @@ void tundra(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputF
 			row++;
 		}
 
-		character = inputFileBuffer[loop];
+		character = inputFile->data[loop];
 
 		if (character == 1)
 		{
 			row =
-			    (inputFileBuffer[loop + 1] << 24) + (inputFileBuffer[loop + 2] << 16) +
-			    (inputFileBuffer[loop + 3] << 8) + inputFileBuffer[loop+4];
+			    (inputFile->data[loop + 1] << 24) + (inputFile->data[loop + 2] << 16) +
+			    (inputFile->data[loop + 3] << 8) + inputFile->data[loop+4];
 
 			column =
-			    (inputFileBuffer[loop + 5] << 24) + (inputFileBuffer[loop + 6] << 16) +
-			    (inputFileBuffer[loop + 7] << 8) + inputFileBuffer[loop+8];
+			    (inputFile->data[loop + 5] << 24) + (inputFile->data[loop + 6] << 16) +
+			    (inputFile->data[loop + 7] << 8) + inputFile->data[loop+8];
 
 			loop += 8;
 		}
 
 		if (character == 2)
 		{
-			character = inputFileBuffer[loop + 1];
+			character = inputFile->data[loop + 1];
 
 			loop += 5;
 		}
 
 		if (character == 4)
 		{
-			character = inputFileBuffer[loop + 1];
+			character = inputFile->data[loop + 1];
 
 			loop += 5;
 		}
 
 		if (character == 6)
 		{
-			character = inputFileBuffer[loop + 1];
+			character = inputFile->data[loop + 1];
 
 			loop += 9;
 		}
@@ -92,7 +91,7 @@ void tundra(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputF
 	}
 
 	// allocate buffer image memory
-	canvas = gdImageCreateTrueColor(columns * bits, (row) * fontData.height);
+	canvas = gdImageCreateTrueColor(inputFile->columns * outputFile->bits, (row) * fontData.height);
 
 	if (!canvas) {
 		perror("Error, can't allocate buffer image memory");
@@ -105,7 +104,7 @@ void tundra(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputF
 
 	loop = 9;
 
-	while (loop < inputFileSize)
+	while (loop < inputFile->size)
 	{
 		if (column == 80)
 		{
@@ -113,17 +112,17 @@ void tundra(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputF
 			row++;
 		}
 
-		character = inputFileBuffer[loop];
+		character = inputFile->data[loop];
 
 		if (character == 1)
 		{
 			row =
-			    (inputFileBuffer[loop + 1] << 24) + (inputFileBuffer[loop + 2] << 16) +
-			    (inputFileBuffer[loop + 3] << 8) + inputFileBuffer[loop + 4];
+			    (inputFile->data[loop + 1] << 24) + (inputFile->data[loop + 2] << 16) +
+			    (inputFile->data[loop + 3] << 8) + inputFile->data[loop + 4];
 
 			column =
-			    (inputFileBuffer[loop + 5] << 24) + (inputFileBuffer[loop + 6] << 16) +
-			    (inputFileBuffer[loop + 7] << 8) + inputFileBuffer[loop + 8];
+			    (inputFile->data[loop + 5] << 24) + (inputFile->data[loop + 6] << 16) +
+			    (inputFile->data[loop + 7] << 8) + inputFile->data[loop + 8];
 
 			loop += 8;
 		}
@@ -131,20 +130,20 @@ void tundra(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputF
 		if (character == 2)
 		{
 			foreground =
-			    (inputFileBuffer[loop + 3] << 16) + (inputFileBuffer[loop + 4] << 8) +
-			    inputFileBuffer[loop + 5];
+			    (inputFile->data[loop + 3] << 16) + (inputFile->data[loop + 4] << 8) +
+			    inputFile->data[loop + 5];
 
-			character = inputFileBuffer[loop+1];
+			character = inputFile->data[loop+1];
 
 			loop += 5;
 		}
 
 		if (character == 4)
 		{
-			background = (inputFileBuffer[loop + 3] << 16) + (inputFileBuffer[loop + 4] << 8) +
-			    inputFileBuffer[loop+5];
+			background = (inputFile->data[loop + 3] << 16) + (inputFile->data[loop + 4] << 8) +
+			    inputFile->data[loop+5];
 
-			character = inputFileBuffer[loop+1];
+			character = inputFile->data[loop+1];
 
 			loop += 5;
 		}
@@ -152,21 +151,21 @@ void tundra(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputF
 		if (character == 6)
 		{
 			foreground =
-			    (inputFileBuffer[loop + 3] << 16) + (inputFileBuffer[loop + 4] << 8) +
-			    inputFileBuffer[loop+5];
+			    (inputFile->data[loop + 3] << 16) + (inputFile->data[loop + 4] << 8) +
+			    inputFile->data[loop+5];
 
 			background =
-			    (inputFileBuffer[loop + 7] << 16) + (inputFileBuffer[loop + 8] << 8) +
-			    inputFileBuffer[loop+9];
+			    (inputFile->data[loop + 7] << 16) + (inputFile->data[loop + 8] << 8) +
+			    inputFile->data[loop+9];
 
-			character = inputFileBuffer[loop+1];
+			character = inputFile->data[loop+1];
 
 			loop += 9;
 		}
 
 		if (character != 1 && character != 2 && character != 4 && character != 6)
 		{
-			drawchar(canvas, fontData.font_data, bits, fontData.height,
+			drawchar(canvas, fontData.font_data, outputFile->bits, fontData.height,
 			    column, row, background, foreground, character);
 
 			column++;
@@ -176,6 +175,6 @@ void tundra(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputF
 	}
 
 	// create output image
-	output(canvas, outputFile, retinaout, retinaScaleFactor);
+	output(canvas, outputFile->fileName, outputFile->retina, outputFile->retinaScaleFactor);
 }
 

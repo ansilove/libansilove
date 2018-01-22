@@ -12,12 +12,33 @@
 #ifndef ansilove_h
 #define ansilove_h
 
-void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFile, char *retinaout, char *font, int32_t bits, char *mode, bool icecolors, char *fext, int retinaScaleFactor);
-void artworx(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFile, char *retinaout, int retinaScaleFactor);
-void binary(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFile, char *retinaout, int32_t columns, char *font, int32_t bits, bool icecolors, int retinaScaleFactor);
-void icedraw(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFile, char *retinaout, int retinaScaleFactor);
-void pcboard(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFile, char *retinaout, char *font, int32_t bits, int retinaScaleFactor);
-void tundra(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFile, char *retinaout, char *font, int32_t bits, int retinaScaleFactor);
-void xbin(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFile, char *retinaout, int retinaScaleFactor);
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
+
+struct input {
+	unsigned char *data;
+	size_t size;
+	char *fext;
+	uint32_t columns;
+};
+
+struct output {
+	char *fileName;
+	char *retina;
+	char *font;
+	uint32_t bits;
+	char *mode;
+	bool icecolors;
+	uint32_t retinaScaleFactor;
+};
+
+void ansi(struct input *, struct output *);
+void artworx(struct input *, struct output *);
+void binary(struct input *, struct output *);
+void icedraw(struct input *, struct output *);
+void pcboard(struct input *, struct output *);
+void tundra(struct input *, struct output *);
+void xbin(struct input *, struct output *);
 
 #endif

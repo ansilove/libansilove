@@ -11,18 +11,18 @@
 
 #include "../ansilove.h"
 
-void icedraw(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFile, char *retinaout, int retinaScaleFactor)
+void icedraw(struct input *inputFile, struct output *outputFile)
 {
 	const unsigned char *font_data;
 	unsigned char *font_data_idf;
 
 	// extract relevant part of the IDF header, 16-bit endian unsigned short
-	int32_t x2 = (inputFileBuffer[9] << 8) + inputFileBuffer[8];
+	int32_t x2 = (inputFile->data[9] << 8) + inputFile->data[8];
 
 	// libgd image pointers
 	gdImagePtr canvas;
 
-	int32_t loop;
+	uint32_t loop;
 	int32_t index;
 	int32_t colors[16];
 
@@ -32,13 +32,13 @@ void icedraw(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 		perror("Memory error");
 		exit(7);
 	}
-	memcpy(font_data_idf, inputFileBuffer+(inputFileSize - 48 - 4096), 4096);
+	memcpy(font_data_idf, inputFile->data+(inputFile->size - 48 - 4096), 4096);
 
 	font_data = font_data_idf;
 
 	// process IDF
 	loop = 12;
-	int32_t idf_sequence_length, idf_sequence_loop, i = 0;
+	uint32_t idf_sequence_length, idf_sequence_loop, i = 0;
 
 	// dynamically allocated memory buffer for IDF data
 	unsigned char *idf_buffer, *temp;
@@ -46,14 +46,14 @@ void icedraw(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 
 	int16_t idf_data, idf_data_length;
 
-	while (loop < inputFileSize - 4096 - 48)
+	while (loop < inputFile->size - 4096 - 48)
 	{
-		memcpy(&idf_data, inputFileBuffer+loop, 2);
+		memcpy(&idf_data, inputFile->data+loop, 2);
 
 		// RLE compressed data
 		if (idf_data == 1)
 		{
-			memcpy(&idf_data_length, inputFileBuffer+loop+2, 2);
+			memcpy(&idf_data_length, inputFile->data+loop+2, 2);
 
 			idf_sequence_length = idf_data_length & 255;
 
@@ -69,8 +69,8 @@ void icedraw(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 					exit(7);
 				}
 
-				idf_buffer[i] = inputFileBuffer[loop + 4];
-				idf_buffer[i+1] = inputFileBuffer[loop + 5];
+				idf_buffer[i] = inputFile->data[loop + 4];
+				idf_buffer[i+1] = inputFile->data[loop + 5];
 				i += 2;
 			}
 			loop += 4;
@@ -87,8 +87,8 @@ void icedraw(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 			}
 
 			// normal character
-			idf_buffer[i] = inputFileBuffer[loop];
-			idf_buffer[i+1] = inputFileBuffer[loop + 1];
+			idf_buffer[i] = inputFile->data[loop];
+			idf_buffer[i+1] = inputFile->data[loop + 1];
 			i += 2;
 		}
 		loop += 2;
@@ -107,10 +107,10 @@ void icedraw(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 	// process IDF palette
 	for (loop = 0; loop < 16; loop++)
 	{
-		index = (loop * 3) + inputFileSize - 48;
-		colors[loop] = gdImageColorAllocate(canvas, (inputFileBuffer[index] << 2 | inputFileBuffer[index] >> 4),
-		    (inputFileBuffer[index + 1] << 2 | inputFileBuffer[index + 1] >> 4),
-		    (inputFileBuffer[index + 2] << 2 | inputFileBuffer[index + 2] >> 4));
+		index = (loop * 3) + inputFile->size - 48;
+		colors[loop] = gdImageColorAllocate(canvas, (inputFile->data[index] << 2 | inputFile->data[index] >> 4),
+		    (inputFile->data[index + 1] << 2 | inputFile->data[index + 1] >> 4),
+		    (inputFile->data[index + 2] << 2 | inputFile->data[index + 2] >> 4));
 	}
 
 	// render IDF
@@ -137,7 +137,7 @@ void icedraw(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 	}
 
 	// create output file
-	output(canvas, outputFile, retinaout, retinaScaleFactor);
+	output(canvas, outputFile->fileName, outputFile->retina, outputFile->retinaScaleFactor);
 
 	// free memory
 	free(font_data_idf);

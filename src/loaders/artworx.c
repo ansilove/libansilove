@@ -11,7 +11,7 @@
 
 #include "../ansilove.h"
 
-void artworx(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFile, char *retinaout, int retinaScaleFactor)
+void artworx(struct input *inputFile, struct output *outputFile)
 {
 	const unsigned char *font_data;
 	unsigned char *font_data_adf;
@@ -20,7 +20,7 @@ void artworx(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 	gdImagePtr canvas;
 
 	// create ADF instance
-	canvas = gdImageCreate(640, (((inputFileSize - 192 - 4096 -1) / 2) / 80) * 16);
+	canvas = gdImageCreate(640, (((inputFile->size - 192 - 4096 -1) / 2) / 80) * 16);
 
 	// error output
 	if (!canvas) {
@@ -29,10 +29,10 @@ void artworx(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 	}
 
 	// ADF color palette array
-	int32_t adf_colors[16] = { 0, 1, 2, 3, 4, 5, 20, 7, 56, 57, 58, 59, 60, 61, 62, 63 };
+	uint32_t adf_colors[16] = { 0, 1, 2, 3, 4, 5, 20, 7, 56, 57, 58, 59, 60, 61, 62, 63 };
 
-	int32_t loop;
-	int32_t index;
+	uint32_t loop;
+	uint32_t index;
 
 	// process ADF font
 	font_data_adf = (unsigned char *)malloc(sizeof (unsigned char)*4096);
@@ -40,7 +40,7 @@ void artworx(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 		perror("Memory error");
 		exit(7);
 	}
-	memcpy(font_data_adf, inputFileBuffer+193, 4096);
+	memcpy(font_data_adf, inputFile->data+193, 4096);
 
 	font_data = font_data_adf;
 
@@ -48,19 +48,19 @@ void artworx(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 	for (loop = 0; loop < 16; loop++)
 	{
 		index = (adf_colors[loop] * 3) + 1;
-		gdImageColorAllocate(canvas, (inputFileBuffer[index] << 2 | inputFileBuffer[index] >> 4),
-		    (inputFileBuffer[index + 1] << 2 | inputFileBuffer[index + 1] >> 4),
-		    (inputFileBuffer[index + 2] << 2 | inputFileBuffer[index + 2] >> 4));
+		gdImageColorAllocate(canvas, (inputFile->data[index] << 2 | inputFile->data[index] >> 4),
+		    (inputFile->data[index + 1] << 2 | inputFile->data[index + 1] >> 4),
+		    (inputFile->data[index + 2] << 2 | inputFile->data[index + 2] >> 4));
 	}
 
 	gdImageColorAllocate(canvas, 0, 0, 0);
 
 	// process ADF
-	int32_t column = 0, row = 0;
-	int32_t character, attribute, foreground, background;
+	uint32_t column = 0, row = 0;
+	uint32_t character, attribute, foreground, background;
 	loop = 192 + 4096 + 1;
 
-	while (loop < inputFileSize)
+	while (loop < inputFile->size)
 	{
 		if (column == 80)
 		{
@@ -68,8 +68,8 @@ void artworx(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 			row++;
 		}
 
-		character = inputFileBuffer[loop];
-		attribute = inputFileBuffer[loop+1];
+		character = inputFile->data[loop];
+		attribute = inputFile->data[loop+1];
 
 		background = (attribute & 240) >> 4;
 		foreground = attribute & 15;
@@ -81,7 +81,7 @@ void artworx(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 	}
 
 	// create output file
-	output(canvas, outputFile, retinaout, retinaScaleFactor);
+	output(canvas, outputFile->fileName, outputFile->retina, outputFile->retinaScaleFactor);
 
 	// nuke garbage
 	free(font_data_adf);

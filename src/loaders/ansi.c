@@ -25,7 +25,7 @@ struct ansiChar {
         bool underline;
 };
 
-void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFile, char *retinaout, char *font, int32_t bits, char *mode, bool icecolors, char *fext, int retinaScaleFactor)
+void ansi(struct input *inputFile, struct output *outputFile)
 {
 	// ladies and gentlemen, it's type declaration time
 	struct fontStruct fontData;
@@ -40,21 +40,21 @@ void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFil
 	const char *errstr;
 
 	// font selection
-	alSelectFont(&fontData, font);
+	alSelectFont(&fontData, outputFile->font);
 
 	// to deal with the bits flag, we declared handy bool types
-	if (!strcmp(mode, "ced")) {
+	if (!strcmp(outputFile->mode, "ced")) {
 		ced = true;
 	}
-	else if (!strcmp(mode, "transparent")) {
+	else if (!strcmp(outputFile->mode, "transparent")) {
 		transparent = true;
 	}
-	else if (!strcmp(mode, "workbench")) {
+	else if (!strcmp(outputFile->mode, "workbench")) {
 		workbench = true;
 	}
 
 	// check if current file has a .diz extension
-	if (!strcmp(fext, ".diz")) {
+	if (!strcmp(inputFile->fext, ".diz")) {
 		isDizFile = true;
 	}
 
@@ -62,7 +62,8 @@ void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFil
 	gdImagePtr canvas;
 
 	// ANSi processing loops
-	int32_t loop = 0, ansi_sequence_loop, seq_graphics_loop;
+	size_t loop = 0;
+	uint32_t ansi_sequence_loop, seq_graphics_loop;
 
 	// character definitions
 	int32_t current_character, next_character, character;
@@ -79,7 +80,7 @@ void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFil
 	int32_t saved_row = 0, saved_column = 0;
 
 	// sequence parsing variables
-	int32_t seqValue, seqArrayCount, seq_line, seq_column;
+	uint32_t seqValue, seqArrayCount, seq_line, seq_column;
 	char *seqGrab;
 	char **seqArray;
 
@@ -91,10 +92,10 @@ void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFil
 	ansi_buffer = malloc(sizeof (struct ansiChar));
 
 	// ANSi interpreter
-	while (loop < inputFileSize)
+	while (loop < inputFile->size)
 	{
-		current_character = inputFileBuffer[loop];
-		next_character = inputFileBuffer[loop + 1];
+		current_character = inputFile->data[loop];
+		next_character = inputFile->data[loop + 1];
 
 		if (column == 80)
 		{
@@ -133,13 +134,13 @@ void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFil
 		{
 			for (ansi_sequence_loop = 0; ansi_sequence_loop < 12; ansi_sequence_loop++)
 			{
-				ansi_sequence_character = inputFileBuffer[loop + 2 + ansi_sequence_loop];
+				ansi_sequence_character = inputFile->data[loop + 2 + ansi_sequence_loop];
 
 				// cursor position
 				if (ansi_sequence_character == 'H' || ansi_sequence_character == 'f')
 				{
 					// create substring from the sequence's content
-					seqGrab = strndup((char *)inputFileBuffer + loop + 2, ansi_sequence_loop);
+					seqGrab = strndup((char *)inputFile->data + loop + 2, ansi_sequence_loop);
 
 					// create sequence content array
 					seqArrayCount = explode(&seqArray, ';', seqGrab);
@@ -167,7 +168,7 @@ void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFil
 				if (ansi_sequence_character == 'A')
 				{
 					// create substring from the sequence's content
-					seqGrab = strndup((char *)inputFileBuffer + loop + 2, ansi_sequence_loop);
+					seqGrab = strndup((char *)inputFile->data + loop + 2, ansi_sequence_loop);
 
 					// now get escape sequence's position value
 					int32_t seq_line = strtonum(seqGrab, 0, INT32_MAX, &errstr);
@@ -183,7 +184,7 @@ void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFil
 				if (ansi_sequence_character == 'B')
 				{
 					// create substring from the sequence's content
-					seqGrab = strndup((char *)inputFileBuffer + loop + 2, ansi_sequence_loop);
+					seqGrab = strndup((char *)inputFile->data + loop + 2, ansi_sequence_loop);
 
 					// now get escape sequence's position value
 					int32_t seq_line = strtonum(seqGrab, 0, INT32_MAX, &errstr);
@@ -199,7 +200,7 @@ void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFil
 				if (ansi_sequence_character == 'C')
 				{
 					// create substring from the sequence's content
-					seqGrab = strndup((char *)inputFileBuffer + loop + 2, ansi_sequence_loop);
+					seqGrab = strndup((char *)inputFile->data + loop + 2, ansi_sequence_loop);
 
 					// now get escape sequence's position value
 					int32_t seq_column = strtonum(seqGrab, 0, INT32_MAX, &errstr);
@@ -220,7 +221,7 @@ void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFil
 				if (ansi_sequence_character == 'D')
 				{
 					// create substring from the sequence's content
-					seqGrab = strndup((char *)inputFileBuffer + loop + 2, ansi_sequence_loop);
+					seqGrab = strndup((char *)inputFile->data + loop + 2, ansi_sequence_loop);
 
 					// now get escape sequence's content length
 					int32_t seq_column = strtonum(seqGrab, 0, INT32_MAX, &errstr);
@@ -261,7 +262,7 @@ void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFil
 				if (ansi_sequence_character == 'J')
 				{
 					// create substring from the sequence's content
-					seqGrab = strndup((char *)inputFileBuffer + loop + 2, ansi_sequence_loop);
+					seqGrab = strndup((char *)inputFile->data + loop + 2, ansi_sequence_loop);
 
 					// convert grab to an integer
 					int32_t eraseDisplayInt = strtonum(seqGrab, 0, INT32_MAX, &errstr);
@@ -288,7 +289,7 @@ void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFil
 				if (ansi_sequence_character == 'm')
 				{
 					// create substring from the sequence's content
-					seqGrab = strndup((char *)inputFileBuffer + loop + 2, ansi_sequence_loop);
+					seqGrab = strndup((char *)inputFile->data + loop + 2, ansi_sequence_loop);
 
 					// create sequence content array
 					seqArrayCount = explode(&seqArray, ';', seqGrab);
@@ -352,7 +353,7 @@ void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFil
 						{
 							background = seqValue - 40;
 
-							if (blink && icecolors)
+							if (blink && outputFile->icecolors)
 							{
 								background += 8;
 							}
@@ -435,7 +436,7 @@ void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFil
 	}
 
 	// create that damn thingy
-	canvas = gdImageCreate(columns * bits, (rowMax)*fontData.height);
+	canvas = gdImageCreate(columns * outputFile->bits, (rowMax)*fontData.height);
 
 	if (!canvas) {
 		perror("Can't allocate ANSi buffer image memory");
@@ -474,7 +475,7 @@ void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFil
 	}
 
 	// even more definitions, sigh
-	int32_t ansiBufferItems = structIndex;
+	uint32_t ansiBufferItems = structIndex;
 
 	// render ANSi
 	for (loop = 0; loop < ansiBufferItems; loop++)
@@ -490,10 +491,10 @@ void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFil
 		row = ansi_buffer[loop].row;
 
 		if (ced) {
-			drawchar(canvas, fontData.font_data, bits, fontData.height,
+			drawchar(canvas, fontData.font_data, outputFile->bits, fontData.height,
 			    column, row, ced_background, ced_foreground, character);
 		} else {
-			drawchar(canvas, fontData.font_data, bits, fontData.height,
+			drawchar(canvas, fontData.font_data, outputFile->bits, fontData.height,
 			    column, row, colors[background], colors[foreground], character);
 		}
 
@@ -506,7 +507,7 @@ void ansi(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFil
 	}
 
 	// create output image
-	output(canvas, outputFile, retinaout, retinaScaleFactor);
+	output(canvas, outputFile->fileName, outputFile->retina, outputFile->retinaScaleFactor);
 
 	// free memory
 	free(ansi_buffer);

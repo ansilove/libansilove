@@ -20,23 +20,22 @@ struct pcbChar {
         int32_t current_character;
 };
 
-void pcboard(unsigned char *inputFileBuffer, int32_t inputFileSize, char *outputFile, char *retinaout, char *font, int32_t bits, int retinaScaleFactor)
+void pcboard(struct input *inputFile, struct output *outputFile)
 {
 	// some type declarations
 	struct fontStruct fontData;
-	int32_t columns = 80;
-	int32_t loop, structIndex;
+	uint32_t loop, structIndex;
 
 	// font selection
-	alSelectFont(&fontData, font);
+	alSelectFont(&fontData, outputFile->font);
 
 	// libgd image pointers
 	gdImagePtr canvas;
 
 	// process PCBoard
-	int32_t character, current_character, next_character;
-	int32_t background = 0, foreground = 7;
-	int32_t column = 0, row = 0, columnMax = 0, rowMax = 0;
+	uint32_t character, current_character, next_character;
+	uint32_t background = 0, foreground = 7;
+	uint32_t column = 0, row = 0, columnMax = 0, rowMax = 0;
 
 	// PCB buffer structure array definition
 	struct pcbChar *pcboard_buffer, *temp;
@@ -48,10 +47,10 @@ void pcboard(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 	loop = 0;
 	structIndex = 0;
 
-	while (loop < inputFileSize)
+	while (loop < inputFile->size)
 	{
-		current_character = inputFileBuffer[loop];
-		next_character = inputFileBuffer[loop+1];
+		current_character = inputFile->data[loop];
+		next_character = inputFile->data[loop+1];
 
 		if (column == 80)
 		{
@@ -89,12 +88,12 @@ void pcboard(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 		if (current_character == 64 && next_character == 88)
 		{
 			// set graphics rendition
-			background = inputFileBuffer[loop+2];
-			foreground = inputFileBuffer[loop+3];
+			background = inputFile->data[loop+2];
+			foreground = inputFile->data[loop+3];
 			loop += 3;
 		}
 		else if (current_character == 64 && next_character == 67 &&
-		    inputFileBuffer[loop+2] == 'L' && inputFileBuffer[loop+3] == 'S')
+		    inputFile->data[loop+2] == 'L' && inputFile->data[loop+3] == 'S')
 		{
 			// erase display
 			column = 0;
@@ -105,18 +104,18 @@ void pcboard(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 
 			loop += 4;
 		}
-		else if (current_character == 64 && next_character == 80 && inputFileBuffer[loop+2] == 'O'
-		    && inputFileBuffer[loop+3] == 'S' && inputFileBuffer[loop+4] == ':')
+		else if (current_character == 64 && next_character == 80 && inputFile->data[loop+2] == 'O'
+		    && inputFile->data[loop+3] == 'S' && inputFile->data[loop+4] == ':')
 		{
 			// cursor position
-			if (inputFileBuffer[loop+6] == '@')
+			if (inputFile->data[loop+6] == '@')
 			{
-				column = ((inputFileBuffer[loop+5])-48)-1;
+				column = ((inputFile->data[loop+5])-48)-1;
 				loop += 5;
 			}
 			else
 			{
-				column = (10 * ((inputFileBuffer[loop+5])-48) + (inputFileBuffer[loop+6])-48)-1;
+				column = (10 * ((inputFile->data[loop+5])-48) + (inputFile->data[loop+6])-48)-1;
 				loop += 6;
 			}
 		}
@@ -153,7 +152,7 @@ void pcboard(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 	rowMax++;
 
 	// allocate buffer image memory
-	canvas = gdImageCreate(columns * bits, (rowMax)*fontData.height);
+	canvas = gdImageCreate(inputFile->columns * outputFile->bits, (rowMax)*fontData.height);
 
 	// allocate black color and create background canvas
 	gdImageColorAllocate(canvas, 0, 0, 0);
@@ -169,7 +168,7 @@ void pcboard(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 	}
 
 	// the last value of loop tells us how many items are stored in there
-	int32_t pcbBufferItems = structIndex;
+	uint32_t pcbBufferItems = structIndex;
 
 	// render PCB
 	for (loop = 0; loop < pcbBufferItems; loop++)
@@ -181,12 +180,12 @@ void pcboard(unsigned char *inputFileBuffer, int32_t inputFileSize, char *output
 		foreground = pcboard_buffer[loop].foreground;
 		character = pcboard_buffer[loop].current_character;
 
-		drawchar(canvas, fontData.font_data, bits, fontData.height,
+		drawchar(canvas, fontData.font_data, outputFile->bits, fontData.height,
 		    column, row, colors[background], colors[foreground], character);
 	}
 
 	// create output image
-	output(canvas, outputFile, retinaout, retinaScaleFactor);
+	output(canvas, outputFile->fileName, outputFile->retina, outputFile->retinaScaleFactor);
 
 	// free memory
 	free(pcboard_buffer);

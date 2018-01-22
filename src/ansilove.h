@@ -9,6 +9,7 @@
 //  See the LICENSE file for details.
 //
 
+#include "../include/ansilove.h"
 #include "config.h"
 #include "drawchar.h"
 #include "explode.h"
