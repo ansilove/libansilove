@@ -13,11 +13,11 @@
 
 // Character structure
 struct pcbChar {
-        int32_t column;
-        int32_t row;
-        int32_t background;
-        int32_t foreground;
-        int32_t current_character;
+	int32_t column;
+	int32_t row;
+	int32_t background;
+	int32_t foreground;
+	int32_t current_character;
 };
 
 void pcboard(struct input *inputFile, struct output *outputFile)

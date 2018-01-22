@@ -15,14 +15,14 @@
 
 // Character structure
 struct ansiChar {
-        int32_t column;
-        int32_t row;
-        int32_t background;
-        int32_t foreground;
-        int32_t current_character;
-        bool bold;
-        bool italics;
-        bool underline;
+	int32_t column;
+	int32_t row;
+	int32_t background;
+	int32_t foreground;
+	int32_t current_character;
+	bool bold;
+	bool italics;
+	bool underline;
 };
 
 void ansi(struct input *inputFile, struct output *outputFile)
