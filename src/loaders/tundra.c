@@ -51,12 +51,12 @@ void tundra(struct input *inputFile, struct output *outputFile)
 		if (character == 1)
 		{
 			row =
-			    (inputFile->data[loop + 1] << 24) + (inputFile->data[loop + 2] << 16) +
-			    (inputFile->data[loop + 3] << 8) + inputFile->data[loop+4];
+				(inputFile->data[loop + 1] << 24) + (inputFile->data[loop + 2] << 16) +
+				(inputFile->data[loop + 3] << 8) + inputFile->data[loop+4];
 
 			column =
-			    (inputFile->data[loop + 5] << 24) + (inputFile->data[loop + 6] << 16) +
-			    (inputFile->data[loop + 7] << 8) + inputFile->data[loop+8];
+				(inputFile->data[loop + 5] << 24) + (inputFile->data[loop + 6] << 16) +
+				(inputFile->data[loop + 7] << 8) + inputFile->data[loop+8];
 
 			loop += 8;
 		}
@@ -117,12 +117,12 @@ void tundra(struct input *inputFile, struct output *outputFile)
 		if (character == 1)
 		{
 			row =
-			    (inputFile->data[loop + 1] << 24) + (inputFile->data[loop + 2] << 16) +
-			    (inputFile->data[loop + 3] << 8) + inputFile->data[loop + 4];
+				(inputFile->data[loop + 1] << 24) + (inputFile->data[loop + 2] << 16) +
+				(inputFile->data[loop + 3] << 8) + inputFile->data[loop + 4];
 
 			column =
-			    (inputFile->data[loop + 5] << 24) + (inputFile->data[loop + 6] << 16) +
-			    (inputFile->data[loop + 7] << 8) + inputFile->data[loop + 8];
+				(inputFile->data[loop + 5] << 24) + (inputFile->data[loop + 6] << 16) +
+				(inputFile->data[loop + 7] << 8) + inputFile->data[loop + 8];
 
 			loop += 8;
 		}
@@ -130,8 +130,8 @@ void tundra(struct input *inputFile, struct output *outputFile)
 		if (character == 2)
 		{
 			foreground =
-			    (inputFile->data[loop + 3] << 16) + (inputFile->data[loop + 4] << 8) +
-			    inputFile->data[loop + 5];
+				(inputFile->data[loop + 3] << 16) + (inputFile->data[loop + 4] << 8) +
+				inputFile->data[loop + 5];
 
 			character = inputFile->data[loop+1];
 
@@ -141,7 +141,7 @@ void tundra(struct input *inputFile, struct output *outputFile)
 		if (character == 4)
 		{
 			background = (inputFile->data[loop + 3] << 16) + (inputFile->data[loop + 4] << 8) +
-			    inputFile->data[loop+5];
+			             inputFile->data[loop+5];
 
 			character = inputFile->data[loop+1];
 
@@ -151,12 +151,12 @@ void tundra(struct input *inputFile, struct output *outputFile)
 		if (character == 6)
 		{
 			foreground =
-			    (inputFile->data[loop + 3] << 16) + (inputFile->data[loop + 4] << 8) +
-			    inputFile->data[loop+5];
+				(inputFile->data[loop + 3] << 16) + (inputFile->data[loop + 4] << 8) +
+				inputFile->data[loop+5];
 
 			background =
-			    (inputFile->data[loop + 7] << 16) + (inputFile->data[loop + 8] << 8) +
-			    inputFile->data[loop+9];
+				(inputFile->data[loop + 7] << 16) + (inputFile->data[loop + 8] << 8) +
+				inputFile->data[loop+9];
 
 			character = inputFile->data[loop+1];
 
@@ -166,7 +166,7 @@ void tundra(struct input *inputFile, struct output *outputFile)
 		if (character != 1 && character != 2 && character != 4 && character != 6)
 		{
 			drawchar(canvas, fontData.font_data, outputFile->bits, fontData.height,
-			    column, row, background, foreground, character);
+			         column, row, background, foreground, character);
 
 			column++;
 		}

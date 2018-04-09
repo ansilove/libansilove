@@ -30,7 +30,7 @@ void binary(struct input *inputFile, struct output *outputFile)
 
 	// allocate buffer image memory
 	canvas = gdImageCreate(inputFile->columns * outputFile->bits,
-	    ((inputFile->size / 2) / inputFile->columns * fontData.height));
+	                       ((inputFile->size / 2) / inputFile->columns * fontData.height));
 
 	if (!canvas) {
 		perror("Error, can't allocate buffer image memory");
@@ -45,8 +45,8 @@ void binary(struct input *inputFile, struct output *outputFile)
 
 	for (int i = 0; i < 16; i++) {
 		colors[i] = gdImageColorAllocate(canvas, binary_palette[i*3],
-		    binary_palette[i*3+1],
-		    binary_palette[i*3+2]);
+		                                 binary_palette[i*3+1],
+		                                 binary_palette[i*3+2]);
 	}
 
 	// process binary
@@ -73,7 +73,7 @@ void binary(struct input *inputFile, struct output *outputFile)
 		}
 
 		drawchar(canvas, fontData.font_data, outputFile->bits, fontData.height,
-		    column, row, colors[background], colors[foreground], character);
+		         column, row, colors[background], colors[foreground], character);
 
 		column++;
 		loop += 2;

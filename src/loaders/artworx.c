@@ -49,8 +49,8 @@ void artworx(struct input *inputFile, struct output *outputFile)
 	{
 		index = (adf_colors[loop] * 3) + 1;
 		gdImageColorAllocate(canvas, (inputFile->data[index] << 2 | inputFile->data[index] >> 4),
-		    (inputFile->data[index + 1] << 2 | inputFile->data[index + 1] >> 4),
-		    (inputFile->data[index + 2] << 2 | inputFile->data[index + 2] >> 4));
+		                     (inputFile->data[index + 1] << 2 | inputFile->data[index + 1] >> 4),
+		                     (inputFile->data[index + 2] << 2 | inputFile->data[index + 2] >> 4));
 	}
 
 	gdImageColorAllocate(canvas, 0, 0, 0);

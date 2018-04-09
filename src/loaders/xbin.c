@@ -50,8 +50,8 @@ void xbin(struct input *inputFile, struct output *outputFile)
 			index = (loop * 3) + offset;
 
 			colors[loop] = gdImageColorAllocate(canvas, (inputFile->data[index] << 2 | inputFile->data[index] >> 4),
-			    (inputFile->data[index + 1] << 2 | inputFile->data[index + 1] >> 4),
-			    (inputFile->data[index + 2] << 2 | inputFile->data[index + 2] >> 4));
+			                                    (inputFile->data[index + 1] << 2 | inputFile->data[index + 1] >> 4),
+			                                    (inputFile->data[index + 2] << 2 | inputFile->data[index + 2] >> 4));
 		}
 
 		offset += 48;
@@ -59,8 +59,8 @@ void xbin(struct input *inputFile, struct output *outputFile)
 	else {
 		for (int i = 0; i < 16; i++) {
 			colors[i] = gdImageColorAllocate(canvas, binary_palette[i*3],
-			    binary_palette[i*3+1],
-			    binary_palette[i*3+2]);
+			                                 binary_palette[i*3+1],
+			                                 binary_palette[i*3+2]);
 		}
 	}
 
