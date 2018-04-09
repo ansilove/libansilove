@@ -22,7 +22,7 @@ void icedraw(struct input *inputFile, struct output *outputFile)
 	// libgd image pointers
 	gdImagePtr canvas;
 
-	uint32_t loop;
+	uint32_t loop = 12;
 	int32_t index;
 	int32_t colors[16];
 
@@ -37,7 +37,6 @@ void icedraw(struct input *inputFile, struct output *outputFile)
 	font_data = font_data_idf;
 
 	// process IDF
-	loop = 12;
 	uint32_t idf_sequence_length, idf_sequence_loop, i = 0;
 
 	// dynamically allocated memory buffer for IDF data
