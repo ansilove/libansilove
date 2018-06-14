@@ -9,7 +9,7 @@
 //  See the LICENSE file for details.
 //
 
-#include "ansilove.h"
+#include <gd.h>
 
 // shared method for drawing characters
 void drawchar(gdImagePtr im, const unsigned char *font_data, int32_t bits,
