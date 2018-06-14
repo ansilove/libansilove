@@ -108,8 +108,8 @@ void icedraw(struct input *inputFile, struct output *outputFile)
 	{
 		index = (loop * 3) + inputFile->size - 48;
 		colors[loop] = gdImageColorAllocate(canvas, (inputFile->data[index] << 2 | inputFile->data[index] >> 4),
-		                                    (inputFile->data[index + 1] << 2 | inputFile->data[index + 1] >> 4),
-		                                    (inputFile->data[index + 2] << 2 | inputFile->data[index + 2] >> 4));
+		    (inputFile->data[index + 1] << 2 | inputFile->data[index + 1] >> 4),
+		    (inputFile->data[index + 2] << 2 | inputFile->data[index + 2] >> 4));
 	}
 
 	// render IDF

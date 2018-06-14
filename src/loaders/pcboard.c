@@ -93,7 +93,7 @@ void pcboard(struct input *inputFile, struct output *outputFile)
 			loop += 3;
 		}
 		else if (current_character == 64 && next_character == 67 &&
-		         inputFile->data[loop+2] == 'L' && inputFile->data[loop+3] == 'S')
+		    inputFile->data[loop+2] == 'L' && inputFile->data[loop+3] == 'S')
 		{
 			// erase display
 			column = 0;
@@ -105,7 +105,7 @@ void pcboard(struct input *inputFile, struct output *outputFile)
 			loop += 4;
 		}
 		else if (current_character == 64 && next_character == 80 && inputFile->data[loop+2] == 'O'
-		         && inputFile->data[loop+3] == 'S' && inputFile->data[loop+4] == ':')
+		    && inputFile->data[loop+3] == 'S' && inputFile->data[loop+4] == ':')
 		{
 			// cursor position
 			if (inputFile->data[loop+6] == '@')
@@ -163,8 +163,8 @@ void pcboard(struct input *inputFile, struct output *outputFile)
 
 	for (int i = 0; i < 16; i++) {
 		colors[i] = gdImageColorAllocate(canvas, ansi_palette[i*3],
-		                                 ansi_palette[i*3+1],
-		                                 ansi_palette[i*3+2]);
+		    ansi_palette[i*3+1],
+		    ansi_palette[i*3+2]);
 	}
 
 	// the last value of loop tells us how many items are stored in there
@@ -181,7 +181,7 @@ void pcboard(struct input *inputFile, struct output *outputFile)
 		character = pcboard_buffer[loop].current_character;
 
 		drawchar(canvas, fontData.font_data, outputFile->bits, fontData.height,
-		         column, row, colors[background], colors[foreground], character);
+		    column, row, colors[background], colors[foreground], character);
 	}
 
 	// create output image

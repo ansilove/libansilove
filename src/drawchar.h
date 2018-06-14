@@ -19,7 +19,7 @@
 
 // prototypes
 void drawchar(gdImagePtr im, const unsigned char *font_data, int32_t bits,
-              int32_t height, int32_t column, int32_t row,
-              int32_t background, int32_t foreground, unsigned char character);
+    int32_t height, int32_t column, int32_t row,
+    int32_t background, int32_t foreground, unsigned char character);
 
 #endif
