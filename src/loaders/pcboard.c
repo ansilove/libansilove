@@ -74,15 +74,11 @@ void pcboard(struct input *inputFile, struct output *outputFile)
 
 		// Tab
 		if (current_character == 9)
-		{
 			column += 8;
-		}
 
 		// Sub
 		if (current_character == 26)
-		{
 			break;
-		}
 
 		// PCB sequence
 		if (current_character == 64 && next_character == 88)
@@ -123,14 +119,10 @@ void pcboard(struct input *inputFile, struct output *outputFile)
 		{
 			// record number of columns and lines used
 			if (column > columnMax)
-			{
 				columnMax = column;
-			}
 
 			if (row > rowMax)
-			{
 				rowMax = row;
-			}
 
 			// reallocate structure array memory
 			temp = realloc(pcboard_buffer, (structIndex + 1) * sizeof (struct pcbChar));

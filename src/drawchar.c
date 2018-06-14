@@ -28,9 +28,7 @@ void drawchar(gdImagePtr im, const unsigned char *font_data, int32_t bits,
 				gdImageSetPixel(im, column * bits + x, row*height + y, foreground);
 
 				if (bits == 9 && x == 7 && character > 191 && character < 224)
-				{
 					gdImageSetPixel(im, column * bits + 8, row * height + y, foreground);
-				}
 			}
 		}
 	}

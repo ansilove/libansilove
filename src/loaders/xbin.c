@@ -16,9 +16,8 @@ void xbin(struct input *inputFile, struct output *outputFile)
 	const unsigned char *font_data;
 	unsigned char *font_data_xbin = NULL;
 
-	if (strncmp((char *)inputFile->data, "XBIN\x1a", 5) != 0) {
+	if (strncmp((char *)inputFile->data, "XBIN\x1a", 5) != 0)
 		fputs("\nNot an XBin.\n\n", stderr); exit(4);
-	}
 
 	int32_t xbin_width = (inputFile->data[6] << 8) + inputFile->data[5];
 	int32_t xbin_height = (inputFile->data[8] << 8) + inputFile->data[7];

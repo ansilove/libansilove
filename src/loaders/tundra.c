@@ -30,9 +30,7 @@ void tundra(struct input *inputFile, struct output *outputFile)
 
 	// need to add check for "TUNDRA24" string in the header
 	if (tundra_version != 24)
-	{
 		fputs("\nInput file is not a TUNDRA file.\n\n", stderr); exit(4);
-	}
 
 	// read tundra file a first time to find the image size
 	uint32_t character, background = 0, foreground = 0;
@@ -83,9 +81,7 @@ void tundra(struct input *inputFile, struct output *outputFile)
 		}
 
 		if (character != 1 && character != 2 && character != 4 && character != 6)
-		{
 			column++;
-		}
 
 		loop++;
 	}

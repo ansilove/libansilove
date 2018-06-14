@@ -68,9 +68,7 @@ void binary(struct input *inputFile, struct output *outputFile)
 		foreground = (attribute & 15);
 
 		if (background > 8 && !outputFile->icecolors)
-		{
 			background -= 8;
-		}
 
 		drawchar(canvas, fontData.font_data, outputFile->bits, fontData.height,
 		    column, row, colors[background], colors[foreground], character);

@@ -54,9 +54,8 @@ void ansi(struct input *inputFile, struct output *outputFile)
 	}
 
 	// check if current file has a .diz extension
-	if (!strcmp(inputFile->fext, ".diz")) {
+	if (!strcmp(inputFile->fext, ".diz"))
 		isDizFile = true;
-	}
 
 	// libgd image pointers
 	gdImagePtr canvas;
@@ -119,15 +118,11 @@ void ansi(struct input *inputFile, struct output *outputFile)
 
 		// tab
 		if (current_character == 9)
-		{
 			column += 8;
-		}
 
 		// sub
 		if (current_character == 26)
-		{
 			break;
-		}
 
 		// ANSi sequence
 		if (current_character == 27 && next_character == 91)
@@ -209,9 +204,7 @@ void ansi(struct input *inputFile, struct output *outputFile)
 					column += seq_column ? seq_column : 1;
 
 					if (column > 80)
-					{
 						column = 80;
-					}
 
 					loop += ansi_sequence_loop+2;
 					break;
@@ -230,9 +223,7 @@ void ansi(struct input *inputFile, struct output *outputFile)
 					column -= seq_column ? seq_column : 1;
 
 					if (column < 0)
-					{
 						column = 0;
-					}
 
 					loop += ansi_sequence_loop+2;
 					break;
@@ -321,21 +312,16 @@ void ansi(struct input *inputFile, struct output *outputFile)
 						}
 
 						if (seqValue == 3)
-						{
 							italics = true;
-						}
 
 						if (seqValue == 4)
-						{
 							underline = true;
-						}
 
 						if (seqValue == 5)
 						{
 							if (!workbench)
-							{
 								background += 8;
-							}
+
 							blink = true;
 						}
 
@@ -344,9 +330,7 @@ void ansi(struct input *inputFile, struct output *outputFile)
 							foreground = seqValue - 30;
 
 							if (bold)
-							{
 								foreground += 8;
-							}
 						}
 
 						if (seqValue > 39 && seqValue < 48)
@@ -354,9 +338,7 @@ void ansi(struct input *inputFile, struct output *outputFile)
 							background = seqValue - 40;
 
 							if (blink && outputFile->icecolors)
-							{
 								background += 8;
-							}
 						}
 					}
 
@@ -390,14 +372,10 @@ void ansi(struct input *inputFile, struct output *outputFile)
 		{
 			// record number of columns and lines used
 			if (column > columnMax)
-			{
 				columnMax = column;
-			}
 
 			if (row > rowMax)
-			{
 				rowMax = row;
-			}
 
 			// write current character in ansiChar structure
 			if (!fontData.isAmigaFont || (current_character != 12 && current_character != 13))
@@ -427,13 +405,10 @@ void ansi(struct input *inputFile, struct output *outputFile)
 	rowMax++;
 
 	if (ced)
-	{
 		columns = 78;
-	}
 
-	if (isDizFile) {
+	if (isDizFile)
 		columns = fmin(columnMax, 80);
-	}
 
 	// create that damn thingy
 	canvas = gdImageCreate(columns * outputFile->bits, (rowMax)*fontData.height);
@@ -502,9 +477,7 @@ void ansi(struct input *inputFile, struct output *outputFile)
 
 	// transparent flag used?
 	if (transparent)
-	{
 		gdImageColorTransparent(canvas, 0);
-	}
 
 	// create output image
 	output(canvas, outputFile->fileName, outputFile->retina, outputFile->retinaScaleFactor);
