@@ -18,7 +18,7 @@ int xbin(struct input *inputFile, struct output *outputFile)
 
 	if (strncmp((char *)inputFile->data, "XBIN\x1a", 5) != 0) {
 		fputs("\nNot an XBin.\n\n", stderr);
-		exit(4);
+		return -1;
 	}
 
 	int32_t xbin_width = (inputFile->data[6] << 8) + inputFile->data[5];
@@ -32,7 +32,7 @@ int xbin(struct input *inputFile, struct output *outputFile)
 
 	if (!canvas) {
 		perror("Error, can't allocate buffer image memory");
-		exit(6);
+		return -1;
 	}
 
 	// allocate black color
@@ -73,7 +73,7 @@ int xbin(struct input *inputFile, struct output *outputFile)
 		font_data_xbin = (unsigned char *)malloc(xbin_fontsize * numchars);
 		if (font_data_xbin == NULL) {
 			perror("Memory error");
-			exit(5);
+			return -1;
 		}
 		memcpy(font_data_xbin, inputFile->data+offset, (xbin_fontsize * numchars));
 

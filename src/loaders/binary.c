@@ -16,7 +16,7 @@ int binary(struct input *inputFile, struct output *outputFile)
 	// binary files must have an even size
 	if (inputFile->size % 2) {
 		fprintf(stderr, "\nBinary file is not valid.\n");
-		exit(1);
+		return -1;
 	}
 
 	// some type declarations
@@ -34,7 +34,7 @@ int binary(struct input *inputFile, struct output *outputFile)
 
 	if (!canvas) {
 		perror("Error, can't allocate buffer image memory");
-		exit(6);
+		return -1;
 	}
 
 	// allocate black color

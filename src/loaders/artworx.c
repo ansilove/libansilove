@@ -22,7 +22,7 @@ int artworx(struct input *inputFile, struct output *outputFile)
 	// error output
 	if (!canvas) {
 		perror("Can't allocate buffer image memory");
-		exit(7);
+		return -1;
 	}
 
 	// ADF color palette array

@@ -52,7 +52,7 @@ int icedraw(struct input *inputFile, struct output *outputFile)
 				}
 				else {
 					perror("Error allocating IDF buffer memory");
-					exit(7);
+					return -1;
 				}
 
 				idf_buffer[i] = inputFile->data[loop + 4];
@@ -69,7 +69,7 @@ int icedraw(struct input *inputFile, struct output *outputFile)
 			}
 			else {
 				perror("Error allocating IDF buffer memory");
-				exit(8);
+				return -1;
 			}
 
 			// normal character
@@ -86,7 +86,7 @@ int icedraw(struct input *inputFile, struct output *outputFile)
 	// error output
 	if (!canvas) {
 		perror("Can't allocate buffer image memory");
-		exit(9);
+		return -1;
 	}
 	gdImageColorAllocate(canvas, 0, 0, 0);
 

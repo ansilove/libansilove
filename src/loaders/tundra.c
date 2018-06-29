@@ -31,7 +31,7 @@ int tundra(struct input *inputFile, struct output *outputFile)
 	// need to add check for "TUNDRA24" string in the header
 	if (tundra_version != 24) {
 		fputs("\nInput file is not a TUNDRA file.\n\n", stderr);
-		exit(4);
+		return -1;
 	}
 
 	// read tundra file a first time to find the image size
@@ -93,7 +93,7 @@ int tundra(struct input *inputFile, struct output *outputFile)
 
 	if (!canvas) {
 		perror("Error, can't allocate buffer image memory");
-		exit(6);
+		return -1;
 	}
 
 	// process tundra

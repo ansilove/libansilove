@@ -422,7 +422,7 @@ int ansi(struct input *inputFile, struct output *outputFile)
 
 	if (!canvas) {
 		perror("Can't allocate ANSi buffer image memory");
-		exit(6);
+		return -1;
 	}
 
 	int32_t colors[16];
