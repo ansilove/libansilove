@@ -13,9 +13,6 @@
 
 void artworx(struct input *inputFile, struct output *outputFile)
 {
-	const unsigned char *font_data;
-	unsigned char *font_data_adf;
-
 	// libgd image pointers
 	gdImagePtr canvas;
 
@@ -33,16 +30,6 @@ void artworx(struct input *inputFile, struct output *outputFile)
 
 	uint32_t loop;
 	uint32_t index;
-
-	// process ADF font
-	font_data_adf = (unsigned char *)malloc(4096);
-	if (font_data_adf == NULL) {
-		perror("Memory error");
-		exit(7);
-	}
-	memcpy(font_data_adf, inputFile->data+193, 4096);
-
-	font_data = font_data_adf;
 
 	// process ADF palette
 	for (loop = 0; loop < 16; loop++)
@@ -74,7 +61,7 @@ void artworx(struct input *inputFile, struct output *outputFile)
 		background = (attribute & 240) >> 4;
 		foreground = attribute & 15;
 
-		drawchar(canvas, font_data, 8, 16, column, row, background, foreground, character);
+		drawchar(canvas, inputFile->data+193, 8, 16, column, row, background, foreground, character);
 
 		column++;
 		loop += 2;
@@ -82,7 +69,4 @@ void artworx(struct input *inputFile, struct output *outputFile)
 
 	// create output file
 	output(canvas, outputFile->fileName, outputFile->retina, outputFile->retinaScaleFactor);
-
-	// nuke garbage
-	free(font_data_adf);
 }
