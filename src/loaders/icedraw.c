@@ -41,7 +41,7 @@ void icedraw(struct input *inputFile, struct output *outputFile)
 
 	// dynamically allocated memory buffer for IDF data
 	unsigned char *idf_buffer, *temp;
-	idf_buffer = malloc(sizeof (unsigned char));
+	idf_buffer = malloc(2);
 
 	int16_t idf_data, idf_data_length;
 
