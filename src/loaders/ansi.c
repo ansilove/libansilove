@@ -127,7 +127,7 @@ void ansi(struct input *inputFile, struct output *outputFile)
 		// ANSi sequence
 		if (current_character == 27 && next_character == 91)
 		{
-			for (ansi_sequence_loop = 0; ansi_sequence_loop < 12; ansi_sequence_loop++)
+			for (ansi_sequence_loop = 0; ansi_sequence_loop < 14; ansi_sequence_loop++)
 			{
 				ansi_sequence_character = inputFile->data[loop + 2 + ansi_sequence_loop];
 
