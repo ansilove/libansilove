@@ -366,6 +366,13 @@ void ansi(struct input *inputFile, struct output *outputFile)
 					loop += ansi_sequence_loop+2;
 					break;
 				}
+
+				// skipping PabloDraw 24-bit ANSI sequences
+				if (ansi_sequence_character == 't')
+				{
+					loop += ansi_sequence_loop+2;
+					break;
+				}
 			}
 		}
 		else if (current_character != 10 && current_character != 13 && current_character != 9)
