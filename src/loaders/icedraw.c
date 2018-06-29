@@ -13,9 +13,6 @@
 
 void icedraw(struct input *inputFile, struct output *outputFile)
 {
-	const unsigned char *font_data;
-	unsigned char *font_data_idf;
-
 	// extract relevant part of the IDF header, 16-bit endian unsigned short
 	int32_t x2 = (inputFile->data[9] << 8) + inputFile->data[8];
 
@@ -25,16 +22,6 @@ void icedraw(struct input *inputFile, struct output *outputFile)
 	uint32_t loop = 12;
 	int32_t index;
 	int32_t colors[16];
-
-	// process IDF font
-	font_data_idf = (unsigned char *)malloc(4096);
-	if (font_data_idf == NULL) {
-		perror("Memory error");
-		exit(7);
-	}
-	memcpy(font_data_idf, inputFile->data+(inputFile->size - 48 - 4096), 4096);
-
-	font_data = font_data_idf;
 
 	// process IDF
 	uint32_t idf_sequence_length, idf_sequence_loop, i = 0;
@@ -130,7 +117,7 @@ void icedraw(struct input *inputFile, struct output *outputFile)
 		background = (attribute & 240) >> 4;
 		foreground = attribute & 15;
 
-		drawchar(canvas, font_data, 8, 16, column, row, colors[background], colors[foreground], character);
+		drawchar(canvas, inputFile->data+(inputFile->size - 48 - 4096), 8, 16, column, row, colors[background], colors[foreground], character);
 
 		column++;
 	}
@@ -139,6 +126,5 @@ void icedraw(struct input *inputFile, struct output *outputFile)
 	output(canvas, outputFile->fileName, outputFile->retina, outputFile->retinaScaleFactor);
 
 	// free memory
-	free(font_data_idf);
 	free(idf_buffer);
 }
