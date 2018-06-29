@@ -11,7 +11,7 @@
 
 #include "../ansilove.h"
 
-void binary(struct input *inputFile, struct output *outputFile)
+int binary(struct input *inputFile, struct output *outputFile)
 {
 	// binary files must have an even size
 	if (inputFile->size % 2) {
@@ -79,4 +79,6 @@ void binary(struct input *inputFile, struct output *outputFile)
 
 	// create output image
 	output(canvas, outputFile->fileName, outputFile->retina, outputFile->retinaScaleFactor);
+
+	return 0;
 }

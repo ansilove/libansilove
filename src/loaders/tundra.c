@@ -11,7 +11,7 @@
 
 #include "../ansilove.h"
 
-void tundra(struct input *inputFile, struct output *outputFile)
+int tundra(struct input *inputFile, struct output *outputFile)
 {
 	// some type declarations
 	struct fontStruct fontData;
@@ -174,5 +174,7 @@ void tundra(struct input *inputFile, struct output *outputFile)
 
 	// create output image
 	output(canvas, outputFile->fileName, outputFile->retina, outputFile->retinaScaleFactor);
+
+	return 0;
 }
 

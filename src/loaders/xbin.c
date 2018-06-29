@@ -11,7 +11,7 @@
 
 #include "../ansilove.h"
 
-void xbin(struct input *inputFile, struct output *outputFile)
+int xbin(struct input *inputFile, struct output *outputFile)
 {
 	const unsigned char *font_data;
 	unsigned char *font_data_xbin = NULL;
@@ -180,4 +180,6 @@ void xbin(struct input *inputFile, struct output *outputFile)
 
 	// nuke garbage
 	free(font_data_xbin);
+
+	return 0;
 }

@@ -33,12 +33,12 @@ struct output {
 	uint32_t retinaScaleFactor;
 };
 
-void ansi(struct input *, struct output *);
-void artworx(struct input *, struct output *);
-void binary(struct input *, struct output *);
-void icedraw(struct input *, struct output *);
-void pcboard(struct input *, struct output *);
-void tundra(struct input *, struct output *);
-void xbin(struct input *, struct output *);
+int ansi(struct input *, struct output *);
+int artworx(struct input *, struct output *);
+int binary(struct input *, struct output *);
+int icedraw(struct input *, struct output *);
+int pcboard(struct input *, struct output *);
+int tundra(struct input *, struct output *);
+int xbin(struct input *, struct output *);
 
 #endif

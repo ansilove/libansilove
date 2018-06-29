@@ -20,7 +20,7 @@ struct pcbChar {
 	int32_t current_character;
 };
 
-void pcboard(struct input *inputFile, struct output *outputFile)
+int pcboard(struct input *inputFile, struct output *outputFile)
 {
 	// some type declarations
 	struct fontStruct fontData;
@@ -181,4 +181,6 @@ void pcboard(struct input *inputFile, struct output *outputFile)
 
 	// free memory
 	free(pcboard_buffer);
+
+	return 0;
 }

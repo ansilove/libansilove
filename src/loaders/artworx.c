@@ -11,7 +11,7 @@
 
 #include "../ansilove.h"
 
-void artworx(struct input *inputFile, struct output *outputFile)
+int artworx(struct input *inputFile, struct output *outputFile)
 {
 	// libgd image pointers
 	gdImagePtr canvas;
@@ -69,4 +69,6 @@ void artworx(struct input *inputFile, struct output *outputFile)
 
 	// create output file
 	output(canvas, outputFile->fileName, outputFile->retina, outputFile->retinaScaleFactor);
+
+	return 0;
 }

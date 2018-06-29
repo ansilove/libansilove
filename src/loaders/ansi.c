@@ -25,7 +25,7 @@ struct ansiChar {
 	bool underline;
 };
 
-void ansi(struct input *inputFile, struct output *outputFile)
+int ansi(struct input *inputFile, struct output *outputFile)
 {
 	// ladies and gentlemen, it's type declaration time
 	struct fontStruct fontData;
@@ -491,4 +491,6 @@ void ansi(struct input *inputFile, struct output *outputFile)
 
 	// free memory
 	free(ansi_buffer);
+
+	return 0;
 }
