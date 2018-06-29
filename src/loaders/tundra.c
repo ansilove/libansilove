@@ -89,7 +89,7 @@ void tundra(struct input *inputFile, struct output *outputFile)
 	}
 
 	// allocate buffer image memory
-	canvas = gdImageCreateTrueColor(inputFile->columns * outputFile->bits, (row) * fontData.height);
+	canvas = gdImageCreateTrueColor(80 * outputFile->bits, (row) * fontData.height);
 
 	if (!canvas) {
 		perror("Error, can't allocate buffer image memory");

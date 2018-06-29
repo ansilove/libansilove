@@ -144,7 +144,7 @@ void pcboard(struct input *inputFile, struct output *outputFile)
 	rowMax++;
 
 	// allocate buffer image memory
-	canvas = gdImageCreate(inputFile->columns * outputFile->bits, (rowMax)*fontData.height);
+	canvas = gdImageCreate(80 * outputFile->bits, (rowMax)*fontData.height);
 
 	// allocate black color and create background canvas
 	gdImageColorAllocate(canvas, 0, 0, 0);
