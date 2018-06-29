@@ -70,7 +70,7 @@ void xbin(struct input *inputFile, struct output *outputFile)
 		int32_t numchars = (xbin_flags & 0x10 ? 512 : 256);
 
 		// allocate memory to contain the XBin font
-		font_data_xbin = (unsigned char *)malloc(sizeof (unsigned char)*(xbin_fontsize * numchars));
+		font_data_xbin = (unsigned char *)malloc(xbin_fontsize * numchars);
 		if (font_data_xbin == NULL) {
 			perror("Memory error");
 			exit(5);

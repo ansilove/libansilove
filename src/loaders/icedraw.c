@@ -27,7 +27,7 @@ void icedraw(struct input *inputFile, struct output *outputFile)
 	int32_t colors[16];
 
 	// process IDF font
-	font_data_idf = (unsigned char *)malloc(sizeof (unsigned char)*4096);
+	font_data_idf = (unsigned char *)malloc(4096);
 	if (font_data_idf == NULL) {
 		perror("Memory error");
 		exit(7);
@@ -59,7 +59,7 @@ void icedraw(struct input *inputFile, struct output *outputFile)
 			for (idf_sequence_loop = 0; idf_sequence_loop < idf_sequence_length; idf_sequence_loop++)
 			{
 				// reallocate IDF buffer memory
-				temp = realloc(idf_buffer, (i + 2) * sizeof (unsigned char));
+				temp = realloc(idf_buffer, i + 2);
 				if (idf_buffer != NULL) {
 					idf_buffer = temp;
 				}
@@ -76,7 +76,7 @@ void icedraw(struct input *inputFile, struct output *outputFile)
 		}
 		else {
 			// reallocate IDF buffer memory
-			temp = realloc(idf_buffer, (i + 2) * sizeof (unsigned char));
+			temp = realloc(idf_buffer, i + 2);
 			if (idf_buffer != NULL) {
 				idf_buffer = temp;
 			}

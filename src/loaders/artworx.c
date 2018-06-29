@@ -35,7 +35,7 @@ void artworx(struct input *inputFile, struct output *outputFile)
 	uint32_t index;
 
 	// process ADF font
-	font_data_adf = (unsigned char *)malloc(sizeof (unsigned char)*4096);
+	font_data_adf = (unsigned char *)malloc(4096);
 	if (font_data_adf == NULL) {
 		perror("Memory error");
 		exit(7);
