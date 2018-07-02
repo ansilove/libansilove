@@ -11,7 +11,7 @@
 
 #include "../ansilove.h"
 
-int binary(struct input *inputFile, struct output *outputFile)
+int ansilove_binary(struct input *inputFile, struct output *outputFile)
 {
 	// binary files must have an even size
 	if (inputFile->size % 2) {

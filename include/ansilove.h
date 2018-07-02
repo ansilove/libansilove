@@ -33,12 +33,12 @@ struct output {
 	uint32_t retinaScaleFactor;
 };
 
-int ansi(struct input *, struct output *);
-int artworx(struct input *, struct output *);
-int binary(struct input *, struct output *);
-int icedraw(struct input *, struct output *);
-int pcboard(struct input *, struct output *);
-int tundra(struct input *, struct output *);
-int xbin(struct input *, struct output *);
+int ansilove_ansi(struct input *, struct output *);
+int ansilove_artworx(struct input *, struct output *);
+int ansilove_binary(struct input *, struct output *);
+int ansilove_icedraw(struct input *, struct output *);
+int ansilove_pcboard(struct input *, struct output *);
+int ansilove_tundra(struct input *, struct output *);
+int ansilove_xbin(struct input *, struct output *);
 
 #endif

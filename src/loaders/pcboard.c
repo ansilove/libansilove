@@ -20,7 +20,7 @@ struct pcbChar {
 	int32_t current_character;
 };
 
-int pcboard(struct input *inputFile, struct output *outputFile)
+int ansilove_pcboard(struct input *inputFile, struct output *outputFile)
 {
 	// some type declarations
 	struct fontStruct fontData;

@@ -11,7 +11,7 @@
 
 #include "../ansilove.h"
 
-int tundra(struct input *inputFile, struct output *outputFile)
+int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 {
 	// some type declarations
 	struct fontStruct fontData;

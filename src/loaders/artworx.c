@@ -11,7 +11,7 @@
 
 #include "../ansilove.h"
 
-int artworx(struct input *inputFile, struct output *outputFile)
+int ansilove_artworx(struct input *inputFile, struct output *outputFile)
 {
 	// libgd image pointers
 	gdImagePtr canvas;

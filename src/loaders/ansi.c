@@ -25,7 +25,7 @@ struct ansiChar {
 	bool underline;
 };
 
-int ansi(struct input *inputFile, struct output *outputFile)
+int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 {
 	// ladies and gentlemen, it's type declaration time
 	struct fontStruct fontData;

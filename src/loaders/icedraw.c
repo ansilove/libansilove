@@ -11,7 +11,7 @@
 
 #include "../ansilove.h"
 
-int icedraw(struct input *inputFile, struct output *outputFile)
+int ansilove_icedraw(struct input *inputFile, struct output *outputFile)
 {
 	// extract relevant part of the IDF header, 16-bit endian unsigned short
 	int32_t x2 = (inputFile->data[9] << 8) + inputFile->data[8];

@@ -11,7 +11,7 @@
 
 #include "../ansilove.h"
 
-int xbin(struct input *inputFile, struct output *outputFile)
+int ansilove_xbin(struct input *inputFile, struct output *outputFile)
 {
 	const unsigned char *font_data;
 	unsigned char *font_data_xbin = NULL;
