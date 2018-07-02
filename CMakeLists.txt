@@ -10,8 +10,7 @@ project (ansilove C)
 include(CheckFunctionExists)
 include(GNUInstallDirs)
 
-# Check if system has pledge and strtonum
-list(APPEND CMAKE_REQUIRED_DEFINITIONS -D_OPENBSD_SOURCE)
+# Check if system has strtonum
 check_function_exists(strtonum HAVE_STRTONUM)
 
 # Additional include directories for compat functions
