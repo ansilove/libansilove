@@ -16,7 +16,6 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 	// some type declarations
 	struct fontStruct fontData;
 	char tundra_version;
-	char tundra_header[8];
 
 	// font selection
 	alSelectFont(&fontData, outputFile->font);
@@ -26,7 +25,6 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 
 	// extract tundra header
 	tundra_version = inputFile->buffer[0];
-	memcpy(&tundra_header, inputFile->buffer+1, 8);
 
 	// need to add check for "TUNDRA24" string in the header
 	if (tundra_version != 24) {
