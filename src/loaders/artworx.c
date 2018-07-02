@@ -32,8 +32,7 @@ int ansilove_artworx(struct input *inputFile, struct output *outputFile)
 	uint32_t index;
 
 	// process ADF palette
-	for (loop = 0; loop < 16; loop++)
-	{
+	for (loop = 0; loop < 16; loop++) {
 		index = (adf_colors[loop] * 3) + 1;
 		gdImageColorAllocate(canvas, (inputFile->buffer[index] << 2 | inputFile->buffer[index] >> 4),
 		    (inputFile->buffer[index + 1] << 2 | inputFile->buffer[index + 1] >> 4),
@@ -47,10 +46,8 @@ int ansilove_artworx(struct input *inputFile, struct output *outputFile)
 	uint32_t character, attribute, foreground, background;
 	loop = 192 + 4096 + 1;
 
-	while (loop < inputFile->length)
-	{
-		if (column == 80)
-		{
+	while (loop < inputFile->length) {
+		if (column == 80) {
 			column = 0;
 			row++;
 		}

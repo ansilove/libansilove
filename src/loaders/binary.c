@@ -53,10 +53,8 @@ int ansilove_binary(struct input *inputFile, struct output *outputFile)
 	uint32_t character, attribute, background, foreground;
 	uint32_t loop = 0, column = 0, row = 0;
 
-	while (loop < inputFile->length)
-	{
-		if (column == outputFile->columns)
-		{
+	while (loop < inputFile->length) {
+		if (column == outputFile->columns) {
 			column = 0;
 			row++;
 		}

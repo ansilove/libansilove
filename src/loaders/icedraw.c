@@ -32,13 +32,11 @@ int ansilove_icedraw(struct input *inputFile, struct output *outputFile)
 
 	int16_t idf_data, idf_data_length;
 
-	while (loop < inputFile->length - 4096 - 48)
-	{
+	while (loop < inputFile->length - 4096 - 48) {
 		memcpy(&idf_data, inputFile->buffer+loop, 2);
 
 		// RLE compressed data
-		if (idf_data == 1)
-		{
+		if (idf_data == 1) {
 			memcpy(&idf_data_length, inputFile->buffer+loop+2, 2);
 
 			idf_sequence_length = idf_data_length & 255;
@@ -49,8 +47,7 @@ int ansilove_icedraw(struct input *inputFile, struct output *outputFile)
 				temp = realloc(idf_buffer, i + 2);
 				if (idf_buffer != NULL) {
 					idf_buffer = temp;
-				}
-				else {
+				} else {
 					perror("Error allocating IDF buffer memory");
 					return -1;
 				}
@@ -60,14 +57,12 @@ int ansilove_icedraw(struct input *inputFile, struct output *outputFile)
 				i += 2;
 			}
 			loop += 4;
-		}
-		else {
+		} else {
 			// reallocate IDF buffer memory
 			temp = realloc(idf_buffer, i + 2);
 			if (idf_buffer != NULL) {
 				idf_buffer = temp;
-			}
-			else {
+			} else {
 				perror("Error allocating IDF buffer memory");
 				return -1;
 			}
@@ -91,8 +86,7 @@ int ansilove_icedraw(struct input *inputFile, struct output *outputFile)
 	gdImageColorAllocate(canvas, 0, 0, 0);
 
 	// process IDF palette
-	for (loop = 0; loop < 16; loop++)
-	{
+	for (loop = 0; loop < 16; loop++) {
 		index = (loop * 3) + inputFile->length - 48;
 		colors[loop] = gdImageColorAllocate(canvas, (inputFile->buffer[index] << 2 | inputFile->buffer[index] >> 4),
 		    (inputFile->buffer[index + 1] << 2 | inputFile->buffer[index + 1] >> 4),
@@ -103,10 +97,8 @@ int ansilove_icedraw(struct input *inputFile, struct output *outputFile)
 	int32_t column = 0, row = 0;
 	int32_t character, attribute, foreground, background;
 
-	for (loop = 0; loop < i; loop += 2)
-	{
-		if (column == x2 + 1)
-		{
+	for (loop = 0; loop < i; loop += 2) {
+		if (column == x2 + 1) {
 			column = 0;
 			row++;
 		}

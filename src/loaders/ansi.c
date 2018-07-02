@@ -45,11 +45,9 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 	// to deal with the bits flag, we declared handy bool types
 	if (!strcmp(outputFile->mode, "ced")) {
 		ced = true;
-	}
-	else if (!strcmp(outputFile->mode, "transparent")) {
+	} else if (!strcmp(outputFile->mode, "transparent")) {
 		transparent = true;
-	}
-	else if (!strcmp(outputFile->mode, "workbench")) {
+	} else if (!strcmp(outputFile->mode, "workbench")) {
 		workbench = true;
 	}
 
@@ -91,13 +89,11 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 	ansi_buffer = malloc(sizeof (struct ansiChar));
 
 	// ANSi interpreter
-	while (loop < inputFile->length)
-	{
+	while (loop < inputFile->length) {
 		current_character = inputFile->buffer[loop];
 		next_character = inputFile->buffer[loop + 1];
 
-		if (column == 80)
-		{
+		if (column == 80) {
 			row++;
 			column = 0;
 		}
@@ -110,8 +106,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 		}
 
 		// LF
-		if (current_character == 10)
-		{
+		if (current_character == 10) {
 			row++;
 			column = 0;
 		}
@@ -125,15 +120,12 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 			break;
 
 		// ANSi sequence
-		if (current_character == 27 && next_character == 91)
-		{
-			for (ansi_sequence_loop = 0; ansi_sequence_loop < 14; ansi_sequence_loop++)
-			{
+		if (current_character == 27 && next_character == 91) {
+			for (ansi_sequence_loop = 0; ansi_sequence_loop < 14; ansi_sequence_loop++) {
 				ansi_sequence_character = inputFile->buffer[loop + 2 + ansi_sequence_loop];
 
 				// cursor position
-				if (ansi_sequence_character == 'H' || ansi_sequence_character == 'f')
-				{
+				if (ansi_sequence_character == 'H' || ansi_sequence_character == 'f') {
 					// create substring from the sequence's content
 					seqGrab = strndup((char *)inputFile->buffer + loop + 2, ansi_sequence_loop);
 
@@ -149,8 +141,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 						// finally set the positions
 						row = seq_line-1;
 						column = seq_column-1;
-					}
-					else {
+					} else {
 						// no coordinates specified? we move to the home position
 						row = 0;
 						column = 0;
@@ -160,8 +151,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 				}
 
 				// cursor up
-				if (ansi_sequence_character == 'A')
-				{
+				if (ansi_sequence_character == 'A') {
 					// create substring from the sequence's content
 					seqGrab = strndup((char *)inputFile->buffer + loop + 2, ansi_sequence_loop);
 
@@ -176,8 +166,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 				}
 
 				// cursor down
-				if (ansi_sequence_character == 'B')
-				{
+				if (ansi_sequence_character == 'B') {
 					// create substring from the sequence's content
 					seqGrab = strndup((char *)inputFile->buffer + loop + 2, ansi_sequence_loop);
 
@@ -192,8 +181,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 				}
 
 				// cursor forward
-				if (ansi_sequence_character == 'C')
-				{
+				if (ansi_sequence_character == 'C') {
 					// create substring from the sequence's content
 					seqGrab = strndup((char *)inputFile->buffer + loop + 2, ansi_sequence_loop);
 
@@ -211,8 +199,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 				}
 
 				// cursor backward
-				if (ansi_sequence_character == 'D')
-				{
+				if (ansi_sequence_character == 'D') {
 					// create substring from the sequence's content
 					seqGrab = strndup((char *)inputFile->buffer + loop + 2, ansi_sequence_loop);
 
@@ -230,8 +217,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 				}
 
 				// save cursor position
-				if (ansi_sequence_character == 's')
-				{
+				if (ansi_sequence_character == 's') {
 					saved_row = row;
 					saved_column = column;
 
@@ -240,8 +226,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 				}
 
 				// restore cursor position
-				if (ansi_sequence_character == 'u')
-				{
+				if (ansi_sequence_character == 'u') {
 					row = saved_row;
 					column = saved_column;
 
@@ -250,8 +235,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 				}
 
 				// erase display
-				if (ansi_sequence_character == 'J')
-				{
+				if (ansi_sequence_character == 'J') {
 					// create substring from the sequence's content
 					seqGrab = strndup((char *)inputFile->buffer + loop + 2, ansi_sequence_loop);
 
@@ -259,8 +243,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 					int32_t eraseDisplayInt = strtonum(seqGrab, 0, INT32_MAX, &errstr);
 					free(seqGrab);
 
-					if (eraseDisplayInt == 2)
-					{
+					if (eraseDisplayInt == 2) {
 						column = 0;
 						row = 0;
 
@@ -277,8 +260,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 				}
 
 				// set graphics mode
-				if (ansi_sequence_character == 'm')
-				{
+				if (ansi_sequence_character == 'm') {
 					// create substring from the sequence's content
 					seqGrab = strndup((char *)inputFile->buffer + loop + 2, ansi_sequence_loop);
 
@@ -287,13 +269,11 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 					free(seqGrab);
 
 					// a loophole in limbo
-					for (seq_graphics_loop = 0; seq_graphics_loop < seqArrayCount; seq_graphics_loop++)
-					{
+					for (seq_graphics_loop = 0; seq_graphics_loop < seqArrayCount; seq_graphics_loop++) {
 						// convert split content value to integer
 						seqValue = strtonum(seqArray[seq_graphics_loop], 0, INT32_MAX, &errstr);
 
-						if (seqValue == 0)
-						{
+						if (seqValue == 0) {
 							background = 0;
 							foreground = 7;
 							bold = false;
@@ -302,10 +282,8 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 							blink = false;
 						}
 
-						if (seqValue == 1)
-						{
-							if (!workbench)
-							{
+						if (seqValue == 1) {
+							if (!workbench) {
 								foreground += 8;
 							}
 							bold = true;
@@ -347,29 +325,25 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 				}
 
 				// cursor (de)activation (Amiga ANSi)
-				if (ansi_sequence_character == 'p')
-				{
+				if (ansi_sequence_character == 'p') {
 					loop += ansi_sequence_loop+2;
 					break;
 				}
 
 				// skipping set mode and reset mode sequences
-				if (ansi_sequence_character == 'h' || ansi_sequence_character == 'l')
-				{
+				if (ansi_sequence_character == 'h' || ansi_sequence_character == 'l') {
 					loop += ansi_sequence_loop+2;
 					break;
 				}
 
 				// skipping erase in line (EL) sequences
-				if (ansi_sequence_character == 'K')
-				{
+				if (ansi_sequence_character == 'K') {
 					loop += ansi_sequence_loop+2;
 					break;
 				}
 
 				// skipping PabloDraw 24-bit ANSI sequences
-				if (ansi_sequence_character == 't')
-				{
+				if (ansi_sequence_character == 't') {
 					loop += ansi_sequence_loop+2;
 					break;
 				}
@@ -385,8 +359,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 				rowMax = row;
 
 			// write current character in ansiChar structure
-			if (!fontData.isAmigaFont || (current_character != 12 && current_character != 13))
-			{
+			if (!fontData.isAmigaFont || (current_character != 12 && current_character != 13)) {
 				// reallocate structure array memory
 				temp = realloc(ansi_buffer, (structIndex + 1) * sizeof (struct ansiChar));
 				ansi_buffer = temp;
@@ -429,14 +402,11 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 
 	int32_t ced_background = 0, ced_foreground = 0;
 
-	if (ced)
-	{
+	if (ced) {
 		ced_background = gdImageColorAllocate(canvas, 170, 170, 170);
 		ced_foreground = gdImageColorAllocate(canvas, 0, 0, 0);
 		gdImageFill(canvas, 0, 0, ced_background);
-	}
-	else if (workbench)
-	{
+	} else if (workbench) {
 		gdImageFill(canvas, 0, 0, 0);
 
 		for (int i = 0; i < 16; i++) {
@@ -444,9 +414,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 			    workbench_palette[i*3+1],
 			    workbench_palette[i*3+2]);
 		}
-	}
-	else
-	{
+	} else {
 		// Allocate standard ANSi color palette
 
 		for (int i = 0; i < 16; i++) {
@@ -460,8 +428,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 	uint32_t ansiBufferItems = structIndex;
 
 	// render ANSi
-	for (loop = 0; loop < ansiBufferItems; loop++)
-	{
+	for (loop = 0; loop < ansiBufferItems; loop++) {
 		// grab ANSi char from our structure array
 		background = ansi_buffer[loop].background;
 		foreground = ansi_buffer[loop].foreground;

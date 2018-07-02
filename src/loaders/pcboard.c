@@ -47,13 +47,11 @@ int ansilove_pcboard(struct input *inputFile, struct output *outputFile)
 	loop = 0;
 	structIndex = 0;
 
-	while (loop < inputFile->length)
-	{
+	while (loop < inputFile->length) {
 		current_character = inputFile->buffer[loop];
 		next_character = inputFile->buffer[loop+1];
 
-		if (column == 80)
-		{
+		if (column == 80) {
 			row++;
 			column = 0;
 		}
@@ -66,8 +64,7 @@ int ansilove_pcboard(struct input *inputFile, struct output *outputFile)
 		}
 
 		// LF
-		if (current_character == 10)
-		{
+		if (current_character == 10) {
 			row++;
 			column = 0;
 		}
@@ -81,16 +78,14 @@ int ansilove_pcboard(struct input *inputFile, struct output *outputFile)
 			break;
 
 		// PCB sequence
-		if (current_character == 64 && next_character == 88)
-		{
+		if (current_character == 64 && next_character == 88) {
 			// set graphics rendition
 			background = inputFile->buffer[loop+2];
 			foreground = inputFile->buffer[loop+3];
 			loop += 3;
 		}
 		else if (current_character == 64 && next_character == 67 &&
-		    inputFile->buffer[loop+2] == 'L' && inputFile->buffer[loop+3] == 'S')
-		{
+		    inputFile->buffer[loop+2] == 'L' && inputFile->buffer[loop+3] == 'S') {
 			// erase display
 			column = 0;
 			row = 0;
@@ -99,10 +94,8 @@ int ansilove_pcboard(struct input *inputFile, struct output *outputFile)
 			rowMax = 0;
 
 			loop += 4;
-		}
-		else if (current_character == 64 && next_character == 80 && inputFile->buffer[loop+2] == 'O'
-		    && inputFile->buffer[loop+3] == 'S' && inputFile->buffer[loop+4] == ':')
-		{
+		} else if (current_character == 64 && next_character == 80 && inputFile->buffer[loop+2] == 'O'
+		    && inputFile->buffer[loop+3] == 'S' && inputFile->buffer[loop+4] == ':') {
 			// cursor position
 			if (inputFile->buffer[loop+6] == '@')
 			{
@@ -114,9 +107,7 @@ int ansilove_pcboard(struct input *inputFile, struct output *outputFile)
 				column = (10 * ((inputFile->buffer[loop+5])-48) + (inputFile->buffer[loop+6])-48)-1;
 				loop += 6;
 			}
-		}
-		else if (current_character != 10 && current_character != 13 && current_character != 9)
-		{
+		} else if (current_character != 10 && current_character != 13 && current_character != 9) {
 			// record number of columns and lines used
 			if (column > columnMax)
 				columnMax = column;
@@ -163,8 +154,7 @@ int ansilove_pcboard(struct input *inputFile, struct output *outputFile)
 	uint32_t pcbBufferItems = structIndex;
 
 	// render PCB
-	for (loop = 0; loop < pcbBufferItems; loop++)
-	{
+	for (loop = 0; loop < pcbBufferItems; loop++) {
 		// grab our chars out of the structure
 		column = pcboard_buffer[loop].column;
 		row = pcboard_buffer[loop].row;

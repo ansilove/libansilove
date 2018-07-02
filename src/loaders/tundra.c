@@ -36,18 +36,15 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 	uint32_t character, background = 0, foreground = 0;
 	uint32_t loop = 9, column = 0, row = 1;
 
-	while (loop < inputFile->length)
-	{
-		if (column == 80)
-		{
+	while (loop < inputFile->length) {
+		if (column == 80) {
 			column = 0;
 			row++;
 		}
 
 		character = inputFile->buffer[loop];
 
-		if (character == 1)
-		{
+		if (character == 1) {
 			row =
 			    (inputFile->buffer[loop + 1] << 24) + (inputFile->buffer[loop + 2] << 16) +
 			    (inputFile->buffer[loop + 3] << 8) + inputFile->buffer[loop+4];
@@ -59,22 +56,19 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 			loop += 8;
 		}
 
-		if (character == 2)
-		{
+		if (character == 2) {
 			character = inputFile->buffer[loop + 1];
 
 			loop += 5;
 		}
 
-		if (character == 4)
-		{
+		if (character == 4) {
 			character = inputFile->buffer[loop + 1];
 
 			loop += 5;
 		}
 
-		if (character == 6)
-		{
+		if (character == 6) {
 			character = inputFile->buffer[loop + 1];
 
 			loop += 9;
@@ -100,18 +94,15 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 
 	loop = 9;
 
-	while (loop < inputFile->length)
-	{
-		if (column == 80)
-		{
+	while (loop < inputFile->length) {
+		if (column == 80) {
 			column = 0;
 			row++;
 		}
 
 		character = inputFile->buffer[loop];
 
-		if (character == 1)
-		{
+		if (character == 1) {
 			row =
 			    (inputFile->buffer[loop + 1] << 24) + (inputFile->buffer[loop + 2] << 16) +
 			    (inputFile->buffer[loop + 3] << 8) + inputFile->buffer[loop + 4];
@@ -123,8 +114,7 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 			loop += 8;
 		}
 
-		if (character == 2)
-		{
+		if (character == 2) {
 			foreground =
 			    (inputFile->buffer[loop + 3] << 16) + (inputFile->buffer[loop + 4] << 8) +
 			    inputFile->buffer[loop + 5];
@@ -134,8 +124,7 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 			loop += 5;
 		}
 
-		if (character == 4)
-		{
+		if (character == 4) {
 			background = (inputFile->buffer[loop + 3] << 16) + (inputFile->buffer[loop + 4] << 8) +
 			    inputFile->buffer[loop+5];
 
@@ -144,8 +133,7 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 			loop += 5;
 		}
 
-		if (character == 6)
-		{
+		if (character == 6) {
 			foreground =
 			    (inputFile->buffer[loop + 3] << 16) + (inputFile->buffer[loop + 4] << 8) +
 			    inputFile->buffer[loop+5];
@@ -159,8 +147,7 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 			loop += 9;
 		}
 
-		if (character != 1 && character != 2 && character != 4 && character != 6)
-		{
+		if (character != 1 && character != 2 && character != 4 && character != 6) {
 			drawchar(canvas, fontData.font_data, outputFile->bits, fontData.height,
 			    column, row, background, foreground, character);
 

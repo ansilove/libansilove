@@ -11,14 +11,12 @@
 
 #include "explode.h"
 
-int32_t explode(char ***arr_ptr, char delimiter, char *str)
-{
+int32_t explode(char ***arr_ptr, char delimiter, char *str) {
 	char *src = str, *end, *dst;
 	char **arr;
 	int32_t size = 1, i;
 
-	while ((end = strchr(src, delimiter)) != NULL)
-	{
+	while ((end = strchr(src, delimiter)) != NULL) {
 		++size;
 		src = end + 1;
 	}
@@ -27,8 +25,7 @@ int32_t explode(char ***arr_ptr, char delimiter, char *str)
 
 	src = str;
 	dst = (char *)arr + size * sizeof (char *);
-	for (i = 0; i < size; ++i)
-	{
+	for (i = 0; i < size; ++i) {
 		if ((end = strchr(src, delimiter)) == NULL)
 			end = src + strlen(src);
 		arr[i] = dst;

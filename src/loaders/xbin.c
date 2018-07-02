@@ -46,8 +46,7 @@ int ansilove_xbin(struct input *inputFile, struct output *outputFile)
 		int32_t loop;
 		int32_t index;
 
-		for (loop = 0; loop < 16; loop++)
-		{
+		for (loop = 0; loop < 16; loop++) {
 			index = (loop * 3) + offset;
 
 			colors[loop] = gdImageColorAllocate(canvas, (inputFile->buffer[index] << 2 | inputFile->buffer[index] >> 4),
@@ -56,8 +55,7 @@ int ansilove_xbin(struct input *inputFile, struct output *outputFile)
 		}
 
 		offset += 48;
-	}
-	else {
+	} else {
 		for (int i = 0; i < 16; i++) {
 			colors[i] = gdImageColorAllocate(canvas, binary_palette[i*3],
 			    binary_palette[i*3+1],
@@ -80,8 +78,7 @@ int ansilove_xbin(struct input *inputFile, struct output *outputFile)
 		font_data = font_data_xbin;
 
 		offset += (xbin_fontsize * numchars);
-	}
-	else {
+	} else {
 		// using default 80x25 font
 		font_data = font_pc_80x25;
 	}
@@ -91,8 +88,7 @@ int ansilove_xbin(struct input *inputFile, struct output *outputFile)
 
 	// read compressed xbin
 	if ((xbin_flags & 4) == 4) {
-		while (offset < inputFile->length && row != xbin_height)
-		{
+		while (offset < inputFile->length && row != xbin_height) {
 			int32_t ctype = inputFile->buffer[offset] & 0xC0;
 			int32_t counter = (inputFile->buffer[offset] & 0x3F) + 1;
 
@@ -144,20 +140,16 @@ int ansilove_xbin(struct input *inputFile, struct output *outputFile)
 
 				column++;
 
-				if (column == xbin_width)
-				{
+				if (column == xbin_width) {
 					column = 0;
 					row++;
 				}
 			}
 		}
-	}
-	// read uncompressed xbin
-	else {
-		while (offset < inputFile->length && row != xbin_height)
-		{
-			if (column == xbin_width)
-			{
+	} else {
+		// read uncompressed xbin
+		while (offset < inputFile->length && row != xbin_height) {
+			if (column == xbin_width) {
 				column = 0;
 				row++;
 			}
