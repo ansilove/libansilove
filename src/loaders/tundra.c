@@ -49,7 +49,7 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 			row++;
 		}
 
-		cursor = character = inputFile->buffer[loop];
+		cursor = inputFile->buffer[loop];
 
 		switch(cursor) {
 		case TUNDRA_POSITION:
@@ -65,26 +65,20 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 			break;
 
 		case TUNDRA_COLOR_BACKGROUND:
-			character = inputFile->buffer[loop + 1];
-
 			loop += 5;
+			column++;
 			break;
 
 		case TUNDRA_COLOR_FOREGROUND:
-			character = inputFile->buffer[loop + 1];
-
 			loop += 5;
+			column++;
 			break;
 
 		case TUNDRA_COLOR_BOTH:
-			character = inputFile->buffer[loop + 1];
-
 			loop += 9;
+			column++;
 			break;
 		}
-
-		if (character != 1 && character != 2 && character != 4 && character != 6)
-			column++;
 
 		loop++;
 	}
