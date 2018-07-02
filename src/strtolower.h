@@ -10,7 +10,6 @@
 //
 
 #include <ctype.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 #ifndef strtolower_h

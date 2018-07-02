@@ -11,7 +11,6 @@
 
 #include <gd.h>
 #include <stdbool.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 #ifndef output_h
