@@ -40,7 +40,7 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 	}
 
 	// read tundra file a first time to find the image size
-	uint32_t character, background = 0, foreground = 0;
+	uint32_t cursor, character, background = 0, foreground = 0;
 	uint32_t loop = 9, column = 0, row = 1;
 
 	while (loop < inputFile->length) {
@@ -49,9 +49,10 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 			row++;
 		}
 
-		character = inputFile->buffer[loop];
+		cursor = character = inputFile->buffer[loop];
 
-		if (character == TUNDRA_POSITION) {
+		switch(cursor) {
+		case TUNDRA_POSITION:
 			row =
 			    (inputFile->buffer[loop + 1] << 24) + (inputFile->buffer[loop + 2] << 16) +
 			    (inputFile->buffer[loop + 3] << 8) + inputFile->buffer[loop+4];
@@ -61,24 +62,25 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 			    (inputFile->buffer[loop + 7] << 8) + inputFile->buffer[loop+8];
 
 			loop += 8;
-		}
+			break;
 
-		if (character == TUNDRA_COLOR_BACKGROUND) {
+		case TUNDRA_COLOR_BACKGROUND:
 			character = inputFile->buffer[loop + 1];
 
 			loop += 5;
-		}
+			break;
 
-		if (character == TUNDRA_COLOR_FOREGROUND) {
+		case TUNDRA_COLOR_FOREGROUND:
 			character = inputFile->buffer[loop + 1];
 
 			loop += 5;
-		}
+			break;
 
-		if (character == TUNDRA_COLOR_BOTH) {
+		case TUNDRA_COLOR_BOTH:
 			character = inputFile->buffer[loop + 1];
 
 			loop += 9;
+			break;
 		}
 
 		if (character != 1 && character != 2 && character != 4 && character != 6)
@@ -107,9 +109,10 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 			row++;
 		}
 
-		character = inputFile->buffer[loop];
+		cursor = character = inputFile->buffer[loop];
 
-		if (character == TUNDRA_POSITION) {
+		switch(cursor) {
+		case TUNDRA_POSITION:
 			row =
 			    (inputFile->buffer[loop + 1] << 24) + (inputFile->buffer[loop + 2] << 16) +
 			    (inputFile->buffer[loop + 3] << 8) + inputFile->buffer[loop + 4];
@@ -119,9 +122,9 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 			    (inputFile->buffer[loop + 7] << 8) + inputFile->buffer[loop + 8];
 
 			loop += 8;
-		}
+			break;
 
-		if (character == TUNDRA_COLOR_BACKGROUND) {
+		case TUNDRA_COLOR_BACKGROUND:
 			foreground =
 			    (inputFile->buffer[loop + 3] << 16) + (inputFile->buffer[loop + 4] << 8) +
 			    inputFile->buffer[loop + 5];
@@ -129,18 +132,18 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 			character = inputFile->buffer[loop+1];
 
 			loop += 5;
-		}
+			break;
 
-		if (character == TUNDRA_COLOR_FOREGROUND) {
+		case TUNDRA_COLOR_FOREGROUND:
 			background = (inputFile->buffer[loop + 3] << 16) + (inputFile->buffer[loop + 4] << 8) +
 			    inputFile->buffer[loop+5];
 
 			character = inputFile->buffer[loop+1];
 
 			loop += 5;
-		}
+			break;
 
-		if (character == TUNDRA_COLOR_BOTH) {
+		case TUNDRA_COLOR_BOTH:
 			foreground =
 			    (inputFile->buffer[loop + 3] << 16) + (inputFile->buffer[loop + 4] << 8) +
 			    inputFile->buffer[loop+5];
@@ -152,6 +155,7 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 			character = inputFile->buffer[loop+1];
 
 			loop += 9;
+			break;
 		}
 
 		if (character != 1 && character != 2 && character != 4 && character != 6) {
