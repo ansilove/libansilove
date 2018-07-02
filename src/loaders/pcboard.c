@@ -47,10 +47,10 @@ int ansilove_pcboard(struct input *inputFile, struct output *outputFile)
 	loop = 0;
 	structIndex = 0;
 
-	while (loop < inputFile->size)
+	while (loop < inputFile->length)
 	{
-		current_character = inputFile->data[loop];
-		next_character = inputFile->data[loop+1];
+		current_character = inputFile->buffer[loop];
+		next_character = inputFile->buffer[loop+1];
 
 		if (column == 80)
 		{
@@ -84,12 +84,12 @@ int ansilove_pcboard(struct input *inputFile, struct output *outputFile)
 		if (current_character == 64 && next_character == 88)
 		{
 			// set graphics rendition
-			background = inputFile->data[loop+2];
-			foreground = inputFile->data[loop+3];
+			background = inputFile->buffer[loop+2];
+			foreground = inputFile->buffer[loop+3];
 			loop += 3;
 		}
 		else if (current_character == 64 && next_character == 67 &&
-		    inputFile->data[loop+2] == 'L' && inputFile->data[loop+3] == 'S')
+		    inputFile->buffer[loop+2] == 'L' && inputFile->buffer[loop+3] == 'S')
 		{
 			// erase display
 			column = 0;
@@ -100,18 +100,18 @@ int ansilove_pcboard(struct input *inputFile, struct output *outputFile)
 
 			loop += 4;
 		}
-		else if (current_character == 64 && next_character == 80 && inputFile->data[loop+2] == 'O'
-		    && inputFile->data[loop+3] == 'S' && inputFile->data[loop+4] == ':')
+		else if (current_character == 64 && next_character == 80 && inputFile->buffer[loop+2] == 'O'
+		    && inputFile->buffer[loop+3] == 'S' && inputFile->buffer[loop+4] == ':')
 		{
 			// cursor position
-			if (inputFile->data[loop+6] == '@')
+			if (inputFile->buffer[loop+6] == '@')
 			{
-				column = ((inputFile->data[loop+5])-48)-1;
+				column = ((inputFile->buffer[loop+5])-48)-1;
 				loop += 5;
 			}
 			else
 			{
-				column = (10 * ((inputFile->data[loop+5])-48) + (inputFile->data[loop+6])-48)-1;
+				column = (10 * ((inputFile->buffer[loop+5])-48) + (inputFile->buffer[loop+6])-48)-1;
 				loop += 6;
 			}
 		}

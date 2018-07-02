@@ -16,15 +16,15 @@ int ansilove_xbin(struct input *inputFile, struct output *outputFile)
 	const unsigned char *font_data;
 	unsigned char *font_data_xbin = NULL;
 
-	if (strncmp((char *)inputFile->data, "XBIN\x1a", 5) != 0) {
+	if (strncmp((char *)inputFile->buffer, "XBIN\x1a", 5) != 0) {
 		fputs("\nNot an XBin.\n\n", stderr);
 		return -1;
 	}
 
-	int32_t xbin_width = (inputFile->data[6] << 8) + inputFile->data[5];
-	int32_t xbin_height = (inputFile->data[8] << 8) + inputFile->data[7];
-	int32_t xbin_fontsize = inputFile->data[9];
-	int32_t xbin_flags = inputFile->data[10];
+	int32_t xbin_width = (inputFile->buffer[6] << 8) + inputFile->buffer[5];
+	int32_t xbin_height = (inputFile->buffer[8] << 8) + inputFile->buffer[7];
+	int32_t xbin_fontsize = inputFile->buffer[9];
+	int32_t xbin_flags = inputFile->buffer[10];
 
 	gdImagePtr canvas;
 
@@ -50,9 +50,9 @@ int ansilove_xbin(struct input *inputFile, struct output *outputFile)
 		{
 			index = (loop * 3) + offset;
 
-			colors[loop] = gdImageColorAllocate(canvas, (inputFile->data[index] << 2 | inputFile->data[index] >> 4),
-			    (inputFile->data[index + 1] << 2 | inputFile->data[index + 1] >> 4),
-			    (inputFile->data[index + 2] << 2 | inputFile->data[index + 2] >> 4));
+			colors[loop] = gdImageColorAllocate(canvas, (inputFile->buffer[index] << 2 | inputFile->buffer[index] >> 4),
+			    (inputFile->buffer[index + 1] << 2 | inputFile->buffer[index + 1] >> 4),
+			    (inputFile->buffer[index + 2] << 2 | inputFile->buffer[index + 2] >> 4));
 		}
 
 		offset += 48;
@@ -75,7 +75,7 @@ int ansilove_xbin(struct input *inputFile, struct output *outputFile)
 			perror("Memory error");
 			return -1;
 		}
-		memcpy(font_data_xbin, inputFile->data+offset, (xbin_fontsize * numchars));
+		memcpy(font_data_xbin, inputFile->buffer+offset, (xbin_fontsize * numchars));
 
 		font_data = font_data_xbin;
 
@@ -91,10 +91,10 @@ int ansilove_xbin(struct input *inputFile, struct output *outputFile)
 
 	// read compressed xbin
 	if ((xbin_flags & 4) == 4) {
-		while (offset < inputFile->size && row != xbin_height)
+		while (offset < inputFile->length && row != xbin_height)
 		{
-			int32_t ctype = inputFile->data[offset] & 0xC0;
-			int32_t counter = (inputFile->data[offset] & 0x3F) + 1;
+			int32_t ctype = inputFile->buffer[offset] & 0xC0;
+			int32_t counter = (inputFile->buffer[offset] & 0x3F) + 1;
 
 			character = -1;
 			attribute = -1;
@@ -103,36 +103,36 @@ int ansilove_xbin(struct input *inputFile, struct output *outputFile)
 			while (counter--) {
 				// none
 				if (ctype == 0) {
-					character = inputFile->data[offset];
-					attribute = inputFile->data[offset + 1];
+					character = inputFile->buffer[offset];
+					attribute = inputFile->buffer[offset + 1];
 					offset += 2;
 				}
 				// char
 				else if (ctype == 0x40) {
 					if (character == -1) {
-						character = inputFile->data[offset];
+						character = inputFile->buffer[offset];
 						offset++;
 					}
-					attribute = inputFile->data[offset];
+					attribute = inputFile->buffer[offset];
 					offset++;
 				}
 				// attr
 				else if (ctype == 0x80) {
 					if (attribute == -1) {
-						attribute = inputFile->data[offset];
+						attribute = inputFile->buffer[offset];
 						offset++;
 					}
-					character = inputFile->data[offset];
+					character = inputFile->buffer[offset];
 					offset++;
 				}
 				// both
 				else {
 					if (character == -1) {
-						character = inputFile->data[offset];
+						character = inputFile->buffer[offset];
 						offset++;
 					}
 					if (attribute == -1) {
-						attribute = inputFile->data[offset];
+						attribute = inputFile->buffer[offset];
 						offset++;
 					}
 				}
@@ -154,7 +154,7 @@ int ansilove_xbin(struct input *inputFile, struct output *outputFile)
 	}
 	// read uncompressed xbin
 	else {
-		while (offset < inputFile->size && row != xbin_height)
+		while (offset < inputFile->length && row != xbin_height)
 		{
 			if (column == xbin_width)
 			{
@@ -162,8 +162,8 @@ int ansilove_xbin(struct input *inputFile, struct output *outputFile)
 				row++;
 			}
 
-			character = inputFile->data[offset];
-			attribute = inputFile->data[offset+1];
+			character = inputFile->buffer[offset];
+			attribute = inputFile->buffer[offset+1];
 
 			background = (attribute & 240) >> 4;
 			foreground = attribute & 15;

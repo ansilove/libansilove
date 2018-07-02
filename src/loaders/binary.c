@@ -14,7 +14,7 @@
 int ansilove_binary(struct input *inputFile, struct output *outputFile)
 {
 	// binary files must have an even size
-	if (inputFile->size % 2) {
+	if (inputFile->length % 2) {
 		fprintf(stderr, "\nBinary file is not valid.\n");
 		return -1;
 	}
@@ -30,7 +30,7 @@ int ansilove_binary(struct input *inputFile, struct output *outputFile)
 
 	// allocate buffer image memory
 	canvas = gdImageCreate(outputFile->columns * outputFile->bits,
-	    ((inputFile->size / 2) / outputFile->columns * fontData.height));
+	    ((inputFile->length / 2) / outputFile->columns * fontData.height));
 
 	if (!canvas) {
 		perror("Error, can't allocate buffer image memory");
@@ -53,7 +53,7 @@ int ansilove_binary(struct input *inputFile, struct output *outputFile)
 	uint32_t character, attribute, background, foreground;
 	uint32_t loop = 0, column = 0, row = 0;
 
-	while (loop < inputFile->size)
+	while (loop < inputFile->length)
 	{
 		if (column == outputFile->columns)
 		{
@@ -61,8 +61,8 @@ int ansilove_binary(struct input *inputFile, struct output *outputFile)
 			row++;
 		}
 
-		character = inputFile->data[loop];
-		attribute = inputFile->data[loop+1];
+		character = inputFile->buffer[loop];
+		attribute = inputFile->buffer[loop+1];
 
 		background = (attribute & 240) >> 4;
 		foreground = (attribute & 15);

@@ -14,7 +14,7 @@
 int ansilove_icedraw(struct input *inputFile, struct output *outputFile)
 {
 	// extract relevant part of the IDF header, 16-bit endian unsigned short
-	int32_t x2 = (inputFile->data[9] << 8) + inputFile->data[8];
+	int32_t x2 = (inputFile->buffer[9] << 8) + inputFile->buffer[8];
 
 	// libgd image pointers
 	gdImagePtr canvas;
@@ -32,14 +32,14 @@ int ansilove_icedraw(struct input *inputFile, struct output *outputFile)
 
 	int16_t idf_data, idf_data_length;
 
-	while (loop < inputFile->size - 4096 - 48)
+	while (loop < inputFile->length - 4096 - 48)
 	{
-		memcpy(&idf_data, inputFile->data+loop, 2);
+		memcpy(&idf_data, inputFile->buffer+loop, 2);
 
 		// RLE compressed data
 		if (idf_data == 1)
 		{
-			memcpy(&idf_data_length, inputFile->data+loop+2, 2);
+			memcpy(&idf_data_length, inputFile->buffer+loop+2, 2);
 
 			idf_sequence_length = idf_data_length & 255;
 
@@ -55,8 +55,8 @@ int ansilove_icedraw(struct input *inputFile, struct output *outputFile)
 					return -1;
 				}
 
-				idf_buffer[i] = inputFile->data[loop + 4];
-				idf_buffer[i+1] = inputFile->data[loop + 5];
+				idf_buffer[i] = inputFile->buffer[loop + 4];
+				idf_buffer[i+1] = inputFile->buffer[loop + 5];
 				i += 2;
 			}
 			loop += 4;
@@ -73,8 +73,8 @@ int ansilove_icedraw(struct input *inputFile, struct output *outputFile)
 			}
 
 			// normal character
-			idf_buffer[i] = inputFile->data[loop];
-			idf_buffer[i+1] = inputFile->data[loop + 1];
+			idf_buffer[i] = inputFile->buffer[loop];
+			idf_buffer[i+1] = inputFile->buffer[loop + 1];
 			i += 2;
 		}
 		loop += 2;
@@ -93,10 +93,10 @@ int ansilove_icedraw(struct input *inputFile, struct output *outputFile)
 	// process IDF palette
 	for (loop = 0; loop < 16; loop++)
 	{
-		index = (loop * 3) + inputFile->size - 48;
-		colors[loop] = gdImageColorAllocate(canvas, (inputFile->data[index] << 2 | inputFile->data[index] >> 4),
-		    (inputFile->data[index + 1] << 2 | inputFile->data[index + 1] >> 4),
-		    (inputFile->data[index + 2] << 2 | inputFile->data[index + 2] >> 4));
+		index = (loop * 3) + inputFile->length - 48;
+		colors[loop] = gdImageColorAllocate(canvas, (inputFile->buffer[index] << 2 | inputFile->buffer[index] >> 4),
+		    (inputFile->buffer[index + 1] << 2 | inputFile->buffer[index + 1] >> 4),
+		    (inputFile->buffer[index + 2] << 2 | inputFile->buffer[index + 2] >> 4));
 	}
 
 	// render IDF
@@ -117,7 +117,7 @@ int ansilove_icedraw(struct input *inputFile, struct output *outputFile)
 		background = (attribute & 240) >> 4;
 		foreground = attribute & 15;
 
-		drawchar(canvas, inputFile->data+(inputFile->size - 48 - 4096), 8, 16, column, row, colors[background], colors[foreground], character);
+		drawchar(canvas, inputFile->buffer+(inputFile->length - 48 - 4096), 8, 16, column, row, colors[background], colors[foreground], character);
 
 		column++;
 	}

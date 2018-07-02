@@ -25,8 +25,8 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 	gdImagePtr canvas;
 
 	// extract tundra header
-	tundra_version = inputFile->data[0];
-	memcpy(&tundra_header, inputFile->data+1, 8);
+	tundra_version = inputFile->buffer[0];
+	memcpy(&tundra_header, inputFile->buffer+1, 8);
 
 	// need to add check for "TUNDRA24" string in the header
 	if (tundra_version != 24) {
@@ -38,7 +38,7 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 	uint32_t character, background = 0, foreground = 0;
 	uint32_t loop = 9, column = 0, row = 1;
 
-	while (loop < inputFile->size)
+	while (loop < inputFile->length)
 	{
 		if (column == 80)
 		{
@@ -46,38 +46,38 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 			row++;
 		}
 
-		character = inputFile->data[loop];
+		character = inputFile->buffer[loop];
 
 		if (character == 1)
 		{
 			row =
-			    (inputFile->data[loop + 1] << 24) + (inputFile->data[loop + 2] << 16) +
-			    (inputFile->data[loop + 3] << 8) + inputFile->data[loop+4];
+			    (inputFile->buffer[loop + 1] << 24) + (inputFile->buffer[loop + 2] << 16) +
+			    (inputFile->buffer[loop + 3] << 8) + inputFile->buffer[loop+4];
 
 			column =
-			    (inputFile->data[loop + 5] << 24) + (inputFile->data[loop + 6] << 16) +
-			    (inputFile->data[loop + 7] << 8) + inputFile->data[loop+8];
+			    (inputFile->buffer[loop + 5] << 24) + (inputFile->buffer[loop + 6] << 16) +
+			    (inputFile->buffer[loop + 7] << 8) + inputFile->buffer[loop+8];
 
 			loop += 8;
 		}
 
 		if (character == 2)
 		{
-			character = inputFile->data[loop + 1];
+			character = inputFile->buffer[loop + 1];
 
 			loop += 5;
 		}
 
 		if (character == 4)
 		{
-			character = inputFile->data[loop + 1];
+			character = inputFile->buffer[loop + 1];
 
 			loop += 5;
 		}
 
 		if (character == 6)
 		{
-			character = inputFile->data[loop + 1];
+			character = inputFile->buffer[loop + 1];
 
 			loop += 9;
 		}
@@ -102,7 +102,7 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 
 	loop = 9;
 
-	while (loop < inputFile->size)
+	while (loop < inputFile->length)
 	{
 		if (column == 80)
 		{
@@ -110,17 +110,17 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 			row++;
 		}
 
-		character = inputFile->data[loop];
+		character = inputFile->buffer[loop];
 
 		if (character == 1)
 		{
 			row =
-			    (inputFile->data[loop + 1] << 24) + (inputFile->data[loop + 2] << 16) +
-			    (inputFile->data[loop + 3] << 8) + inputFile->data[loop + 4];
+			    (inputFile->buffer[loop + 1] << 24) + (inputFile->buffer[loop + 2] << 16) +
+			    (inputFile->buffer[loop + 3] << 8) + inputFile->buffer[loop + 4];
 
 			column =
-			    (inputFile->data[loop + 5] << 24) + (inputFile->data[loop + 6] << 16) +
-			    (inputFile->data[loop + 7] << 8) + inputFile->data[loop + 8];
+			    (inputFile->buffer[loop + 5] << 24) + (inputFile->buffer[loop + 6] << 16) +
+			    (inputFile->buffer[loop + 7] << 8) + inputFile->buffer[loop + 8];
 
 			loop += 8;
 		}
@@ -128,20 +128,20 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 		if (character == 2)
 		{
 			foreground =
-			    (inputFile->data[loop + 3] << 16) + (inputFile->data[loop + 4] << 8) +
-			    inputFile->data[loop + 5];
+			    (inputFile->buffer[loop + 3] << 16) + (inputFile->buffer[loop + 4] << 8) +
+			    inputFile->buffer[loop + 5];
 
-			character = inputFile->data[loop+1];
+			character = inputFile->buffer[loop+1];
 
 			loop += 5;
 		}
 
 		if (character == 4)
 		{
-			background = (inputFile->data[loop + 3] << 16) + (inputFile->data[loop + 4] << 8) +
-			    inputFile->data[loop+5];
+			background = (inputFile->buffer[loop + 3] << 16) + (inputFile->buffer[loop + 4] << 8) +
+			    inputFile->buffer[loop+5];
 
-			character = inputFile->data[loop+1];
+			character = inputFile->buffer[loop+1];
 
 			loop += 5;
 		}
@@ -149,14 +149,14 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 		if (character == 6)
 		{
 			foreground =
-			    (inputFile->data[loop + 3] << 16) + (inputFile->data[loop + 4] << 8) +
-			    inputFile->data[loop+5];
+			    (inputFile->buffer[loop + 3] << 16) + (inputFile->buffer[loop + 4] << 8) +
+			    inputFile->buffer[loop+5];
 
 			background =
-			    (inputFile->data[loop + 7] << 16) + (inputFile->data[loop + 8] << 8) +
-			    inputFile->data[loop+9];
+			    (inputFile->buffer[loop + 7] << 16) + (inputFile->buffer[loop + 8] << 8) +
+			    inputFile->buffer[loop+9];
 
-			character = inputFile->data[loop+1];
+			character = inputFile->buffer[loop+1];
 
 			loop += 9;
 		}

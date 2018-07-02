@@ -91,10 +91,10 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 	ansi_buffer = malloc(sizeof (struct ansiChar));
 
 	// ANSi interpreter
-	while (loop < inputFile->size)
+	while (loop < inputFile->length)
 	{
-		current_character = inputFile->data[loop];
-		next_character = inputFile->data[loop + 1];
+		current_character = inputFile->buffer[loop];
+		next_character = inputFile->buffer[loop + 1];
 
 		if (column == 80)
 		{
@@ -129,13 +129,13 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 		{
 			for (ansi_sequence_loop = 0; ansi_sequence_loop < 14; ansi_sequence_loop++)
 			{
-				ansi_sequence_character = inputFile->data[loop + 2 + ansi_sequence_loop];
+				ansi_sequence_character = inputFile->buffer[loop + 2 + ansi_sequence_loop];
 
 				// cursor position
 				if (ansi_sequence_character == 'H' || ansi_sequence_character == 'f')
 				{
 					// create substring from the sequence's content
-					seqGrab = strndup((char *)inputFile->data + loop + 2, ansi_sequence_loop);
+					seqGrab = strndup((char *)inputFile->buffer + loop + 2, ansi_sequence_loop);
 
 					// create sequence content array
 					seqArrayCount = explode(&seqArray, ';', seqGrab);
@@ -163,7 +163,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 				if (ansi_sequence_character == 'A')
 				{
 					// create substring from the sequence's content
-					seqGrab = strndup((char *)inputFile->data + loop + 2, ansi_sequence_loop);
+					seqGrab = strndup((char *)inputFile->buffer + loop + 2, ansi_sequence_loop);
 
 					// now get escape sequence's position value
 					int32_t seq_line = strtonum(seqGrab, 0, INT32_MAX, &errstr);
@@ -179,7 +179,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 				if (ansi_sequence_character == 'B')
 				{
 					// create substring from the sequence's content
-					seqGrab = strndup((char *)inputFile->data + loop + 2, ansi_sequence_loop);
+					seqGrab = strndup((char *)inputFile->buffer + loop + 2, ansi_sequence_loop);
 
 					// now get escape sequence's position value
 					int32_t seq_line = strtonum(seqGrab, 0, INT32_MAX, &errstr);
@@ -195,7 +195,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 				if (ansi_sequence_character == 'C')
 				{
 					// create substring from the sequence's content
-					seqGrab = strndup((char *)inputFile->data + loop + 2, ansi_sequence_loop);
+					seqGrab = strndup((char *)inputFile->buffer + loop + 2, ansi_sequence_loop);
 
 					// now get escape sequence's position value
 					int32_t seq_column = strtonum(seqGrab, 0, INT32_MAX, &errstr);
@@ -214,7 +214,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 				if (ansi_sequence_character == 'D')
 				{
 					// create substring from the sequence's content
-					seqGrab = strndup((char *)inputFile->data + loop + 2, ansi_sequence_loop);
+					seqGrab = strndup((char *)inputFile->buffer + loop + 2, ansi_sequence_loop);
 
 					// now get escape sequence's content length
 					int32_t seq_column = strtonum(seqGrab, 0, INT32_MAX, &errstr);
@@ -253,7 +253,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 				if (ansi_sequence_character == 'J')
 				{
 					// create substring from the sequence's content
-					seqGrab = strndup((char *)inputFile->data + loop + 2, ansi_sequence_loop);
+					seqGrab = strndup((char *)inputFile->buffer + loop + 2, ansi_sequence_loop);
 
 					// convert grab to an integer
 					int32_t eraseDisplayInt = strtonum(seqGrab, 0, INT32_MAX, &errstr);
@@ -280,7 +280,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 				if (ansi_sequence_character == 'm')
 				{
 					// create substring from the sequence's content
-					seqGrab = strndup((char *)inputFile->data + loop + 2, ansi_sequence_loop);
+					seqGrab = strndup((char *)inputFile->buffer + loop + 2, ansi_sequence_loop);
 
 					// create sequence content array
 					seqArrayCount = explode(&seqArray, ';', seqGrab);

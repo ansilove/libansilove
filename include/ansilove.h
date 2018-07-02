@@ -17,8 +17,8 @@
 #include <stdint.h>
 
 struct input {
-	unsigned char *data;
-	size_t size;
+	unsigned char *buffer;
+	size_t length;
 	char *fext;
 };
 
