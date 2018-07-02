@@ -20,7 +20,6 @@ struct input {
 	unsigned char *data;
 	size_t size;
 	char *fext;
-	uint32_t columns;
 };
 
 struct output {
@@ -28,6 +27,7 @@ struct output {
 	char *retina;
 	char *font;
 	uint32_t bits;
+	uint32_t columns;
 	char *mode;
 	bool icecolors;
 	uint32_t retinaScaleFactor;

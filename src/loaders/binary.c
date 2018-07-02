@@ -29,8 +29,8 @@ int ansilove_binary(struct input *inputFile, struct output *outputFile)
 	gdImagePtr canvas;
 
 	// allocate buffer image memory
-	canvas = gdImageCreate(inputFile->columns * outputFile->bits,
-	    ((inputFile->size / 2) / inputFile->columns * fontData.height));
+	canvas = gdImageCreate(outputFile->columns * outputFile->bits,
+	    ((inputFile->size / 2) / outputFile->columns * fontData.height));
 
 	if (!canvas) {
 		perror("Error, can't allocate buffer image memory");
@@ -55,7 +55,7 @@ int ansilove_binary(struct input *inputFile, struct output *outputFile)
 
 	while (loop < inputFile->size)
 	{
-		if (column == inputFile->columns)
+		if (column == outputFile->columns)
 		{
 			column = 0;
 			row++;
