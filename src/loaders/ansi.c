@@ -60,7 +60,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 
 	// ANSi processing loops
 	size_t loop = 0;
-	uint32_t ansi_sequence_loop, seq_graphics_loop;
+	uint32_t ansi_sequence_loop;
 
 	// character definitions
 	int32_t current_character, next_character, character;
@@ -80,6 +80,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 	uint32_t seqValue, seqArrayCount, seq_line, seq_column;
 	char *seqGrab;
 	char **seqArray;
+	char *seqTok;
 
 	// ANSi buffer structure array definition
 	int32_t structIndex = 0;
@@ -264,14 +265,8 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 					// create substring from the sequence's content
 					seqGrab = strndup((char *)inputFile->buffer + loop + 2, ansi_sequence_loop);
 
-					// create sequence content array
-					seqArrayCount = explode(&seqArray, ';', seqGrab);
-					free(seqGrab);
-
-					// a loophole in limbo
-					for (seq_graphics_loop = 0; seq_graphics_loop < seqArrayCount; seq_graphics_loop++) {
-						// convert split content value to integer
-						seqValue = strtonum(seqArray[seq_graphics_loop], 0, INT32_MAX, &errstr);
+					while ((seqTok = strtok(seqGrab, ";")) != NULL) {
+						seqValue = strtonum(seqTok, 0, INT32_MAX, &errstr);
 
 						if (seqValue == 0) {
 							background = 0;
@@ -318,6 +313,8 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 							if (blink && outputFile->icecolors)
 								background += 8;
 						}
+
+						seqGrab = NULL;
 					}
 
 					loop += ansi_sequence_loop+2;
