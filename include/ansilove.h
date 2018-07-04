@@ -16,7 +16,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-struct input {
+struct ansilove_ctx {
 	unsigned char *buffer;
 	size_t length;
 };
@@ -33,12 +33,12 @@ struct output {
 	uint32_t retinaScaleFactor;
 };
 
-int ansilove_ansi(struct input *, struct output *);
-int ansilove_artworx(struct input *, struct output *);
-int ansilove_binary(struct input *, struct output *);
-int ansilove_icedraw(struct input *, struct output *);
-int ansilove_pcboard(struct input *, struct output *);
-int ansilove_tundra(struct input *, struct output *);
-int ansilove_xbin(struct input *, struct output *);
+int ansilove_ansi(struct ansilove_ctx *, struct output *);
+int ansilove_artworx(struct ansilove_ctx *, struct output *);
+int ansilove_binary(struct ansilove_ctx *, struct output *);
+int ansilove_icedraw(struct ansilove_ctx *, struct output *);
+int ansilove_pcboard(struct ansilove_ctx *, struct output *);
+int ansilove_tundra(struct ansilove_ctx *, struct output *);
+int ansilove_xbin(struct ansilove_ctx *, struct output *);
 
 #endif

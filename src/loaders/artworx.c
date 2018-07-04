@@ -11,13 +11,13 @@
 
 #include "../ansilove.h"
 
-int ansilove_artworx(struct input *inputFile, struct output *outputFile)
+int ansilove_artworx(struct ansilove_ctx *ctx, struct output *outputFile)
 {
 	// libgd image pointers
 	gdImagePtr canvas;
 
 	// create ADF instance
-	canvas = gdImageCreate(640, (((inputFile->length - 192 - 4096 -1) / 2) / 80) * 16);
+	canvas = gdImageCreate(640, (((ctx->length - 192 - 4096 -1) / 2) / 80) * 16);
 
 	// error output
 	if (!canvas) {
@@ -34,9 +34,9 @@ int ansilove_artworx(struct input *inputFile, struct output *outputFile)
 	// process ADF palette
 	for (loop = 0; loop < 16; loop++) {
 		index = (adf_colors[loop] * 3) + 1;
-		gdImageColorAllocate(canvas, (inputFile->buffer[index] << 2 | inputFile->buffer[index] >> 4),
-		    (inputFile->buffer[index + 1] << 2 | inputFile->buffer[index + 1] >> 4),
-		    (inputFile->buffer[index + 2] << 2 | inputFile->buffer[index + 2] >> 4));
+		gdImageColorAllocate(canvas, (ctx->buffer[index] << 2 | ctx->buffer[index] >> 4),
+		    (ctx->buffer[index + 1] << 2 | ctx->buffer[index + 1] >> 4),
+		    (ctx->buffer[index + 2] << 2 | ctx->buffer[index + 2] >> 4));
 	}
 
 	gdImageColorAllocate(canvas, 0, 0, 0);
@@ -46,19 +46,19 @@ int ansilove_artworx(struct input *inputFile, struct output *outputFile)
 	uint32_t character, attribute, foreground, background;
 	loop = 192 + 4096 + 1;
 
-	while (loop < inputFile->length) {
+	while (loop < ctx->length) {
 		if (column == 80) {
 			column = 0;
 			row++;
 		}
 
-		character = inputFile->buffer[loop];
-		attribute = inputFile->buffer[loop+1];
+		character = ctx->buffer[loop];
+		attribute = ctx->buffer[loop+1];
 
 		background = (attribute & 240) >> 4;
 		foreground = attribute & 15;
 
-		drawchar(canvas, inputFile->buffer+193, 8, 16, column, row, background, foreground, character);
+		drawchar(canvas, ctx->buffer+193, 8, 16, column, row, background, foreground, character);
 
 		column++;
 		loop += 2;

@@ -20,7 +20,7 @@ struct pcbChar {
 	int32_t current_character;
 };
 
-int ansilove_pcboard(struct input *inputFile, struct output *outputFile)
+int ansilove_pcboard(struct ansilove_ctx *ctx, struct output *outputFile)
 {
 	// some type declarations
 	struct fontStruct fontData;
@@ -47,9 +47,9 @@ int ansilove_pcboard(struct input *inputFile, struct output *outputFile)
 	loop = 0;
 	structIndex = 0;
 
-	while (loop < inputFile->length) {
-		current_character = inputFile->buffer[loop];
-		next_character = inputFile->buffer[loop+1];
+	while (loop < ctx->length) {
+		current_character = ctx->buffer[loop];
+		next_character = ctx->buffer[loop+1];
 
 		if (column == 80) {
 			row++;
@@ -80,12 +80,12 @@ int ansilove_pcboard(struct input *inputFile, struct output *outputFile)
 		// PCB sequence
 		if (current_character == 64 && next_character == 88) {
 			// set graphics rendition
-			background = inputFile->buffer[loop+2];
-			foreground = inputFile->buffer[loop+3];
+			background = ctx->buffer[loop+2];
+			foreground = ctx->buffer[loop+3];
 			loop += 3;
 		}
 		else if (current_character == 64 && next_character == 67 &&
-		    inputFile->buffer[loop+2] == 'L' && inputFile->buffer[loop+3] == 'S') {
+		    ctx->buffer[loop+2] == 'L' && ctx->buffer[loop+3] == 'S') {
 			// erase display
 			column = 0;
 			row = 0;
@@ -94,17 +94,17 @@ int ansilove_pcboard(struct input *inputFile, struct output *outputFile)
 			rowMax = 0;
 
 			loop += 4;
-		} else if (current_character == 64 && next_character == 80 && inputFile->buffer[loop+2] == 'O'
-		    && inputFile->buffer[loop+3] == 'S' && inputFile->buffer[loop+4] == ':') {
+		} else if (current_character == 64 && next_character == 80 && ctx->buffer[loop+2] == 'O'
+		    && ctx->buffer[loop+3] == 'S' && ctx->buffer[loop+4] == ':') {
 			// cursor position
-			if (inputFile->buffer[loop+6] == '@')
+			if (ctx->buffer[loop+6] == '@')
 			{
-				column = ((inputFile->buffer[loop+5])-48)-1;
+				column = ((ctx->buffer[loop+5])-48)-1;
 				loop += 5;
 			}
 			else
 			{
-				column = (10 * ((inputFile->buffer[loop+5])-48) + (inputFile->buffer[loop+6])-48)-1;
+				column = (10 * ((ctx->buffer[loop+5])-48) + (ctx->buffer[loop+6])-48)-1;
 				loop += 6;
 			}
 		} else if (current_character != 10 && current_character != 13 && current_character != 9) {

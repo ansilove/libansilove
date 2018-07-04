@@ -18,7 +18,7 @@
 #define TUNDRA_COLOR_FOREGROUND 4
 #define TUNDRA_COLOR_BOTH 6
 
-int ansilove_tundra(struct input *inputFile, struct output *outputFile)
+int ansilove_tundra(struct ansilove_ctx *ctx, struct output *outputFile)
 {
 	// some type declarations
 	struct fontStruct fontData;
@@ -31,7 +31,7 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 	gdImagePtr canvas;
 
 	// extract tundra header
-	tundra_version = inputFile->buffer[0];
+	tundra_version = ctx->buffer[0];
 
 	// need to add check for "TUNDRA24" string in the header
 	if (tundra_version != TUNDRA_VERSION) {
@@ -43,23 +43,23 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 	uint32_t cursor, character, background = 0, foreground = 0;
 	uint32_t loop = 9, column = 0, row = 1;
 
-	while (loop < inputFile->length) {
+	while (loop < ctx->length) {
 		if (column == 80) {
 			column = 0;
 			row++;
 		}
 
-		cursor = inputFile->buffer[loop];
+		cursor = ctx->buffer[loop];
 
 		switch(cursor) {
 		case TUNDRA_POSITION:
 			row =
-			    (inputFile->buffer[loop + 1] << 24) + (inputFile->buffer[loop + 2] << 16) +
-			    (inputFile->buffer[loop + 3] << 8) + inputFile->buffer[loop+4];
+			    (ctx->buffer[loop + 1] << 24) + (ctx->buffer[loop + 2] << 16) +
+			    (ctx->buffer[loop + 3] << 8) + ctx->buffer[loop+4];
 
 			column =
-			    (inputFile->buffer[loop + 5] << 24) + (inputFile->buffer[loop + 6] << 16) +
-			    (inputFile->buffer[loop + 7] << 8) + inputFile->buffer[loop+8];
+			    (ctx->buffer[loop + 5] << 24) + (ctx->buffer[loop + 6] << 16) +
+			    (ctx->buffer[loop + 7] << 8) + ctx->buffer[loop+8];
 
 			loop += 8;
 			break;
@@ -97,56 +97,56 @@ int ansilove_tundra(struct input *inputFile, struct output *outputFile)
 
 	loop = 9;
 
-	while (loop < inputFile->length) {
+	while (loop < ctx->length) {
 		if (column == 80) {
 			column = 0;
 			row++;
 		}
 
-		cursor = character = inputFile->buffer[loop];
+		cursor = character = ctx->buffer[loop];
 
 		switch(cursor) {
 		case TUNDRA_POSITION:
 			row =
-			    (inputFile->buffer[loop + 1] << 24) + (inputFile->buffer[loop + 2] << 16) +
-			    (inputFile->buffer[loop + 3] << 8) + inputFile->buffer[loop + 4];
+			    (ctx->buffer[loop + 1] << 24) + (ctx->buffer[loop + 2] << 16) +
+			    (ctx->buffer[loop + 3] << 8) + ctx->buffer[loop + 4];
 
 			column =
-			    (inputFile->buffer[loop + 5] << 24) + (inputFile->buffer[loop + 6] << 16) +
-			    (inputFile->buffer[loop + 7] << 8) + inputFile->buffer[loop + 8];
+			    (ctx->buffer[loop + 5] << 24) + (ctx->buffer[loop + 6] << 16) +
+			    (ctx->buffer[loop + 7] << 8) + ctx->buffer[loop + 8];
 
 			loop += 8;
 			break;
 
 		case TUNDRA_COLOR_BACKGROUND:
 			foreground =
-			    (inputFile->buffer[loop + 3] << 16) + (inputFile->buffer[loop + 4] << 8) +
-			    inputFile->buffer[loop + 5];
+			    (ctx->buffer[loop + 3] << 16) + (ctx->buffer[loop + 4] << 8) +
+			    ctx->buffer[loop + 5];
 
-			character = inputFile->buffer[loop+1];
+			character = ctx->buffer[loop+1];
 
 			loop += 5;
 			break;
 
 		case TUNDRA_COLOR_FOREGROUND:
-			background = (inputFile->buffer[loop + 3] << 16) + (inputFile->buffer[loop + 4] << 8) +
-			    inputFile->buffer[loop+5];
+			background = (ctx->buffer[loop + 3] << 16) + (ctx->buffer[loop + 4] << 8) +
+			    ctx->buffer[loop+5];
 
-			character = inputFile->buffer[loop+1];
+			character = ctx->buffer[loop+1];
 
 			loop += 5;
 			break;
 
 		case TUNDRA_COLOR_BOTH:
 			foreground =
-			    (inputFile->buffer[loop + 3] << 16) + (inputFile->buffer[loop + 4] << 8) +
-			    inputFile->buffer[loop+5];
+			    (ctx->buffer[loop + 3] << 16) + (ctx->buffer[loop + 4] << 8) +
+			    ctx->buffer[loop+5];
 
 			background =
-			    (inputFile->buffer[loop + 7] << 16) + (inputFile->buffer[loop + 8] << 8) +
-			    inputFile->buffer[loop+9];
+			    (ctx->buffer[loop + 7] << 16) + (ctx->buffer[loop + 8] << 8) +
+			    ctx->buffer[loop+9];
 
-			character = inputFile->buffer[loop+1];
+			character = ctx->buffer[loop+1];
 
 			loop += 9;
 			break;
