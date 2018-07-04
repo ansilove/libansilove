@@ -7,5 +7,21 @@ compiler:
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y libgd2-noxpm-dev
+  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 script: cmake . && make
+
+env:
+  global:
+   - secure: "CtB+zR52ElBhSx1gRdGVrS1MLxaCb7uejUPV0gHTOxZ7rtkNfEgC7B1IsErMoi+hHDukoimmARQ7cQ1BY1hknGZoERoYP+UVfRbDcPz1EeBAlGMpO0XuQPOARMA2WQMnlICAr/n0HNnl3M1RhpWHTOnpsEeqolR/CM69X+zKTL+CLXkgfaAj70+KoJpoTZ0XN3U15Jj/YwCJdw3aH8R9+g9yiqcY1oJcGWSawyIAwyFKggr51VfO1WQJnGXxIop0fN+sZftRdIcXQCtrEtKcEYXAS1zeahA3xF1khC7WIAbiAzu8teyeK3PUROXHTH5JajSaFQ2sW27s0K2xUQK30+3UQyvyBJQL9PSDzlJ2xuDa15hi4H1SnRFLh6dGJYkU9twZkAREPNwab+9lVN4ztew7rIy0iUZwFEkL/14S2QdmTUjssmanaHPeitv9ub6yxTtGcAzLpyGV0/dVSGmSX1Q+3xowy32HqSm0SXIqEga6HmjneclT/71How11sF05/k5Ojx45sOQitAo85860gxixVbRyeznR84cOPYdgstde2TWU3iaJ3PjRtgaG0mjQPXk59ypNyh5jKLHzcw8NWd2kiIj+K2i9kkuLcVz8z3snBQQaML0N5kvBpQUEMmfm17c/7Kdl+TbYAUG8H3YKPqs9qMTUmuc/vgZFnxIESJE="
+
+addons:
+  coverity_scan:
+    project:
+      name: "ansilove/libansilove"
+      version: 0.0.0
+      description: "Library for converting ANSI, ASCII, and other formats to PNG"
+    notification_email: fred@statdns.com
+    build_command_prepend: cmake .
+    build_command: make -j 4
+    branch_pattern: master
