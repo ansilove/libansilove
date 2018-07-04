@@ -16,6 +16,11 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#define INVALID_PARAM 1
+#define FORMAT_ERROR 2
+#define MEMORY_ERROR 3
+#define GD_ERROR 4
+
 struct ansilove_ctx {
 	unsigned char *buffer;
 	size_t length;
