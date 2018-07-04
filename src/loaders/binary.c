@@ -15,7 +15,7 @@ int ansilove_binary(struct ansilove_ctx *ctx, struct output *outputFile)
 {
 	// binary files must have an even size
 	if (ctx->length % 2) {
-		fprintf(stderr, "\nBinary file is not valid.\n");
+		ctx->error = FORMAT_ERROR;
 		return -1;
 	}
 
@@ -33,7 +33,7 @@ int ansilove_binary(struct ansilove_ctx *ctx, struct output *outputFile)
 	    ((ctx->length / 2) / outputFile->columns * fontData.height));
 
 	if (!canvas) {
-		perror("Error, can't allocate buffer image memory");
+		ctx->error = GD_ERROR;
 		return -1;
 	}
 

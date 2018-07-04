@@ -48,7 +48,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct output *outputFile)
 				if (idf_buffer != NULL) {
 					idf_buffer = temp;
 				} else {
-					perror("Error allocating IDF buffer memory");
+					ctx->error = MEMORY_ERROR;
 					return -1;
 				}
 
@@ -63,7 +63,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct output *outputFile)
 			if (idf_buffer != NULL) {
 				idf_buffer = temp;
 			} else {
-				perror("Error allocating IDF buffer memory");
+				ctx->error = MEMORY_ERROR;
 				return -1;
 			}
 
@@ -80,7 +80,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct output *outputFile)
 
 	// error output
 	if (!canvas) {
-		perror("Can't allocate buffer image memory");
+		ctx->error = GD_ERROR;
 		return -1;
 	}
 	gdImageColorAllocate(canvas, 0, 0, 0);

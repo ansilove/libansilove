@@ -21,7 +21,7 @@ int ansilove_artworx(struct ansilove_ctx *ctx, struct output *outputFile)
 
 	// error output
 	if (!canvas) {
-		perror("Can't allocate buffer image memory");
+		ctx->error = GD_ERROR;
 		return -1;
 	}
 

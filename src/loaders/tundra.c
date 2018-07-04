@@ -35,7 +35,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct output *outputFile)
 
 	// need to add check for "TUNDRA24" string in the header
 	if (tundra_version != TUNDRA_VERSION) {
-		fputs("\nInput file is not a TUNDRA file.\n\n", stderr);
+		ctx->error = FORMAT_ERROR;
 		return -1;
 	}
 
@@ -87,7 +87,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct output *outputFile)
 	canvas = gdImageCreateTrueColor(80 * outputFile->bits, (row) * fontData.height);
 
 	if (!canvas) {
-		perror("Error, can't allocate buffer image memory");
+		ctx->error = GD_ERROR;
 		return -1;
 	}
 

@@ -386,7 +386,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct output *outputFile)
 	canvas = gdImageCreate(columns * outputFile->bits, (rowMax)*fontData.height);
 
 	if (!canvas) {
-		perror("Can't allocate ANSi buffer image memory");
+		ctx->error = GD_ERROR;
 		return -1;
 	}
 

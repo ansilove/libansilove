@@ -17,7 +17,7 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct output *outputFile)
 	unsigned char *font_data_xbin = NULL;
 
 	if (strncmp((char *)ctx->buffer, "XBIN\x1a", 5) != 0) {
-		fputs("\nNot an XBin.\n\n", stderr);
+		ctx->error = FORMAT_ERROR;
 		return -1;
 	}
 
@@ -31,7 +31,7 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct output *outputFile)
 	canvas = gdImageCreate(8 * xbin_width, xbin_fontsize * xbin_height);
 
 	if (!canvas) {
-		perror("Error, can't allocate buffer image memory");
+		ctx->error = GD_ERROR;
 		return -1;
 	}
 
@@ -70,7 +70,7 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct output *outputFile)
 		// allocate memory to contain the XBin font
 		font_data_xbin = (unsigned char *)malloc(xbin_fontsize * numchars);
 		if (font_data_xbin == NULL) {
-			perror("Memory error");
+			ctx->error = MEMORY_ERROR;
 			return -1;
 		}
 		memcpy(font_data_xbin, ctx->buffer+offset, (xbin_fontsize * numchars));
