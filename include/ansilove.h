@@ -19,6 +19,7 @@
 struct ansilove_ctx {
 	unsigned char *buffer;
 	size_t length;
+	int error;
 };
 
 struct output {
