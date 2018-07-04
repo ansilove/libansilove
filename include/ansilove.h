@@ -19,7 +19,6 @@
 struct input {
 	unsigned char *buffer;
 	size_t length;
-	char *fext;
 };
 
 struct output {
@@ -29,6 +28,7 @@ struct output {
 	uint32_t bits;
 	uint32_t columns;
 	char *mode;
+	bool diz;
 	bool icecolors;
 	uint32_t retinaScaleFactor;
 };

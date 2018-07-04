@@ -32,7 +32,6 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 
 	int32_t columns = 80;
 
-	bool isDizFile = false;
 	bool ced = false;
 	bool transparent = false;
 	bool workbench = false;
@@ -50,10 +49,6 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 	} else if (!strcmp(outputFile->mode, "workbench")) {
 		workbench = true;
 	}
-
-	// check if current file has a .diz extension
-	if (!strcmp(inputFile->fext, ".diz"))
-		isDizFile = true;
 
 	// libgd image pointers
 	gdImagePtr canvas;
@@ -384,7 +379,7 @@ int ansilove_ansi(struct input *inputFile, struct output *outputFile)
 	if (ced)
 		columns = 78;
 
-	if (isDizFile)
+	if (outputFile->diz)
 		columns = fmin(columnMax, 80);
 
 	// create that damn thingy
