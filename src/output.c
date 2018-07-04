@@ -11,7 +11,7 @@
 
 #include "output.h"
 
-void output(gdImagePtr im_Source, char *output, char *retinaout, int retinaScaleFactor) {
+int output(gdImagePtr im_Source, char *output, char *retinaout, int retinaScaleFactor) {
 	FILE *file_Out = fopen(output, "wb");
 
 	if (file_Out) {
