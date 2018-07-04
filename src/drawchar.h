@@ -17,8 +17,8 @@
 #define drawchar_h
 
 // prototypes
-void drawchar(gdImagePtr im, const unsigned char *font_data, int32_t bits,
-    int32_t height, int32_t column, int32_t row,
-    int32_t background, int32_t foreground, unsigned char character);
+void drawchar(gdImagePtr im, const unsigned char *font_data, uint32_t bits,
+    uint32_t height, uint32_t column, uint32_t row,
+    uint32_t background, uint32_t foreground, unsigned char character);
 
 #endif
