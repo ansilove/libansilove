@@ -10,7 +10,6 @@
 //
 
 #include <gd.h>
-#include <stdbool.h>
 #include <stdint.h>
 
 #ifndef drawchar_h
