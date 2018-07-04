@@ -11,7 +11,7 @@
 
 #include "../ansilove.h"
 
-int ansilove_binary(struct ansilove_ctx *ctx, struct output *outputFile)
+int ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
 	// binary files must have an even size
 	if (ctx->length % 2) {
@@ -23,14 +23,14 @@ int ansilove_binary(struct ansilove_ctx *ctx, struct output *outputFile)
 	struct fontStruct fontData;
 
 	// font selection
-	alSelectFont(&fontData, outputFile->font);
+	alSelectFont(&fontData, options->font);
 
 	// libgd image pointers
 	gdImagePtr canvas;
 
 	// allocate buffer image memory
-	canvas = gdImageCreate(outputFile->columns * outputFile->bits,
-	    ((ctx->length / 2) / outputFile->columns * fontData.height));
+	canvas = gdImageCreate(options->columns * options->bits,
+	    ((ctx->length / 2) / options->columns * fontData.height));
 
 	if (!canvas) {
 		ctx->error = GD_ERROR;
@@ -54,7 +54,7 @@ int ansilove_binary(struct ansilove_ctx *ctx, struct output *outputFile)
 	uint32_t loop = 0, column = 0, row = 0;
 
 	while (loop < ctx->length) {
-		if (column == outputFile->columns) {
+		if (column == options->columns) {
 			column = 0;
 			row++;
 		}
@@ -65,10 +65,10 @@ int ansilove_binary(struct ansilove_ctx *ctx, struct output *outputFile)
 		background = (attribute & 240) >> 4;
 		foreground = (attribute & 15);
 
-		if (background > 8 && !outputFile->icecolors)
+		if (background > 8 && !options->icecolors)
 			background -= 8;
 
-		drawchar(canvas, fontData.font_data, outputFile->bits, fontData.height,
+		drawchar(canvas, fontData.font_data, options->bits, fontData.height,
 		    column, row, colors[background], colors[foreground], character);
 
 		column++;
@@ -76,7 +76,7 @@ int ansilove_binary(struct ansilove_ctx *ctx, struct output *outputFile)
 	}
 
 	// create output image
-	output(canvas, outputFile->fileName, outputFile->retina, outputFile->retinaScaleFactor);
+	output(canvas, options->fileName, options->retina, options->retinaScaleFactor);
 
 	return 0;
 }

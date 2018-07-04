@@ -27,7 +27,7 @@ struct ansilove_ctx {
 	int error;
 };
 
-struct output {
+struct ansilove_options {
 	char *fileName;
 	char *retina;
 	char *font;
@@ -39,12 +39,12 @@ struct output {
 	uint32_t retinaScaleFactor;
 };
 
-int ansilove_ansi(struct ansilove_ctx *, struct output *);
-int ansilove_artworx(struct ansilove_ctx *, struct output *);
-int ansilove_binary(struct ansilove_ctx *, struct output *);
-int ansilove_icedraw(struct ansilove_ctx *, struct output *);
-int ansilove_pcboard(struct ansilove_ctx *, struct output *);
-int ansilove_tundra(struct ansilove_ctx *, struct output *);
-int ansilove_xbin(struct ansilove_ctx *, struct output *);
+int ansilove_ansi(struct ansilove_ctx *, struct ansilove_options *);
+int ansilove_artworx(struct ansilove_ctx *, struct ansilove_options *);
+int ansilove_binary(struct ansilove_ctx *, struct ansilove_options *);
+int ansilove_icedraw(struct ansilove_ctx *, struct ansilove_options *);
+int ansilove_pcboard(struct ansilove_ctx *, struct ansilove_options *);
+int ansilove_tundra(struct ansilove_ctx *, struct ansilove_options *);
+int ansilove_xbin(struct ansilove_ctx *, struct ansilove_options *);
 
 #endif

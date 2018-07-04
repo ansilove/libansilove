@@ -25,7 +25,7 @@ struct ansiChar {
 	bool underline;
 };
 
-int ansilove_ansi(struct ansilove_ctx *ctx, struct output *outputFile)
+int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
 	// ladies and gentlemen, it's type declaration time
 	struct fontStruct fontData;
@@ -39,14 +39,14 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct output *outputFile)
 	const char *errstr;
 
 	// font selection
-	alSelectFont(&fontData, outputFile->font);
+	alSelectFont(&fontData, options->font);
 
 	// to deal with the bits flag, we declared handy bool types
-	if (!strcmp(outputFile->mode, "ced")) {
+	if (!strcmp(options->mode, "ced")) {
 		ced = true;
-	} else if (!strcmp(outputFile->mode, "transparent")) {
+	} else if (!strcmp(options->mode, "transparent")) {
 		transparent = true;
-	} else if (!strcmp(outputFile->mode, "workbench")) {
+	} else if (!strcmp(options->mode, "workbench")) {
 		workbench = true;
 	}
 
@@ -305,7 +305,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct output *outputFile)
 						{
 							background = seqValue - 40;
 
-							if (blink && outputFile->icecolors)
+							if (blink && options->icecolors)
 								background += 8;
 						}
 
@@ -379,11 +379,11 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct output *outputFile)
 	if (ced)
 		columns = 78;
 
-	if (outputFile->diz)
+	if (options->diz)
 		columns = fmin(columnMax, 80);
 
 	// create that damn thingy
-	canvas = gdImageCreate(columns * outputFile->bits, (rowMax)*fontData.height);
+	canvas = gdImageCreate(columns * options->bits, (rowMax)*fontData.height);
 
 	if (!canvas) {
 		ctx->error = GD_ERROR;
@@ -432,10 +432,10 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct output *outputFile)
 		row = ansi_buffer[loop].row;
 
 		if (ced) {
-			drawchar(canvas, fontData.font_data, outputFile->bits, fontData.height,
+			drawchar(canvas, fontData.font_data, options->bits, fontData.height,
 			    column, row, ced_background, ced_foreground, character);
 		} else {
-			drawchar(canvas, fontData.font_data, outputFile->bits, fontData.height,
+			drawchar(canvas, fontData.font_data, options->bits, fontData.height,
 			    column, row, colors[background], colors[foreground], character);
 		}
 
@@ -446,7 +446,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct output *outputFile)
 		gdImageColorTransparent(canvas, 0);
 
 	// create output image
-	output(canvas, outputFile->fileName, outputFile->retina, outputFile->retinaScaleFactor);
+	output(canvas, options->fileName, options->retina, options->retinaScaleFactor);
 
 	// free memory
 	free(ansi_buffer);

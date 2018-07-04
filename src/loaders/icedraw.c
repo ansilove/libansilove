@@ -11,7 +11,7 @@
 
 #include "../ansilove.h"
 
-int ansilove_icedraw(struct ansilove_ctx *ctx, struct output *outputFile)
+int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
 	// extract relevant part of the IDF header, 16-bit endian unsigned short
 	int32_t x2 = (ctx->buffer[9] << 8) + ctx->buffer[8];
@@ -115,7 +115,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct output *outputFile)
 	}
 
 	// create output file
-	output(canvas, outputFile->fileName, outputFile->retina, outputFile->retinaScaleFactor);
+	output(canvas, options->fileName, options->retina, options->retinaScaleFactor);
 
 	// free memory
 	free(idf_buffer);

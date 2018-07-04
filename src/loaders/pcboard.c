@@ -20,14 +20,14 @@ struct pcbChar {
 	int32_t current_character;
 };
 
-int ansilove_pcboard(struct ansilove_ctx *ctx, struct output *outputFile)
+int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
 	// some type declarations
 	struct fontStruct fontData;
 	uint32_t loop, structIndex;
 
 	// font selection
-	alSelectFont(&fontData, outputFile->font);
+	alSelectFont(&fontData, options->font);
 
 	// libgd image pointers
 	gdImagePtr canvas;
@@ -135,7 +135,7 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct output *outputFile)
 	rowMax++;
 
 	// allocate buffer image memory
-	canvas = gdImageCreate(80 * outputFile->bits, (rowMax)*fontData.height);
+	canvas = gdImageCreate(80 * options->bits, (rowMax)*fontData.height);
 
 	// allocate black color and create background canvas
 	gdImageColorAllocate(canvas, 0, 0, 0);
@@ -162,12 +162,12 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct output *outputFile)
 		foreground = pcboard_buffer[loop].foreground;
 		character = pcboard_buffer[loop].current_character;
 
-		drawchar(canvas, fontData.font_data, outputFile->bits, fontData.height,
+		drawchar(canvas, fontData.font_data, options->bits, fontData.height,
 		    column, row, colors[background], colors[foreground], character);
 	}
 
 	// create output image
-	output(canvas, outputFile->fileName, outputFile->retina, outputFile->retinaScaleFactor);
+	output(canvas, options->fileName, options->retina, options->retinaScaleFactor);
 
 	// free memory
 	free(pcboard_buffer);

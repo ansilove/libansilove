@@ -18,14 +18,14 @@
 #define TUNDRA_COLOR_FOREGROUND 4
 #define TUNDRA_COLOR_BOTH 6
 
-int ansilove_tundra(struct ansilove_ctx *ctx, struct output *outputFile)
+int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
 	// some type declarations
 	struct fontStruct fontData;
 	char tundra_version;
 
 	// font selection
-	alSelectFont(&fontData, outputFile->font);
+	alSelectFont(&fontData, options->font);
 
 	// libgd image pointers
 	gdImagePtr canvas;
@@ -84,7 +84,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct output *outputFile)
 	}
 
 	// allocate buffer image memory
-	canvas = gdImageCreateTrueColor(80 * outputFile->bits, (row) * fontData.height);
+	canvas = gdImageCreateTrueColor(80 * options->bits, (row) * fontData.height);
 
 	if (!canvas) {
 		ctx->error = GD_ERROR;
@@ -153,7 +153,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct output *outputFile)
 		}
 
 		if (character != 1 && character != 2 && character != 4 && character != 6) {
-			drawchar(canvas, fontData.font_data, outputFile->bits, fontData.height,
+			drawchar(canvas, fontData.font_data, options->bits, fontData.height,
 			    column, row, background, foreground, character);
 
 			column++;
@@ -163,7 +163,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct output *outputFile)
 	}
 
 	// create output image
-	output(canvas, outputFile->fileName, outputFile->retina, outputFile->retinaScaleFactor);
+	output(canvas, options->fileName, options->retina, options->retinaScaleFactor);
 
 	return 0;
 }
