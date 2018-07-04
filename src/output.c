@@ -18,8 +18,7 @@ int output(gdImagePtr im_Source, char *output, char *retinaout, int retinaScaleF
 		gdImagePng(im_Source, file_Out);
 		fclose(file_Out);
 	} else {
-		perror("Can't create output file");
-		exit(1);
+		return -1;
 	}
 
 	// in case Retina image output is wanted
@@ -41,12 +40,13 @@ int output(gdImagePtr im_Source, char *output, char *retinaout, int retinaScaleF
 			gdImagePng(im_Retina, file_RetinaOut);
 			fclose(file_RetinaOut);
 		} else {
-			perror("Can't create output file");
-			exit(1);
+			return -1;
 		}
 
 		gdImageDestroy(im_Retina);
 	}
 
 	gdImageDestroy(im_Source);
+
+	return 0;
 }
