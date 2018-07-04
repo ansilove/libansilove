@@ -13,13 +13,13 @@ script: cmake . && make
 
 env:
   global:
-   - secure: "CtB+zR52ElBhSx1gRdGVrS1MLxaCb7uejUPV0gHTOxZ7rtkNfEgC7B1IsErMoi+hHDukoimmARQ7cQ1BY1hknGZoERoYP+UVfRbDcPz1EeBAlGMpO0XuQPOARMA2WQMnlICAr/n0HNnl3M1RhpWHTOnpsEeqolR/CM69X+zKTL+CLXkgfaAj70+KoJpoTZ0XN3U15Jj/YwCJdw3aH8R9+g9yiqcY1oJcGWSawyIAwyFKggr51VfO1WQJnGXxIop0fN+sZftRdIcXQCtrEtKcEYXAS1zeahA3xF1khC7WIAbiAzu8teyeK3PUROXHTH5JajSaFQ2sW27s0K2xUQK30+3UQyvyBJQL9PSDzlJ2xuDa15hi4H1SnRFLh6dGJYkU9twZkAREPNwab+9lVN4ztew7rIy0iUZwFEkL/14S2QdmTUjssmanaHPeitv9ub6yxTtGcAzLpyGV0/dVSGmSX1Q+3xowy32HqSm0SXIqEga6HmjneclT/71How11sF05/k5Ojx45sOQitAo85860gxixVbRyeznR84cOPYdgstde2TWU3iaJ3PjRtgaG0mjQPXk59ypNyh5jKLHzcw8NWd2kiIj+K2i9kkuLcVz8z3snBQQaML0N5kvBpQUEMmfm17c/7Kdl+TbYAUG8H3YKPqs9qMTUmuc/vgZFnxIESJE="
+   - secure: "R9aHNfhILNv1A54trJrqo4etKaLfbehnef2goRptVSraa+b8AVwdrwup47+bKLv3cVw4lTaXEwfpv5k6Lu93OdXGzWYtakGHhsqfFUXIZMxEtLventygQmXvDz7AS3c31XLD1b6e72mA+nq7l06uV0jqAu25no/X3O9etqPXmKotYrPBbqjT5jlPIUzu/51dw3ZQAtBpT5vnlakEoukgAw+kPWe7dyrjovo2u6Al2hJarI69h5WbZrz+CphjvE0rL/lplrCt7zZ8D+rHanWqVtiBpUMNfbV5r+p2A+/cw/8i9NhPotx7mmwMcKkp58xMIuh0mR4OieONZJuAYWcNPgV3QbJIruJ7AVksavnQERkVsi5Xb08+7175ntoc7bot825DE9ZIpyP5ECOtzJ8GvZ66Qkm5VHsSbwsWNxMyOqoxhYpwA47vDDOfFRAW36rGhDvF0KtWbslnJwTWFuRQMaZPa/RH4P/UcFZvvyHg1oyRYBenNSNlVU+0VLIf7AA4UXPC5oQ9L7MqXRJQBDpzbXfayrSLlHC/FpYaem2hNz3pF7BeIZm46mIQ77yxGqkegfxF2VCAHB2dJLR+tU2gCQ/GbesxpsE2ouTPlRp/LDLGWln372p+QQ/NoNVpDyVV3lksZLGNBlSQOyrTAso1AMQjWEZ3r+uYBTqPrb95oMU="
 
 addons:
   coverity_scan:
     project:
       name: "ansilove/libansilove"
-      version: 0.0.0
+      version: 1.0.0
       description: "Library for converting ANSI, ASCII, and other formats to PNG"
     notification_email: fred@statdns.com
     build_command_prepend: cmake .
