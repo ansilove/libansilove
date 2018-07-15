@@ -1,4 +1,3 @@
-- Use standard C functions to parse ANSI sequences and get rid of explode
 - Increment ansi_buffer by more than one element at a time when using realloc
   in order to avoid wasting memory. Switch to OpenBSD reallocarray?
 - Use include-what-you-use to remove unnecessary headers

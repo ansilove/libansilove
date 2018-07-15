@@ -12,7 +12,6 @@
 #include "../include/ansilove.h"
 #include "config.h"
 #include "drawchar.h"
-#include "explode.h"
 #include "fonts.h"
 #include "output.h"
 #include <gd.h>
