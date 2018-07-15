@@ -137,6 +137,11 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	// allocate buffer image memory
 	canvas = gdImageCreate(80 * options->bits, (rowMax)*fontData.height);
 
+	if (!canvas) {
+		ctx->error = GD_ERROR;
+		return -1;
+	}
+
 	// allocate black color and create background canvas
 	gdImageColorAllocate(canvas, 0, 0, 0);
 	gdImageFill(canvas, 0, 0, 0);
