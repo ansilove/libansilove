@@ -72,9 +72,8 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	int32_t saved_row = 0, saved_column = 0;
 
 	// sequence parsing variables
-	uint32_t seqValue, seqArrayCount, seq_line, seq_column;
+	uint32_t seqValue, seq_line, seq_column;
 	char *seqGrab;
-	char **seqArray;
 	char *seqTok;
 
 	// ANSi buffer structure array definition
@@ -122,26 +121,36 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 				// cursor position
 				if (ansi_sequence_character == 'H' || ansi_sequence_character == 'f') {
+					printf("---\n");
 					// create substring from the sequence's content
+					seq_line = 1;
+					seq_column = 1;
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
+					printf("seqGrab: %s\n", seqGrab);
 
-					// create sequence content array
-					seqArrayCount = explode(&seqArray, ';', seqGrab);
-					free(seqGrab);
+					if (!strncmp(seqGrab, ";", 1)) {
+						seq_line = 1;
+						seqTok = strtok(seqGrab, ";");
 
-					if (seqArrayCount > 1) {
-						// convert grabbed sequence content to integers
-						seq_line = strtonum(seqArray[0], 0, INT32_MAX, &errstr);
-						seq_column = strtonum(seqArray[1], 0, INT32_MAX, &errstr);
-
-						// finally set the positions
-						row = seq_line-1;
-						column = seq_column-1;
+						if (seqTok)
+							seq_column = strtonum(seqTok, 0, INT32_MAX, &errstr);
 					} else {
-						// no coordinates specified? we move to the home position
-						row = 0;
-						column = 0;
+						seqTok = strtok(seqGrab, ";");
+						if (seqTok)
+							seq_line = strtonum(seqTok, 0, INT32_MAX, &errstr);
+
+						seqTok = strtok(NULL, ";");
+						if (seqTok)
+							seq_column = strtonum(seqTok, 0, INT32_MAX, &errstr);
 					}
+
+					// set the positions
+					row = seq_line-1;
+					column = seq_column-1;
+					printf("Sequence H: %i,%i\n", row, column);
+
+					seqGrab = NULL;
+
 					loop += ansi_sequence_loop+2;
 					break;
 				}
