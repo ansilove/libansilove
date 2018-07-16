@@ -39,6 +39,7 @@ struct ansilove_options {
 	uint32_t retinaScaleFactor;
 };
 
+void ansilove_init(struct ansilove_ctx *, struct ansilove_options *);
 int ansilove_ansi(struct ansilove_ctx *, struct ansilove_options *);
 int ansilove_artworx(struct ansilove_ctx *, struct ansilove_options *);
 int ansilove_binary(struct ansilove_ctx *, struct ansilove_options *);
