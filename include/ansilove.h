@@ -40,6 +40,8 @@ struct ansilove_options {
 };
 
 void ansilove_init(struct ansilove_ctx *, struct ansilove_options *);
+int ansilove_loadfile(struct ansilove_ctx *, char *);
+
 int ansilove_ansi(struct ansilove_ctx *, struct ansilove_options *);
 int ansilove_artworx(struct ansilove_ctx *, struct ansilove_options *);
 int ansilove_binary(struct ansilove_ctx *, struct ansilove_options *);
