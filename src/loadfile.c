@@ -23,12 +23,14 @@ ansilove_loadfile(struct ansilove_ctx *ctx, char *input) {
 		// load input file
 		if ((fd = open(input, O_RDONLY)) == -1) {
 			// perror("File error");
+			close(fd);
 			return -1;
 		}
 
 		// get the file size (bytes)
 		if (fstat(fd, &st) == -1) {
 			// perror("Can't stat file");
+			close(fd);
 			return -1;
 		}
 
@@ -38,6 +40,7 @@ ansilove_loadfile(struct ansilove_ctx *ctx, char *input) {
 		ctx->buffer = mmap(NULL, ctx->length, PROT_READ, MAP_PRIVATE, fd, 0);
 		if (ctx->buffer == MAP_FAILED) {
 			// perror("Memory error");
+			close(fd);
 			return -1;
 		}
 
