@@ -13,6 +13,9 @@
 
 void
 ansilove_init(struct ansilove_ctx *ctx, struct ansilove_options *options) {
+	memset(ctx, 0, sizeof(*ctx));
+	memset(options, 0, sizeof(*options));
+
 	// default to 8 if bits option is not specified
 	options->bits = 8;
 
