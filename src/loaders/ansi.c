@@ -133,15 +133,15 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 						seqTok = strtok(seqGrab, ";");
 
 						if (seqTok)
-							seq_column = strtonum(seqTok, 0, INT32_MAX, &errstr);
+							seq_column = strtonum(seqTok, 0, UINT32_MAX, &errstr);
 					} else {
 						seqTok = strtok(seqGrab, ";");
 						if (seqTok)
-							seq_line = strtonum(seqTok, 0, INT32_MAX, &errstr);
+							seq_line = strtonum(seqTok, 0, UINT32_MAX, &errstr);
 
 						seqTok = strtok(NULL, ";");
 						if (seqTok)
-							seq_column = strtonum(seqTok, 0, INT32_MAX, &errstr);
+							seq_column = strtonum(seqTok, 0, UINT32_MAX, &errstr);
 					}
 
 					// set the positions
@@ -161,7 +161,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
 					// now get escape sequence's position value
-					int32_t seq_line = strtonum(seqGrab, 0, INT32_MAX, &errstr);
+					int32_t seq_line = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
 					row -= seq_line ? seq_line : 1;
@@ -176,7 +176,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
 					// now get escape sequence's position value
-					int32_t seq_line = strtonum(seqGrab, 0, INT32_MAX, &errstr);
+					int32_t seq_line = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
 					row += seq_line ? seq_line : 1;
@@ -191,7 +191,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
 					// now get escape sequence's position value
-					int32_t seq_column = strtonum(seqGrab, 0, INT32_MAX, &errstr);
+					int32_t seq_column = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
 					column += seq_column ? seq_column : 1;
@@ -209,7 +209,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
 					// now get escape sequence's content length
-					int32_t seq_column = strtonum(seqGrab, 0, INT32_MAX, &errstr);
+					int32_t seq_column = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
 					column -= seq_column ? seq_column : 1;
@@ -245,7 +245,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
 					// convert grab to an integer
-					int32_t eraseDisplayInt = strtonum(seqGrab, 0, INT32_MAX, &errstr);
+					int32_t eraseDisplayInt = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
 					if (eraseDisplayInt == 2) {
@@ -270,7 +270,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
 					while ((seqTok = strtok(seqGrab, ";")) != NULL) {
-						seqValue = strtonum(seqTok, 0, INT32_MAX, &errstr);
+						seqValue = strtonum(seqTok, 0, UINT32_MAX, &errstr);
 
 						if (seqValue == 0) {
 							background = 0;
