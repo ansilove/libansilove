@@ -27,6 +27,11 @@ struct ansilove_ctx {
 	int error;
 };
 
+struct ansilove_png {
+	unsigned char *buffer;
+	size_t length;
+};
+
 struct ansilove_options {
 	char *fileName;
 	char *retina;
