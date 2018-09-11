@@ -163,7 +163,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	// create output image
-	output(canvas, options->fileName, options->retina, options->retinaScaleFactor);
+	output(ctx, canvas, options->retinaScaleFactor);
 
 	return 0;
 }

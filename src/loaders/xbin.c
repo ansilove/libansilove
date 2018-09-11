@@ -168,7 +168,7 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	// create output file
-	output(canvas, options->fileName, options->retina, options->retinaScaleFactor);
+	output(ctx, canvas, options->retinaScaleFactor);
 
 	// nuke garbage
 	free(font_data_xbin);

@@ -65,7 +65,7 @@ int ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	// create output file
-	output(canvas, options->fileName, options->retina, options->retinaScaleFactor);
+	output(ctx, canvas, options->retinaScaleFactor);
 
 	return 0;
 }

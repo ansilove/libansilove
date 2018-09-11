@@ -457,7 +457,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		gdImageColorTransparent(canvas, 0);
 
 	// create output image
-	output(canvas, options->fileName, options->retina, options->retinaScaleFactor);
+	output(ctx, canvas, options->retinaScaleFactor);
 
 	// free memory
 	free(ansi_buffer);

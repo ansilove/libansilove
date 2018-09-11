@@ -172,7 +172,7 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	// create output image
-	output(canvas, options->fileName, options->retina, options->retinaScaleFactor);
+	output(ctx, canvas, options->retinaScaleFactor);
 
 	// free memory
 	free(pcboard_buffer);
