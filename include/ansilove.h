@@ -21,15 +21,16 @@
 #define MEMORY_ERROR 3
 #define GD_ERROR 4
 
+struct ansilove_png {
+	unsigned char *buffer;
+	int length;
+};
+
 struct ansilove_ctx {
 	unsigned char *buffer;
 	size_t length;
+	struct ansilove_png png;
 	int error;
-};
-
-struct ansilove_png {
-	unsigned char *buffer;
-	size_t length;
 };
 
 struct ansilove_options {
