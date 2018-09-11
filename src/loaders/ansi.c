@@ -13,6 +13,8 @@
 #define _NETBSD_SOURCE
 #include "../ansilove.h"
 
+#define ANSI_SEQUENCE_MAX_LENGTH 14
+
 // Character structure
 struct ansiChar {
 	int32_t column;
@@ -116,7 +118,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 		// ANSi sequence
 		if (current_character == 27 && next_character == 91) {
-			for (ansi_sequence_loop = 0; ansi_sequence_loop < 14; ansi_sequence_loop++) {
+			for (ansi_sequence_loop = 0; ansi_sequence_loop < ANSI_SEQUENCE_MAX_LENGTH; ansi_sequence_loop++) {
 				ansi_sequence_character = ctx->buffer[loop + 2 + ansi_sequence_loop];
 
 				// cursor position
