@@ -12,11 +12,12 @@
 #include <gd.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <ansilove.h>
 
 #ifndef output_h
 #define output_h
 
 // prototypes
-int output(gdImagePtr im_Source, char *output, char *retinaout, int retinaScaleFactor);
+int output(struct ansilove_ctx *, gdImagePtr, int);
 
 #endif

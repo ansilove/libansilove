@@ -10,19 +10,15 @@
 //
 
 #include "output.h"
+#include <ansilove.h>
 
-int output(gdImagePtr im_Source, char *output, char *retinaout, int retinaScaleFactor) {
-	FILE *file_Out = fopen(output, "wb");
+int output(struct ansilove_ctx *ctx, gdImagePtr im_Source, int retinaScaleFactor) {
+	// XXX Error handling
+	// XXX The caller must invoke gdFree()
 
-	if (file_Out) {
-		gdImagePng(im_Source, file_Out);
-		fclose(file_Out);
+	if (!retinaScaleFactor) {
+		ctx->png.buffer = gdImagePngPtr(im_Source, &ctx->png.length);
 	} else {
-		return -1;
-	}
-
-	// in case Retina image output is wanted
-	if (retinaScaleFactor) {
 		gdImagePtr im_Retina;
 
 		// make the Retina image retinaScaleFactor as large as im_Source
@@ -30,23 +26,12 @@ int output(gdImagePtr im_Source, char *output, char *retinaout, int retinaScaleF
 		    im_Source->sy * retinaScaleFactor);
 
 		gdImageCopyResized(im_Retina, im_Source, 0, 0, 0, 0,
-		    im_Retina->sx, im_Retina->sy,
-		    im_Source->sx, im_Source->sy);
+		    im_Retina->sx, im_Retina->sy, im_Source->sx, im_Source->sy);
 
 		// create retina output image
-		FILE *file_RetinaOut = fopen(retinaout, "wb");
-
-		if (file_RetinaOut) {
-			gdImagePng(im_Retina, file_RetinaOut);
-			fclose(file_RetinaOut);
-		} else {
-			return -1;
-		}
-
-		gdImageDestroy(im_Retina);
+		gdImageDestroy(im_Source);
+		ctx->png.buffer = gdImagePngPtr(im_Retina, &ctx->png.length);
 	}
-
-	gdImageDestroy(im_Source);
 
 	return 0;
 }
