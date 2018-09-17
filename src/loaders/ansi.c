@@ -67,7 +67,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	int32_t background = 0, foreground = 7;
 
 	// text attributes
-	bool bold = false, underline = false, italics = false, blink = false;
+	bool bold = false, underline = false, italics = false, blink = false, invert = false;
 
 	// positions
 	int32_t column = 0, row = 0, columnMax = 0, rowMax = 0;
@@ -281,6 +281,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 							underline = false;
 							italics = false;
 							blink = false;
+							invert = false;
 						}
 
 						if (seqValue == 1) {
@@ -303,6 +304,12 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 							blink = true;
 						}
+
+						if (seqValue == 7)
+							invert = true;
+
+						if (seqValue == 27)
+							invert = false;
 
 						if (seqValue > 29 && seqValue < 38)
 						{
@@ -367,8 +374,14 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				temp = realloc(ansi_buffer, (structIndex + 1) * sizeof (struct ansiChar));
 				ansi_buffer = temp;
 
-				ansi_buffer[structIndex].background = background;
-				ansi_buffer[structIndex].foreground = foreground;
+				if (invert) {
+					ansi_buffer[structIndex].background = foreground % 8;
+					ansi_buffer[structIndex].foreground = background + (foreground & 8);
+				}
+				else {
+					ansi_buffer[structIndex].background = background;
+					ansi_buffer[structIndex].foreground = foreground;
+				}
 				ansi_buffer[structIndex].current_character = current_character;
 				ansi_buffer[structIndex].bold = bold;
 				ansi_buffer[structIndex].italics = italics;
