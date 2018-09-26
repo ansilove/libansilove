@@ -12,7 +12,6 @@
 #include <gd.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include <ansilove.h>
 
 #ifndef output_h
 #define output_h

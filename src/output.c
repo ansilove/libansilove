@@ -9,8 +9,8 @@
 //  See the LICENSE file for details.
 //
 
+#include "ansilove.h"
 #include "output.h"
-#include <ansilove.h>
 
 int output(struct ansilove_ctx *ctx, gdImagePtr im_Source, int retinaScaleFactor) {
 	// XXX Error handling
