@@ -302,7 +302,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 						if (seqValue == 5)
 						{
-							if (!workbench)
+							if (!workbench && options->icecolors)
 								background += 8;
 
 							blink = true;
