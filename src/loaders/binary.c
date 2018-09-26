@@ -28,6 +28,9 @@ int ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	// libgd image pointers
 	gdImagePtr canvas;
 
+	// Default to 160 columns if columns option wasn't set
+	options->columns = options->columns ? options->columns : 160;
+
 	// allocate buffer image memory
 	canvas = gdImageCreate(options->columns * options->bits,
 	    ((ctx->length / 2) / options->columns * fontData.height));
