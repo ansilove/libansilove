@@ -19,9 +19,6 @@ ansilove_init(struct ansilove_ctx *ctx, struct ansilove_options *options) {
 	// default to 8 if bits option is not specified
 	options->bits = 8;
 
-	// default to 160 if columns option is not specified
-	options->columns = 160;
-
 	// default to 0 if retinaScaleFactor option is not specified
 	options->retinaScaleFactor = 0;
 }
