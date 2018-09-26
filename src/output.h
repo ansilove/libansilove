@@ -17,6 +17,6 @@
 #define output_h
 
 // prototypes
-int output(struct ansilove_ctx *, gdImagePtr, int);
+int output(struct ansilove_ctx *, struct ansilove_options *, gdImagePtr);
 
 #endif

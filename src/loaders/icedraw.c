@@ -115,7 +115,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	// create output file
-	output(ctx, canvas, options->retinaScaleFactor);
+	output(ctx, options, canvas);
 
 	// free memory
 	free(idf_buffer);
