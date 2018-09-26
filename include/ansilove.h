@@ -42,6 +42,7 @@ struct ansilove_options {
 	char *mode;
 	bool diz;
 	bool icecolors;
+	bool dos;
 	uint32_t retinaScaleFactor;
 };
 
