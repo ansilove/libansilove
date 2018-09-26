@@ -32,7 +32,10 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	// ladies and gentlemen, it's type declaration time
 	struct fontStruct fontData;
 
-	uint32_t columns = 80;
+	// Default to 80 columns if columns option wasn't set
+	options->columns = options->columns ? options->columns : 80;
+
+	uint32_t columns = options->columns;
 
 	bool ced = false;
 	bool transparent = false;
@@ -90,7 +93,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		current_character = ctx->buffer[loop];
 		next_character = ctx->buffer[loop + 1];
 
-		if (column == 80) {
+		if (column == options->columns) {
 			row++;
 			column = 0;
 		}
@@ -198,8 +201,8 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 					column += seq_column ? seq_column : 1;
 
-					if (column > 80)
-						column = 80;
+					if (column > options->columns)
+						column = options->columns;
 
 					loop += ansi_sequence_loop+2;
 					break;
@@ -404,7 +407,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		columns = 78;
 
 	if (options->diz)
-		columns = fmin(columnMax, 80);
+		columns = fmin(columnMax, options->columns);
 
 	// create that damn thingy
 	canvas = gdImageCreate(columns * options->bits, (rowMax)*fontData.height);
