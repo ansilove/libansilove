@@ -17,11 +17,11 @@
 
 // Character structure
 struct ansiChar {
-	int32_t column;
-	int32_t row;
-	int32_t background;
-	int32_t foreground;
-	int32_t current_character;
+	uint32_t column;
+	uint32_t row;
+	uint32_t background;
+	uint32_t foreground;
+	uint32_t current_character;
 	bool bold;
 	bool italics;
 	bool underline;
@@ -32,7 +32,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	// ladies and gentlemen, it's type declaration time
 	struct fontStruct fontData;
 
-	int32_t columns = 80;
+	uint32_t columns = 80;
 
 	bool ced = false;
 	bool transparent = false;
@@ -60,18 +60,18 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	uint32_t ansi_sequence_loop;
 
 	// character definitions
-	int32_t current_character, next_character, character;
+	uint32_t current_character, next_character, character;
 	unsigned char ansi_sequence_character;
 
 	// default color values
-	int32_t background = 0, foreground = 7;
+	uint32_t background = 0, foreground = 7;
 
 	// text attributes
 	bool bold = false, underline = false, italics = false, blink = false, invert = false;
 
 	// positions
-	int32_t column = 0, row = 0, columnMax = 0, rowMax = 0;
-	int32_t saved_row = 0, saved_column = 0;
+	uint32_t column = 0, row = 0, columnMax = 0, rowMax = 0;
+	uint32_t saved_row = 0, saved_column = 0;
 
 	// sequence parsing variables
 	uint32_t seqValue, seq_line, seq_column;
@@ -79,7 +79,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	char *seqTok;
 
 	// ANSi buffer structure array definition
-	int32_t structIndex = 0;
+	uint32_t structIndex = 0;
 	struct ansiChar *ansi_buffer, *temp;
 
 	// ANSi buffer dynamic memory allocation
@@ -163,7 +163,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
 					// now get escape sequence's position value
-					int32_t seq_line = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
+					uint32_t seq_line = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
 					row -= seq_line ? seq_line : 1;
@@ -178,7 +178,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
 					// now get escape sequence's position value
-					int32_t seq_line = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
+					uint32_t seq_line = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
 					row += seq_line ? seq_line : 1;
@@ -193,7 +193,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
 					// now get escape sequence's position value
-					int32_t seq_column = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
+					uint32_t seq_column = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
 					column += seq_column ? seq_column : 1;
@@ -211,7 +211,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
 					// now get escape sequence's content length
-					int32_t seq_column = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
+					uint32_t seq_column = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
 					column -= seq_column ? seq_column : 1;
@@ -247,7 +247,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
 					// convert grab to an integer
-					int32_t eraseDisplayInt = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
+					uint32_t eraseDisplayInt = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
 					if (eraseDisplayInt == 2) {
@@ -414,9 +414,9 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	int32_t colors[16];
+	uint32_t colors[16];
 
-	int32_t ced_background = 0, ced_foreground = 0;
+	uint32_t ced_background = 0, ced_foreground = 0;
 
 	if (ced) {
 		ced_background = gdImageColorAllocate(canvas, 170, 170, 170);
