@@ -24,6 +24,9 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	struct fontStruct fontData;
 	char tundra_version;
 
+	options->columns = options->columns ? options->columns : 80;
+	uint32_t columns = options->columns;
+
 	// font selection
 	alSelectFont(&fontData, options->font);
 
@@ -44,7 +47,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	uint32_t loop = 9, column = 0, row = 1;
 
 	while (loop < ctx->length) {
-		if (column == 80) {
+		if (column == columns) {
 			column = 0;
 			row++;
 		}
@@ -78,13 +81,17 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			loop += 9;
 			column++;
 			break;
+
+		default:
+			column++;
 		}
 
 		loop++;
 	}
 
+
 	// allocate buffer image memory
-	canvas = gdImageCreateTrueColor(80 * options->bits, (row) * fontData.height);
+	canvas = gdImageCreateTrueColor(columns * options->bits, (row) * fontData.height);
 
 	if (!canvas) {
 		ctx->error = GD_ERROR;
@@ -98,7 +105,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	loop = 9;
 
 	while (loop < ctx->length) {
-		if (column == 80) {
+		if (column == columns) {
 			column = 0;
 			row++;
 		}
