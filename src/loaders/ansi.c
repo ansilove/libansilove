@@ -354,6 +354,29 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 				// skipping PabloDraw 24-bit ANSI sequences
 				if (ansi_sequence_character == 't') {
+					uint32_t color_R = 0, color_G = 0, color_B = 0;
+
+					// create substring from the sequence's content
+					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
+
+					seqTok = strtok(seqGrab, ";");
+					seqValue = strtonum(seqTok, 0, UINT32_MAX, &errstr);
+
+					seqTok = strtok(NULL, ";");
+					color_R = strtonum(seqTok, 0, INT32_MAX, &errstr) & 0xff;
+					seqTok = strtok(NULL, ";");
+					color_G = strtonum(seqTok, 0, INT32_MAX, &errstr) & 0xff;
+					seqTok = strtok(NULL, ";");
+					color_B = strtonum(seqTok, 0, INT32_MAX, &errstr) & 0xff;
+
+					if (seqValue == 0)
+						background = (color_R << 16) | (color_G << 8) | color_B;
+
+					if (seqValue == 1)
+						foreground = (color_R << 16) | (color_G << 8) | color_B;
+
+					options->truecolor = true;
+
 					loop += ansi_sequence_loop+2;
 					break;
 				}
@@ -407,7 +430,11 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		columns = fmin(columnMax, options->columns);
 
 	// create that damn thingy
-	canvas = gdImageCreate(columns * options->bits, (rowMax)*fontData.height);
+	if (!options->truecolor) {
+		canvas = gdImageCreate(columns * options->bits, (rowMax)*fontData.height);
+	} else {
+		canvas = gdImageCreateTrueColor(columns * options->bits, (rowMax)*fontData.height);
+	}
 
 	if (!canvas) {
 		ctx->error = GD_ERROR;
@@ -455,12 +482,18 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		column = ansi_buffer[loop].column;
 		row = ansi_buffer[loop].row;
 
+		if (background < 16)
+			background = colors[background];
+
+		if (foreground < 16)
+			foreground = colors[foreground];
+
 		if (ced) {
 			drawchar(canvas, fontData.font_data, options->bits, fontData.height,
 			    column, row, ced_background, ced_foreground, character);
 		} else {
 			drawchar(canvas, fontData.font_data, options->bits, fontData.height,
-			    column, row, colors[background], colors[foreground], character);
+			    column, row, background, foreground, character);
 		}
 
 	}
