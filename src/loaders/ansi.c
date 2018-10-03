@@ -126,12 +126,10 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 				// cursor position
 				if (ansi_sequence_character == 'H' || ansi_sequence_character == 'f') {
-					printf("---\n");
 					// create substring from the sequence's content
 					seq_line = 1;
 					seq_column = 1;
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
-					printf("seqGrab: %s\n", seqGrab);
 
 					if (!strncmp(seqGrab, ";", 1)) {
 						seq_line = 1;
@@ -152,7 +150,6 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					// set the positions
 					row = seq_line-1;
 					column = seq_column-1;
-					printf("Sequence H: %i,%i\n", row, column);
 
 					seqGrab = NULL;
 
