@@ -19,8 +19,8 @@
 
 struct fontStruct {
 	const unsigned char *font_data;
-	int32_t width;
-	int32_t height;
+	uint32_t width;
+	uint32_t height;
 	bool isAmigaFont;
 };
 

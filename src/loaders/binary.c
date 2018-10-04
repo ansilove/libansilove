@@ -44,7 +44,7 @@ int ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	gdImageColorAllocate(canvas, 0, 0, 0);
 
 	// allocate color palette
-	int32_t colors[16];
+	uint32_t colors[16];
 
 	for (int i = 0; i < 16; i++) {
 		colors[i] = gdImageColorAllocate(canvas, binary_palette[i*3],

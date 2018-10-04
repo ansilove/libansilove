@@ -13,11 +13,11 @@
 
 // Character structure
 struct pcbChar {
-	int32_t column;
-	int32_t row;
-	int32_t background;
-	int32_t foreground;
-	int32_t current_character;
+	uint32_t column;
+	uint32_t row;
+	uint32_t background;
+	uint32_t foreground;
+	uint32_t current_character;
 };
 
 int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
@@ -147,7 +147,7 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	gdImageFill(canvas, 0, 0, 0);
 
 	// allocate color palette
-	int32_t colors[16];
+	uint32_t colors[16];
 
 	for (int i = 0; i < 16; i++) {
 		colors[i] = gdImageColorAllocate(canvas, ansi_palette[i*3],

@@ -14,14 +14,14 @@
 int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
 	// extract relevant part of the IDF header, 16-bit endian unsigned short
-	int32_t x2 = (ctx->buffer[9] << 8) + ctx->buffer[8];
+	uint32_t x2 = (ctx->buffer[9] << 8) + ctx->buffer[8];
 
 	// libgd image pointers
 	gdImagePtr canvas;
 
 	uint32_t loop = 12;
-	int32_t index;
-	int32_t colors[16];
+	uint32_t index;
+	uint32_t colors[16];
 
 	// process IDF
 	uint32_t idf_sequence_length, idf_sequence_loop, i = 0;
@@ -30,7 +30,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	unsigned char *idf_buffer, *temp;
 	idf_buffer = malloc(2);
 
-	int16_t idf_data, idf_data_length;
+	uint16_t idf_data, idf_data_length;
 
 	while (loop < ctx->length - 4096 - 48) {
 		memcpy(&idf_data, ctx->buffer+loop, 2);
@@ -94,8 +94,8 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	// render IDF
-	int32_t column = 0, row = 0;
-	int32_t character, attribute, foreground, background;
+	uint32_t column = 0, row = 0;
+	uint32_t character, attribute, foreground, background;
 
 	for (loop = 0; loop < i; loop += 2) {
 		if (column == x2 + 1) {

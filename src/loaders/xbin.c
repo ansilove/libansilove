@@ -21,10 +21,10 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	int32_t xbin_width = (ctx->buffer[6] << 8) + ctx->buffer[5];
-	int32_t xbin_height = (ctx->buffer[8] << 8) + ctx->buffer[7];
-	int32_t xbin_fontsize = ctx->buffer[9];
-	int32_t xbin_flags = ctx->buffer[10];
+	uint32_t xbin_width = (ctx->buffer[6] << 8) + ctx->buffer[5];
+	uint32_t xbin_height = (ctx->buffer[8] << 8) + ctx->buffer[7];
+	uint32_t xbin_fontsize = ctx->buffer[9];
+	uint32_t xbin_flags = ctx->buffer[10];
 
 	gdImagePtr canvas;
 
@@ -43,8 +43,8 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	// palette
 	if ((xbin_flags & 1) == 1) {
-		int32_t loop;
-		int32_t index;
+		uint32_t loop;
+		uint32_t index;
 
 		for (loop = 0; loop < 16; loop++) {
 			index = (loop * 3) + offset;
@@ -65,7 +65,7 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	// font
 	if ((xbin_flags & 2) == 2) {
-		int32_t numchars = (xbin_flags & 0x10 ? 512 : 256);
+		uint32_t numchars = (xbin_flags & 0x10 ? 512 : 256);
 
 		// allocate memory to contain the XBin font
 		font_data_xbin = (unsigned char *)malloc(xbin_fontsize * numchars);
@@ -83,14 +83,14 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		font_data = font_pc_80x25;
 	}
 
-	int32_t column = 0, row = 0;
-	int32_t character, attribute, foreground, background;
+	uint32_t column = 0, row = 0, foreground, background;
+	int32_t character, attribute;
 
 	// read compressed xbin
 	if ((xbin_flags & 4) == 4) {
 		while (offset < ctx->length && row != xbin_height) {
-			int32_t ctype = ctx->buffer[offset] & 0xC0;
-			int32_t counter = (ctx->buffer[offset] & 0x3F) + 1;
+			uint32_t ctype = ctx->buffer[offset] & 0xC0;
+			uint32_t counter = (ctx->buffer[offset] & 0x3F) + 1;
 
 			character = -1;
 			attribute = -1;
