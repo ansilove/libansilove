@@ -8,3 +8,4 @@
 - Be more resilient with corrupt files, especially ADF / IDF / XBIN files
   with malformed headers
 - Fix rendering bugs in the PabloDraw 24-bit ANSI sequences handling
+- Fuzz with AFL, especially for non ANSI formats
