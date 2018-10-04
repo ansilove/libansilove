@@ -11,13 +11,15 @@
 
 #include "../ansilove.h"
 
+#define ADF_HEADER_LENGTH 4289 /* 192 + 4096 + 1 */
+
 int ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
 	// libgd image pointers
 	gdImagePtr canvas;
 
 	// create ADF instance
-	canvas = gdImageCreate(640, (((ctx->length - 192 - 4096 -1) / 2) / 80) * 16);
+	canvas = gdImageCreate(640, (((ctx->length - ADF_HEADER_LENGTH) / 2) / 80) * 16);
 
 	// error output
 	if (!canvas) {
@@ -44,7 +46,7 @@ int ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	// process ADF
 	uint32_t column = 0, row = 0;
 	uint32_t character, attribute, foreground, background;
-	loop = 192 + 4096 + 1;
+	loop = ADF_HEADER_LENGTH;
 
 	while (loop < ctx->length) {
 		if (column == 80) {

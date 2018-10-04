@@ -11,6 +11,8 @@
 
 #include "../ansilove.h"
 
+#define IDF_HEADER_LENGTH 4144 /* 4096 + 48 */
+
 int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
 	// extract relevant part of the IDF header, 16-bit endian unsigned short
@@ -32,7 +34,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	uint16_t idf_data, idf_data_length;
 
-	while (loop < ctx->length - 4096 - 48) {
+	while (loop < ctx->length - IDF_HEADER_LENGTH) {
 		memcpy(&idf_data, ctx->buffer+loop, 2);
 
 		// RLE compressed data
@@ -109,7 +111,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		background = (attribute & 240) >> 4;
 		foreground = attribute & 15;
 
-		drawchar(canvas, ctx->buffer+(ctx->length - 48 - 4096), 8, 16, column, row, colors[background], colors[foreground], character);
+		drawchar(canvas, ctx->buffer+(ctx->length - IDF_HEADER_LENGTH), 8, 16, column, row, colors[background], colors[foreground], character);
 
 		column++;
 	}
