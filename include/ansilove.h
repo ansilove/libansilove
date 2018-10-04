@@ -34,8 +34,6 @@ struct ansilove_ctx {
 };
 
 struct ansilove_options {
-	char *fileName;
-	char *retina;
 	char *font;
 	uint32_t bits;
 	uint32_t columns;
