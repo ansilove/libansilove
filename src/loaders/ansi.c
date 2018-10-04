@@ -360,14 +360,14 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
 					seqTok = strtok(seqGrab, ";");
-					seqValue = strtonum(seqTok, 0, UINT32_MAX, &errstr);
+					seqValue = strtonum(seqTok, 0, UCHAR_MAX, &errstr);
 
 					seqTok = strtok(NULL, ";");
-					color_R = strtonum(seqTok, 0, INT32_MAX, &errstr) & 0xff;
+					color_R = strtonum(seqTok, 0, UCHAR_MAX, &errstr) & 0xff;
 					seqTok = strtok(NULL, ";");
-					color_G = strtonum(seqTok, 0, INT32_MAX, &errstr) & 0xff;
+					color_G = strtonum(seqTok, 0, UCHAR_MAX, &errstr) & 0xff;
 					seqTok = strtok(NULL, ";");
-					color_B = strtonum(seqTok, 0, INT32_MAX, &errstr) & 0xff;
+					color_B = strtonum(seqTok, 0, UCHAR_MAX, &errstr) & 0xff;
 
 					if (seqValue == 0)
 						background = (color_R << 16) | (color_G << 8) | color_B;
