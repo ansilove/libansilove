@@ -214,10 +214,10 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					uint32_t seq_column = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
-					column -= seq_column ? seq_column : 1;
-
-					if (column < 0)
-						column = 0;
+					if (seq_column && (column - seq_column) >= 0)
+						column -= seq_column;
+					else if (column > 0)
+						column--;
 
 					loop += ansi_sequence_loop+2;
 					break;
