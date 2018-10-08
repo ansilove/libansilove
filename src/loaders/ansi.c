@@ -214,7 +214,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					uint32_t seq_column = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
-					if (seq_column && (column - seq_column) >= 0)
+					if (seq_column && column >= seq_column)
 						column -= seq_column;
 					else if (column > 0)
 						column--;
