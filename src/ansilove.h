@@ -15,6 +15,7 @@
 #include "fonts.h"
 #include "output.h"
 #include <gd.h>
+#include <limits.h>
 #include <math.h>
 #include <stdbool.h>
 #include <stdint.h>
