@@ -57,19 +57,23 @@ int ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		}
 
 		character = ctx->buffer[loop];
-		attribute = ctx->buffer[loop+1];
+		
+		if (ctx->length > loop) {
+			attribute = ctx->buffer[loop+1];
 
-		background = (attribute & 240) >> 4;
-		foreground = (attribute & 15);
+			background = (attribute & 240) >> 4;
+			foreground = (attribute & 15);
 
-		if (background > 8 && !options->icecolors)
-			background -= 8;
+			if (background > 8 && !options->icecolors)
+				background -= 8;
 
-		drawchar(canvas, fontData.font_data, options->bits, fontData.height,
-		    column, row, colors[background], colors[foreground], character);
+			drawchar(canvas, fontData.font_data, options->bits,
+			    fontData.height, column, row, colors[background],
+			    colors[foreground], character);
 
-		column++;
-		loop += 2;
+			column++;
+			loop += 2;
+		}
 	}
 
 	// create output image
