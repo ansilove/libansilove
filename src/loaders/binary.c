@@ -13,12 +13,6 @@
 
 int ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
-	// binary files must have an even size
-	if (ctx->length % 2) {
-		ctx->error = FORMAT_ERROR;
-		return -1;
-	}
-
 	// some type declarations
 	struct fontStruct fontData;
 
