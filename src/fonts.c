@@ -10,148 +10,139 @@
 //
 
 #include "fonts.h"
+#include "ansilove.h"
 
-void alSelectFont(struct fontStruct *fontData, char *font) {
-	// determine the font we use to render the output
-	if (strcmp(font, "80x25") == 0) {
-		fontData->font_data = font_pc_80x25;
-		fontData->width = 9;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "80x50") == 0) {
-		fontData->font_data = font_pc_80x50;
-		fontData->width = 9;
-		fontData->height = 8;
-	}
-	else if (strcmp(font, "terminus") == 0) {
-		fontData->font_data = font_pc_terminus;
-		fontData->width = 9;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "baltic") == 0) {
-		fontData->font_data = font_pc_baltic;
-		fontData->width = 9;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "cyrillic") == 0) {
-		fontData->font_data = font_pc_cyrillic;
-		fontData->width = 9;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "french-canadian") == 0) {
-		fontData->font_data = font_pc_french_canadian;
-		fontData->width = 9;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "greek") == 0) {
-		fontData->font_data = font_pc_greek;
-		fontData->width = 9;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "greek-869") == 0) {
-		fontData->font_data = font_pc_greek_869;
-		fontData->width = 9;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "hebrew") == 0) {
-		fontData->font_data = font_pc_hebrew;
-		fontData->width = 9;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "icelandic") == 0) {
-		fontData->font_data = font_pc_icelandic;
-		fontData->width = 9;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "latin1") == 0) {
-		fontData->font_data = font_pc_latin1;
-		fontData->width = 9;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "latin2") == 0) {
-		fontData->font_data = font_pc_latin2;
-		fontData->width = 9;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "nordic") == 0) {
-		fontData->font_data = font_pc_nordic;
-		fontData->width = 9;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "portuguese") == 0) {
-		fontData->font_data = font_pc_portuguese;
-		fontData->width = 9;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "russian") == 0) {
-		fontData->font_data = font_pc_russian;
-		fontData->width = 9;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "turkish") == 0) {
-		fontData->font_data = font_pc_turkish;
-		fontData->width = 9;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "amiga") == 0) {
-		fontData->isAmigaFont = true;
-		fontData->font_data = font_amiga_topaz_1200;
-		fontData->width = 8;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "microknight") == 0) {
-		fontData->isAmigaFont = true;
-		fontData->font_data = font_amiga_microknight;
-		fontData->width = 8;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "microknight+") == 0) {
-		fontData->isAmigaFont = true;
-		fontData->font_data = font_amiga_microknight_plus;
-		fontData->width = 8;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "mosoul") == 0) {
-		fontData->isAmigaFont = true;
-		fontData->font_data = font_amiga_mosoul;
-		fontData->width = 8;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "pot-noodle") == 0) {
-		fontData->isAmigaFont = true;
-		fontData->font_data = font_amiga_pot_noodle;
-		fontData->width = 8;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "topaz") == 0) {
-		fontData->isAmigaFont = true;
-		fontData->font_data = font_amiga_topaz_1200;
-		fontData->width = 8;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "topaz+") == 0) {
-		fontData->isAmigaFont = true;
-		fontData->font_data = font_amiga_topaz_1200_plus;
-		fontData->width = 8;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "topaz500") == 0) {
-		fontData->isAmigaFont = true;
-		fontData->font_data = font_amiga_topaz_500;
-		fontData->width = 8;
-		fontData->height = 16;
-	}
-	else if (strcmp(font, "topaz500+") == 0) {
-		fontData->isAmigaFont = true;
-		fontData->font_data = font_amiga_topaz_500_plus;
-		fontData->width = 8;
-		fontData->height = 16;
-	}
-	else {
-		// in all other cases use the standard DOS font
-		fontData->font_data = font_pc_80x25;
-		fontData->width = 9;
-		fontData->height = 16;
+void alSelectFont(struct fontStruct *fontData, int font) {
+	switch(font) {
+		case ANSILOVE_FONT_CP437_80x50:
+			fontData->font_data = font_pc_80x50;
+			fontData->width = 9;
+			fontData->height = 8;
+			break;
+		case ANSILOVE_FONT_CP737:
+			fontData->font_data = font_pc_greek;
+			fontData->width = 9;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_CP775:
+			fontData->font_data = font_pc_baltic;
+			fontData->width = 9;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_CP850:
+			fontData->font_data = font_pc_latin1;
+			fontData->width = 9;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_CP852:
+			fontData->font_data = font_pc_latin2;
+			fontData->width = 9;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_CP855:
+			fontData->font_data = font_pc_cyrillic;
+			fontData->width = 9;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_CP857:
+			fontData->font_data = font_pc_turkish;
+			fontData->width = 9;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_CP860:
+			fontData->font_data = font_pc_portuguese;
+			fontData->width = 9;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_CP861:
+			fontData->font_data = font_pc_icelandic;
+			fontData->width = 9;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_CP862:
+			fontData->font_data = font_pc_hebrew;
+			fontData->width = 9;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_CP863:
+			fontData->font_data = font_pc_french_canadian;
+			fontData->width = 9;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_CP865:
+			fontData->font_data = font_pc_nordic;
+			fontData->width = 9;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_CP866:
+			fontData->font_data = font_pc_russian;
+			fontData->width = 9;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_CP869:
+			fontData->font_data = font_pc_greek_869;
+			fontData->width = 9;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_TERMINUS:
+			fontData->font_data = font_pc_terminus;
+			fontData->width = 9;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_MICROKNIGHT:
+			fontData->isAmigaFont = true;
+			fontData->font_data = font_amiga_microknight;
+			fontData->width = 8;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_MICROKNIGHT_PLUS:
+			fontData->isAmigaFont = true;
+			fontData->font_data = font_amiga_microknight_plus;
+			fontData->width = 8;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_MOSOUL:
+			fontData->isAmigaFont = true;
+			fontData->font_data = font_amiga_mosoul;
+			fontData->width = 8;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_POT_NOODLE:
+			fontData->isAmigaFont = true;
+			fontData->font_data = font_amiga_pot_noodle;
+			fontData->width = 8;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_TOPAZ:
+			fontData->isAmigaFont = true;
+			fontData->font_data = font_amiga_topaz_1200;
+			fontData->width = 8;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_TOPAZ_PLUS:
+			fontData->isAmigaFont = true;
+			fontData->font_data = font_amiga_topaz_1200_plus;
+			fontData->width = 8;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_TOPAZ500:
+			fontData->isAmigaFont = true;
+			fontData->font_data = font_amiga_topaz_500;
+			fontData->width = 8;
+			fontData->height = 16;
+			break;
+		case ANSILOVE_FONT_TOPAZ500_PLUS:
+			fontData->isAmigaFont = true;
+			fontData->font_data = font_amiga_topaz_500_plus;
+			fontData->width = 8;
+			fontData->height = 16;
+			break;
+		default:
+			// in all other cases use the standard DOS font
+			fontData->font_data = font_pc_80x25;
+			fontData->width = 9;
+			fontData->height = 16;
+			break;
 	}
 }
 

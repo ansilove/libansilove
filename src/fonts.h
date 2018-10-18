@@ -24,7 +24,7 @@ struct fontStruct {
 	bool isAmigaFont;
 };
 
-void alSelectFont(struct fontStruct *fontData, char *font);
+void alSelectFont(struct fontStruct *fontData, int font);
 
 // Binary font and image data.
 
