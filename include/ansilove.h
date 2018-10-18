@@ -67,7 +67,7 @@ struct ansilove_ctx {
 };
 
 struct ansilove_options {
-	char *font;
+	int font;
 	uint32_t bits;
 	uint32_t columns;
 	int mode;
