@@ -17,6 +17,12 @@
 
 int
 ansilove_savefile(struct ansilove_ctx *ctx, char *output) {
+	if (ctx == NULL || output == NULL) {
+		if (ctx)
+			ctx->error = ANSILOVE_INVALID_PARAM;
+
+		return -1;
+	}
 
 	FILE *file = fopen(output, "wb");
 

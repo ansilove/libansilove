@@ -20,6 +20,13 @@ ansilove_loadfile(struct ansilove_ctx *ctx, char *input) {
 	int fd;
 	struct stat st;
 
+	if (ctx == NULL || input == NULL) {
+		if (ctx)
+			ctx->error = ANSILOVE_INVALID_PARAM;
+
+		return -1;
+	}
+
 	// load input file
 	if ((fd = open(input, O_RDONLY)) == -1) {
 		// perror("File error");
