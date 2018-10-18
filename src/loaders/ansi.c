@@ -47,12 +47,16 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	alSelectFont(&fontData, options->font);
 
 	// to deal with the bits flag, we declared handy bool types
-	if (!strcmp(options->mode, "ced")) {
-		ced = true;
-	} else if (!strcmp(options->mode, "transparent")) {
-		transparent = true;
-	} else if (!strcmp(options->mode, "workbench")) {
-		workbench = true;
+	switch (options->mode) {
+		case ANSILOVE_MODE_CED:
+			ced = true;
+			break;
+		case ANSILOVE_MODE_TRANSPARENT:
+			transparent = true;
+			break;
+		case ANSILOVE_MODE_WORKBENCH:
+			workbench = true;
+			break;
 	}
 
 	// libgd image pointers
