@@ -70,7 +70,7 @@ struct ansilove_options {
 	char *font;
 	uint32_t bits;
 	uint32_t columns;
-	char *mode;
+	int mode;
 	bool diz;
 	bool icecolors;
 	bool dos;
