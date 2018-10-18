@@ -41,6 +41,11 @@ The following formats are supported:
 
 # Documentation
 
+# Usage
+
+See the `example` directory for an example showing how to use the library to
+convert a file to PNG.
+
 # Who pulls the strings
 
 libansilove is developed by Stefan Vogt ([@ByteProject](https://github.com/ByteProject)), Brian Cassidy ([@bricas](https://github.com/bricas)) and Frederic Cambus ([@fcambus](https://github.com/fcambus)).
