@@ -28,14 +28,14 @@
 #define ANSILOVE_FONT_CP775		4	/* Baltic */
 #define ANSILOVE_FONT_CP850		5	/* Latin 1 */
 #define ANSILOVE_FONT_CP852		6	/* Latin 2 */
-#define ANSILOVE_FONT_CP855		7	/* ???? */
+#define ANSILOVE_FONT_CP855		7	/* Cyrillic */
 #define ANSILOVE_FONT_CP857		8	/* Turkish */
 #define ANSILOVE_FONT_CP860		9	/* Portuguese */
 #define ANSILOVE_FONT_CP861		10	/* Icelandic */
 #define ANSILOVE_FONT_CP862		11	/* Hebrew */
 #define ANSILOVE_FONT_CP863		12	/* French-canadian */
 #define ANSILOVE_FONT_CP865		13	/* Nordic */
-#define ANSILOVE_FONT_CP866		14	/* ???? */
+#define ANSILOVE_FONT_CP866		14	/* Russian */
 #define ANSILOVE_FONT_CP869		15	/* Greek */
 #define ANSILOVE_FONT_TERMINUS		20
 
