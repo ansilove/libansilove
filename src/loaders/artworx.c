@@ -15,6 +15,13 @@
 
 int ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
+	if (ctx == NULL || options == NULL) {
+		if (ctx)
+			ctx->error = ANSILOVE_INVALID_PARAM;
+
+		return -1;
+	}
+
 	// libgd image pointers
 	gdImagePtr canvas;
 

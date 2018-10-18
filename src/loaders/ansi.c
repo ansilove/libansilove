@@ -29,6 +29,13 @@ struct ansiChar {
 
 int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
+	if (ctx == NULL || options == NULL) {
+		if (ctx)
+			ctx->error = ANSILOVE_INVALID_PARAM;
+
+		return -1;
+	}
+
 	// ladies and gentlemen, it's type declaration time
 	struct fontStruct fontData;
 

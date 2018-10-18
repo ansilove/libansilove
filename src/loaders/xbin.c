@@ -13,6 +13,13 @@
 
 int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
+	if (ctx == NULL || options == NULL) {
+		if (ctx)
+			ctx->error = ANSILOVE_INVALID_PARAM;
+
+		return -1;
+	}
+
 	const unsigned char *font_data;
 	unsigned char *font_data_xbin = NULL;
 

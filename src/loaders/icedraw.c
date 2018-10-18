@@ -15,6 +15,13 @@
 
 int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
+	if (ctx == NULL || options == NULL) {
+		if (ctx)
+			ctx->error = ANSILOVE_INVALID_PARAM;
+
+		return -1;
+	}
+
 	// extract relevant part of the IDF header, 16-bit endian unsigned short
 	uint32_t x2 = (ctx->buffer[9] << 8) + ctx->buffer[8];
 

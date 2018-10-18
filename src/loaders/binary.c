@@ -13,6 +13,13 @@
 
 int ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
+	if (ctx == NULL || options == NULL) {
+		if (ctx)
+			ctx->error = ANSILOVE_INVALID_PARAM;
+
+		return -1;
+	}
+
 	// some type declarations
 	struct fontStruct fontData;
 
