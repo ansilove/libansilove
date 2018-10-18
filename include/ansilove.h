@@ -55,12 +55,12 @@
 #define ANSILOVE_MODE_WORKBENCH		3
 
 struct ansilove_png {
-	unsigned char *buffer;
+	const unsigned char *buffer;
 	int length;
 };
 
 struct ansilove_ctx {
-	unsigned char *buffer;
+	const unsigned char *buffer;
 	size_t length;
 	struct ansilove_png png;
 	int error;
