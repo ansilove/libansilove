@@ -49,6 +49,11 @@
 #define ANSILOVE_FONT_TOPAZ500		36
 #define ANSILOVE_FONT_TOPAZ500_PLUS	37
 
+/* Rendering modes */
+#define ANSILOVE_MODE_CED		1
+#define ANSILOVE_MODE_TRANSPARENT	2
+#define ANSILOVE_MODE_WORKBENCH		3
+
 struct ansilove_png {
 	unsigned char *buffer;
 	int length;
