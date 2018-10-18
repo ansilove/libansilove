@@ -21,6 +21,34 @@
 #define ANSILOVE_MEMORY_ERROR 3
 #define ANSILOVE_GD_ERROR 4
 
+/* PC Fonts */
+#define ANSILOVE_FONT_CP437		1	/* IBM PC 80x25 */
+#define ANSILOVE_FONT_CP437_80x50	2	/* IBM PC 80x50 */
+#define ANSILOVE_FONT_CP737		3	/* Greek */
+#define ANSILOVE_FONT_CP775		4	/* Baltic */
+#define ANSILOVE_FONT_CP850		5	/* Latin 1 */
+#define ANSILOVE_FONT_CP852		6	/* Latin 2 */
+#define ANSILOVE_FONT_CP855		7	/* ???? */
+#define ANSILOVE_FONT_CP857		8	/* Turkish */
+#define ANSILOVE_FONT_CP860		9	/* Portuguese */
+#define ANSILOVE_FONT_CP861		10	/* Icelandic */
+#define ANSILOVE_FONT_CP862		11	/* Hebrew */
+#define ANSILOVE_FONT_CP863		12	/* French-canadian */
+#define ANSILOVE_FONT_CP865		13	/* Nordic */
+#define ANSILOVE_FONT_CP866		14	/* ???? */
+#define ANSILOVE_FONT_CP869		15	/* Greek */
+#define ANSILOVE_FONT_TERMINUS		20
+
+/* Amiga fonts */
+#define ANSILOVE_FONT_MICROKNIGHT	30
+#define ANSILOVE_FONT_MICROKNIGHT_PLUS	31
+#define ANSILOVE_FONT_MOSOUL		32
+#define ANSILOVE_FONT_POT_NOODLE	33
+#define ANSILOVE_FONT_TOPAZ		34
+#define ANSILOVE_FONT_TOPAZ_PLUS	35
+#define ANSILOVE_FONT_TOPAZ500		36
+#define ANSILOVE_FONT_TOPAZ500_PLUS	37
+
 struct ansilove_png {
 	unsigned char *buffer;
 	int length;
