@@ -38,7 +38,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	// need to add check for "TUNDRA24" string in the header
 	if (tundra_version != TUNDRA_VERSION) {
-		ctx->error = FORMAT_ERROR;
+		ctx->error = ANSILOVE_FORMAT_ERROR;
 		return -1;
 	}
 
@@ -94,7 +94,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	canvas = gdImageCreateTrueColor(columns * options->bits, (row) * fontData.height);
 
 	if (!canvas) {
-		ctx->error = GD_ERROR;
+		ctx->error = ANSILOVE_GD_ERROR;
 		return -1;
 	}
 

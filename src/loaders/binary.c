@@ -30,7 +30,7 @@ int ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	    ((ctx->length / 2) / options->columns * fontData.height));
 
 	if (!canvas) {
-		ctx->error = GD_ERROR;
+		ctx->error = ANSILOVE_GD_ERROR;
 		return -1;
 	}
 

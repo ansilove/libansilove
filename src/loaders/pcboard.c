@@ -138,7 +138,7 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	canvas = gdImageCreate(80 * options->bits, (rowMax)*fontData.height);
 
 	if (!canvas) {
-		ctx->error = GD_ERROR;
+		ctx->error = ANSILOVE_GD_ERROR;
 		return -1;
 	}
 

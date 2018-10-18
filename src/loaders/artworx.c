@@ -23,7 +23,7 @@ int ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	// error output
 	if (!canvas) {
-		ctx->error = GD_ERROR;
+		ctx->error = ANSILOVE_GD_ERROR;
 		return -1;
 	}
 

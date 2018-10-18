@@ -50,7 +50,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				if (idf_buffer != NULL) {
 					idf_buffer = temp;
 				} else {
-					ctx->error = MEMORY_ERROR;
+					ctx->error = ANSILOVE_MEMORY_ERROR;
 					return -1;
 				}
 
@@ -65,7 +65,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			if (idf_buffer != NULL) {
 				idf_buffer = temp;
 			} else {
-				ctx->error = MEMORY_ERROR;
+				ctx->error = ANSILOVE_MEMORY_ERROR;
 				return -1;
 			}
 
@@ -82,7 +82,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	// error output
 	if (!canvas) {
-		ctx->error = GD_ERROR;
+		ctx->error = ANSILOVE_GD_ERROR;
 		return -1;
 	}
 	gdImageColorAllocate(canvas, 0, 0, 0);

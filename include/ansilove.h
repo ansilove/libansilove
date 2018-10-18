@@ -16,10 +16,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define INVALID_PARAM 1
-#define FORMAT_ERROR 2
-#define MEMORY_ERROR 3
-#define GD_ERROR 4
+#define ANSILOVE_INVALID_PARAM 1
+#define ANSILOVE_FORMAT_ERROR 2
+#define ANSILOVE_MEMORY_ERROR 3
+#define ANSILOVE_GD_ERROR 4
 
 struct ansilove_png {
 	unsigned char *buffer;
