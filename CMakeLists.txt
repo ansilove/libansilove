@@ -21,7 +21,7 @@ find_path(GD_INCLUDE_DIRS gd.h)
 find_library(GD_LIBRARIES NAMES gd REQUIRED)
 include_directories(${GD_INCLUDE_DIRS})
 
-set(SRC src/drawchar.c src/fonts.c src/loadfile.c src/init.c src/output.c src/savefile.c)
+set(SRC src/drawchar.c src/fonts.c src/error.c src/loadfile.c src/init.c src/output.c src/savefile.c)
 set(LOADERS src/loaders/ansi.c src/loaders/artworx.c src/loaders/binary.c src/loaders/icedraw.c src/loaders/pcboard.c src/loaders/tundra.c src/loaders/xbin.c)
 
 if(NOT HAVE_STRTONUM)
