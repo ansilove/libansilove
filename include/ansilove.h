@@ -16,6 +16,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#define ANSILOVE_VERSION "1.0.0"
+
 #define ANSILOVE_INVALID_PARAM 1
 #define ANSILOVE_FORMAT_ERROR 2
 #define ANSILOVE_MEMORY_ERROR 3
