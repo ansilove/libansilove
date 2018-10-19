@@ -1,5 +1,4 @@
 #include <ansilove.h>
-#include <string.h>
 
 int main() {
 	struct ansilove_ctx ctx;
