@@ -32,7 +32,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	char tundra_version;
 
 	options->columns = options->columns ? options->columns : 80;
-	uint32_t columns = options->columns;
+	int32_t columns = options->columns;
 
 	// font selection
 	alSelectFont(&fontData, options->font);
@@ -51,7 +51,8 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	// read tundra file a first time to find the image size
 	uint32_t cursor, character, background = 0, foreground = 0;
-	uint32_t loop = 9, column = 0, row = 1;
+	uint32_t loop = 9;
+	int32_t column = 0, row = 1;
 
 	while (loop < ctx->length) {
 		if (column == columns) {

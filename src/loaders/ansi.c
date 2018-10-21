@@ -17,8 +17,8 @@
 
 // Character structure
 struct ansiChar {
-	uint32_t column;
-	uint32_t row;
+	int32_t column;
+	int32_t row;
 	uint32_t background;
 	uint32_t foreground;
 	uint32_t current_character;
@@ -42,7 +42,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	// Default to 80 columns if columns option wasn't set
 	options->columns = options->columns ? options->columns : 80;
 
-	uint32_t columns = options->columns;
+	int32_t columns = options->columns;
 
 	bool ced = false;
 	bool transparent = false;
@@ -84,8 +84,8 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	bool bold = false, underline = false, italics = false, blink = false, invert = false;
 
 	// positions
-	uint32_t column = 0, row = 0, columnMax = 0, rowMax = 0;
-	uint32_t saved_row = 0, saved_column = 0;
+	int32_t column = 0, row = 0, columnMax = 0, rowMax = 0;
+	int32_t saved_row = 0, saved_column = 0;
 
 	// sequence parsing variables
 	uint32_t seqValue, seq_line, seq_column;
@@ -225,10 +225,10 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					uint32_t seq_column = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
-					if (seq_column && column >= seq_column)
-						column -= seq_column;
-					else if (column > 0)
-						column--;
+					column -= seq_column ? seq_column : 1;
+
+					if (column < 0)
+						column = 0;
 
 					loop += ansi_sequence_loop+2;
 					break;

@@ -72,7 +72,7 @@ struct ansilove_ctx {
 struct ansilove_options {
 	int font;
 	uint32_t bits;
-	uint32_t columns;
+	int32_t columns;
 	int mode;
 	bool diz;
 	bool icecolors;

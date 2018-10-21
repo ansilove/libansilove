@@ -55,7 +55,8 @@ int ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	// process binary
 	uint32_t character, attribute, background, foreground;
-	uint32_t loop = 0, column = 0, row = 0;
+	uint32_t loop = 0;
+	int32_t column = 0, row = 0;
 
 	while (loop < ctx->length) {
 		if (column == options->columns) {
