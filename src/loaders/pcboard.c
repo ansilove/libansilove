@@ -17,7 +17,7 @@ struct pcbChar {
 	uint32_t row;
 	uint32_t background;
 	uint32_t foreground;
-	uint32_t current_character;
+	unsigned char character;
 };
 
 int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
@@ -40,7 +40,7 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	gdImagePtr canvas;
 
 	// process PCBoard
-	uint32_t character, current_character, next_character;
+	unsigned char character, current_character, next_character;
 	uint32_t background = 0, foreground = 7;
 	uint32_t column = 0, row = 0, columnMax = 0, rowMax = 0;
 
@@ -131,7 +131,7 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			pcboard_buffer[structIndex].row = row;
 			pcboard_buffer[structIndex].background = pcb_colors[background];
 			pcboard_buffer[structIndex].foreground = pcb_colors[foreground];
-			pcboard_buffer[structIndex].current_character = current_character;
+			pcboard_buffer[structIndex].character = current_character;
 
 			column++;
 			structIndex++;
@@ -172,7 +172,7 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		row = pcboard_buffer[loop].row;
 		background = pcboard_buffer[loop].background;
 		foreground = pcboard_buffer[loop].foreground;
-		character = pcboard_buffer[loop].current_character;
+		character = pcboard_buffer[loop].character;
 
 		drawchar(canvas, fontData.font_data, options->bits, fontData.height,
 		    column, row, colors[background], colors[foreground], character);

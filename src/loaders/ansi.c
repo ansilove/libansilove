@@ -21,7 +21,7 @@ struct ansiChar {
 	int32_t row;
 	uint32_t background;
 	uint32_t foreground;
-	uint32_t current_character;
+	unsigned char character;
 };
 
 int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
@@ -71,7 +71,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	uint32_t ansi_sequence_loop;
 
 	// character definitions
-	uint32_t current_character, next_character, character;
+	unsigned char current_character, next_character, character;
 	unsigned char ansi_sequence_character;
 
 	// default color values
@@ -408,7 +408,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					ansi_buffer[structIndex].background = background;
 					ansi_buffer[structIndex].foreground = foreground;
 				}
-				ansi_buffer[structIndex].current_character = current_character;
+				ansi_buffer[structIndex].character = current_character;
 				ansi_buffer[structIndex].column = column;
 				ansi_buffer[structIndex].row = row;
 
@@ -475,7 +475,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		// grab ANSi char from our structure array
 		background = ansi_buffer[loop].background;
 		foreground = ansi_buffer[loop].foreground;
-		character = ansi_buffer[loop].current_character;
+		character = ansi_buffer[loop].character;
 		column = ansi_buffer[loop].column;
 		row = ansi_buffer[loop].row;
 
