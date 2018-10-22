@@ -22,7 +22,6 @@ struct ansiChar {
 	uint32_t background;
 	uint32_t foreground;
 	uint32_t current_character;
-	bool bold;
 };
 
 int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
@@ -410,7 +409,6 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					ansi_buffer[structIndex].foreground = foreground;
 				}
 				ansi_buffer[structIndex].current_character = current_character;
-				ansi_buffer[structIndex].bold = bold;
 				ansi_buffer[structIndex].column = column;
 				ansi_buffer[structIndex].row = row;
 
@@ -478,7 +476,6 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		background = ansi_buffer[loop].background;
 		foreground = ansi_buffer[loop].foreground;
 		character = ansi_buffer[loop].current_character;
-		bold = ansi_buffer[loop].bold;
 		column = ansi_buffer[loop].column;
 		row = ansi_buffer[loop].row;
 
