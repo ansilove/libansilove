@@ -23,8 +23,6 @@ struct ansiChar {
 	uint32_t foreground;
 	uint32_t current_character;
 	bool bold;
-	bool italics;
-	bool underline;
 };
 
 int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
@@ -81,7 +79,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	uint32_t background = 0, foreground = 7;
 
 	// text attributes
-	bool bold = false, underline = false, italics = false, blink = false, invert = false;
+	bool bold = false, blink = false, invert = false;
 
 	// positions
 	int32_t column = 0, row = 0, columnMax = 0, rowMax = 0;
@@ -292,8 +290,6 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 							background = 0;
 							foreground = 7;
 							bold = false;
-							underline = false;
-							italics = false;
 							blink = false;
 							invert = false;
 						}
@@ -304,12 +300,6 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 							}
 							bold = true;
 						}
-
-						if (seqValue == 3)
-							italics = true;
-
-						if (seqValue == 4)
-							underline = true;
 
 						if (seqValue == 5)
 						{
@@ -421,8 +411,6 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				}
 				ansi_buffer[structIndex].current_character = current_character;
 				ansi_buffer[structIndex].bold = bold;
-				ansi_buffer[structIndex].italics = italics;
-				ansi_buffer[structIndex].underline = underline;
 				ansi_buffer[structIndex].column = column;
 				ansi_buffer[structIndex].row = row;
 
@@ -491,8 +479,6 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		foreground = ansi_buffer[loop].foreground;
 		character = ansi_buffer[loop].current_character;
 		bold = ansi_buffer[loop].bold;
-		italics = ansi_buffer[loop].italics;
-		underline = ansi_buffer[loop].underline;
 		column = ansi_buffer[loop].column;
 		row = ansi_buffer[loop].row;
 
