@@ -29,6 +29,11 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
+	if (ctx->length < TUNDRA_HEADER_LENGTH) {
+		ctx->error = ANSILOVE_FORMAT_ERROR;
+		return -1;
+	}
+
 	// some type declarations
 	struct fontStruct fontData;
 	char tundra_version;
