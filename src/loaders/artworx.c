@@ -79,7 +79,5 @@ int ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	// create output file
-	output(ctx, options, canvas);
-
-	return 0;
+	return output(ctx, options, canvas);
 }

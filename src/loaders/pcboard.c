@@ -179,7 +179,8 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	// create output image
-	output(ctx, options, canvas);
+	if (output(ctx, options, canvas) != 0)
+		return -1;
 
 	// free memory
 	free(pcboard_buffer);

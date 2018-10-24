@@ -11,5 +11,4 @@
 - Fuzz with AFL, especially for non ANSI formats
 - Allow enabling DOS aspect ratio + retina at the same time
 - Split fonts to have one include file per font
-- Add error checking for the output function
 - Check for the TUNDRA24 string in TND files header

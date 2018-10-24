@@ -190,8 +190,5 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	// create output image
-	output(ctx, options, canvas);
-
-	return 0;
+	return output(ctx, options, canvas);
 }
-
