@@ -13,6 +13,8 @@
 
 #define TUNDRA_VERSION 24
 
+#define TUNDRA_HEADER_LENGTH 9 /* 8 + 1 */
+
 #define TUNDRA_POSITION 1
 #define TUNDRA_COLOR_BACKGROUND 2
 #define TUNDRA_COLOR_FOREGROUND 4
@@ -51,7 +53,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	// read tundra file a first time to find the image size
 	uint32_t cursor, character, background = 0, foreground = 0;
-	uint32_t loop = 9;
+	uint32_t loop = TUNDRA_HEADER_LENGTH;
 	int32_t column = 0, row = 1;
 
 	while (loop < ctx->length) {
@@ -113,7 +115,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	column = 0;
 	row = 0;
 
-	loop = 9;
+	loop = TUNDRA_HEADER_LENGTH;
 
 	while (loop < ctx->length) {
 		if (column == columns) {
