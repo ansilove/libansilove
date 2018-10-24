@@ -78,7 +78,7 @@ struct ansilove_options {
 	bool icecolors;
 	bool dos;
 	bool truecolor;
-	uint32_t retinaScaleFactor;
+	uint32_t scale_factor;
 };
 
 int ansilove_init(struct ansilove_ctx *, struct ansilove_options *);
