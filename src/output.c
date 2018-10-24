@@ -25,6 +25,11 @@ int output(struct ansilove_ctx *ctx, struct ansilove_options *options, gdImagePt
 		im_DOS = gdImageCreateTrueColor(im_Source->sx,
 		    im_Source->sy * 1.35);
 
+		if (!im_DOS) {
+			ctx->error = ANSILOVE_GD_ERROR;
+			return -1;
+		}
+
 		gdImageCopyResampled(im_DOS, im_Source, 0, 0, 0, 0,
 		    im_DOS->sx, im_DOS->sy, im_Source->sx, im_Source->sy);
 
@@ -37,6 +42,11 @@ int output(struct ansilove_ctx *ctx, struct ansilove_options *options, gdImagePt
 		// make the Retina image retinaScaleFactor as large as im_Source
 		im_Retina = gdImageCreate(im_Source->sx * options->retinaScaleFactor,
 		    im_Source->sy * options->retinaScaleFactor);
+
+		if (!im_Retina) {
+			ctx->error = ANSILOVE_GD_ERROR;
+			return -1;
+		}
 
 		gdImageCopyResized(im_Retina, im_Source, 0, 0, 0, 0,
 		    im_Retina->sx, im_Retina->sy, im_Source->sx, im_Source->sy);
