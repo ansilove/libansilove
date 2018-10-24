@@ -22,6 +22,11 @@ int ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
+	if (ctx->length < ADF_HEADER_LENGTH) {
+		ctx->error = ANSILOVE_FORMAT_ERROR;
+		return -1;
+	}
+
 	// libgd image pointers
 	gdImagePtr canvas;
 
