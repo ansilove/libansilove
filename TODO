@@ -12,6 +12,4 @@
 - Allow enabling DOS aspect ratio + retina at the same time
 - Split fonts to have one include file per font
 - Add error checking for the output function
-- Move both pledge + strnum prototypes to a compat.h header
 - Check for the TUNDRA24 string in TND files header
-- Add an ansilove_error() function to return error strings from error codes
