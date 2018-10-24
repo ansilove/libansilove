@@ -59,25 +59,25 @@
 
 struct ansilove_png {
 	const unsigned char *buffer;
-	int length;
+	int length; /* Match the parameter type of gdImagePngPtr() */
 };
 
 struct ansilove_ctx {
 	const unsigned char *buffer;
 	size_t length;
 	struct ansilove_png png;
-	int error;
+	uint32_t error;
 };
 
 struct ansilove_options {
-	int font;
-	uint32_t bits;
-	int32_t columns;
-	int mode;
 	bool diz;
-	bool icecolors;
 	bool dos;
+	bool icecolors;
 	bool truecolor;
+	int32_t columns;
+	uint32_t font;
+	uint32_t bits;
+	uint32_t mode;
 	uint32_t scale_factor;
 };
 
