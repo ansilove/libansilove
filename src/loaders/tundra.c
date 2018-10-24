@@ -64,13 +64,15 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 		switch(cursor) {
 		case TUNDRA_POSITION:
-			row =
-			    (ctx->buffer[loop + 1] << 24) + (ctx->buffer[loop + 2] << 16) +
-			    (ctx->buffer[loop + 3] << 8) + ctx->buffer[loop+4];
+			row = (ctx->buffer[loop + 1] << 24) +
+			    (ctx->buffer[loop + 2] << 16) +
+			    (ctx->buffer[loop + 3] << 8) +
+			    ctx->buffer[loop + 4];
 
-			column =
-			    (ctx->buffer[loop + 5] << 24) + (ctx->buffer[loop + 6] << 16) +
-			    (ctx->buffer[loop + 7] << 8) + ctx->buffer[loop+8];
+			column = (ctx->buffer[loop + 5] << 24) +
+			    (ctx->buffer[loop + 6] << 16) +
+			    (ctx->buffer[loop + 7] << 8) +
+			    ctx->buffer[loop + 8];
 
 			loop += 8;
 			break;
@@ -99,7 +101,8 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 
 	// allocate buffer image memory
-	canvas = gdImageCreateTrueColor(columns * options->bits, (row) * fontData.height);
+	canvas = gdImageCreateTrueColor(columns * options->bits,
+	    row * fontData.height);
 
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;
@@ -122,20 +125,24 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 		switch(cursor) {
 		case TUNDRA_POSITION:
-			row =
-			    (ctx->buffer[loop + 1] << 24) + (ctx->buffer[loop + 2] << 16) +
-			    (ctx->buffer[loop + 3] << 8) + ctx->buffer[loop + 4];
+			row = (ctx->buffer[loop + 1] << 24) +
+			    (ctx->buffer[loop + 2] << 16) +
+			    (ctx->buffer[loop + 3] << 8) +
+			    ctx->buffer[loop + 4];
 
 			column =
-			    (ctx->buffer[loop + 5] << 24) + (ctx->buffer[loop + 6] << 16) +
-			    (ctx->buffer[loop + 7] << 8) + ctx->buffer[loop + 8];
+			    (ctx->buffer[loop + 5] << 24) +
+			    (ctx->buffer[loop + 6] << 16) +
+			    (ctx->buffer[loop + 7] << 8) +
+			    ctx->buffer[loop + 8];
 
 			loop += 8;
 			break;
 
 		case TUNDRA_COLOR_BACKGROUND:
 			foreground =
-			    (ctx->buffer[loop + 3] << 16) + (ctx->buffer[loop + 4] << 8) +
+			    (ctx->buffer[loop + 3] << 16) +
+			    (ctx->buffer[loop + 4] << 8) +
 			    ctx->buffer[loop + 5];
 
 			character = ctx->buffer[loop+1];
@@ -144,32 +151,37 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			break;
 
 		case TUNDRA_COLOR_FOREGROUND:
-			background = (ctx->buffer[loop + 3] << 16) + (ctx->buffer[loop + 4] << 8) +
-			    ctx->buffer[loop+5];
+			background = (ctx->buffer[loop + 3] << 16) +
+			    (ctx->buffer[loop + 4] << 8) +
+			    ctx->buffer[loop + 5];
 
-			character = ctx->buffer[loop+1];
+			character = ctx->buffer[loop + 1];
 
 			loop += 5;
 			break;
 
 		case TUNDRA_COLOR_BOTH:
 			foreground =
-			    (ctx->buffer[loop + 3] << 16) + (ctx->buffer[loop + 4] << 8) +
-			    ctx->buffer[loop+5];
+			    (ctx->buffer[loop + 3] << 16) +
+			    (ctx->buffer[loop + 4] << 8) +
+			    ctx->buffer[loop + 5];
 
 			background =
-			    (ctx->buffer[loop + 7] << 16) + (ctx->buffer[loop + 8] << 8) +
-			    ctx->buffer[loop+9];
+			    (ctx->buffer[loop + 7] << 16) +
+			    (ctx->buffer[loop + 8] << 8) +
+			    ctx->buffer[loop + 9];
 
-			character = ctx->buffer[loop+1];
+			character = ctx->buffer[loop + 1];
 
 			loop += 9;
 			break;
 		}
 
-		if (character != 1 && character != 2 && character != 4 && character != 6) {
-			drawchar(canvas, fontData.font_data, options->bits, fontData.height,
-			    column, row, background, foreground, character);
+		if (character != 1 && character != 2 && character != 4 &&
+		    character != 6) {
+			drawchar(canvas, fontData.font_data, options->bits,
+			    fontData.height, column, row, background,
+			    foreground, character);
 
 			column++;
 		}
