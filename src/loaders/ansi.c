@@ -334,6 +334,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					}
 
 					loop += ansi_sequence_loop+2;
+					free(seqGrab);
 					break;
 				}
 
@@ -381,6 +382,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					options->truecolor = true;
 
 					loop += ansi_sequence_loop+2;
+					free(seqGrab);
 					break;
 				}
 			}
