@@ -10,3 +10,18 @@ before_install:
   - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 script: cmake . && make
+
+env:
+  global:
+   - secure: "SjFnVsgKuqySOumQqF4aGpq/AktP8hSH+73R1mC/FiDkgtP3I+jDEmn73HfZ63UrDRvYKmecTNs4BHIezFHHfKNiZSGF2Jk/LiSY98lJGoo0r7YZWPqYjvkz8f32bJwgiEgqAnxereuHNB9kLXzv3oAkvSVYXnbALjFOI7erhL0JYElyVkISKa3+ZOWMEC1acRnr+ZlFWEUptKjVn6sDNMVWus8yMei1RCVyEtZlgHYZ51N0jDmH3mmPZZEnUcoe+3Lnnw89ycuvtuuSDj9BJcmkEDhi0oviYhq1eZIm3xFrwmdZPOvWeNbW8CzyKdDYnjpMuQVLprJY6apJQMyqG+bIt1wCl1B1tJQrvrIGNxHiy6qho8vEzuY45BdKwiq+ntfahBZx6fmOTapebq9pPgURvu+yioHtVJ95VIvM4HOfok8lHpPmTbahJ0Zw3O9awpkGhY39jm8xD/FwzDlMHE3mlM91vTam/ixFiuM6fQ8AA82zBvjGBQXFR1vSCsc7eAyNDhFMs5dZD7jl2Dn6T3OYwiZrvMeHLNrcCW2kBES/fqADLBmpCgcalMYxqot3DeTnqdl5HAQLqpbSSRi28rNZWWspmDWGHYum5ZidaEfwceefojnkDC23A1DJsJqp5j3ycDIESfKiOocDBvdcmum5/zR0szf3plq+wtHi1TE="
+
+addons:
+  coverity_scan:
+    project:
+      name: "ansilove/libansilove"
+      version: 1.0.0
+      description: "Library for converting ANSI, ASCII, and other formats to PNG"
+    notification_email: fred@statdns.com
+    build_command_prepend: cmake .
+    build_command: make -j 4
+    branch_pattern: master
