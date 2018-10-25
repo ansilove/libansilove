@@ -30,7 +30,7 @@ ansilove_savefile(struct ansilove_ctx *ctx, char *output) {
 		fwrite(ctx->png.buffer, ctx->png.length, 1, file);
 		fclose(file);
 	} else {
-		ctx->error = ANSILOVE_FILE_ERROR;
+		ctx->error = ANSILOVE_FILE_WRITE_ERROR;
 		return -1;
 	}
 

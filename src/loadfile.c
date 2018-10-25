@@ -29,14 +29,14 @@ ansilove_loadfile(struct ansilove_ctx *ctx, char *input) {
 
 	// load input file
 	if ((fd = open(input, O_RDONLY)) == -1) {
-		ctx->error = ANSILOVE_FILE_ERROR;
+		ctx->error = ANSILOVE_FILE_READ_ERROR;
 		close(fd);
 		return -1;
 	}
 
 	// get the file size (bytes)
 	if (fstat(fd, &st) == -1) {
-		ctx->error = ANSILOVE_FILE_ERROR;
+		ctx->error = ANSILOVE_FILE_READ_ERROR;
 		close(fd);
 		return -1;
 	}

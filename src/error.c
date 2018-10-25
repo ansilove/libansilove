@@ -30,11 +30,14 @@ ansilove_error(struct ansilove_ctx *ctx) {
 		case ANSILOVE_MEMORY_ERROR:
 			return "Memory allocation error.";
 			break;
-		case ANSILOVE_FILE_ERROR:
-			return "File error.";
+		case ANSILOVE_FILE_READ_ERROR:
+			return "Error reading file.";
+			break;
+		case ANSILOVE_FILE_WRITE_ERROR:
+			return "Error writing file.";
 			break;
 		case ANSILOVE_GD_ERROR:
-			return "GD error.";
+			return "GD library error.";
 			break;
 		default:
 			return NULL;
