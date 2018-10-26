@@ -68,15 +68,15 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	// to deal with the bits flag, we declared handy bool types
 	switch (options->mode) {
-		case ANSILOVE_MODE_CED:
-			ced = true;
-			break;
-		case ANSILOVE_MODE_TRANSPARENT:
-			transparent = true;
-			break;
-		case ANSILOVE_MODE_WORKBENCH:
-			workbench = true;
-			break;
+	case ANSILOVE_MODE_CED:
+		ced = true;
+		break;
+	case ANSILOVE_MODE_TRANSPARENT:
+		transparent = true;
+		break;
+	case ANSILOVE_MODE_WORKBENCH:
+		workbench = true;
+		break;
 	}
 
 	// libgd image pointers

@@ -75,7 +75,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 		cursor = ctx->buffer[loop];
 
-		switch(cursor) {
+		switch (cursor) {
 		case TUNDRA_POSITION:
 			row = (ctx->buffer[loop + 1] << 24) +
 			    (ctx->buffer[loop + 2] << 16) +
@@ -136,7 +136,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 		cursor = character = ctx->buffer[loop];
 
-		switch(cursor) {
+		switch (cursor) {
 		case TUNDRA_POSITION:
 			row = (ctx->buffer[loop + 1] << 24) +
 			    (ctx->buffer[loop + 2] << 16) +

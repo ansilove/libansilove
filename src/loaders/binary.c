@@ -72,7 +72,7 @@ int ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		}
 
 		character = ctx->buffer[loop];
-		
+
 		if (ctx->length > loop) {
 			attribute = ctx->buffer[loop+1];
 
