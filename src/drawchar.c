@@ -9,8 +9,9 @@
 //  See the LICENSE file for details.
 //
 
-#include "drawchar.h"
+#include <inttypes.h>
 #include <gd.h>
+#include "drawchar.h"
 
 // shared method for drawing characters
 void drawchar(gdImagePtr im, const unsigned char *font_data, uint32_t bits,
