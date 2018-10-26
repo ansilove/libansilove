@@ -9,7 +9,8 @@
 //  See the LICENSE file for details.
 //
 
-#include "ansilove.h"
+#include <string.h>
+#include "../include/ansilove.h"
 
 int
 ansilove_init(struct ansilove_ctx *ctx, struct ansilove_options *options) {

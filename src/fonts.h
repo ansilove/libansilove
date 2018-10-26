@@ -11,8 +11,6 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
 
 #ifndef albinfonts_h
 #define albinfonts_h

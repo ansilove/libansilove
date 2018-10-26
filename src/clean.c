@@ -9,11 +9,9 @@
 //  See the LICENSE file for details.
 //
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include "ansilove.h"
+#include <stddef.h>
+#include "../include/ansilove.h"
+#include "gd.h"
 
 int
 ansilove_clean(struct ansilove_ctx *ctx) {

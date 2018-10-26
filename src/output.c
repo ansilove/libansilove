@@ -9,8 +9,9 @@
 //  See the LICENSE file for details.
 //
 
-#include "ansilove.h"
+#include <gd.h>
 #include "output.h"
+#include "../include/ansilove.h"
 
 int output(struct ansilove_ctx *ctx, struct ansilove_options *options, gdImagePtr im_Source) {
 	// XXX Error handling

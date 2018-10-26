@@ -10,7 +10,7 @@
 //
 
 #include "fonts.h"
-#include "ansilove.h"
+#include "../include/ansilove.h"
 
 void alSelectFont(struct fontStruct *fontData, int font) {
 	switch(font) {

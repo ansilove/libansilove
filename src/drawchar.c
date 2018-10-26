@@ -10,6 +10,7 @@
 //
 
 #include "drawchar.h"
+#include <gd.h>
 
 // shared method for drawing characters
 void drawchar(gdImagePtr im, const unsigned char *font_data, uint32_t bits,

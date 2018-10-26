@@ -10,10 +10,11 @@
 //
 
 #include <fcntl.h>
-#include <unistd.h>
+#include <stddef.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
-#include "ansilove.h"
+#include <unistd.h>
+#include "../include/ansilove.h"
 
 int
 ansilove_loadfile(struct ansilove_ctx *ctx, char *input) {

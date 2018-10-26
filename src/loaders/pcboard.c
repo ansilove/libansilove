@@ -9,7 +9,14 @@
 //  See the LICENSE file for details.
 //
 
-#include "../ansilove.h"
+#include <stdint.h>
+#include <stdlib.h>
+#include "../../include/ansilove.h"
+#include "../config.h"
+#include "../drawchar.h"
+#include "../fonts.h"
+#include "../output.h"
+#include <gd.h>
 
 // Character structure
 struct pcbChar {

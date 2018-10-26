@@ -10,7 +10,7 @@
 //
 
 #include <gd.h>
-#include <stdint.h>
+#include <sys/types.h>
 
 #ifndef drawchar_h
 #define drawchar_h

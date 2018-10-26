@@ -9,7 +9,13 @@
 //  See the LICENSE file for details.
 //
 
-#include "../ansilove.h"
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+#include "../../include/ansilove.h"
+#include "../drawchar.h"
+#include "../output.h"
+#include <gd.h>
 
 #define IDF_HEADER_LENGTH 4144 /* 4096 + 48 */
 

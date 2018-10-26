@@ -9,11 +9,8 @@
 //  See the LICENSE file for details.
 //
 
-#include <fcntl.h>
-#include <unistd.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include "ansilove.h"
+#include <stdio.h>
+#include "../include/ansilove.h"
 
 int
 ansilove_savefile(struct ansilove_ctx *ctx, char *output) {

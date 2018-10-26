@@ -10,8 +10,9 @@
 //
 
 #include <gd.h>
-#include <stdbool.h>
-#include <stdlib.h>
+
+struct ansilove_ctx;
+struct ansilove_options;
 
 #ifndef output_h
 #define output_h
