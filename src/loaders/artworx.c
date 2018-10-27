@@ -9,12 +9,12 @@
 //  See the LICENSE file for details.
 //
 
+#include <gd.h>
 #include <stddef.h>
 #include <stdint.h>
-#include "../../include/ansilove.h"
-#include "../drawchar.h"
-#include "../output.h"
-#include <gd.h>
+#include "ansilove.h"
+#include "drawchar.h"
+#include "output.h"
 
 #define ADF_HEADER_LENGTH 4289 /* 192 + 4096 + 1 */
 

@@ -14,7 +14,7 @@
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "../include/ansilove.h"
+#include "ansilove.h"
 
 int
 ansilove_loadfile(struct ansilove_ctx *ctx, char *input) {

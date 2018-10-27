@@ -10,7 +10,7 @@
 //
 
 #include <stddef.h>
-#include "../include/ansilove.h"
+#include "ansilove.h"
 #include "gd.h"
 
 int

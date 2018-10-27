@@ -10,8 +10,8 @@
 //
 
 #include <gd.h>
+#include "ansilove.h"
 #include "output.h"
-#include "../include/ansilove.h"
 
 int output(struct ansilove_ctx *ctx, struct ansilove_options *options, gdImagePtr im_Source) {
 	// XXX Error handling

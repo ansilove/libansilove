@@ -10,7 +10,7 @@
 //
 
 #include <stdio.h>
-#include "../include/ansilove.h"
+#include "ansilove.h"
 
 int
 ansilove_savefile(struct ansilove_ctx *ctx, char *output) {

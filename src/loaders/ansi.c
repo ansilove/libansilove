@@ -12,18 +12,18 @@
 #define _XOPEN_SOURCE 700
 #define _NETBSD_SOURCE
 
+#include <gd.h>
 #include <limits.h>
 #include <math.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../../include/ansilove.h"
-#include "../config.h"
-#include "../drawchar.h"
-#include "../fonts.h"
-#include "../output.h"
-#include <gd.h>
+#include "ansilove.h"
+#include "config.h"
+#include "drawchar.h"
+#include "fonts.h"
+#include "output.h"
 
 #ifndef HAVE_STRTONUM
 #include "strtonum.h"

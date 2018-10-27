@@ -9,15 +9,15 @@
 //  See the LICENSE file for details.
 //
 
+#include <gd.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../../include/ansilove.h"
-#include "../config.h"
-#include "../drawchar.h"
-#include "../fonts.h"
-#include "../output.h"
-#include <gd.h>
+#include "ansilove.h"
+#include "config.h"
+#include "drawchar.h"
+#include "fonts.h"
+#include "output.h"
 
 int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {

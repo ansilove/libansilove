@@ -11,6 +11,7 @@
 
 #include <inttypes.h>
 #include <gd.h>
+
 #include "drawchar.h"
 
 // shared method for drawing characters

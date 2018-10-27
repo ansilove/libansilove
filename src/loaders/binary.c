@@ -9,14 +9,14 @@
 //  See the LICENSE file for details.
 //
 
+#include <gd.h>
 #include <stddef.h>
 #include <stdint.h>
-#include "../../include/ansilove.h"
-#include "../config.h"
-#include "../drawchar.h"
-#include "../fonts.h"
-#include "../output.h"
-#include <gd.h>
+#include "ansilove.h"
+#include "config.h"
+#include "drawchar.h"
+#include "fonts.h"
+#include "output.h"
 
 int ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {

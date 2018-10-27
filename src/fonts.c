@@ -9,7 +9,7 @@
 //  See the LICENSE file for details.
 //
 
-#include "../include/ansilove.h"
+#include "ansilove.h"
 #include "fonts.h"
 
 void alSelectFont(struct fontStruct *fontData, int font) {

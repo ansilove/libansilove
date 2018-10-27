@@ -9,13 +9,13 @@
 //  See the LICENSE file for details.
 //
 
+#include <gd.h>
 #include <stddef.h>
 #include <stdint.h>
-#include "../../include/ansilove.h"
-#include "../drawchar.h"
-#include "../fonts.h"
-#include "../output.h"
-#include <gd.h>
+#include "ansilove.h"
+#include "drawchar.h"
+#include "fonts.h"
+#include "output.h"
 
 #define TUNDRA_VERSION 24
 
