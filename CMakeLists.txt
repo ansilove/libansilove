@@ -13,8 +13,8 @@ include(GNUInstallDirs)
 # Check if system has strtonum
 check_function_exists(strtonum HAVE_STRTONUM)
 
-# Additional include directories for compat functions
-include_directories("compat")
+# Additional include directories for compat functions and headers
+include_directories("compat" "include" "src")
 
 # GD
 find_path(GD_INCLUDE_DIRS gd.h)
