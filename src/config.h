@@ -10,8 +10,8 @@
  * See LICENSE file for details.
  */
 
-#ifndef config_h
-#define config_h
+#ifndef CONFIG_H
+#define CONFIG_H
 
 #include <stdint.h>
 
@@ -45,4 +45,4 @@ static const uint8_t pcb_colors[] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x0a, 0x0e, 0x09, 0x0d, 0x0b, 0x0f
 };
 
-#endif
+#endif /* CONFIG_H */

@@ -13,8 +13,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#ifndef albinfonts_h
-#define albinfonts_h
+#ifndef FONTS_H
+#define FONTS_H
 
 struct fontStruct {
 	const unsigned char *font_data;
@@ -53,4 +53,4 @@ const unsigned char font_amiga_topaz_1200_plus[4096];
 const unsigned char font_amiga_topaz_500[4096];
 const unsigned char font_amiga_topaz_500_plus[4096];
 
-#endif
+#endif /* FONTS_H */

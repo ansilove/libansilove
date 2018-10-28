@@ -15,10 +15,10 @@
 struct ansilove_ctx;
 struct ansilove_options;
 
-#ifndef output_h
-#define output_h
+#ifndef OUTPUT_H
+#define OUTPUT_H
 
 // prototypes
 int output(struct ansilove_ctx *, struct ansilove_options *, gdImagePtr);
 
-#endif
+#endif /* OUTPUT_H */

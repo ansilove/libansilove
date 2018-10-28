@@ -10,8 +10,8 @@
  * See LICENSE file for details.
  */
 
-#ifndef ansilove_h
-#define ansilove_h
+#ifndef ANSILOVE_H
+#define ANSILOVE_H
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -98,4 +98,4 @@ int ansilove_pcboard(struct ansilove_ctx *, struct ansilove_options *);
 int ansilove_tundra(struct ansilove_ctx *, struct ansilove_options *);
 int ansilove_xbin(struct ansilove_ctx *, struct ansilove_options *);
 
-#endif
+#endif /* ANSILOVE_H */

@@ -13,12 +13,12 @@
 #include <gd.h>
 #include <sys/types.h>
 
-#ifndef drawchar_h
-#define drawchar_h
+#ifndef DRAWCHAR_H
+#define DRAWCHAR_H
 
 // prototypes
 void drawchar(gdImagePtr im, const unsigned char *font_data, uint32_t bits,
     uint32_t height, uint32_t column, uint32_t row,
     uint32_t background, uint32_t foreground, unsigned char character);
 
-#endif
+#endif /* DRAWCHAR_H */
