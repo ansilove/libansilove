@@ -1,13 +1,14 @@
-//
-//  ansilove.h
-//  AnsiLove/C
-//
-//  Copyright (c) 2011-2018 Stefan Vogt, Brian Cassidy, and Frederic Cambus.
-//  All rights reserved.
-//
-//  This source code is licensed under the BSD 2-Clause License.
-//  See the LICENSE file for details.
-//
+/*
+ * ansilove.h
+ * libansilove 1.0.0
+ * https://www.ansilove.org
+ *
+ * Copyright (c) 2011-2018 Stefan Vogt, Brian Cassidy, and Frederic Cambus
+ * All rights reserved.
+ *
+ * libansilove is licensed under the BSD 2-Clause License.
+ * See LICENSE file for details.
+ */
 
 #ifndef ansilove_h
 #define ansilove_h
