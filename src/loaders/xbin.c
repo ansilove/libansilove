@@ -184,8 +184,11 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	// create output file
-	if (output(ctx, options, canvas) != 0)
+	if (output(ctx, options, canvas) != 0) {
+		free(font_data_xbin);
+		font_data = NULL;
 		return -1;
+	}
 
 	// nuke garbage
 	free(font_data_xbin);
