@@ -102,6 +102,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	// error output
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;
+		free(idf_buffer);
 		return -1;
 	}
 	gdImageColorAllocate(canvas, 0, 0, 0);
@@ -136,8 +137,10 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	// create output file
-	if (output(ctx, options, canvas) != 0)
+	if (output(ctx, options, canvas) != 0) {
+		free(idf_buffer);
 		return -1;
+	}
 
 	// free memory
 	free(idf_buffer);
