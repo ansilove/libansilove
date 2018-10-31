@@ -53,7 +53,7 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	uint32_t column = 0, row = 0, columnMax = 0, rowMax = 0;
 
 	// PCB buffer structure array definition
-	struct pcbChar *pcboard_buffer, *temp;
+	struct pcbChar *pcboard_buffer;
 
 	// PCB buffer dynamic memory allocation
 	pcboard_buffer = malloc(sizeof (struct pcbChar));
@@ -131,8 +131,13 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				rowMax = row;
 
 			// reallocate structure array memory
-			temp = realloc(pcboard_buffer, (structIndex + 1) * sizeof (struct pcbChar));
-			pcboard_buffer = temp;
+			pcboard_buffer = realloc(pcboard_buffer, (structIndex + 1) * sizeof (struct pcbChar));
+			if (pcboard_buffer == NULL) {
+				ctx->error = ANSILOVE_MEMORY_ERROR;
+				free(pcboard_buffer);
+				pcboard_buffer = NULL;
+				return -1;
+			}
 
 			// write current character in pcbChar structure
 			pcboard_buffer[structIndex].column = column;
