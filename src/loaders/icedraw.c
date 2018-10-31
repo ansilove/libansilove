@@ -70,6 +70,8 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					idf_buffer = temp;
 				} else {
 					ctx->error = ANSILOVE_MEMORY_ERROR;
+					free(idf_buffer);
+					idf_buffer = NULL;
 					return -1;
 				}
 
