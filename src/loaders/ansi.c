@@ -500,16 +500,16 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		column = ansi_buffer[loop].column;
 		row = ansi_buffer[loop].row;
 
-		if (background < 16)
-			background = colors[background];
-
-		if (foreground < 16)
-			foreground = colors[foreground];
-
 		if (ced) {
 			drawchar(canvas, fontData.font_data, options->bits, fontData.height,
 			    column, row, ced_background, ced_foreground, character);
 		} else {
+			if (background < 16)
+				background = colors[background];
+
+			if (foreground < 16)
+				foreground = colors[foreground];
+
 			drawchar(canvas, fontData.font_data, options->bits, fontData.height,
 			    column, row, background, foreground, character);
 		}
