@@ -34,7 +34,6 @@ ansilove_loadfile(struct ansilove_ctx *ctx, char *input) {
 
 	if (fd == -1) {
 		ctx->error = ANSILOVE_FILE_READ_ERROR;
-		close(fd);
 		return -1;
 	}
 
