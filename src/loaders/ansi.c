@@ -457,6 +457,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;
+		free(ansi_buffer);
 		return -1;
 	}
 
@@ -519,8 +520,10 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		gdImageColorTransparent(canvas, 0);
 
 	// create output image
-	if (output(ctx, options, canvas) != 0)
+	if (output(ctx, options, canvas) != 0) {
+		free(ansi_buffer);
 		return -1;
+	}
 
 	// free memory
 	free(ansi_buffer);
