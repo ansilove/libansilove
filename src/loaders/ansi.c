@@ -32,7 +32,7 @@
 
 #define ANSI_SEQUENCE_MAX_LENGTH 14
 
-// Character structure
+/* Character structure */
 struct ansiChar {
 	int32_t column;
 	int32_t row;
@@ -50,10 +50,10 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	// ladies and gentlemen, it's type declaration time
+	/* ladies and gentlemen, it's type declaration time */
 	struct fontStruct fontData;
 
-	// Default to 80 columns if columns option wasn't set
+	/* Default to 80 columns if columns option wasn't set */
 	options->columns = options->columns ? options->columns : 80;
 
 	int32_t columns = options->columns;
@@ -64,10 +64,10 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	const char *errstr;
 
-	// font selection
+	/* font selection */
 	alSelectFont(&fontData, options->font);
 
-	// to deal with the bits flag, we declared handy bool types
+	/* to deal with the bits flag, we declared handy bool types */
 	switch (options->mode) {
 	case ANSILOVE_MODE_CED:
 		ced = true;
@@ -80,40 +80,40 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		break;
 	}
 
-	// libgd image pointers
+	/* libgd image pointers */
 	gdImagePtr canvas;
 
-	// ANSi processing loops
+	/* ANSi processing loops */
 	size_t loop = 0;
 	uint32_t ansi_sequence_loop;
 
-	// character definitions
+	/* character definitions */
 	unsigned char current_character, next_character, character;
 	unsigned char ansi_sequence_character;
 
-	// default color values
+	/* default color values */
 	uint32_t background = 0, foreground = 7;
 
-	// text attributes
+	/* text attributes */
 	bool bold = false, blink = false, invert = false;
 
-	// positions
+	/* positions */
 	int32_t column = 0, row = 0, columnMax = 0, rowMax = 0;
 	int32_t saved_row = 0, saved_column = 0;
 
-	// sequence parsing variables
+	/* sequence parsing variables */
 	uint32_t seqValue, seq_line, seq_column;
 	char *seqGrab;
 	char *seqTok;
 
-	// ANSi buffer structure array definition
+	/* ANSi buffer structure array definition */
 	uint32_t structIndex = 0;
 	struct ansiChar *ansi_buffer, *temp;
 
-	// ANSi buffer dynamic memory allocation
+	/* ANSi buffer dynamic memory allocation */
 	ansi_buffer = malloc(sizeof (struct ansiChar));
 
-	// ANSi interpreter
+	/* ANSi interpreter */
 	while (loop < ctx->length) {
 		current_character = ctx->buffer[loop];
 		next_character = ctx->buffer[loop + 1];
@@ -123,35 +123,35 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			column = 0;
 		}
 
-		// CR + LF
+		/* CR + LF */
 		if (current_character == 13 && next_character == 10) {
 			row++;
 			column = 0;
 			loop++;
 		}
 
-		// LF
+		/* LF */
 		if (current_character == 10) {
 			row++;
 			column = 0;
 		}
 
-		// tab
+		/* tab */
 		if (current_character == 9)
 			column += 8;
 
-		// sub
+		/* sub */
 		if (current_character == 26)
 			break;
 
-		// ANSi sequence
+		/* ANSi sequence */
 		if (current_character == 27 && next_character == 91) {
 			for (ansi_sequence_loop = 0; ansi_sequence_loop < ANSI_SEQUENCE_MAX_LENGTH; ansi_sequence_loop++) {
 				ansi_sequence_character = ctx->buffer[loop + 2 + ansi_sequence_loop];
 
-				// cursor position
+				/* cursor position */
 				if (ansi_sequence_character == 'H' || ansi_sequence_character == 'f') {
-					// create substring from the sequence's content
+					/* create substring from the sequence's content */
 					seq_line = 1;
 					seq_column = 1;
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
@@ -172,7 +172,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 							seq_column = strtonum(seqTok, 0, UINT32_MAX, &errstr);
 					}
 
-					// set the positions
+					/* set the positions */
 					row = seq_line-1;
 					column = seq_column-1;
 
@@ -182,12 +182,12 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					break;
 				}
 
-				// cursor up
+				/* cursor up */
 				if (ansi_sequence_character == 'A') {
-					// create substring from the sequence's content
+					/* create substring from the sequence's content */
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
-					// now get escape sequence's position value
+					/* now get escape sequence's position value */
 					uint32_t seq_line = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
@@ -200,12 +200,12 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					break;
 				}
 
-				// cursor down
+				/* cursor down */
 				if (ansi_sequence_character == 'B') {
-					// create substring from the sequence's content
+					/* create substring from the sequence's content */
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
-					// now get escape sequence's position value
+					/* now get escape sequence's position value */
 					uint32_t seq_line = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
@@ -215,12 +215,12 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					break;
 				}
 
-				// cursor forward
+				/* cursor forward */
 				if (ansi_sequence_character == 'C') {
-					// create substring from the sequence's content
+					/* create substring from the sequence's content */
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
-					// now get escape sequence's position value
+					/* now get escape sequence's position value */
 					uint32_t seq_column = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
@@ -233,12 +233,12 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					break;
 				}
 
-				// cursor backward
+				/* cursor backward */
 				if (ansi_sequence_character == 'D') {
-					// create substring from the sequence's content
+					/* create substring from the sequence's content */
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
-					// now get escape sequence's content length
+					/* now get escape sequence's content length */
 					uint32_t seq_column = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
@@ -251,7 +251,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					break;
 				}
 
-				// save cursor position
+				/* save cursor position */
 				if (ansi_sequence_character == 's') {
 					saved_row = row;
 					saved_column = column;
@@ -260,7 +260,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					break;
 				}
 
-				// restore cursor position
+				/* restore cursor position */
 				if (ansi_sequence_character == 'u') {
 					row = saved_row;
 					column = saved_column;
@@ -269,12 +269,12 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					break;
 				}
 
-				// erase display
+				/* erase display */
 				if (ansi_sequence_character == 'J') {
-					// create substring from the sequence's content
+					/* create substring from the sequence's content */
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
-					// convert grab to an integer
+					/* convert grab to an integer */
 					uint32_t eraseDisplayInt = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
 					free(seqGrab);
 
@@ -285,7 +285,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 						columnMax = 0;
 						rowMax = 0;
 
-						// reset ansi buffer
+						/* reset ansi buffer */
 						free(ansi_buffer);
 						ansi_buffer = malloc(sizeof (struct ansiChar));
 						structIndex = 0;
@@ -294,9 +294,9 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					break;
 				}
 
-				// set graphics mode
+				/* set graphics mode */
 				if (ansi_sequence_character == 'm') {
-					// create substring from the sequence's content
+					/* create substring from the sequence's content */
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
 					while ((seqTok = strtok(seqGrab, ";")) != NULL) {
@@ -355,29 +355,29 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					break;
 				}
 
-				// cursor (de)activation (Amiga ANSi)
+				/* cursor (de)activation (Amiga ANSi) */
 				if (ansi_sequence_character == 'p') {
 					loop += ansi_sequence_loop+2;
 					break;
 				}
 
-				// skipping set mode and reset mode sequences
+				/* skipping set mode and reset mode sequences */
 				if (ansi_sequence_character == 'h' || ansi_sequence_character == 'l') {
 					loop += ansi_sequence_loop+2;
 					break;
 				}
 
-				// skipping erase in line (EL) sequences
+				/* skipping erase in line (EL) sequences */
 				if (ansi_sequence_character == 'K') {
 					loop += ansi_sequence_loop+2;
 					break;
 				}
 
-				// skipping PabloDraw 24-bit ANSI sequences
+				/* skipping PabloDraw 24-bit ANSI sequences */
 				if (ansi_sequence_character == 't') {
 					uint32_t color_R = 0, color_G = 0, color_B = 0;
 
-					// create substring from the sequence's content
+					/* create substring from the sequence's content */
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
 					seqTok = strtok(seqGrab, ";");
@@ -406,16 +406,17 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		}
 		else if (current_character != 10 && current_character != 13 && current_character != 9)
 		{
-			// record number of columns and lines used
+			/* record number of columns and lines used */
 			if (column > columnMax)
 				columnMax = column;
 
 			if (row > rowMax)
 				rowMax = row;
 
-			// write current character in ansiChar structure
+			/* write current character in ansiChar structure */
 			if (!fontData.isAmigaFont || (current_character != 12 && current_character != 13)) {
-				// reallocate structure array memory
+				/* reallocate structure array memory */
+
 				temp = realloc(ansi_buffer, (structIndex + 1) * sizeof (struct ansiChar));
 				ansi_buffer = temp;
 
@@ -438,7 +439,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		loop++;
 	}
 
-	// allocate image buffer memory
+	/* allocate image buffer memory */
 	columnMax++;
 	rowMax++;
 
@@ -448,7 +449,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	if (options->diz)
 		columns = fmin(columnMax, options->columns);
 
-	// create that damn thingy
+	/* create that damn thingy */
 	if (!options->truecolor) {
 		canvas = gdImageCreate(columns * options->bits, (rowMax)*fontData.height);
 	} else {
@@ -478,7 +479,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			    workbench_palette[i*3+2]);
 		}
 	} else {
-		// Allocate standard ANSi color palette
+		/* Allocate standard ANSi color palette */
 
 		for (int i = 0; i < 16; i++) {
 			colors[i] = gdImageColorAllocate(canvas, ansi_palette[i*3],
@@ -487,12 +488,12 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		}
 	}
 
-	// even more definitions, sigh
+	/* even more definitions, sigh */
 	uint32_t ansiBufferItems = structIndex;
 
-	// render ANSi
+	/* render ANSi */
 	for (loop = 0; loop < ansiBufferItems; loop++) {
-		// grab ANSi char from our structure array
+		/* grab ANSi char from our structure array */
 		background = ansi_buffer[loop].background;
 		foreground = ansi_buffer[loop].foreground;
 		character = ansi_buffer[loop].character;
@@ -515,17 +516,17 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	}
 
-	// transparent flag used?
+	/* transparent flag used? */
 	if (transparent)
 		gdImageColorTransparent(canvas, 0);
 
-	// create output image
+	/* create output image */
 	if (output(ctx, options, canvas) != 0) {
 		free(ansi_buffer);
 		return -1;
 	}
 
-	// free memory
+	/* free memory */
 	free(ansi_buffer);
 
 	return 0;
