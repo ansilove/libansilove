@@ -176,9 +176,8 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					row = seq_line-1;
 					column = seq_column-1;
 
-					seqGrab = NULL;
-
 					loop += ansi_sequence_loop+2;
+					free(seqGrab);
 					break;
 				}
 
