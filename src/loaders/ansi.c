@@ -299,7 +299,8 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					/* create substring from the sequence's content */
 					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
-					while ((seqTok = strtok(seqGrab, ";")) != NULL) {
+					seqTok = strtok(seqGrab, ";");
+					while (seqTok) {
 						seqValue = strtonum(seqTok, 0, UINT32_MAX, &errstr);
 
 						if (seqValue == 0) {
@@ -347,7 +348,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 								background += 8;
 						}
 
-						seqGrab = NULL;
+						seqTok = strtok(NULL, ";");
 					}
 
 					loop += ansi_sequence_loop+2;
