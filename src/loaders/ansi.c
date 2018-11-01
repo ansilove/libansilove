@@ -103,8 +103,8 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* sequence parsing variables */
 	uint32_t seqValue, seq_line, seq_column;
-	char *seqGrab;
-	char *seqTok;
+	char *seqGrab = NULL;
+	char *seqTok = NULL;
 
 	/* ANSi buffer structure array definition */
 	uint32_t structIndex = 0;
