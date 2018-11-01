@@ -15,7 +15,6 @@
 
 #include "drawchar.h"
 
-// shared method for drawing characters
 void drawchar(gdImagePtr im, const unsigned char *font_data, uint32_t bits,
     uint32_t height, uint32_t column, uint32_t row,
     uint32_t background, uint32_t foreground, unsigned char character) {

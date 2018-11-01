@@ -139,7 +139,7 @@ void alSelectFont(struct fontStruct *fontData, int font) {
 		fontData->height = 16;
 		break;
 	default:
-		// in all other cases use the standard DOS font
+		/* in all other cases use the standard DOS font */
 		fontData->font_data = font_pc_80x25;
 		fontData->width = 9;
 		fontData->height = 16;

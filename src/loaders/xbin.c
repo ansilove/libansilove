@@ -51,13 +51,13 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	// allocate black color
+	/* allocate black color */
 	gdImageColorAllocate(canvas, 0, 0, 0);
 
 	uint32_t colors[16];
 	uint32_t offset = 11;
 
-	// palette
+	/* palette */
 	if ((xbin_flags & 1) == 1) {
 		uint32_t loop;
 		uint32_t index;
@@ -79,11 +79,11 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		}
 	}
 
-	// font
+	/* font */
 	if ((xbin_flags & 2) == 2) {
 		uint32_t numchars = (xbin_flags & 0x10 ? 512 : 256);
 
-		// allocate memory to contain the XBin font
+		/* allocate memory to contain the XBin font */
 		font_data_xbin = (unsigned char *)malloc(xbin_fontsize * numchars);
 		if (font_data_xbin == NULL) {
 			ctx->error = ANSILOVE_MEMORY_ERROR;
@@ -95,14 +95,14 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 		offset += (xbin_fontsize * numchars);
 	} else {
-		// using default 80x25 font
+		/* using default 80x25 font */
 		font_data = font_pc_80x25;
 	}
 
 	uint32_t column = 0, row = 0, foreground, background;
 	int32_t character, attribute;
 
-	// read compressed xbin
+	/* read compressed xbin */
 	if ((xbin_flags & 4) == 4) {
 		while (offset < ctx->length && row != xbin_height) {
 			uint32_t ctype = ctx->buffer[offset] & 0xC0;
@@ -113,13 +113,13 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 			offset++;
 			while (counter--) {
-				// none
+				/* none */
 				if (ctype == 0) {
 					character = ctx->buffer[offset];
 					attribute = ctx->buffer[offset + 1];
 					offset += 2;
 				}
-				// char
+				/* char */
 				else if (ctype == 0x40) {
 					if (character == -1) {
 						character = ctx->buffer[offset];
@@ -128,7 +128,7 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					attribute = ctx->buffer[offset];
 					offset++;
 				}
-				// attr
+				/* attr */
 				else if (ctype == 0x80) {
 					if (attribute == -1) {
 						attribute = ctx->buffer[offset];
@@ -137,7 +137,7 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					character = ctx->buffer[offset];
 					offset++;
 				}
-				// both
+				/* both */
 				else {
 					if (character == -1) {
 						character = ctx->buffer[offset];
@@ -163,7 +163,7 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			}
 		}
 	} else {
-		// read uncompressed xbin
+		/* read uncompressed xbin */
 		while (offset < ctx->length && row != xbin_height) {
 			if (column == xbin_width) {
 				column = 0;
@@ -183,14 +183,13 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		}
 	}
 
-	// create output file
+	/* create output file */
 	if (output(ctx, options, canvas) != 0) {
 		free(font_data_xbin);
 		font_data = NULL;
 		return -1;
 	}
 
-	// nuke garbage
 	free(font_data_xbin);
 
 	return 0;

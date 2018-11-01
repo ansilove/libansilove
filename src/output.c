@@ -15,9 +15,9 @@
 #include "output.h"
 
 int output(struct ansilove_ctx *ctx, struct ansilove_options *options, gdImagePtr im_Source) {
-	// XXX Error handling
-	// XXX The caller must invoke gdFree()
-	// XXX Allow combining DOS aspect ratio and Retina
+	/* XXX Error handling */
+	/* XXX The caller must invoke gdFree() */
+	/* XXX Allow combining DOS aspect ratio and Retina */
 
 	if (!options->scale_factor && !options->dos) {
 		ctx->png.buffer = gdImagePngPtr(im_Source, &ctx->png.length);
@@ -41,7 +41,6 @@ int output(struct ansilove_ctx *ctx, struct ansilove_options *options, gdImagePt
 	} else {
 		gdImagePtr im_Retina;
 
-		// make the Retina image scale_factor as large as im_Source
 		im_Retina = gdImageCreate(im_Source->sx * options->scale_factor,
 		    im_Source->sy * options->scale_factor);
 
@@ -53,7 +52,7 @@ int output(struct ansilove_ctx *ctx, struct ansilove_options *options, gdImagePt
 		gdImageCopyResized(im_Retina, im_Source, 0, 0, 0, 0,
 		    im_Retina->sx, im_Retina->sy, im_Source->sx, im_Source->sy);
 
-		// create retina output image
+		/* create retina output image */
 		gdImageDestroy(im_Source);
 		ctx->png.buffer = gdImagePngPtr(im_Retina, &ctx->png.length);
 	}

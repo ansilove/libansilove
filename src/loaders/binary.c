@@ -28,19 +28,18 @@ int ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	// some type declarations
 	struct fontStruct fontData;
 
-	// font selection
+	/* font selection */
 	alSelectFont(&fontData, options->font);
 
-	// libgd image pointers
+	/* libgd image pointers */
 	gdImagePtr canvas;
 
-	// Default to 160 columns if columns option wasn't set
+	/* Default to 160 columns if columns option wasn't set */
 	options->columns = options->columns ? options->columns : 160;
 
-	// allocate buffer image memory
+	/* allocate buffer image memory */
 	canvas = gdImageCreate(options->columns * options->bits,
 	    ((ctx->length / 2) / options->columns * fontData.height));
 
@@ -49,10 +48,10 @@ int ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	// allocate black color
+	/* allocate black color */
 	gdImageColorAllocate(canvas, 0, 0, 0);
 
-	// allocate color palette
+	/* allocate color palette */
 	uint32_t colors[16];
 
 	for (int i = 0; i < 16; i++) {
@@ -61,7 +60,7 @@ int ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		    binary_palette[i*3+2]);
 	}
 
-	// process binary
+	/* process binary */
 	uint32_t character, attribute, background, foreground;
 	uint32_t loop = 0;
 	int32_t column = 0, row = 0;
@@ -92,6 +91,6 @@ int ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		}
 	}
 
-	// create output image
+	/* create output image */
 	return output(ctx, options, canvas);
 }

@@ -33,25 +33,23 @@ int ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	// libgd image pointers
+	/* libgd image pointers */
 	gdImagePtr canvas;
 
-	// create ADF instance
+	/* create ADF instance */
 	canvas = gdImageCreate(640, (((ctx->length - ADF_HEADER_LENGTH) / 2) / 80) * 16);
-
-	// error output
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;
 		return -1;
 	}
 
-	// ADF color palette array
+	/* ADF color palette array */
 	uint32_t adf_colors[16] = { 0, 1, 2, 3, 4, 5, 20, 7, 56, 57, 58, 59, 60, 61, 62, 63 };
 
 	uint32_t loop;
 	uint32_t index;
 
-	// process ADF palette
+	/* process ADF palette */
 	for (loop = 0; loop < 16; loop++) {
 		index = (adf_colors[loop] * 3) + 1;
 		gdImageColorAllocate(canvas, (ctx->buffer[index] << 2 | ctx->buffer[index] >> 4),
@@ -61,7 +59,7 @@ int ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	gdImageColorAllocate(canvas, 0, 0, 0);
 
-	// process ADF
+	/* process ADF */
 	uint32_t column = 0, row = 0;
 	uint32_t character, attribute, foreground, background;
 	loop = ADF_HEADER_LENGTH;
@@ -84,6 +82,6 @@ int ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		loop += 2;
 	}
 
-	// create output file
+	/* create output file */
 	return output(ctx, options, canvas);
 }

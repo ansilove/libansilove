@@ -19,7 +19,7 @@
 #include "fonts.h"
 #include "output.h"
 
-// Character structure
+/* Character structure */
 struct pcbChar {
 	uint32_t column;
 	uint32_t row;
@@ -37,28 +37,26 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	// some type declarations
 	struct fontStruct fontData;
 	uint32_t loop, structIndex;
 
-	// font selection
+	/* font selection */
 	alSelectFont(&fontData, options->font);
 
-	// libgd image pointers
+	/* libgd image pointers */
 	gdImagePtr canvas;
 
-	// process PCBoard
 	unsigned char character, current_character, next_character;
 	uint32_t background = 0, foreground = 7;
 	uint32_t column = 0, row = 0, columnMax = 0, rowMax = 0;
 
-	// PCB buffer structure array definition
+	/* PCB buffer structure array definition */
 	struct pcbChar *pcboard_buffer;
 
-	// PCB buffer dynamic memory allocation
+	/* PCB buffer dynamic memory allocation */
 	pcboard_buffer = malloc(sizeof (struct pcbChar));
 
-	// reset loop
+	/* reset loop */
 	loop = 0;
 	structIndex = 0;
 
@@ -71,37 +69,37 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			column = 0;
 		}
 
-		// CR + LF
+		/* CR + LF */
 		if (current_character == 13 && next_character == 10) {
 			row++;
 			column = 0;
 			loop++;
 		}
 
-		// LF
+		/* LF */
 		if (current_character == 10) {
 			row++;
 			column = 0;
 		}
 
-		// Tab
+		/* Tab */
 		if (current_character == 9)
 			column += 8;
 
-		// Sub
+		/* Sub */
 		if (current_character == 26)
 			break;
 
-		// PCB sequence
+		/* PCB sequence */
 		if (current_character == 64 && next_character == 88) {
-			// set graphics rendition
+			/* set graphics rendition */
 			background = ctx->buffer[loop+2];
 			foreground = ctx->buffer[loop+3];
 			loop += 3;
 		}
 		else if (current_character == 64 && next_character == 67 &&
 		    ctx->buffer[loop+2] == 'L' && ctx->buffer[loop+3] == 'S') {
-			// erase display
+			/* erase display */
 			column = 0;
 			row = 0;
 
@@ -111,7 +109,7 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			loop += 4;
 		} else if (current_character == 64 && next_character == 80 && ctx->buffer[loop+2] == 'O'
 		    && ctx->buffer[loop+3] == 'S' && ctx->buffer[loop+4] == ':') {
-			// cursor position
+			/* cursor position */
 			if (ctx->buffer[loop+6] == '@')
 			{
 				column = ((ctx->buffer[loop+5])-48)-1;
@@ -123,14 +121,14 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				loop += 6;
 			}
 		} else if (current_character != 10 && current_character != 13 && current_character != 9) {
-			// record number of columns and lines used
+			/* record number of columns and lines used */
 			if (column > columnMax)
 				columnMax = column;
 
 			if (row > rowMax)
 				rowMax = row;
 
-			// reallocate structure array memory
+			/* reallocate structure array memory */
 			pcboard_buffer = realloc(pcboard_buffer, (structIndex + 1) * sizeof (struct pcbChar));
 			if (pcboard_buffer == NULL) {
 				ctx->error = ANSILOVE_MEMORY_ERROR;
@@ -139,7 +137,7 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				return -1;
 			}
 
-			// write current character in pcbChar structure
+			/* write current character in pcbChar structure */
 			pcboard_buffer[structIndex].column = column;
 			pcboard_buffer[structIndex].row = row;
 			pcboard_buffer[structIndex].background = pcb_colors[background];
@@ -154,7 +152,7 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	columnMax++;
 	rowMax++;
 
-	// allocate buffer image memory
+	/* allocate buffer image memory */
 	canvas = gdImageCreate(80 * options->bits, (rowMax)*fontData.height);
 
 	if (!canvas) {
@@ -163,11 +161,11 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	// allocate black color and create background canvas
+	/* allocate black color and create background canvas */
 	gdImageColorAllocate(canvas, 0, 0, 0);
 	gdImageFill(canvas, 0, 0, 0);
 
-	// allocate color palette
+	/* allocate color palette */
 	uint32_t colors[16];
 
 	for (int i = 0; i < 16; i++) {
@@ -176,12 +174,11 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		    ansi_palette[i*3+2]);
 	}
 
-	// the last value of loop tells us how many items are stored in there
 	uint32_t pcbBufferItems = structIndex;
 
-	// render PCB
+	/* render PCB */
 	for (loop = 0; loop < pcbBufferItems; loop++) {
-		// grab our chars out of the structure
+		/* grab our chars out of the structure */
 		column = pcboard_buffer[loop].column;
 		row = pcboard_buffer[loop].row;
 		background = pcboard_buffer[loop].background;
@@ -192,13 +189,12 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		    column, row, colors[background], colors[foreground], character);
 	}
 
-	// create output image
+	/* create output image */
 	if (output(ctx, options, canvas) != 0) {
 		free(pcboard_buffer);
 		return -1;
 	}
 
-	// free memory
 	free(pcboard_buffer);
 
 	return 0;

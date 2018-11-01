@@ -29,15 +29,12 @@ ansilove_loadfile(struct ansilove_ctx *ctx, char *input) {
 		return -1;
 	}
 
-	// load input file
 	fd = open(input, O_RDONLY);
-
 	if (fd == -1) {
 		ctx->error = ANSILOVE_FILE_READ_ERROR;
 		return -1;
 	}
 
-	// get the file size (bytes)
 	if (fstat(fd, &st) == -1) {
 		ctx->error = ANSILOVE_FILE_READ_ERROR;
 		close(fd);
@@ -46,7 +43,7 @@ ansilove_loadfile(struct ansilove_ctx *ctx, char *input) {
 
 	ctx->length = st.st_size;
 
-	// mmap input file into memory
+	/* mmap input file into memory */
 	ctx->buffer = mmap(NULL, ctx->length, PROT_READ, MAP_PRIVATE, fd, 0);
 	if (ctx->buffer == MAP_FAILED) {
 		ctx->error = ANSILOVE_MEMORY_ERROR;
@@ -54,7 +51,6 @@ ansilove_loadfile(struct ansilove_ctx *ctx, char *input) {
 		return -1;
 	}
 
-	// close input file, we don't need it anymore
 	close(fd);
 
 	return 0;

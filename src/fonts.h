@@ -25,8 +25,6 @@ struct fontStruct {
 
 void alSelectFont(struct fontStruct *fontData, int font);
 
-// Binary font and image data.
-
 const unsigned char font_pc_80x25[4096];
 const unsigned char font_pc_80x50[2048];
 const unsigned char font_pc_baltic[4096];

@@ -34,20 +34,20 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	// extract relevant part of the IDF header, 16-bit endian unsigned short
+	/* extract relevant part of the IDF header, 16-bit endian unsigned short */
 	uint32_t x2 = (ctx->buffer[9] << 8) + ctx->buffer[8];
 
-	// libgd image pointers
+	/* libgd image pointers */
 	gdImagePtr canvas;
 
 	uint32_t loop = 12;
 	uint32_t index;
 	uint32_t colors[16];
 
-	// process IDF
+	/* process IDF */
 	uint32_t idf_sequence_length, idf_sequence_loop, i = 0;
 
-	// dynamically allocated memory buffer for IDF data
+	/* dynamically allocated memory buffer for IDF data */
 	unsigned char *idf_buffer;
 	idf_buffer = malloc(2);
 
@@ -56,7 +56,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	while (loop < ctx->length - IDF_HEADER_LENGTH) {
 		memcpy(&idf_data, ctx->buffer+loop, 2);
 
-		// RLE compressed data
+		/* RLE compressed data */
 		if (idf_data == 1) {
 			memcpy(&idf_data_length, ctx->buffer+loop+2, 2);
 
@@ -64,7 +64,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 			for (idf_sequence_loop = 0; idf_sequence_loop < idf_sequence_length; idf_sequence_loop++)
 			{
-				// reallocate IDF buffer memory
+				/* reallocate IDF buffer memory */
 				idf_buffer = realloc(idf_buffer, i + 2);
 				if (idf_buffer == NULL) {
 					ctx->error = ANSILOVE_MEMORY_ERROR;
@@ -79,7 +79,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			}
 			loop += 4;
 		} else {
-			// reallocate IDF buffer memory
+			/* reallocate IDF buffer memory */
 			idf_buffer = realloc(idf_buffer, i + 2);
 			if (idf_buffer == NULL) {
 				ctx->error = ANSILOVE_MEMORY_ERROR;
@@ -88,7 +88,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				return -1;
 			}
 
-			// normal character
+			/* normal character */
 			idf_buffer[i] = ctx->buffer[loop];
 			idf_buffer[i+1] = ctx->buffer[loop + 1];
 			i += 2;
@@ -96,10 +96,10 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		loop += 2;
 	}
 
-	// create IDF instance
+	/* create IDF instance */
 	canvas = gdImageCreate((x2 + 1) * 8, i / 2 / 80 * 16);
 
-	// error output
+	/* error output */
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;
 		free(idf_buffer);
@@ -107,7 +107,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 	gdImageColorAllocate(canvas, 0, 0, 0);
 
-	// process IDF palette
+	/* process IDF palette */
 	for (loop = 0; loop < 16; loop++) {
 		index = (loop * 3) + ctx->length - 48;
 		colors[loop] = gdImageColorAllocate(canvas, (ctx->buffer[index] << 2 | ctx->buffer[index] >> 4),
@@ -115,7 +115,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		    (ctx->buffer[index + 2] << 2 | ctx->buffer[index + 2] >> 4));
 	}
 
-	// render IDF
+	/* render IDF */
 	uint32_t column = 0, row = 0;
 	uint32_t character, attribute, foreground, background;
 
@@ -136,13 +136,12 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		column++;
 	}
 
-	// create output file
+	/* create output file */
 	if (output(ctx, options, canvas) != 0) {
 		free(idf_buffer);
 		return -1;
 	}
 
-	// free memory
 	free(idf_buffer);
 
 	return 0;

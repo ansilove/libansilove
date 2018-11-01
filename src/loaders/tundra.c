@@ -41,29 +41,28 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	// some type declarations
 	struct fontStruct fontData;
 	char tundra_version;
 
 	options->columns = options->columns ? options->columns : 80;
 	int32_t columns = options->columns;
 
-	// font selection
+	/* font selection */
 	alSelectFont(&fontData, options->font);
 
-	// libgd image pointers
+	/* libgd image pointers */
 	gdImagePtr canvas;
 
-	// extract tundra header
+	/* extract tundra header */
 	tundra_version = ctx->buffer[0];
 
-	// need to add check for "TUNDRA24" string in the header
+	/* XXX: add check for "TUNDRA24" string in the header */
 	if (tundra_version != TUNDRA_VERSION) {
 		ctx->error = ANSILOVE_FORMAT_ERROR;
 		return -1;
 	}
 
-	// read tundra file a first time to find the image size
+	/* read tundra file a first time to find the image size */
 	uint32_t cursor, character, background = 0, foreground = 0;
 	uint32_t loop = TUNDRA_HEADER_LENGTH;
 	int32_t column = 0, row = 1;
@@ -114,7 +113,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 
-	// allocate buffer image memory
+	/* allocate buffer image memory */
 	canvas = gdImageCreateTrueColor(columns * options->bits,
 	    row * fontData.height);
 
@@ -123,7 +122,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	// process tundra
+	/* process tundra */
 	column = 0;
 	row = 0;
 
@@ -203,6 +202,6 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		loop++;
 	}
 
-	// create output image
+	/* create output image */
 	return output(ctx, options, canvas);
 }

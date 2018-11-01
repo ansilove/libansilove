@@ -18,7 +18,6 @@ struct ansilove_options;
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
-// prototypes
 int output(struct ansilove_ctx *, struct ansilove_options *, gdImagePtr);
 
 #endif /* OUTPUT_H */
