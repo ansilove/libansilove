@@ -108,7 +108,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* ANSi buffer structure array definition */
 	uint32_t structIndex = 0;
-	struct ansiChar *ansi_buffer, *temp;
+	struct ansiChar *ansi_buffer;
 
 	/* ANSi buffer dynamic memory allocation */
 	ansi_buffer = malloc(sizeof (struct ansiChar));
@@ -417,8 +417,13 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			if (!fontData.isAmigaFont || (current_character != 12 && current_character != 13)) {
 				/* reallocate structure array memory */
 
-				temp = realloc(ansi_buffer, (structIndex + 1) * sizeof (struct ansiChar));
-				ansi_buffer = temp;
+				ansi_buffer = realloc(ansi_buffer, (structIndex + 1) * sizeof (struct ansiChar));
+				if (ansi_buffer == NULL) {
+					ctx->error = ANSILOVE_MEMORY_ERROR;
+					free(ansi_buffer);
+					ansi_buffer = NULL;
+					return -1;
+				}
 
 				if (invert) {
 					ansi_buffer[structIndex].background = foreground % 8;
