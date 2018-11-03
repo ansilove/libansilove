@@ -87,7 +87,7 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		case SUB:
 			loop = ctx->length;
 			break;
-		case 64:
+		case '@':
 			/* PCB sequence */
 			if (next_character == 88) {
 				/* set graphics rendition */
