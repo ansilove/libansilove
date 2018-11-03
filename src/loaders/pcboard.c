@@ -19,6 +19,11 @@
 #include "fonts.h"
 #include "output.h"
 
+#define CR	'\r'
+#define LF	'\n'
+#define TAB	'\t'
+#define SUB	26
+
 /* Character structure */
 struct pcbChar {
 	uint32_t column;
