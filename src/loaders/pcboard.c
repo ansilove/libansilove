@@ -74,58 +74,54 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			column = 0;
 		}
 
-		/* CR + LF */
-		if (current_character == 13 && next_character == 10) {
-			row++;
-			column = 0;
-			loop++;
-		}
-
-		/* LF */
-		if (current_character == 10) {
-			row++;
-			column = 0;
-		}
-
-		/* Tab */
-		if (current_character == 9)
-			column += 8;
-
-		/* Sub */
-		if (current_character == 26)
+		switch (current_character) {
+		case CR:
 			break;
-
-		/* PCB sequence */
-		if (current_character == 64 && next_character == 88) {
-			/* set graphics rendition */
-			background = ctx->buffer[loop+2];
-			foreground = ctx->buffer[loop+3];
-			loop += 3;
-		}
-		else if (current_character == 64 && next_character == 67 &&
-		    ctx->buffer[loop+2] == 'L' && ctx->buffer[loop+3] == 'S') {
-			/* erase display */
+		case LF:
+			row++;
 			column = 0;
-			row = 0;
-
-			columnMax = 0;
-			rowMax = 0;
-
-			loop += 4;
-		} else if (current_character == 64 && next_character == 80 && ctx->buffer[loop+2] == 'O'
-		    && ctx->buffer[loop+3] == 'S' && ctx->buffer[loop+4] == ':') {
-			/* cursor position */
-			if (ctx->buffer[loop+6] == '@')
-			{
-				column = ((ctx->buffer[loop+5])-48)-1;
-				loop += 5;
+			break;
+		case TAB:
+			column += 8;
+			break;
+		case SUB:
+			loop = ctx->length;
+			break;
+		case 64:
+			/* PCB sequence */
+			if (next_character == 88) {
+				/* set graphics rendition */
+				background = ctx->buffer[loop+2];
+				foreground = ctx->buffer[loop+3];
+				loop += 3;
 			}
-			else
-			{
-				column = (10 * ((ctx->buffer[loop+5])-48) + (ctx->buffer[loop+6])-48)-1;
-				loop += 6;
+
+			if (next_character == 67 && ctx->buffer[loop+2] == 'L' && ctx->buffer[loop+3] == 'S') {
+				/* erase display */
+				column = 0;
+				row = 0;
+
+				columnMax = 0;
+				rowMax = 0;
+
+				loop += 4;
 			}
-		} else if (current_character != 10 && current_character != 13 && current_character != 9) {
+
+			if (next_character == 80 && ctx->buffer[loop+2] == 'O' && ctx->buffer[loop+3] == 'S' && ctx->buffer[loop+4] == ':') {
+				/* cursor position */
+				if (ctx->buffer[loop+6] == '@')
+				{
+					column = ((ctx->buffer[loop+5])-48)-1;
+					loop += 5;
+				}
+				else
+				{
+					column = (10 * ((ctx->buffer[loop+5])-48) + (ctx->buffer[loop+6])-48)-1;
+					loop += 6;
+				}
+			}
+			break;
+		default:
 			/* record number of columns and lines used */
 			if (column > columnMax)
 				columnMax = column;
@@ -152,6 +148,7 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			column++;
 			structIndex++;
 		}
+
 		loop++;
 	}
 	columnMax++;
