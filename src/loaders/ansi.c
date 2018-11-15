@@ -36,6 +36,7 @@
 #define CR	'\r'
 #define TAB	'\t'
 #define SUB	26
+#define ESC	27
 
 /* Character structure */
 struct ansiChar {
@@ -141,7 +142,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		case SUB:
 			loop = ctx->length;
 			break;
-		case 27: /* ANSi sequence */
+		case ESC: /* ANSi sequence */
 			if (next_character == 91) {
 				for (ansi_sequence_loop = 0; ansi_sequence_loop < ANSI_SEQUENCE_MAX_LENGTH; ansi_sequence_loop++) {
 					ansi_sequence_character = ctx->buffer[loop + 2 + ansi_sequence_loop];
