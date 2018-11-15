@@ -94,7 +94,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	uint32_t ansi_sequence_loop;
 
 	/* character definitions */
-	unsigned char current_character, next_character, character;
+	unsigned char current_character, character;
 	unsigned char ansi_sequence_character;
 
 	/* default color values */
@@ -122,7 +122,6 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* ANSi interpreter */
 	while (loop < ctx->length) {
 		current_character = ctx->buffer[loop];
-		next_character = ctx->buffer[loop + 1];
 
 		if (column == options->columns) {
 			row++;
