@@ -32,6 +32,11 @@
 
 #define ANSI_SEQUENCE_MAX_LENGTH 14
 
+#define CR	'\r'
+#define LF	'\n'
+#define TAB	'\t'
+#define SUB	26
+
 /* Character structure */
 struct ansiChar {
 	int32_t column;
