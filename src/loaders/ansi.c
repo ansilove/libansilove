@@ -128,289 +128,281 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			column = 0;
 		}
 
-		/* CR + LF */
-		if (current_character == 13 && next_character == 10) {
+		switch (current_character) {
+		case 10:
 			row++;
 			column = 0;
-			loop++;
-		}
-
-		/* LF */
-		if (current_character == 10) {
-			row++;
-			column = 0;
-		}
-
-		/* tab */
-		if (current_character == 9)
-			column += 8;
-
-		/* sub */
-		if (current_character == 26)
 			break;
+		case 13:
+			break;
+		case 9:
+			column += 8;
+			break;
+		case 26:
+			loop = ctx->length;
+			break;
+		case 27: /* ANSi sequence */
+			if (next_character == 91) {
+				for (ansi_sequence_loop = 0; ansi_sequence_loop < ANSI_SEQUENCE_MAX_LENGTH; ansi_sequence_loop++) {
+					ansi_sequence_character = ctx->buffer[loop + 2 + ansi_sequence_loop];
 
-		/* ANSi sequence */
-		if (current_character == 27 && next_character == 91) {
-			for (ansi_sequence_loop = 0; ansi_sequence_loop < ANSI_SEQUENCE_MAX_LENGTH; ansi_sequence_loop++) {
-				ansi_sequence_character = ctx->buffer[loop + 2 + ansi_sequence_loop];
-
-				/* cursor position */
-				if (ansi_sequence_character == 'H' || ansi_sequence_character == 'f') {
-					/* create substring from the sequence's content */
-					seq_line = 1;
-					seq_column = 1;
-					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
-
-					if (!strncmp(seqGrab, ";", 1)) {
+					/* cursor position */
+					if (ansi_sequence_character == 'H' || ansi_sequence_character == 'f') {
+						/* create substring from the sequence's content */
 						seq_line = 1;
-						seqTok = strtok(seqGrab, ";");
+						seq_column = 1;
+						seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
-						if (seqTok)
-							seq_column = strtonum(seqTok, 0, UINT32_MAX, &errstr);
-					} else {
-						seqTok = strtok(seqGrab, ";");
-						if (seqTok)
-							seq_line = strtonum(seqTok, 0, UINT32_MAX, &errstr);
+						if (!strncmp(seqGrab, ";", 1)) {
+							seq_line = 1;
+							seqTok = strtok(seqGrab, ";");
 
-						seqTok = strtok(NULL, ";");
-						if (seqTok)
-							seq_column = strtonum(seqTok, 0, UINT32_MAX, &errstr);
-					}
+							if (seqTok)
+								seq_column = strtonum(seqTok, 0, UINT32_MAX, &errstr);
+						} else {
+							seqTok = strtok(seqGrab, ";");
+							if (seqTok)
+								seq_line = strtonum(seqTok, 0, UINT32_MAX, &errstr);
 
-					/* set the positions */
-					row = seq_line-1;
-					column = seq_column-1;
-
-					loop += ansi_sequence_loop+2;
-					free(seqGrab);
-					break;
-				}
-
-				/* cursor up */
-				if (ansi_sequence_character == 'A') {
-					/* create substring from the sequence's content */
-					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
-
-					/* now get escape sequence's position value */
-					uint32_t seq_line = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
-					free(seqGrab);
-
-					row -= seq_line ? seq_line : 1;
-
-					if (row < 0)
-						row = 0;
-
-					loop += ansi_sequence_loop+2;
-					break;
-				}
-
-				/* cursor down */
-				if (ansi_sequence_character == 'B') {
-					/* create substring from the sequence's content */
-					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
-
-					/* now get escape sequence's position value */
-					uint32_t seq_line = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
-					free(seqGrab);
-
-					row += seq_line ? seq_line : 1;
-
-					loop += ansi_sequence_loop+2;
-					break;
-				}
-
-				/* cursor forward */
-				if (ansi_sequence_character == 'C') {
-					/* create substring from the sequence's content */
-					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
-
-					/* now get escape sequence's position value */
-					uint32_t seq_column = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
-					free(seqGrab);
-
-					column += seq_column ? seq_column : 1;
-
-					if (column > options->columns)
-						column = options->columns;
-
-					loop += ansi_sequence_loop+2;
-					break;
-				}
-
-				/* cursor backward */
-				if (ansi_sequence_character == 'D') {
-					/* create substring from the sequence's content */
-					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
-
-					/* now get escape sequence's content length */
-					uint32_t seq_column = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
-					free(seqGrab);
-
-					column -= seq_column ? seq_column : 1;
-
-					if (column < 0)
-						column = 0;
-
-					loop += ansi_sequence_loop+2;
-					break;
-				}
-
-				/* save cursor position */
-				if (ansi_sequence_character == 's') {
-					saved_row = row;
-					saved_column = column;
-
-					loop += ansi_sequence_loop+2;
-					break;
-				}
-
-				/* restore cursor position */
-				if (ansi_sequence_character == 'u') {
-					row = saved_row;
-					column = saved_column;
-
-					loop += ansi_sequence_loop+2;
-					break;
-				}
-
-				/* erase display */
-				if (ansi_sequence_character == 'J') {
-					/* create substring from the sequence's content */
-					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
-
-					/* convert grab to an integer */
-					uint32_t eraseDisplayInt = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
-					free(seqGrab);
-
-					if (eraseDisplayInt == 2) {
-						column = 0;
-						row = 0;
-
-						columnMax = 0;
-						rowMax = 0;
-
-						/* reset ansi buffer */
-						free(ansi_buffer);
-						ansi_buffer = malloc(sizeof (struct ansiChar));
-						structIndex = 0;
-					}
-					loop += ansi_sequence_loop+2;
-					break;
-				}
-
-				/* set graphics mode */
-				if (ansi_sequence_character == 'm') {
-					/* create substring from the sequence's content */
-					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
-
-					seqTok = strtok(seqGrab, ";");
-					while (seqTok) {
-						seqValue = strtonum(seqTok, 0, UINT32_MAX, &errstr);
-
-						if (seqValue == 0) {
-							background = 0;
-							foreground = 7;
-							bold = false;
-							blink = false;
-							invert = false;
+							seqTok = strtok(NULL, ";");
+							if (seqTok)
+								seq_column = strtonum(seqTok, 0, UINT32_MAX, &errstr);
 						}
 
-						if (seqValue == 1) {
-							if (!workbench) {
-								foreground += 8;
+						/* set the positions */
+						row = seq_line-1;
+						column = seq_column-1;
+
+						loop += ansi_sequence_loop+2;
+						free(seqGrab);
+						break;
+					}
+
+					/* cursor up */
+					if (ansi_sequence_character == 'A') {
+						/* create substring from the sequence's content */
+						seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
+
+						/* now get escape sequence's position value */
+						uint32_t seq_line = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
+						free(seqGrab);
+
+						row -= seq_line ? seq_line : 1;
+
+						if (row < 0)
+							row = 0;
+
+						loop += ansi_sequence_loop+2;
+						break;
+					}
+
+					/* cursor down */
+					if (ansi_sequence_character == 'B') {
+						/* create substring from the sequence's content */
+						seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
+
+						/* now get escape sequence's position value */
+						uint32_t seq_line = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
+						free(seqGrab);
+
+						row += seq_line ? seq_line : 1;
+
+						loop += ansi_sequence_loop+2;
+						break;
+					}
+
+					/* cursor forward */
+					if (ansi_sequence_character == 'C') {
+						/* create substring from the sequence's content */
+						seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
+
+						/* now get escape sequence's position value */
+						uint32_t seq_column = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
+						free(seqGrab);
+
+						column += seq_column ? seq_column : 1;
+
+						if (column > options->columns)
+							column = options->columns;
+
+						loop += ansi_sequence_loop+2;
+						break;
+					}
+
+					/* cursor backward */
+					if (ansi_sequence_character == 'D') {
+						/* create substring from the sequence's content */
+						seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
+
+						/* now get escape sequence's content length */
+						uint32_t seq_column = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
+						free(seqGrab);
+
+						column -= seq_column ? seq_column : 1;
+
+						if (column < 0)
+							column = 0;
+
+						loop += ansi_sequence_loop+2;
+						break;
+					}
+
+					/* save cursor position */
+					if (ansi_sequence_character == 's') {
+						saved_row = row;
+						saved_column = column;
+
+						loop += ansi_sequence_loop+2;
+						break;
+					}
+
+					/* restore cursor position */
+					if (ansi_sequence_character == 'u') {
+						row = saved_row;
+						column = saved_column;
+
+						loop += ansi_sequence_loop+2;
+						break;
+					}
+
+					/* erase display */
+					if (ansi_sequence_character == 'J') {
+						/* create substring from the sequence's content */
+						seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
+
+						/* convert grab to an integer */
+						uint32_t eraseDisplayInt = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
+						free(seqGrab);
+
+						if (eraseDisplayInt == 2) {
+							column = 0;
+							row = 0;
+
+							columnMax = 0;
+							rowMax = 0;
+
+							/* reset ansi buffer */
+							free(ansi_buffer);
+							ansi_buffer = malloc(sizeof (struct ansiChar));
+							structIndex = 0;
+						}
+						loop += ansi_sequence_loop+2;
+						break;
+					}
+
+					/* set graphics mode */
+					if (ansi_sequence_character == 'm') {
+						/* create substring from the sequence's content */
+						seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
+
+						seqTok = strtok(seqGrab, ";");
+						while (seqTok) {
+							seqValue = strtonum(seqTok, 0, UINT32_MAX, &errstr);
+
+							if (seqValue == 0) {
+								background = 0;
+								foreground = 7;
+								bold = false;
+								blink = false;
+								invert = false;
 							}
-							bold = true;
+
+							if (seqValue == 1) {
+								if (!workbench) {
+									foreground += 8;
+								}
+								bold = true;
+							}
+
+							if (seqValue == 5)
+							{
+								if (!workbench && options->icecolors)
+									background += 8;
+
+								blink = true;
+							}
+
+							if (seqValue == 7)
+								invert = true;
+
+							if (seqValue == 27)
+								invert = false;
+
+							if (seqValue > 29 && seqValue < 38)
+							{
+								foreground = seqValue - 30;
+
+								if (bold)
+									foreground += 8;
+							}
+
+							if (seqValue > 39 && seqValue < 48)
+							{
+								background = seqValue - 40;
+
+								if (blink && options->icecolors)
+									background += 8;
+							}
+
+							seqTok = strtok(NULL, ";");
 						}
 
-						if (seqValue == 5)
-						{
-							if (!workbench && options->icecolors)
-								background += 8;
-
-							blink = true;
-						}
-
-						if (seqValue == 7)
-							invert = true;
-
-						if (seqValue == 27)
-							invert = false;
-
-						if (seqValue > 29 && seqValue < 38)
-						{
-							foreground = seqValue - 30;
-
-							if (bold)
-								foreground += 8;
-						}
-
-						if (seqValue > 39 && seqValue < 48)
-						{
-							background = seqValue - 40;
-
-							if (blink && options->icecolors)
-								background += 8;
-						}
-
-						seqTok = strtok(NULL, ";");
+						loop += ansi_sequence_loop+2;
+						free(seqGrab);
+						break;
 					}
 
-					loop += ansi_sequence_loop+2;
-					free(seqGrab);
-					break;
-				}
+					/* cursor (de)activation (Amiga ANSi) */
+					if (ansi_sequence_character == 'p') {
+						loop += ansi_sequence_loop+2;
+						break;
+					}
 
-				/* cursor (de)activation (Amiga ANSi) */
-				if (ansi_sequence_character == 'p') {
-					loop += ansi_sequence_loop+2;
-					break;
-				}
+					/* skipping set mode and reset mode sequences */
+					if (ansi_sequence_character == 'h' || ansi_sequence_character == 'l') {
+						loop += ansi_sequence_loop+2;
+						break;
+					}
 
-				/* skipping set mode and reset mode sequences */
-				if (ansi_sequence_character == 'h' || ansi_sequence_character == 'l') {
-					loop += ansi_sequence_loop+2;
-					break;
-				}
+					/* skipping erase in line (EL) sequences */
+					if (ansi_sequence_character == 'K') {
+						loop += ansi_sequence_loop+2;
+						break;
+					}
 
-				/* skipping erase in line (EL) sequences */
-				if (ansi_sequence_character == 'K') {
-					loop += ansi_sequence_loop+2;
-					break;
-				}
+					/* skipping PabloDraw 24-bit ANSI sequences */
+					if (ansi_sequence_character == 't') {
+						uint32_t color_R = 0, color_G = 0, color_B = 0;
 
-				/* skipping PabloDraw 24-bit ANSI sequences */
-				if (ansi_sequence_character == 't') {
-					uint32_t color_R = 0, color_G = 0, color_B = 0;
+						/* create substring from the sequence's content */
+						seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
-					/* create substring from the sequence's content */
-					seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
+						seqTok = strtok(seqGrab, ";");
+						seqValue = strtonum(seqTok, 0, UCHAR_MAX, &errstr);
 
-					seqTok = strtok(seqGrab, ";");
-					seqValue = strtonum(seqTok, 0, UCHAR_MAX, &errstr);
+						seqTok = strtok(NULL, ";");
+						color_R = strtonum(seqTok, 0, UCHAR_MAX, &errstr) & 0xff;
+						seqTok = strtok(NULL, ";");
+						color_G = strtonum(seqTok, 0, UCHAR_MAX, &errstr) & 0xff;
+						seqTok = strtok(NULL, ";");
+						color_B = strtonum(seqTok, 0, UCHAR_MAX, &errstr) & 0xff;
 
-					seqTok = strtok(NULL, ";");
-					color_R = strtonum(seqTok, 0, UCHAR_MAX, &errstr) & 0xff;
-					seqTok = strtok(NULL, ";");
-					color_G = strtonum(seqTok, 0, UCHAR_MAX, &errstr) & 0xff;
-					seqTok = strtok(NULL, ";");
-					color_B = strtonum(seqTok, 0, UCHAR_MAX, &errstr) & 0xff;
+						if (seqValue == 0)
+							background = (color_R << 16) | (color_G << 8) | color_B;
 
-					if (seqValue == 0)
-						background = (color_R << 16) | (color_G << 8) | color_B;
+						if (seqValue == 1)
+							foreground = (color_R << 16) | (color_G << 8) | color_B;
 
-					if (seqValue == 1)
-						foreground = (color_R << 16) | (color_G << 8) | color_B;
+						options->truecolor = true;
 
-					options->truecolor = true;
-
-					loop += ansi_sequence_loop+2;
-					free(seqGrab);
-					break;
+						loop += ansi_sequence_loop+2;
+						free(seqGrab);
+						break;
+					}
 				}
 			}
-		}
-		else if (current_character != 10 && current_character != 13 && current_character != 9)
-		{
+			break;
+		default:
 			/* record number of columns and lines used */
 			if (column > columnMax)
 				columnMax = column;
@@ -446,6 +438,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				column++;
 			}
 		}
+
 		loop++;
 	}
 
