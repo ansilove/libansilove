@@ -45,7 +45,7 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	char tundra_version;
 
 	options->columns = options->columns ? options->columns : 80;
-	int32_t columns = options->columns;
+	int16_t columns = options->columns;
 
 	/* font selection */
 	alSelectFont(&fontData, options->font);

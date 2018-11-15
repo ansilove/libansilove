@@ -69,7 +69,7 @@ struct ansilove_ctx {
 	const uint8_t *buffer;
 	size_t length;
 	struct ansilove_png png;
-	uint32_t error;
+	uint8_t error;
 };
 
 struct ansilove_options {
@@ -77,11 +77,11 @@ struct ansilove_options {
 	bool dos;
 	bool icecolors;
 	bool truecolor;
-	int32_t columns;
-	uint32_t font;
-	uint32_t bits;
-	uint32_t mode;
-	uint32_t scale_factor;
+	int16_t columns;
+	uint8_t font;
+	uint8_t bits;
+	uint8_t mode;
+	uint8_t scale_factor;
 };
 
 int ansilove_init(struct ansilove_ctx *, struct ansilove_options *);

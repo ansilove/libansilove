@@ -62,7 +62,7 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* Default to 80 columns if columns option wasn't set */
 	options->columns = options->columns ? options->columns : 80;
 
-	int32_t columns = options->columns;
+	int16_t columns = options->columns;
 
 	bool ced = false;
 	bool transparent = false;
