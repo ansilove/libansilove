@@ -143,8 +143,10 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			loop = ctx->length;
 			break;
 		case ESC: /* ANSi sequence */
-			if (next_character == 91) {
-				for (ansi_sequence_loop = 0; ansi_sequence_loop < ANSI_SEQUENCE_MAX_LENGTH; ansi_sequence_loop++) {
+			if ((loop+1 < ctx->length) && ctx->buffer[loop + 1] == 91) {
+
+				uint32_t maxlength = fmin(ctx->length - loop, ANSI_SEQUENCE_MAX_LENGTH);
+				for (ansi_sequence_loop = 0; ansi_sequence_loop < maxlength; ansi_sequence_loop++) {
 					ansi_sequence_character = ctx->buffer[loop + 2 + ansi_sequence_loop];
 
 					/* cursor position */
