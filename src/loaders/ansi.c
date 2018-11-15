@@ -129,16 +129,16 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		}
 
 		switch (current_character) {
-		case 10:
+		case LF:
 			row++;
 			column = 0;
 			break;
-		case 13:
+		case CR:
 			break;
-		case 9:
+		case TAB:
 			column += 8;
 			break;
-		case 26:
+		case SUB:
 			loop = ctx->length;
 			break;
 		case 27: /* ANSi sequence */
