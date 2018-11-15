@@ -32,8 +32,8 @@
 
 #define ANSI_SEQUENCE_MAX_LENGTH 14
 
-#define CR	'\r'
 #define LF	'\n'
+#define CR	'\r'
 #define TAB	'\t'
 #define SUB	26
 

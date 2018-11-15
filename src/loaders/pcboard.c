@@ -19,8 +19,8 @@
 #include "fonts.h"
 #include "output.h"
 
-#define CR	'\r'
 #define LF	'\n'
+#define CR	'\r'
 #define TAB	'\t'
 #define SUB	26
 
@@ -75,11 +75,11 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		}
 
 		switch (current_character) {
-		case CR:
-			break;
 		case LF:
 			row++;
 			column = 0;
+			break;
+		case CR:
 			break;
 		case TAB:
 			column += 8;
