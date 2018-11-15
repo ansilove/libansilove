@@ -30,7 +30,7 @@ struct pcbChar {
 	uint32_t row;
 	uint32_t background;
 	uint32_t foreground;
-	unsigned char character;
+	uint8_t character;
 };
 
 int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
@@ -51,7 +51,7 @@ int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* libgd image pointers */
 	gdImagePtr canvas;
 
-	unsigned char character, current_character, next_character;
+	uint8_t character, current_character, next_character;
 	uint32_t background = 0, foreground = 7;
 	uint32_t column = 0, row = 0, columnMax = 0, rowMax = 0;
 

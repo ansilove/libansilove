@@ -29,8 +29,8 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	const unsigned char *font_data;
-	unsigned char *font_data_xbin = NULL;
+	const uint8_t *font_data;
+	uint8_t *font_data_xbin = NULL;
 
 	if (strncmp((char *)ctx->buffer, "XBIN\x1a", 5) != 0) {
 		ctx->error = ANSILOVE_FORMAT_ERROR;
@@ -84,7 +84,7 @@ int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		uint32_t numchars = (xbin_flags & 0x10 ? 512 : 256);
 
 		/* allocate memory to contain the XBin font */
-		font_data_xbin = (unsigned char *)malloc(xbin_fontsize * numchars);
+		font_data_xbin = (uint8_t *)malloc(xbin_fontsize * numchars);
 		if (font_data_xbin == NULL) {
 			ctx->error = ANSILOVE_MEMORY_ERROR;
 			return -1;

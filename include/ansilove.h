@@ -61,12 +61,12 @@
 #define ANSILOVE_MODE_WORKBENCH		3
 
 struct ansilove_png {
-	const unsigned char *buffer;
+	const uint8_t *buffer;
 	int length; /* Match the parameter type of gdImagePngPtr() */
 };
 
 struct ansilove_ctx {
-	const unsigned char *buffer;
+	const uint8_t *buffer;
 	size_t length;
 	struct ansilove_png png;
 	uint32_t error;

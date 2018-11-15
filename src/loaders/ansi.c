@@ -44,7 +44,7 @@ struct ansiChar {
 	int32_t row;
 	uint32_t background;
 	uint32_t foreground;
-	unsigned char character;
+	uint8_t character;
 };
 
 int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
@@ -94,8 +94,8 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	uint32_t ansi_sequence_loop;
 
 	/* character definitions */
-	unsigned char current_character, character;
-	unsigned char ansi_sequence_character;
+	uint8_t current_character, character;
+	uint8_t ansi_sequence_character;
 
 	/* default color values */
 	uint32_t background = 0, foreground = 7;

@@ -15,9 +15,9 @@
 
 #include "drawchar.h"
 
-void drawchar(gdImagePtr im, const unsigned char *font_data, uint32_t bits,
+void drawchar(gdImagePtr im, const uint8_t *font_data, uint32_t bits,
     uint32_t height, uint32_t column, uint32_t row,
-    uint32_t background, uint32_t foreground, unsigned char character) {
+    uint32_t background, uint32_t foreground, uint8_t character) {
 	uint32_t x, y;
 
 	gdImageFilledRectangle(im, column * bits, row*height, column * bits +

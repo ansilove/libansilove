@@ -48,7 +48,7 @@ int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	uint32_t idf_sequence_length, idf_sequence_loop, i = 0;
 
 	/* dynamically allocated memory buffer for IDF data */
-	unsigned char *idf_buffer;
+	uint8_t *idf_buffer;
 	idf_buffer = malloc(2);
 
 	uint16_t idf_data, idf_data_length;
