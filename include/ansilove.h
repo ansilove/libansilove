@@ -72,6 +72,7 @@ struct ansilove_png {
 
 struct ansilove_ctx {
 	uint8_t *buffer;
+	size_t maplen;
 	size_t length;
 	struct ansilove_png png;
 	uint8_t error;
