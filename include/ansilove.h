@@ -17,7 +17,12 @@
 #include <stddef.h>
 #include <stdint.h>
 
+/* Version number */
 #define ANSILOVE_VERSION "1.0.0"
+
+#define ANSILOVE_VERSION_MAJOR		1
+#define ANSILOVE_VERSION_MINOR		0
+#define ANSILOVE_VERSION_PATCH		0
 
 /* Error codes */
 #define ANSILOVE_INVALID_PARAM		1
