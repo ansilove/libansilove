@@ -19,7 +19,8 @@ ansilove_clean(struct ansilove_ctx *ctx) {
 	if (ctx == NULL)
 		return -1;
 
-	gdFree((void *)ctx->png.buffer);
+	if (ctx->png.buffer != NULL)
+		gdFree(ctx->png.buffer);
 	ctx->png.length = 0;
 
 	return 0;
