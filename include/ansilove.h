@@ -89,18 +89,18 @@ struct ansilove_options {
 	uint8_t scale_factor;
 };
 
-int ansilove_init(struct ansilove_ctx *, struct ansilove_options *);
-char *ansilove_error(struct ansilove_ctx *);
-int ansilove_loadfile(struct ansilove_ctx *, char *);
-int ansilove_savefile(struct ansilove_ctx *, char *);
-int ansilove_clean(struct ansilove_ctx *);
+int	 ansilove_init(struct ansilove_ctx *, struct ansilove_options *);
+char	*ansilove_error(struct ansilove_ctx *);
+int	 ansilove_loadfile(struct ansilove_ctx *, char *);
+int	 ansilove_savefile(struct ansilove_ctx *, char *);
+int	 ansilove_clean(struct ansilove_ctx *);
 
-int ansilove_ansi(struct ansilove_ctx *, struct ansilove_options *);
-int ansilove_artworx(struct ansilove_ctx *, struct ansilove_options *);
-int ansilove_binary(struct ansilove_ctx *, struct ansilove_options *);
-int ansilove_icedraw(struct ansilove_ctx *, struct ansilove_options *);
-int ansilove_pcboard(struct ansilove_ctx *, struct ansilove_options *);
-int ansilove_tundra(struct ansilove_ctx *, struct ansilove_options *);
-int ansilove_xbin(struct ansilove_ctx *, struct ansilove_options *);
+int	 ansilove_ansi(struct ansilove_ctx *, struct ansilove_options *);
+int	 ansilove_artworx(struct ansilove_ctx *, struct ansilove_options *);
+int	 ansilove_binary(struct ansilove_ctx *, struct ansilove_options *);
+int	 ansilove_icedraw(struct ansilove_ctx *, struct ansilove_options *);
+int	 ansilove_pcboard(struct ansilove_ctx *, struct ansilove_options *);
+int	 ansilove_tundra(struct ansilove_ctx *, struct ansilove_options *);
+int	 ansilove_xbin(struct ansilove_ctx *, struct ansilove_options *);
 
 #endif /* ANSILOVE_H */
