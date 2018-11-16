@@ -13,12 +13,14 @@
 #include <gd.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <string.h>
 #include "ansilove.h"
 #include "drawchar.h"
 #include "fonts.h"
 #include "output.h"
 
 #define TUNDRA_VERSION 24
+#define TUNDRA_STRING "TUNDRA24"
 
 #define TUNDRA_HEADER_LENGTH 9 /* 8 + 1 */
 
@@ -56,8 +58,8 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* extract tundra header */
 	tundra_version = ctx->buffer[0];
 
-	/* XXX: add check for "TUNDRA24" string in the header */
-	if (tundra_version != TUNDRA_VERSION) {
+	if (tundra_version != TUNDRA_VERSION ||
+	    strncmp((const char *)ctx->buffer + 1, TUNDRA_STRING, 8)) {
 		ctx->error = ANSILOVE_FORMAT_ERROR;
 		return -1;
 	}

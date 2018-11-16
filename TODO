@@ -9,6 +9,5 @@
 - Fuzz with AFL, especially for non ANSI formats
 - Allow enabling DOS aspect ratio + retina at the same time
 - Split fonts to have one include file per font
-- Check for the TUNDRA24 string in TND files header
 - Wrap lines longer than 80 columns
 - Add a manual page for the library
