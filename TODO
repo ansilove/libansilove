@@ -8,6 +8,5 @@
 - Fix rendering bugs in the PabloDraw 24-bit ANSI sequences handling
 - Fuzz with AFL, especially for non ANSI formats
 - Allow enabling DOS aspect ratio + retina at the same time
-- Split fonts to have one include file per font
 - Wrap lines longer than 80 columns
 - Add a manual page for the library
