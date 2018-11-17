@@ -192,8 +192,10 @@ int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			break;
 		}
 
-		if (character != 1 && character != 2 && character != 4 &&
-		    character != 6) {
+		if (character != TUNDRA_POSITION &&
+		    character != TUNDRA_COLOR_BACKGROUND &&
+		    character != TUNDRA_COLOR_FOREGROUND &&
+		    character != TUNDRA_COLOR_BOTH) {
 			drawchar(canvas, fontData.font_data, options->bits,
 			    fontData.height, column, row, background,
 			    foreground, character);
