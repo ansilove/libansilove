@@ -16,7 +16,8 @@
 #include "ansilove.h"
 
 int
-ansilove_init(struct ansilove_ctx *ctx, struct ansilove_options *options) {
+ansilove_init(struct ansilove_ctx *ctx, struct ansilove_options *options)
+{
 	if (ctx == NULL || options == NULL) {
 		if (ctx)
 			ctx->error = ANSILOVE_INVALID_PARAM;

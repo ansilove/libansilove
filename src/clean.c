@@ -17,7 +17,8 @@
 #include "gd.h"
 
 int
-ansilove_clean(struct ansilove_ctx *ctx) {
+ansilove_clean(struct ansilove_ctx *ctx)
+{
 	if (ctx == NULL)
 		return -1;
 

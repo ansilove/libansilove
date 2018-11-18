@@ -33,7 +33,8 @@ struct pcbChar {
 	uint8_t character;
 };
 
-int ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
+int
+ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
 	if (ctx == NULL || options == NULL) {
 		if (ctx)

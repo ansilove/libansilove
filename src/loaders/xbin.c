@@ -20,7 +20,8 @@
 #include "fonts.h"
 #include "output.h"
 
-int ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
+int
+ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
 	if (ctx == NULL || options == NULL) {
 		if (ctx)

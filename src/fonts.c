@@ -38,7 +38,9 @@
 #include "fonts/font_amiga_topaz_500.h"
 #include "fonts/font_amiga_topaz_500_plus.h"
 
-void alSelectFont(struct fontStruct *fontData, int font) {
+void
+alSelectFont(struct fontStruct *fontData, int font)
+{
 	switch (font) {
 	case ANSILOVE_FONT_CP437_80x50:
 		fontData->font_data = font_pc_80x50;

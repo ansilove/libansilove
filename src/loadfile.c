@@ -18,7 +18,8 @@
 #include "ansilove.h"
 
 int
-ansilove_loadfile(struct ansilove_ctx *ctx, char *input) {
+ansilove_loadfile(struct ansilove_ctx *ctx, char *input)
+{
 	int fd;
 	struct stat st;
 

@@ -29,7 +29,8 @@
 #define TUNDRA_COLOR_FOREGROUND 4
 #define TUNDRA_COLOR_BOTH 6
 
-int ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
+int
+ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
 	if (ctx == NULL || options == NULL) {
 		if (ctx)

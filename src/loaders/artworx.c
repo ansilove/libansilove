@@ -19,7 +19,8 @@
 
 #define ADF_HEADER_LENGTH 4289 /* 192 + 4096 + 1 */
 
-int ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
+int
+ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
 	if (ctx == NULL || options == NULL) {
 		if (ctx)

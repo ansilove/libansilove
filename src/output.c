@@ -14,7 +14,9 @@
 #include "ansilove.h"
 #include "output.h"
 
-int output(struct ansilove_ctx *ctx, struct ansilove_options *options, gdImagePtr im_Source) {
+int
+output(struct ansilove_ctx *ctx, struct ansilove_options *options, gdImagePtr im_Source)
+{
 	/* XXX Error handling */
 	/* XXX The caller must invoke gdFree() */
 	/* XXX Allow combining DOS aspect ratio and Retina */

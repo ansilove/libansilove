@@ -14,7 +14,8 @@
 #include "ansilove.h"
 
 char *
-ansilove_error(struct ansilove_ctx *ctx) {
+ansilove_error(struct ansilove_ctx *ctx)
+{
 	if (ctx == NULL)
 		return NULL;
 

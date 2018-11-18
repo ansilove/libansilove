@@ -14,7 +14,8 @@
 #include "ansilove.h"
 
 int
-ansilove_savefile(struct ansilove_ctx *ctx, char *output) {
+ansilove_savefile(struct ansilove_ctx *ctx, char *output)
+{
 	if (ctx == NULL || output == NULL) {
 		if (ctx)
 			ctx->error = ANSILOVE_INVALID_PARAM;

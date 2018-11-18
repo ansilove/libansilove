@@ -20,7 +20,8 @@
 
 #define IDF_HEADER_LENGTH 4144 /* 4096 + 48 */
 
-int ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
+int
+ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
 	if (ctx == NULL || options == NULL) {
 		if (ctx)
