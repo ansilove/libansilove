@@ -90,7 +90,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			break;
 		case '@':
 			/* PCB sequence */
-			if (next_character == 88) {
+			if (next_character == 'X') {
 				/* set graphics rendition */
 				background = ctx->buffer[loop+2];
 				foreground = ctx->buffer[loop+3];
