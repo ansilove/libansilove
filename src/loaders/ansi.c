@@ -380,23 +380,24 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 						seqGrab = strndup((char *)ctx->buffer + loop + 2, ansi_sequence_loop);
 
 						seqTok = strtok(seqGrab, ";");
-						if (seqTok)
+						if (seqTok) {
 							seqValue = strtonum(seqTok, 0, UCHAR_MAX, &errstr);
 
-						seqTok = strtok(NULL, ";");
-						color_R = seqTok ? strtonum(seqTok, 0, UCHAR_MAX, &errstr) & 0xff : 0;
-						seqTok = strtok(NULL, ";");
-						color_G = seqTok ? strtonum(seqTok, 0, UCHAR_MAX, &errstr) & 0xff : 0;
-						seqTok = strtok(NULL, ";");
-						color_B = seqTok ? strtonum(seqTok, 0, UCHAR_MAX, &errstr) & 0xff : 0;
+							seqTok = strtok(NULL, ";");
+							color_R = seqTok ? strtonum(seqTok, 0, UCHAR_MAX, &errstr) & 0xff : 0;
+							seqTok = strtok(NULL, ";");
+							color_G = seqTok ? strtonum(seqTok, 0, UCHAR_MAX, &errstr) & 0xff : 0;
+							seqTok = strtok(NULL, ";");
+							color_B = seqTok ? strtonum(seqTok, 0, UCHAR_MAX, &errstr) & 0xff : 0;
 
-						if (seqValue == 0)
-							background = (color_R << 16) | (color_G << 8) | color_B;
+							if (seqValue == 0)
+								background = (color_R << 16) | (color_G << 8) | color_B;
 
-						if (seqValue == 1)
-							foreground = (color_R << 16) | (color_G << 8) | color_B;
+							if (seqValue == 1)
+								foreground = (color_R << 16) | (color_G << 8) | color_B;
 
-						options->truecolor = true;
+							options->truecolor = true;
+						}
 
 						loop += ansi_sequence_loop+2;
 						free(seqGrab);
