@@ -10,13 +10,13 @@
  * See LICENSE file for details.
  */
 
+#ifndef OUTPUT_H
+#define OUTPUT_H
+
 #include <gd.h>
 
 struct ansilove_ctx;
 struct ansilove_options;
-
-#ifndef OUTPUT_H
-#define OUTPUT_H
 
 int output(struct ansilove_ctx *, struct ansilove_options *, gdImagePtr);
 

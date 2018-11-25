@@ -10,11 +10,11 @@
  * See LICENSE file for details.
  */
 
-#include <gd.h>
-#include <sys/types.h>
-
 #ifndef DRAWCHAR_H
 #define DRAWCHAR_H
+
+#include <gd.h>
+#include <sys/types.h>
 
 void drawchar(gdImagePtr im, const uint8_t *font_data, uint32_t bits,
     uint32_t height, uint32_t column, uint32_t row,

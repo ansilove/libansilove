@@ -10,11 +10,11 @@
  * See LICENSE file for details.
  */
 
-#include <stdbool.h>
-#include <stdint.h>
-
 #ifndef FONTS_H
 #define FONTS_H
+
+#include <stdbool.h>
+#include <stdint.h>
 
 struct fontStruct {
 	const uint8_t *font_data;
