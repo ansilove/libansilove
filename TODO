@@ -1,5 +1,3 @@
-- Increment ansi_buffer by more than one element at a time when using realloc
-  in order to avoid wasting memory. Switch to OpenBSD reallocarray?
 - Fix rendering bugs in the PabloDraw 24-bit ANSI sequences handling
 - Allow enabling DOS aspect ratio + retina at the same time
 - Wrap lines longer than 80 columns

@@ -31,6 +31,7 @@
 #endif
 
 #define ANSI_SEQUENCE_MAX_LENGTH 14
+#define ANSI_BUFFER_SIZE 65536
 
 #define LF	'\n'
 #define CR	'\r'
@@ -117,8 +118,10 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	uint32_t structIndex = 0;
 	struct ansiChar *ansi_buffer;
 
+	size_t ansi_buffer_size = ANSI_BUFFER_SIZE;
+
 	/* ANSi buffer dynamic memory allocation */
-	ansi_buffer = malloc(sizeof (struct ansiChar));
+	ansi_buffer = malloc(ansi_buffer_size * sizeof(struct ansiChar));
 
 	/* ANSi interpreter */
 	while (loop < ctx->length) {
@@ -285,8 +288,6 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 							rowMax = 0;
 
 							/* reset ansi buffer */
-							free(ansi_buffer);
-							ansi_buffer = malloc(sizeof (struct ansiChar));
 							structIndex = 0;
 						}
 						loop += ansi_sequence_loop+2;
@@ -416,13 +417,17 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			/* write current character in ansiChar structure */
 			if (!fontData.isAmigaFont || (current_character != 12 && current_character != 13)) {
 				/* reallocate structure array memory */
+				if (structIndex == ansi_buffer_size) {
+					ansi_buffer_size += ANSI_BUFFER_SIZE;
 
-				ansi_buffer = realloc(ansi_buffer, (structIndex + 1) * sizeof (struct ansiChar));
-				if (ansi_buffer == NULL) {
-					ctx->error = ANSILOVE_MEMORY_ERROR;
-					free(ansi_buffer);
-					ansi_buffer = NULL;
-					return -1;
+					ansi_buffer = realloc(ansi_buffer, ansi_buffer_size * sizeof(struct ansiChar));
+
+					if (ansi_buffer == NULL) {
+						ctx->error = ANSILOVE_MEMORY_ERROR;
+						free(ansi_buffer);
+						ansi_buffer = NULL;
+						return -1;
+					}
 				}
 
 				if (invert) {
