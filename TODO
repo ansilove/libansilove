@@ -1,10 +1,6 @@
 - Increment ansi_buffer by more than one element at a time when using realloc
   in order to avoid wasting memory. Switch to OpenBSD reallocarray?
-- Parse ANSI in two pass, like we do for Tundra, to avoid storing temporary
-  data and save memory?
-- Use OpenBSD style(9) for function prototypes and declarations?
 - Fix rendering bugs in the PabloDraw 24-bit ANSI sequences handling
-- Fuzz with AFL, especially for non ANSI formats
 - Allow enabling DOS aspect ratio + retina at the same time
 - Wrap lines longer than 80 columns
 - Add a manual page for the library
