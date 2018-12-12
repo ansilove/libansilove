@@ -73,7 +73,8 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		for (loop = 0; loop < 16; loop++) {
 			index = (loop * 3) + offset;
 
-			colors[loop] = gdImageColorAllocate(canvas, (ctx->buffer[index] << 2 | ctx->buffer[index] >> 4),
+			colors[loop] = gdImageColorAllocate(canvas,
+			    (ctx->buffer[index] << 2 | ctx->buffer[index] >> 4),
 			    (ctx->buffer[index + 1] << 2 | ctx->buffer[index + 1] >> 4),
 			    (ctx->buffer[index + 2] << 2 | ctx->buffer[index + 2] >> 4));
 		}
@@ -81,8 +82,8 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		offset += 48;
 	} else {
 		for (int i = 0; i < 16; i++) {
-			colors[i] = gdImageColorAllocate(canvas, binary_palette[i*3],
-			    binary_palette[i*3+1],
+			colors[i] = gdImageColorAllocate(canvas,
+			    binary_palette[i*3], binary_palette[i*3+1],
 			    binary_palette[i*3+2]);
 		}
 	}
@@ -97,7 +98,8 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			ctx->error = ANSILOVE_MEMORY_ERROR;
 			return -1;
 		}
-		memcpy(font_data_xbin, ctx->buffer+offset, (xbin_fontsize * numchars));
+		memcpy(font_data_xbin, ctx->buffer+offset,
+		    (xbin_fontsize * numchars));
 
 		font_data = font_data_xbin;
 
@@ -160,7 +162,9 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				background = (attribute & 240) >> 4;
 				foreground = attribute & 15;
 
-				drawchar(canvas, font_data, 8, 16, column, row, colors[background], colors[foreground], character);
+				drawchar(canvas, font_data, 8, 16, column, row,
+				    colors[background], colors[foreground],
+				    character);
 
 				column++;
 
@@ -184,7 +188,9 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			background = (attribute & 240) >> 4;
 			foreground = attribute & 15;
 
-			drawchar(canvas, font_data, 8, xbin_fontsize, column, row, colors[background], colors[foreground], character);
+			drawchar(canvas, font_data, 8, xbin_fontsize,
+			    column, row, colors[background],
+			    colors[foreground], character);
 
 			column++;
 			offset += 2;

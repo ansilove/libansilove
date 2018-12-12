@@ -35,7 +35,7 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	/* extract relevant part of the IDF header, 16-bit endian unsigned short */
+	/* Get number of columns, 16-bit endian unsigned short */
 	uint32_t x2 = (ctx->buffer[9] << 8) + ctx->buffer[8];
 
 	/* libgd image pointers */
@@ -111,7 +111,8 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* process IDF palette */
 	for (loop = 0; loop < 16; loop++) {
 		index = (loop * 3) + ctx->length - 48;
-		colors[loop] = gdImageColorAllocate(canvas, (ctx->buffer[index] << 2 | ctx->buffer[index] >> 4),
+		colors[loop] = gdImageColorAllocate(canvas,
+		    (ctx->buffer[index] << 2 | ctx->buffer[index] >> 4),
 		    (ctx->buffer[index + 1] << 2 | ctx->buffer[index + 1] >> 4),
 		    (ctx->buffer[index + 2] << 2 | ctx->buffer[index + 2] >> 4));
 	}
@@ -132,7 +133,9 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		background = (attribute & 240) >> 4;
 		foreground = attribute & 15;
 
-		drawchar(canvas, ctx->buffer+(ctx->length - IDF_HEADER_LENGTH), 8, 16, column, row, colors[background], colors[foreground], character);
+		drawchar(canvas, ctx->buffer+(ctx->length - IDF_HEADER_LENGTH),
+		    8, 16, column, row,
+		    colors[background], colors[foreground], character);
 
 		column++;
 	}

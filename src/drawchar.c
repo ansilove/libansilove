@@ -29,10 +29,13 @@ drawchar(gdImagePtr im, const uint8_t *font_data, uint32_t bits,
 		for (x = 0; x < bits; x++) {
 
 			if ((font_data[y+character*height] & (0x80 >> x)) != 0) {
-				gdImageSetPixel(im, column * bits + x, row*height + y, foreground);
+				gdImageSetPixel(im, column * bits + x,
+				    row*height + y, foreground);
 
-				if (bits == 9 && x == 7 && character > 191 && character < 224)
-					gdImageSetPixel(im, column * bits + 8, row * height + y, foreground);
+				if (bits == 9 && x == 7 &&
+				    character > 191 && character < 224)
+					gdImageSetPixel(im, column * bits + 8,
+					    row * height + y, foreground);
 			}
 		}
 	}

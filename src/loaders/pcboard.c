@@ -97,7 +97,8 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				loop += 3;
 			}
 
-			if (next_character == 67 && ctx->buffer[loop+2] == 'L' && ctx->buffer[loop+3] == 'S') {
+			if (next_character == 67 && ctx->buffer[loop+2] == 'L'
+			    && ctx->buffer[loop+3] == 'S') {
 				/* erase display */
 				column = 0;
 				row = 0;
@@ -108,7 +109,8 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				loop += 4;
 			}
 
-			if (next_character == 80 && ctx->buffer[loop+2] == 'O' && ctx->buffer[loop+3] == 'S' && ctx->buffer[loop+4] == ':') {
+			if (next_character == 80 && ctx->buffer[loop+2] == 'O'
+			    && ctx->buffer[loop+3] == 'S' && ctx->buffer[loop+4] == ':') {
 				/* cursor position */
 				if (ctx->buffer[loop+6] == '@')
 				{

@@ -15,7 +15,8 @@
 #include "output.h"
 
 int
-output(struct ansilove_ctx *ctx, struct ansilove_options *options, gdImagePtr im_Source)
+output(struct ansilove_ctx *ctx, struct ansilove_options *options,
+    gdImagePtr im_Source)
 {
 	/* XXX Error handling */
 	/* XXX The caller must invoke gdFree() */
