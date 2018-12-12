@@ -47,7 +47,8 @@ struct ansiChar {
 	uint8_t character;
 };
 
-int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
+int
+ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
 	if (ctx == NULL || options == NULL) {
 		if (ctx)
@@ -330,16 +331,14 @@ int ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 							if (seqValue == 27)
 								invert = false;
 
-							if (seqValue > 29 && seqValue < 38)
-							{
+							if (seqValue > 29 && seqValue < 38) {
 								foreground = seqValue - 30;
 
 								if (bold)
 									foreground += 8;
 							}
 
-							if (seqValue > 39 && seqValue < 48)
-							{
+							if (seqValue > 39 && seqValue < 48) {
 								background = seqValue - 40;
 
 								if (blink && options->icecolors)

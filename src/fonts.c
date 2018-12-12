@@ -173,5 +173,3 @@ alSelectFont(struct fontStruct *fontData, int font)
 		break;
 	}
 }
-
-
