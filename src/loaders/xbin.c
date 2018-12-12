@@ -20,6 +20,8 @@
 #include "fonts.h"
 #include "output.h"
 
+#define XBIN_HEADER_LENGTH 11 /* 4 + 1 + 2 + 2 + 1 + 1 */
+
 int
 ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
@@ -27,6 +29,11 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		if (ctx)
 			ctx->error = ANSILOVE_INVALID_PARAM;
 
+		return -1;
+	}
+
+	if (ctx->length < XBIN_HEADER_LENGTH) {
+		ctx->error = ANSILOVE_FORMAT_ERROR;
 		return -1;
 	}
 

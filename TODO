@@ -3,8 +3,6 @@
 - Parse ANSI in two pass, like we do for Tundra, to avoid storing temporary
   data and save memory?
 - Use OpenBSD style(9) for function prototypes and declarations?
-- Be more resilient with corrupt files, especially ADF / IDF / XBIN files
-  with malformed headers
 - Fix rendering bugs in the PabloDraw 24-bit ANSI sequences handling
 - Fuzz with AFL, especially for non ANSI formats
 - Allow enabling DOS aspect ratio + retina at the same time
