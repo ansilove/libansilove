@@ -39,6 +39,38 @@ images, supporting ANSI (.ANS), PCBoard (.PCB), Binary (.BIN), Artworx
 It creates size optimized 4-bit PNG files and supports 80x25 and 80x50
 PC fonts (including all the 14 MS-DOS charsets), Amiga fonts, and
 iCE colors.
+.Pp
+All library functions take a context, defined as an 
+.Em ansilove_ctx
+structure in
+.Pa include/ansilove.h :
+.Bd -literal
+struct ansilove_ctx {
+        uint8_t *buffer;
+        size_t maplen;
+        size_t length;
+        struct ansilove_png png;
+        uint8_t error;
+};
+.Ed
+.Pp
+Options are passed to the different loaders using the
+.Em ansilove_options
+structure in
+.Pa include/ansilove.h :
+.Bd -literal
+struct ansilove_options {
+        bool diz;
+        bool dos;
+        bool icecolors;
+        bool truecolor;
+        int16_t columns;
+        uint8_t font;
+        uint8_t bits;
+        uint8_t mode;
+        uint8_t scale_factor;
+};
+.Ed
 .Sh AUTHORS
 .An -nosplit
 .Nm
