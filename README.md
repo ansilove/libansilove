@@ -2,7 +2,7 @@
 
 [![Build Status][1]][2] [![Coverity Scan Build Status][3]][4]
 
-libansilove is a library to converts ANSi and artscene related file formats
+libansilove is a library to convert ANSi and artscene related file formats
 into PNG images.
 
 # Dependencies

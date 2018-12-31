@@ -10,6 +10,9 @@
 - Use 'X' instead of integer value for the start of SGR sequences
 - Always check that seqTok is not NULL before using it
 - Move the include guards to the top of header files
+- Add format validation checks for the XBin loader
+- Increment ansi_buffer by more than one element at a time when using
+  realloc
 
 
 
