@@ -22,12 +22,14 @@ header files.
 
 # Compiling
 
-    cmake .
-    make
+	mkdir build
+	cd build
+	cmake ..
+	make
 
 # Installation
 
-    make install
+	make install
 
 # Features
 
