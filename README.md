@@ -1,6 +1,6 @@
 # libansilove
 
-[![Build Status][1]][2] [![Coverity Scan Build Status][3]][4]
+[![Build Status][1]][2]
 
 libansilove is a library to convert ANSi and artscene related file formats
 into PNG images.
@@ -64,5 +64,3 @@ GitHub: https://github.com/ansilove/libansilove
 
 [1]: https://api.travis-ci.org/ansilove/libansilove.png?branch=master
 [2]: https://travis-ci.org/ansilove/libansilove
-[3]: https://scan.coverity.com/projects/16165/badge.svg
-[4]: https://scan.coverity.com/projects/16165
