@@ -37,3 +37,4 @@ set_target_properties(ansilove PROPERTIES VERSION ${LIB_VERSION_STRING}
 
 install(TARGETS ansilove DESTINATION lib)
 install(FILES include/ansilove.h DESTINATION include)
+install(FILES libansilove.3 DESTINATION ${CMAKE_INSTALL_MANDIR}/man3/)
