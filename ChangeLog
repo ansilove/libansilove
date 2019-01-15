@@ -13,6 +13,8 @@
 - Add format validation checks for the XBin loader
 - Increment ansi_buffer by more than one element at a time when using
   realloc
+- Add initial man page, documenting the ansilove_ctx and ansilove_options
+  structures
 
 
 
