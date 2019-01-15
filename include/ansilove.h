@@ -1,6 +1,6 @@
 /*
  * ansilove.h
- * libansilove 1.0.0
+ * libansilove 1.1.0
  * https://www.ansilove.org
  *
  * Copyright (c) 2011-2019 Stefan Vogt, Brian Cassidy, and Frederic Cambus
@@ -18,10 +18,10 @@
 #include <stdint.h>
 
 /* Version number */
-#define ANSILOVE_VERSION "1.0.0"
+#define ANSILOVE_VERSION "1.1.0"
 
 #define ANSILOVE_VERSION_MAJOR		1
-#define ANSILOVE_VERSION_MINOR		0
+#define ANSILOVE_VERSION_MINOR		1
 #define ANSILOVE_VERSION_PATCH		0
 
 /* Error codes */

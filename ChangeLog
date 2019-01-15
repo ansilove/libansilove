@@ -1,9 +1,11 @@
+libansilove 1.1.0 (2019-01-15)
+
 - Only call gdFree() if the PNG buffer was allocated (Thanks Joris Vink)
 - No need for buffer pointers to be const, they're passed to functions
-  taking non consts. (Thanks Joris Vink)
+  taking non consts (Thanks Joris Vink)
 - Introduce a maplen variable to allow tracking mmap size, as we can't
   rely on the length variable because of SAUCE
-- Unmap ctx->buffer on cleanup. From Joris Vink, thanks!
+- Unmap ctx->buffer on cleanup (Thanks Joris Vink)
 - Check for the TUNDRA24 string in TND files header
 - Split fonts data to have one include file per font
 - Use macros instead of hardcoded values in the Tundra loader
