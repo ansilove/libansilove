@@ -116,7 +116,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* ANSi buffer structure array definition */
 	uint32_t structIndex = 0;
-	struct ansiChar *ansi_buffer;
+	struct ansiChar *ptr, *ansi_buffer;
 
 	size_t ansi_buffer_size = ANSI_BUFFER_SIZE;
 
@@ -420,13 +420,14 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				if (structIndex == ansi_buffer_size) {
 					ansi_buffer_size += ANSI_BUFFER_SIZE;
 
-					ansi_buffer = realloc(ansi_buffer, ansi_buffer_size * sizeof(struct ansiChar));
+					ptr = realloc(ansi_buffer, ansi_buffer_size * sizeof(struct ansiChar));
 
-					if (ansi_buffer == NULL) {
+					if (ptr == NULL) {
 						ctx->error = ANSILOVE_MEMORY_ERROR;
 						free(ansi_buffer);
-						ansi_buffer = NULL;
 						return -1;
+					} else {
+						ansi_buffer = ptr;
 					}
 				}
 
