@@ -463,9 +463,9 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* create that damn thingy */
 	if (!options->truecolor) {
-		canvas = gdImageCreate(columns * options->bits, (rowMax)*fontData.height);
+		canvas = gdImageCreate(columns * options->bits, rowMax * fontData.height);
 	} else {
-		canvas = gdImageCreateTrueColor(columns * options->bits, (rowMax)*fontData.height);
+		canvas = gdImageCreateTrueColor(columns * options->bits, rowMax * fontData.height);
 	}
 
 	if (!canvas) {
