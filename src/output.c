@@ -24,6 +24,7 @@ output(struct ansilove_ctx *ctx, struct ansilove_options *options,
 
 	if (!options->scale_factor && !options->dos) {
 		ctx->png.buffer = gdImagePngPtr(im_Source, &ctx->png.length);
+		gdImageDestroy(im_Source);
 	} else if (options->dos) {
 		gdImagePtr im_DOS;
 
