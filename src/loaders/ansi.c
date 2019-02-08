@@ -75,7 +75,6 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* font selection */
 	alSelectFont(&fontData, options->font);
 
-	/* to deal with the bits flag, we declared handy bool types */
 	switch (options->mode) {
 	case ANSILOVE_MODE_CED:
 		ced = true;
