@@ -42,6 +42,7 @@ output(struct ansilove_ctx *ctx, struct ansilove_options *options,
 		gdImageDestroy(im_Source);
 
 		ctx->png.buffer = gdImagePngPtr(im_DOS, &ctx->png.length);
+		gdImageDestroy(im_DOS);
 	} else {
 		gdImagePtr im_Retina;
 
@@ -59,6 +60,7 @@ output(struct ansilove_ctx *ctx, struct ansilove_options *options,
 		/* create retina output image */
 		gdImageDestroy(im_Source);
 		ctx->png.buffer = gdImagePngPtr(im_Retina, &ctx->png.length);
+		gdImageDestroy(im_Retina);
 	}
 
 	return 0;
