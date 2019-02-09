@@ -1,3 +1,13 @@
+libansilove 1.1.1 (2019-02-09)
+
+- Add install target for man page
+- Use the correct idiom for realloc, to avoid leaking memory if allocation
+  fails
+- Fixed memory leak in the output() function, gdImageDestroy() must be
+  called after gdImagePngPtr() (Thanks Andrew Michaelson)
+
+
+
 libansilove 1.1.0 (2019-01-15)
 
 - Only call gdFree() if the PNG buffer was allocated (Thanks Joris Vink)
