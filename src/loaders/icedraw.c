@@ -82,12 +82,13 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			loop += 4;
 		} else {
 			/* reallocate IDF buffer memory */
-			idf_buffer = realloc(idf_buffer, i + 2);
-			if (idf_buffer == NULL) {
+			ptr = realloc(idf_buffer, i + 2);
+			if (ptr == NULL) {
 				ctx->error = ANSILOVE_MEMORY_ERROR;
 				free(idf_buffer);
-				idf_buffer = NULL;
 				return -1;
+			} else {
+				idf_buffer = ptr;
 			}
 
 			/* normal character */
