@@ -1,6 +1,6 @@
 /*
  * config.h
- * libansilove 1.1.0
+ * libansilove 1.1.1
  * https://www.ansilove.org
  *
  * Copyright (c) 2011-2019 Stefan Vogt, Brian Cassidy, and Frederic Cambus
