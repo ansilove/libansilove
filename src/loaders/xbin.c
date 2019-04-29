@@ -162,9 +162,9 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				background = (attribute & 240) >> 4;
 				foreground = attribute & 15;
 
-				drawchar(canvas, font_data, 8, 16, column, row,
-				    colors[background], colors[foreground],
-				    character);
+				drawchar(canvas, font_data, 8, xbin_fontsize,
+				    column, row, colors[background],
+				    colors[foreground], character);
 
 				column++;
 
