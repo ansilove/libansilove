@@ -83,8 +83,8 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	} else {
 		for (int i = 0; i < 16; i++) {
 			colors[i] = gdImageColorAllocate(canvas,
-			    binary_palette[i*3], binary_palette[i*3+1],
-			    binary_palette[i*3+2]);
+			    vga_palette[i*3], vga_palette[i*3+1],
+			    vga_palette[i*3+2]);
 		}
 	}
 
