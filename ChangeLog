@@ -1,3 +1,12 @@
+libansilove 1.1.2 (2019-04-30)
+
+- Use 'xbin_fontsize' for character height instead of an hardcoded value,
+  fixes a rendering bug reported by Bart Dumon
+- Rename the 'binary_palette' array to 'vga_palette'
+- More format validation checks for the XBin loader
+
+
+
 libansilove 1.1.1 (2019-02-11)
 
 - Add install target for man page

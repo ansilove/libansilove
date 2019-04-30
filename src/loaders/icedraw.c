@@ -1,6 +1,6 @@
 /*
  * icedraw.c
- * libansilove 1.1.1
+ * libansilove 1.1.2
  * https://www.ansilove.org
  *
  * Copyright (c) 2011-2019 Stefan Vogt, Brian Cassidy, and Frederic Cambus
