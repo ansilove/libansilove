@@ -93,15 +93,15 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		uint32_t numchars = (xbin_flags & 0x10 ? 512 : 256);
 		size_t fontsz = xbin_fontsize * numchars;
 
+		if (offset + fontsz > ctx->length) {
+			ctx->error = ANSILOVE_FORMAT_ERROR;
+			return -1;
+		}
+
 		/* allocate memory to contain the XBin font */
 		font_data_xbin = (uint8_t *)malloc(fontsz);
 		if (font_data_xbin == NULL) {
 			ctx->error = ANSILOVE_MEMORY_ERROR;
-			return -1;
-		}
-
-		if (offset + fontsz > ctx->length) {
-			ctx->error = ANSILOVE_FORMAT_ERROR;
 			return -1;
 		}
 
