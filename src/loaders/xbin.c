@@ -91,19 +91,25 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* font */
 	if ((xbin_flags & 2) == 2) {
 		uint32_t numchars = (xbin_flags & 0x10 ? 512 : 256);
+		size_t fontsz = xbin_fontsize * numchars;
 
 		/* allocate memory to contain the XBin font */
-		font_data_xbin = (uint8_t *)malloc(xbin_fontsize * numchars);
+		font_data_xbin = (uint8_t *)malloc(fontsz);
 		if (font_data_xbin == NULL) {
 			ctx->error = ANSILOVE_MEMORY_ERROR;
 			return -1;
 		}
-		memcpy(font_data_xbin, ctx->buffer+offset,
-		    (xbin_fontsize * numchars));
+
+		if (offset + fontsz > ctx->length) {
+			ctx->error = ANSILOVE_FORMAT_ERROR;
+			return -1;
+		}
+
+		memcpy(font_data_xbin, ctx->buffer+offset, fontsz);
 
 		font_data = font_data_xbin;
 
-		offset += (xbin_fontsize * numchars);
+		offset += fontsz;
 	} else {
 		/* using default 80x25 font */
 		font_data = font_pc_80x25;
