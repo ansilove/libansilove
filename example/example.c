@@ -13,6 +13,4 @@ int main() {
 	ansilove_savefile(&ctx, "example.png");
 
 	ansilove_clean(&ctx);
-
-	return 0;
 }
