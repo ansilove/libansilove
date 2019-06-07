@@ -49,9 +49,6 @@ ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	/* allocate black color */
-	gdImageColorAllocate(canvas, 0, 0, 0);
-
 	/* allocate color palette */
 	uint32_t colors[16];
 
