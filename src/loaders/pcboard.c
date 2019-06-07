@@ -52,7 +52,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* libgd image pointers */
 	gdImagePtr canvas;
 
-	uint8_t character, current_character, next_character;
+	uint8_t character, *cursor;
 	uint32_t background = 0, foreground = 7;
 	uint32_t column = 0, row = 0, columnMax = 0, rowMax = 0;
 
@@ -67,15 +67,14 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	structIndex = 0;
 
 	while (loop < ctx->length) {
-		current_character = ctx->buffer[loop];
-		next_character = ctx->buffer[loop+1];
+		cursor = &ctx->buffer[loop];
 
 		if (column == 80) {
 			row++;
 			column = 0;
 		}
 
-		switch (current_character) {
+		switch (*cursor) {
 		case LF:
 			row++;
 			column = 0;
@@ -90,14 +89,14 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			break;
 		case '@':
 			/* PCB sequence */
-			if (next_character == 'X') {
+			if (*++cursor == 'X') {
 				/* set graphics rendition */
 				background = ctx->buffer[loop+2];
 				foreground = ctx->buffer[loop+3];
 				loop += 3;
 			}
 
-			if (next_character == 67 && ctx->buffer[loop+2] == 'L'
+			if (*cursor == 'C' && ctx->buffer[loop+2] == 'L'
 			    && ctx->buffer[loop+3] == 'S') {
 				/* erase display */
 				column = 0;
@@ -109,7 +108,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				loop += 4;
 			}
 
-			if (next_character == 80 && ctx->buffer[loop+2] == 'O'
+			if (*cursor == 'P' && ctx->buffer[loop+2] == 'O'
 			    && ctx->buffer[loop+3] == 'S' && ctx->buffer[loop+4] == ':') {
 				/* cursor position */
 				if (ctx->buffer[loop+6] == '@')
@@ -147,7 +146,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			pcboard_buffer[structIndex].row = row;
 			pcboard_buffer[structIndex].background = pcb_colors[background];
 			pcboard_buffer[structIndex].foreground = pcb_colors[foreground];
-			pcboard_buffer[structIndex].character = current_character;
+			pcboard_buffer[structIndex].character = *cursor;
 
 			column++;
 			structIndex++;
