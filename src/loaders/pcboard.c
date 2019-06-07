@@ -115,9 +115,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				{
 					column = ((ctx->buffer[loop+5])-48)-1;
 					loop += 5;
-				}
-				else
-				{
+				} else {
 					column = (10 * ((ctx->buffer[loop+5])-48) + (ctx->buffer[loop+6])-48)-1;
 					loop += 6;
 				}
