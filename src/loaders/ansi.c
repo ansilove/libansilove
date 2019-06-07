@@ -389,11 +389,14 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 							seqTok = strtok(NULL, ";");
 							color_B = seqTok ? strtonum(seqTok, 0, UCHAR_MAX, &errstr) & 0xff : 0;
 
-							if (seqValue == 0)
-								background = (color_R << 16) | (color_G << 8) | color_B;
-
-							if (seqValue == 1)
-								foreground = (color_R << 16) | (color_G << 8) | color_B;
+							switch (seqValue) {
+							case 0:
+								background = (color_R << 16) | (color_G << 8) | (color_B);
+								break;
+							case 1:
+								foreground = (color_R << 16) | (color_G << 8) | (color_B);
+								break;
+							}
 
 							options->truecolor = true;
 						}
