@@ -59,9 +59,6 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	/* allocate black color */
-	gdImageColorAllocate(canvas, 0, 0, 0);
-
 	uint32_t colors[16];
 	uint32_t offset = 11;
 
