@@ -371,7 +371,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 						break;
 					}
 
-					/* skipping PabloDraw 24-bit ANSI sequences */
+					/* PabloDraw 24-bit ANSI sequences */
 					if (ansi_sequence_character == 't') {
 						uint32_t color_R = 0, color_G = 0, color_B = 0;
 
