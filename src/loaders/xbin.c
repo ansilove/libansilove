@@ -47,8 +47,12 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	uint32_t xbin_width = (ctx->buffer[6] << 8) + ctx->buffer[5];
 	uint32_t xbin_height = (ctx->buffer[8] << 8) + ctx->buffer[7];
-	uint32_t xbin_fontsize = ctx->buffer[9] | 16;
+	uint32_t xbin_fontsize = ctx->buffer[9];
 	uint32_t xbin_flags = ctx->buffer[10];
+
+	if (xbin_fontsize == 0) {
+		xbin_fontsize = 16;
+	}
 
 	gdImagePtr canvas;
 
