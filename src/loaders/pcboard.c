@@ -1,6 +1,6 @@
 /*
  * pcboard.c
- * libansilove 1.1.2
+ * libansilove 1.1.3
  * https://www.ansilove.org
  *
  * Copyright (c) 2011-2019 Stefan Vogt, Brian Cassidy, and Frederic Cambus
