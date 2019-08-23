@@ -1,3 +1,15 @@
+libansilove 1.1.3 (2019-08-23)
+
+- Omit implicit return in the example program
+- Use a switch statement to set 24-bit background and foreground values
+- Remove superfluous background color allocations in the Binary, PCBoard
+  and XBin loaders
+- Modify the PCBoard loader to use a cursor pointer to parse input
+- Infer font height to 16 in the XBin loader, the default in absence of
+  font data (Thanks Andrew Herbert)
+
+
+
 libansilove 1.1.2 (2019-04-30)
 
 - Use 'xbin_fontsize' for character height instead of an hardcoded value,
