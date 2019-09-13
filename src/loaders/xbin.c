@@ -114,6 +114,7 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	} else {
 		/* using default 80x25 font */
 		font_data = font_pc_80x25;
+		xbin_fontsize = 16;
 	}
 
 	uint32_t column = 0, row = 0, foreground, background;
