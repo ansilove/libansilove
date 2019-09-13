@@ -54,6 +54,11 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		xbin_fontsize = 16;
 	}
 
+	if (xbin_fontsize > 32) {
+		ctx->error = ANSILOVE_FORMAT_ERROR;
+		return -1;
+	}
+
 	gdImagePtr canvas;
 
 	canvas = gdImageCreate(8 * xbin_width, xbin_fontsize * xbin_height);
