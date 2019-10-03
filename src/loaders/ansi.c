@@ -67,7 +67,6 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	int16_t columns = options->columns;
 
 	bool ced = false;
-	bool transparent = false;
 	bool workbench = false;
 
 	const char *errstr;
@@ -78,9 +77,6 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	switch (options->mode) {
 	case ANSILOVE_MODE_CED:
 		ced = true;
-		break;
-	case ANSILOVE_MODE_TRANSPARENT:
-		transparent = true;
 		break;
 	case ANSILOVE_MODE_WORKBENCH:
 		workbench = true;
@@ -529,10 +525,6 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		}
 
 	}
-
-	/* transparent flag used? */
-	if (transparent)
-		gdImageColorTransparent(canvas, 0);
 
 	/* create output image */
 	if (output(ctx, options, canvas) != 0) {

@@ -23,6 +23,9 @@ output(struct ansilove_ctx *ctx, struct ansilove_options *options,
 	/* XXX Allow combining DOS aspect ratio and Retina */
 
 	if (!options->scale_factor && !options->dos) {
+		if (options->mode == ANSILOVE_MODE_TRANSPARENT)
+			gdImageColorTransparent(im_Source, 0);
+
 		ctx->png.buffer = gdImagePngPtr(im_Source, &ctx->png.length);
 		gdImageDestroy(im_Source);
 	} else if (options->dos) {
