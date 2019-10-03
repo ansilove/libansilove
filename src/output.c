@@ -62,6 +62,10 @@ output(struct ansilove_ctx *ctx, struct ansilove_options *options,
 
 		/* create retina output image */
 		gdImageDestroy(im_Source);
+
+		if (options->mode == ANSILOVE_MODE_TRANSPARENT)
+			gdImageColorTransparent(im_Retina, 0);
+
 		ctx->png.buffer = gdImagePngPtr(im_Retina, &ctx->png.length);
 		gdImageDestroy(im_Retina);
 	}
