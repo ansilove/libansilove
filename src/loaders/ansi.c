@@ -110,7 +110,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	char *seqTok = NULL;
 
 	/* ANSi buffer structure array definition */
-	uint32_t structIndex = 0;
+	size_t structIndex = 0;
 	struct ansiChar *ptr, *ansi_buffer;
 
 	size_t ansi_buffer_size = ANSI_BUFFER_SIZE;

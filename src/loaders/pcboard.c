@@ -44,7 +44,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	struct fontStruct fontData;
-	uint32_t loop, structIndex;
+	size_t loop = 0, structIndex = 0;
 
 	/* font selection */
 	alSelectFont(&fontData, options->font);
@@ -61,10 +61,6 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* PCB buffer dynamic memory allocation */
 	pcboard_buffer = malloc(sizeof (struct pcbChar));
-
-	/* reset loop */
-	loop = 0;
-	structIndex = 0;
 
 	while (loop < ctx->length) {
 		cursor = &ctx->buffer[loop];
