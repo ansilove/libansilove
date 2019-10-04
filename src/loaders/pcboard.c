@@ -173,10 +173,8 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		    ansi_palette[i*3+2]);
 	}
 
-	uint32_t pcbBufferItems = structIndex;
-
 	/* render PCB */
-	for (loop = 0; loop < pcbBufferItems; loop++) {
+	for (loop = 0; loop < structIndex; loop++) {
 		/* grab our chars out of the structure */
 		column = pcboard_buffer[loop].column;
 		row = pcboard_buffer[loop].row;

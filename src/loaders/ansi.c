@@ -498,11 +498,8 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		}
 	}
 
-	/* even more definitions, sigh */
-	uint32_t ansiBufferItems = structIndex;
-
 	/* render ANSi */
-	for (loop = 0; loop < ansiBufferItems; loop++) {
+	for (loop = 0; loop < structIndex; loop++) {
 		/* grab ANSi char from our structure array */
 		background = ansi_buffer[loop].background;
 		foreground = ansi_buffer[loop].foreground;
