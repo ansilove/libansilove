@@ -1,3 +1,12 @@
+libansilove 1.1.5 (2019-10-14)
+
+- Move background transparency operations in the output function
+- Allow setting transparent background for retina images
+- Add extern declaration for fonts data arrays
+- Use type size_t for loop and structIndex variables
+
+
+
 libansilove 1.1.4 (2019-09-13)
 
 - Force xbin_fontsize to 16 when using default 80x25 font
