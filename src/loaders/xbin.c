@@ -21,6 +21,7 @@
 #include "output.h"
 
 #define XBIN_HEADER_LENGTH 11 /* 4 + 1 + 2 + 2 + 1 + 1 */
+#define XBIN_PALETTE_LENGTH 48
 
 int
 ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
