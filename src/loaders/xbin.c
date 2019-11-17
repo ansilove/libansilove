@@ -70,7 +70,7 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	uint32_t colors[16];
-	uint32_t offset = 11;
+	uint32_t offset = XBIN_HEADER_LENGTH;
 
 	/* palette */
 	if ((xbin_flags & 1) == 1) {
@@ -86,7 +86,7 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			    (ctx->buffer[index + 2] << 2 | ctx->buffer[index + 2] >> 4));
 		}
 
-		offset += 48;
+		offset += XBIN_PALETTE_LENGTH;
 	} else {
 		for (int i = 0; i < 16; i++) {
 			colors[i] = gdImageColorAllocate(canvas,
