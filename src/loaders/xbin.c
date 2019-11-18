@@ -77,6 +77,11 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		uint32_t loop;
 		uint32_t index;
 
+		if (offset + XBIN_PALETTE_LENGTH > ctx->length) {
+			ctx->error = ANSILOVE_FORMAT_ERROR;
+			return -1;
+		}
+
 		for (loop = 0; loop < 16; loop++) {
 			index = (loop * 3) + offset;
 
