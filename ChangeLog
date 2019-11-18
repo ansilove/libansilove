@@ -1,3 +1,13 @@
+libansilove 1.1.6 (2019-11-18)
+
+- Use CMAKE_INSTALL_{LIB,INCLUDE}DIR instead of hardcoding directories
+- Introduce a XBIN_PALETTE_LENGTH macro
+- Use XBIN_HEADER_LENGTH and XBIN_PALETTE_LENGTH macros instead of magic
+  numbers
+- Add another format validation check (palette size) in the XBin loader
+
+
+
 libansilove 1.1.5 (2019-10-14)
 
 - Move background transparency operations in the output function
