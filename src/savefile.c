@@ -14,7 +14,7 @@
 #include "ansilove.h"
 
 int
-ansilove_savefile(struct ansilove_ctx *ctx, char *output)
+ansilove_savefile(struct ansilove_ctx *ctx, const char *output)
 {
 	if (ctx == NULL || output == NULL) {
 		if (ctx)
