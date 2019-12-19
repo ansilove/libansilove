@@ -1,6 +1,6 @@
 /*
  * fonts.c
- * libansilove 1.1.6
+ * libansilove 1.1.7
  * https://www.ansilove.org
  *
  * Copyright (c) 2011-2019 Stefan Vogt, Brian Cassidy, and Frederic Cambus
