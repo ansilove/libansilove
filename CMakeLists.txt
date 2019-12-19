@@ -34,7 +34,8 @@ add_library(ansilove SHARED ${SRC} ${LOADERS})
 target_link_libraries(ansilove ${GD_LIBRARIES} m)
 
 set_target_properties(ansilove PROPERTIES
-  VERSION ${LIB_VERSION_STRING} SOVERSION ${LIB_VERSION_MAJOR})
+  VERSION ${LIB_VERSION_STRING} SOVERSION ${LIB_VERSION_MAJOR}
+  C_VISIBILITY_PRESET hidden)
 
 install(TARGETS ansilove DESTINATION ${CMAKE_INSTALL_LIBDIR})
 install(FILES include/ansilove.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})

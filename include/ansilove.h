@@ -17,6 +17,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#define ANSILOVE_EXTERN __attribute__((visibility("default")))
+
 /* Version number */
 #define ANSILOVE_VERSION "1.1.6"
 
@@ -90,18 +92,18 @@ struct ansilove_options {
 	uint8_t scale_factor;
 };
 
-int	 ansilove_init(struct ansilove_ctx *, struct ansilove_options *);
-char	*ansilove_error(struct ansilove_ctx *);
-int	 ansilove_loadfile(struct ansilove_ctx *, char *);
-int	 ansilove_savefile(struct ansilove_ctx *, char *);
-int	 ansilove_clean(struct ansilove_ctx *);
+ANSILOVE_EXTERN int	 ansilove_init(struct ansilove_ctx *, struct ansilove_options *);
+ANSILOVE_EXTERN char	*ansilove_error(struct ansilove_ctx *);
+ANSILOVE_EXTERN int	 ansilove_loadfile(struct ansilove_ctx *, char *);
+ANSILOVE_EXTERN int	 ansilove_savefile(struct ansilove_ctx *, char *);
+ANSILOVE_EXTERN int	 ansilove_clean(struct ansilove_ctx *);
 
-int	 ansilove_ansi(struct ansilove_ctx *, struct ansilove_options *);
-int	 ansilove_artworx(struct ansilove_ctx *, struct ansilove_options *);
-int	 ansilove_binary(struct ansilove_ctx *, struct ansilove_options *);
-int	 ansilove_icedraw(struct ansilove_ctx *, struct ansilove_options *);
-int	 ansilove_pcboard(struct ansilove_ctx *, struct ansilove_options *);
-int	 ansilove_tundra(struct ansilove_ctx *, struct ansilove_options *);
-int	 ansilove_xbin(struct ansilove_ctx *, struct ansilove_options *);
+ANSILOVE_EXTERN int	 ansilove_ansi(struct ansilove_ctx *, struct ansilove_options *);
+ANSILOVE_EXTERN int	 ansilove_artworx(struct ansilove_ctx *, struct ansilove_options *);
+ANSILOVE_EXTERN int	 ansilove_binary(struct ansilove_ctx *, struct ansilove_options *);
+ANSILOVE_EXTERN int	 ansilove_icedraw(struct ansilove_ctx *, struct ansilove_options *);
+ANSILOVE_EXTERN int	 ansilove_pcboard(struct ansilove_ctx *, struct ansilove_options *);
+ANSILOVE_EXTERN int	 ansilove_tundra(struct ansilove_ctx *, struct ansilove_options *);
+ANSILOVE_EXTERN int	 ansilove_xbin(struct ansilove_ctx *, struct ansilove_options *);
 
 #endif /* ANSILOVE_H */
