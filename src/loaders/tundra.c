@@ -51,7 +51,7 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	int16_t columns = options->columns;
 
 	/* font selection */
-	alSelectFont(&fontData, options->font);
+	select_font(&fontData, options->font);
 
 	/* libgd image pointers */
 	gdImagePtr canvas;

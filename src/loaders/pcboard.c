@@ -47,7 +47,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	size_t loop = 0, structIndex = 0;
 
 	/* font selection */
-	alSelectFont(&fontData, options->font);
+	select_font(&fontData, options->font);
 
 	/* libgd image pointers */
 	gdImagePtr canvas;

@@ -72,7 +72,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	const char *errstr;
 
 	/* font selection */
-	alSelectFont(&fontData, options->font);
+	select_font(&fontData, options->font);
 
 	switch (options->mode) {
 	case ANSILOVE_MODE_CED:

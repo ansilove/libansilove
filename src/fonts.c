@@ -39,7 +39,7 @@
 #include "fonts/font_amiga_topaz_500_plus.h"
 
 void
-alSelectFont(struct fontStruct *fontData, int font)
+select_font(struct fontStruct *fontData, int font)
 {
 	switch (font) {
 	case ANSILOVE_FONT_CP437_80x50:

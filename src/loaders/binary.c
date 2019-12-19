@@ -32,7 +32,7 @@ ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	struct fontStruct fontData;
 
 	/* font selection */
-	alSelectFont(&fontData, options->font);
+	select_font(&fontData, options->font);
 
 	/* libgd image pointers */
 	gdImagePtr canvas;

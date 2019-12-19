@@ -23,7 +23,7 @@ struct fontStruct {
 	bool isAmigaFont;
 };
 
-void alSelectFont(struct fontStruct *fontData, int font);
+void select_font(struct fontStruct *fontData, int font);
 
 extern const uint8_t font_pc_80x25[4096];
 extern const uint8_t font_pc_80x50[2048];
