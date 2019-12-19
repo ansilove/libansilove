@@ -1,3 +1,10 @@
+libansilove 1.1.7 (2019-12-19)
+
+- Rename the alSelectFont() function to select_font()
+- Only export symbols which are part of the public API
+
+
+
 libansilove 1.1.6 (2019-11-18)
 
 - Use CMAKE_INSTALL_{LIB,INCLUDE}DIR instead of hardcoding directories
