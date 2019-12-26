@@ -16,8 +16,7 @@
 #include <gd.h>
 #include <sys/types.h>
 
-void drawchar(gdImagePtr im, const uint8_t *font_data, uint32_t bits,
-    uint32_t height, uint32_t column, uint32_t row,
-    uint32_t background, uint32_t foreground, uint8_t character);
+void drawchar(gdImagePtr, const uint8_t *, uint32_t, uint32_t, uint32_t,
+    uint32_t, uint32_t, uint32_t, uint8_t);
 
 #endif /* DRAWCHAR_H */

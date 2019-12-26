@@ -1,6 +1,7 @@
 #include <ansilove.h>
 
-int main() {
+int main()
+{
 	struct ansilove_ctx ctx;
 	struct ansilove_options options;
 
