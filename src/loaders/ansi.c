@@ -96,6 +96,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* default color values */
 	uint32_t background = 0, foreground = 7;
+	uint32_t background24 = 0, foreground24 = 0;
 
 	/* text attributes */
 	bool bold = false, blink = false, invert = false;
@@ -300,7 +301,9 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 							if (seqValue == 0) {
 								background = 0;
+								background24 = 0;
 								foreground = 7;
+								foreground24 = 0;
 								bold = false;
 								blink = false;
 								invert = false;
@@ -311,6 +314,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 									foreground += 8;
 								}
 								bold = true;
+								foreground24 = 0;
 							}
 
 							if (seqValue == 5)
@@ -329,6 +333,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 							if (seqValue > 29 && seqValue < 38) {
 								foreground = seqValue - 30;
+								foreground24 = 0;
 
 								if (bold)
 									foreground += 8;
@@ -336,6 +341,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 							if (seqValue > 39 && seqValue < 48) {
 								background = seqValue - 40;
+								background24 = 0;
 
 								if (blink && options->icecolors)
 									background += 8;
@@ -387,10 +393,10 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 							switch (seqValue) {
 							case 0:
-								background = (color_R << 16) | (color_G << 8) | (color_B);
+								background24 = (color_R << 16) | (color_G << 8) | (color_B);
 								break;
 							case 1:
-								foreground = (color_R << 16) | (color_G << 8) | (color_B);
+								foreground24 = (color_R << 16) | (color_G << 8) | (color_B);
 								break;
 							}
 
@@ -434,8 +440,15 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					ansi_buffer[structIndex].foreground = background + (foreground & 8);
 				}
 				else {
-					ansi_buffer[structIndex].background = background;
-					ansi_buffer[structIndex].foreground = foreground;
+					if (background24)
+						ansi_buffer[structIndex].background = background24;
+					else
+						ansi_buffer[structIndex].background = background;
+
+					if (foreground24)
+						ansi_buffer[structIndex].foreground = foreground24;
+					else
+						ansi_buffer[structIndex].foreground = foreground;
 				}
 				ansi_buffer[structIndex].character = current_character;
 				ansi_buffer[structIndex].column = column;
