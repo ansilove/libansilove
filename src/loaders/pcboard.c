@@ -13,6 +13,7 @@
 #include <gd.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <string.h>
 #include "ansilove.h"
 #include "config.h"
 #include "drawchar.h"
@@ -92,8 +93,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				loop += 3;
 			}
 
-			if (*cursor == 'C' && ctx->buffer[loop+2] == 'L'
-			    && ctx->buffer[loop+3] == 'S') {
+			if (!memcmp(cursor, "CLS", 3)) {
 				/* erase display */
 				column = 0;
 				row = 0;
@@ -107,8 +107,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				loop += 4;
 			}
 
-			if (*cursor == 'P' && ctx->buffer[loop+2] == 'O'
-			    && ctx->buffer[loop+3] == 'S' && ctx->buffer[loop+4] == ':') {
+			if (!memcmp(cursor, "POS:", 4)) {
 				/* cursor position */
 				if (ctx->buffer[loop+6] == '@')
 				{
