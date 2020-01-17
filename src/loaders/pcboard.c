@@ -101,6 +101,9 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				columnMax = 0;
 				rowMax = 0;
 
+				/* reset pcboard buffer */
+				structIndex = 0;
+
 				loop += 4;
 			}
 
