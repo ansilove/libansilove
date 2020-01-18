@@ -1,3 +1,13 @@
+libansilove 1.1.8 (2019-12-19)
+
+- Use OpenBSD style(9) for function prototypes and declarations
+- Properly reset pcboard buffer when CLS is encountered
+- Use memcmp() instead of testing each character one by one in the PCB loader
+- Do not use background and foreground variables to handle 24-bit ANSI colors
+- Various improvements in the IDF loader
+
+
+
 libansilove 1.1.7 (2019-12-19)
 
 - Rename the alSelectFont() function to select_font()
