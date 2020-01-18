@@ -36,7 +36,7 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	/* Get number of columns, 16-bit endian unsigned short */
-	uint32_t x2 = (ctx->buffer[9] << 8) + ctx->buffer[8];
+	uint32_t x2 = (ctx->buffer[9] << 8) + ctx->buffer[8] + 1;
 
 	/* libgd image pointers */
 	gdImagePtr canvas;
@@ -100,7 +100,7 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	/* create IDF instance */
-	canvas = gdImageCreate((x2 + 1) * 8, i / 2 / 80 * 16);
+	canvas = gdImageCreate(x2 * 8, i / 2 / 80 * 16);
 
 	/* error output */
 	if (!canvas) {
@@ -124,7 +124,7 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	uint32_t character, attribute, foreground, background;
 
 	for (loop = 0; loop < i; loop += 2) {
-		if (column == x2 + 1) {
+		if (column == x2) {
 			column = 0;
 			row++;
 		}
