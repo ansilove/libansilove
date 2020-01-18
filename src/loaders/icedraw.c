@@ -48,7 +48,7 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	uint32_t colors[16];
 
 	/* process IDF */
-	uint32_t idf_sequence_length, idf_sequence_loop, i = 0;
+	uint32_t idf_sequence_length, i = 0;
 
 	/* dynamically allocated memory buffer for IDF data */
 	uint8_t *ptr, *idf_buffer;
@@ -59,7 +59,7 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		if (ctx->buffer[loop] == 1) {
 			idf_sequence_length = ctx->buffer[loop+2];
 
-			for (idf_sequence_loop = 0; idf_sequence_loop < idf_sequence_length; idf_sequence_loop++)
+			while (idf_sequence_length--)
 			{
 				/* reallocate IDF buffer memory */
 				ptr = realloc(idf_buffer, i + 2);
