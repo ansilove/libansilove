@@ -43,7 +43,7 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* libgd image pointers */
 	gdImagePtr canvas;
 
-	uint32_t loop = 12;
+	uint32_t loop = IDF_HEADER_LENGTH;
 	uint32_t index;
 	uint32_t colors[16];
 
@@ -108,7 +108,7 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* process IDF palette */
 	for (loop = 0; loop < 16; loop++) {
-		index = (loop * 3) + ctx->length - 48;
+		index = (loop * 3) + ctx->length - IDF_PALETTE_LENGTH;
 		colors[loop] = gdImageColorAllocate(canvas,
 		    (ctx->buffer[index] << 2 | ctx->buffer[index] >> 4),
 		    (ctx->buffer[index + 1] << 2 | ctx->buffer[index + 1] >> 4),
