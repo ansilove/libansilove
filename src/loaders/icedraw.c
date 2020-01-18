@@ -52,16 +52,10 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	uint8_t *ptr, *idf_buffer;
 	idf_buffer = malloc(2);
 
-	uint16_t idf_data, idf_data_length;
-
 	while (loop < ctx->length - IDF_HEADER_LENGTH) {
-		memcpy(&idf_data, ctx->buffer+loop, 2);
-
 		/* RLE compressed data */
-		if (idf_data == 1) {
-			memcpy(&idf_data_length, ctx->buffer+loop+2, 2);
-
-			idf_sequence_length = idf_data_length & 255;
+		if (ctx->buffer[loop] == 1) {
+			idf_sequence_length = ctx->buffer[loop+2];
 
 			for (idf_sequence_loop = 0; idf_sequence_loop < idf_sequence_length; idf_sequence_loop++)
 			{
