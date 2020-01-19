@@ -323,6 +323,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 									background += 8;
 
 								blink = true;
+								background24 = 0;
 							}
 
 							if (seqValue == 7)
