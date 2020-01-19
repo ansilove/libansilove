@@ -58,8 +58,6 @@ ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		    (ctx->buffer[index + 2] << 2 | ctx->buffer[index + 2] >> 4));
 	}
 
-	gdImageColorAllocate(canvas, 0, 0, 0);
-
 	/* process ADF */
 	uint32_t column = 0, row = 0;
 	uint32_t character, attribute, foreground, background;

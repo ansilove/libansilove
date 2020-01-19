@@ -104,7 +104,6 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		free(idf_buffer);
 		return -1;
 	}
-	gdImageColorAllocate(canvas, 0, 0, 0);
 
 	/* process IDF palette */
 	for (loop = 0; loop < 16; loop++) {
