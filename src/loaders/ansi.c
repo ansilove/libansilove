@@ -317,8 +317,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 								foreground24 = 0;
 							}
 
-							if (seqValue == 5)
-							{
+							if (seqValue == 5) {
 								if (!workbench && options->icecolors)
 									background += 8;
 
@@ -439,8 +438,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				if (invert) {
 					ansi_buffer[structIndex].background = foreground % 8;
 					ansi_buffer[structIndex].foreground = background + (foreground & 8);
-				}
-				else {
+				} else {
 					if (background24)
 						ansi_buffer[structIndex].background = background24;
 					else
