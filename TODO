@@ -1,4 +1,3 @@
-- Fix rendering bugs in the PabloDraw 24-bit ANSI sequences handling
 - Allow enabling DOS aspect ratio + retina at the same time
 - Wrap lines longer than 80 columns
 - Complete the manual page for the library
