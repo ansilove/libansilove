@@ -1,3 +1,11 @@
+libansilove 1.1.9 (2020-01-20)
+
+- Remove unneeded gdImageColorAllocate calls in the ADF and IDF loaders
+- Reset background24 to 0 when encountering blink attribute in an SGR sequence,
+  fixing the remaining rendering bugs for 24-bit ANSI artworks
+
+
+
 libansilove 1.1.8 (2020-01-18)
 
 - Use OpenBSD style(9) for function prototypes and declarations
