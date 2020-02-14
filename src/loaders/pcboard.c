@@ -55,7 +55,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	uint8_t character, *cursor;
 	uint32_t background = 0, foreground = 7;
-	uint32_t column = 0, row = 0, columnMax = 0, rowMax = 0;
+	uint32_t column = 0, row = 0, rowMax = 0;
 
 	/* PCB buffer structure array definition */
 	struct pcbChar *ptr, *pcboard_buffer;
@@ -98,7 +98,6 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				column = 0;
 				row = 0;
 
-				columnMax = 0;
 				rowMax = 0;
 
 				/* reset pcboard buffer */
@@ -120,10 +119,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			}
 			break;
 		default:
-			/* record number of columns and lines used */
-			if (column > columnMax)
-				columnMax = column;
-
+			/* record number of lines used */
 			if (row > rowMax)
 				rowMax = row;
 
@@ -150,7 +146,6 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 		loop++;
 	}
-	columnMax++;
 	rowMax++;
 
 	/* allocate buffer image memory */
