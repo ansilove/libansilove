@@ -40,3 +40,8 @@ set_target_properties(ansilove PROPERTIES
 install(TARGETS ansilove DESTINATION ${CMAKE_INSTALL_LIBDIR})
 install(FILES include/ansilove.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(FILES libansilove.3 DESTINATION ${CMAKE_INSTALL_MANDIR}/man3/)
+install(FILES ansilove_clean.3 DESTINATION ${CMAKE_INSTALL_MANDIR}/man3/)
+install(FILES ansilove_error.3 DESTINATION ${CMAKE_INSTALL_MANDIR}/man3/)
+install(FILES ansilove_init.3 DESTINATION ${CMAKE_INSTALL_MANDIR}/man3/)
+install(FILES ansilove_loadfile.3 DESTINATION ${CMAKE_INSTALL_MANDIR}/man3/)
+install(FILES ansilove_savefile.3 DESTINATION ${CMAKE_INSTALL_MANDIR}/man3/)
