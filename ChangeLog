@@ -1,3 +1,12 @@
+libansilove 1.2.0 (2020-02-17)
+
+- Correct section number in manual page.
+- Add initial manual pages for all library functions and file formats renders
+- Stop calculating columnMax in the PCBoard loader, it's unused
+- Add support for user-specified columns in the PCBoard loader
+
+
+
 libansilove 1.1.9 (2020-01-20)
 
 - Remove unneeded gdImageColorAllocate calls in the ADF and IDF loaders
