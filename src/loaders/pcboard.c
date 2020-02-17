@@ -47,6 +47,9 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	struct fontStruct fontData;
 	size_t loop = 0, structIndex = 0;
 
+	options->columns = options->columns ? options->columns : 80;
+	uint16_t columns = options->columns;
+
 	/* font selection */
 	select_font(&fontData, options->font);
 
@@ -66,7 +69,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	while (loop < ctx->length) {
 		cursor = &ctx->buffer[loop];
 
-		if (column == 80) {
+		if (column == columns) {
 			row++;
 			column = 0;
 		}
@@ -149,7 +152,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	rowMax++;
 
 	/* allocate buffer image memory */
-	canvas = gdImageCreate(80 * options->bits, (rowMax)*fontData.height);
+	canvas = gdImageCreate(columns * options->bits, (rowMax)*fontData.height);
 
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;
