@@ -72,6 +72,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	const char *errstr;
 
 	/* font selection */
+	memset(&fontData, 0, sizeof(struct fontStruct));
 	select_font(&fontData, options->font);
 
 	switch (options->mode) {
