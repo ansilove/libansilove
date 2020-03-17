@@ -473,11 +473,10 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		columns = fmin(columnMax, options->columns);
 
 	/* create that damn thingy */
-	if (!options->truecolor) {
+	if (!options->truecolor)
 		canvas = gdImageCreate(columns * options->bits, rowMax * fontData.height);
-	} else {
+	else
 		canvas = gdImageCreateTrueColor(columns * options->bits, rowMax * fontData.height);
-	}
 
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;
@@ -496,19 +495,17 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	} else if (workbench) {
 		gdImageFill(canvas, 0, 0, 0);
 
-		for (int i = 0; i < 16; i++) {
+		for (int i = 0; i < 16; i++)
 			colors[i] = gdImageColorAllocate(canvas, workbench_palette[i*3],
 			    workbench_palette[i*3+1],
 			    workbench_palette[i*3+2]);
-		}
 	} else {
 		/* Allocate standard ANSi color palette */
 
-		for (int i = 0; i < 16; i++) {
+		for (int i = 0; i < 16; i++)
 			colors[i] = gdImageColorAllocate(canvas, ansi_palette[i*3],
 			    ansi_palette[i*3+1],
 			    ansi_palette[i*3+2]);
-		}
 	}
 
 	/* render ANSi */
