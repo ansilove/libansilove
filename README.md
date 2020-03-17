@@ -17,7 +17,7 @@ header files.
 - FreeBSD: `pkg install cmake gd`
 - Mac OS X: `brew install cmake gd`
 - Alpine Linux: `apk add cmake gcc make musl-dev gd-dev`
-- Debian / Ubuntu / Mint: `apt-get install cmake libgd-dev`
+- Debian / Ubuntu / Mint: `apt-get install build-essential cmake libgd-dev`
 - Solus: `eopkg install -c system.devel` and `eopkg install gd-devel`
 
 # Compiling
