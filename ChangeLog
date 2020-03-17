@@ -1,6 +1,13 @@
+libansilove 1.2.1 (2020-03-17)
+
+- Call memset() to set all fontData struct fields to zero
+- Use the ternary operator to simplify character attributes assignments
+
+
+
 libansilove 1.2.0 (2020-02-17)
 
-- Correct section number in manual page.
+- Correct section number in manual page
 - Add initial manual pages for all library functions and file formats renders
 - Stop calculating columnMax in the PCBoard loader, it's unused
 - Add support for user-specified columns in the PCBoard loader
