@@ -440,15 +440,11 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					ansi_buffer[structIndex].background = foreground % 8;
 					ansi_buffer[structIndex].foreground = background + (foreground & 8);
 				} else {
-					if (background24)
-						ansi_buffer[structIndex].background = background24;
-					else
-						ansi_buffer[structIndex].background = background;
+					ansi_buffer[structIndex].background =
+					    background24 ? background24 : background;
 
-					if (foreground24)
-						ansi_buffer[structIndex].foreground = foreground24;
-					else
-						ansi_buffer[structIndex].foreground = foreground;
+					ansi_buffer[structIndex].foreground =
+					    foreground24 ? foreground24 : foreground;
 				}
 				ansi_buffer[structIndex].character = current_character;
 				ansi_buffer[structIndex].column = column;
