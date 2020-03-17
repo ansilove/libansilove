@@ -65,7 +65,8 @@ convert a file to PNG.
 
 # Who pulls the strings
 
-libansilove is developed by Stefan Vogt ([@ByteProject](https://github.com/ByteProject)), Brian Cassidy ([@bricas](https://github.com/bricas)) and Frederic Cambus ([@fcambus](https://github.com/fcambus)).
+libansilove is developed by Stefan Vogt ([@ByteProject][10]), Brian Cassidy
+([@bricas][11]) and Frederic Cambus ([@fcambus][12]).
 
 # License
 
@@ -84,3 +85,6 @@ GitHub: https://github.com/ansilove/libansilove
 [7]: https://packages.ubuntu.com/search?keywords=libansilove
 [8]: https://software.opensuse.org/package/libansilove
 [9]: https://dev.getsol.us/source/libansilove/
+[10]: https://github.com/ByteProject
+[11]: https://github.com/bricas
+[12]: https://github.com/fcambus
