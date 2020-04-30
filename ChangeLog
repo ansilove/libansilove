@@ -1,3 +1,11 @@
+libansilove 1.2.2 (2020-04-30)
+
+- Refactor the output function, to allow combining DOS aspect ratio and Retina
+- Remove the im_ prefix for all gdImagePtr variables
+- Various README changes and improvements
+
+
+
 libansilove 1.2.1 (2020-03-17)
 
 - Call memset() to set all fontData struct fields to zero
