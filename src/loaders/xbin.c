@@ -1,6 +1,6 @@
 /*
  * xbin.c
- * libansilove 1.2.1
+ * libansilove 1.2.2
  * https://www.ansilove.org
  *
  * Copyright (c) 2011-2020 Stefan Vogt, Brian Cassidy, and Frederic Cambus
