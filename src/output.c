@@ -16,59 +16,59 @@
 
 int
 output(struct ansilove_ctx *ctx, struct ansilove_options *options,
-    gdImagePtr im_Source)
+    gdImagePtr source)
 {
 	/* XXX Error handling */
 	/* XXX The caller must invoke gdFree() */
 
 	/* Handle DOS aspect ratio */
 	if (options->dos) {
-		gdImagePtr im_DOS = gdImageCreateTrueColor(im_Source->sx,
-		    im_Source->sy * 1.35);
+		gdImagePtr dos = gdImageCreateTrueColor(source->sx,
+		    source->sy * 1.35);
 
-		if (!im_DOS) {
+		if (!dos) {
 			ctx->error = ANSILOVE_GD_ERROR;
 			return -1;
 		}
 
-		gdImageCopyResampled(im_DOS, im_Source, 0, 0, 0, 0,
-		    im_DOS->sx, im_DOS->sy, im_Source->sx, im_Source->sy);
+		gdImageCopyResampled(dos, source, 0, 0, 0, 0,
+		    dos->sx, dos->sy, source->sx, source->sy);
 
-		gdImageDestroy(im_Source);
-		im_Source = im_DOS;
+		gdImageDestroy(source);
+		source = dos;
 	}
 
 	/* Handle resizing */
 	if (options->scale_factor) {
-		gdImagePtr im_Retina;
+		gdImagePtr retina;
 
-		if gdImageTrueColor(im_Source) {
-			im_Retina = gdImageCreateTrueColor(im_Source->sx *
-			     options->scale_factor, im_Source->sy * options->scale_factor);
+		if gdImageTrueColor(source) {
+			retina = gdImageCreateTrueColor(source->sx *
+			     options->scale_factor, source->sy * options->scale_factor);
 		} else {
-			im_Retina = gdImageCreate(im_Source->sx *
-			     options->scale_factor, im_Source->sy * options->scale_factor);
+			retina = gdImageCreate(source->sx *
+			     options->scale_factor, source->sy * options->scale_factor);
 		}
 
-		if (!im_Retina) {
+		if (!retina) {
 			ctx->error = ANSILOVE_GD_ERROR;
 			return -1;
 		}
 
-		gdImageCopyResized(im_Retina, im_Source, 0, 0, 0, 0,
-		    im_Retina->sx, im_Retina->sy, im_Source->sx, im_Source->sy);
+		gdImageCopyResized(retina, source, 0, 0, 0, 0,
+		    retina->sx, retina->sy, source->sx, source->sy);
 
-		gdImageDestroy(im_Source);
-		im_Source = im_Retina;
+		gdImageDestroy(source);
+		source = retina;
 	}
 
 	/* Handle transparency */
 	if (options->mode == ANSILOVE_MODE_TRANSPARENT)
-		gdImageColorTransparent(im_Source, 0);
+		gdImageColorTransparent(source, 0);
 
-	ctx->png.buffer = gdImagePngPtr(im_Source, &ctx->png.length);
+	ctx->png.buffer = gdImagePngPtr(source, &ctx->png.length);
 
-	gdImageDestroy(im_Source);
+	gdImageDestroy(source);
 
 	return 0;
 }
