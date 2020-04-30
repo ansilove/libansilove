@@ -20,19 +20,10 @@ output(struct ansilove_ctx *ctx, struct ansilove_options *options,
 {
 	/* XXX Error handling */
 	/* XXX The caller must invoke gdFree() */
-	/* XXX Allow combining DOS aspect ratio and Retina */
 
-	if (!options->scale_factor && !options->dos) {
-		if (options->mode == ANSILOVE_MODE_TRANSPARENT)
-			gdImageColorTransparent(im_Source, 0);
-
-		ctx->png.buffer = gdImagePngPtr(im_Source, &ctx->png.length);
-
-		gdImageDestroy(im_Source);
-	} else if (options->dos) {
-		gdImagePtr im_DOS;
-
-		im_DOS = gdImageCreateTrueColor(im_Source->sx,
+	/* Handle DOS aspect ratio */
+	if (options->dos) {
+		gdImagePtr im_DOS = gdImageCreateTrueColor(im_Source->sx,
 		    im_Source->sy * 1.35);
 
 		if (!im_DOS) {
@@ -43,15 +34,21 @@ output(struct ansilove_ctx *ctx, struct ansilove_options *options,
 		gdImageCopyResampled(im_DOS, im_Source, 0, 0, 0, 0,
 		    im_DOS->sx, im_DOS->sy, im_Source->sx, im_Source->sy);
 
-		ctx->png.buffer = gdImagePngPtr(im_DOS, &ctx->png.length);
-
 		gdImageDestroy(im_Source);
-		gdImageDestroy(im_DOS);
-	} else {
+		im_Source = im_DOS;
+	}
+
+	/* Handle resizing */
+	if (options->scale_factor) {
 		gdImagePtr im_Retina;
 
-		im_Retina = gdImageCreate(im_Source->sx * options->scale_factor,
-		    im_Source->sy * options->scale_factor);
+		if gdImageTrueColor(im_Source) {
+			im_Retina = gdImageCreateTrueColor(im_Source->sx *
+			     options->scale_factor, im_Source->sy * options->scale_factor);
+		} else {
+			im_Retina = gdImageCreate(im_Source->sx *
+			     options->scale_factor, im_Source->sy * options->scale_factor);
+		}
 
 		if (!im_Retina) {
 			ctx->error = ANSILOVE_GD_ERROR;
@@ -61,15 +58,17 @@ output(struct ansilove_ctx *ctx, struct ansilove_options *options,
 		gdImageCopyResized(im_Retina, im_Source, 0, 0, 0, 0,
 		    im_Retina->sx, im_Retina->sy, im_Source->sx, im_Source->sy);
 
-		/* create retina output image */
-		if (options->mode == ANSILOVE_MODE_TRANSPARENT)
-			gdImageColorTransparent(im_Retina, 0);
-
-		ctx->png.buffer = gdImagePngPtr(im_Retina, &ctx->png.length);
-
 		gdImageDestroy(im_Source);
-		gdImageDestroy(im_Retina);
+		im_Source = im_Retina;
 	}
+
+	/* Handle transparency */
+	if (options->mode == ANSILOVE_MODE_TRANSPARENT)
+		gdImageColorTransparent(im_Source, 0);
+
+	ctx->png.buffer = gdImagePngPtr(im_Source, &ctx->png.length);
+
+	gdImageDestroy(im_Source);
 
 	return 0;
 }
