@@ -32,6 +32,7 @@ ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	struct fontStruct fontData;
 
 	/* font selection */
+	memset(&fontData, 0, sizeof(struct fontStruct));
 	select_font(&fontData, options->font);
 
 	/* libgd image pointers */

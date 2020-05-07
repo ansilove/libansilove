@@ -51,6 +51,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	uint16_t columns = options->columns;
 
 	/* font selection */
+	memset(&fontData, 0, sizeof(struct fontStruct));
 	select_font(&fontData, options->font);
 
 	/* libgd image pointers */
