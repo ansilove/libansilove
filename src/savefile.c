@@ -16,6 +16,8 @@
 int
 ansilove_savefile(struct ansilove_ctx *ctx, char *output)
 {
+	size_t rw;
+
 	if (ctx == NULL || output == NULL) {
 		if (ctx)
 			ctx->error = ANSILOVE_INVALID_PARAM;
@@ -28,8 +30,11 @@ ansilove_savefile(struct ansilove_ctx *ctx, char *output)
 	if (!file)
 		goto err;
 
-	fwrite(ctx->png.buffer, ctx->png.length, 1, file);
+	rw = fwrite(ctx->png.buffer, 1, ctx->png.length, file);
 	fclose(file);
+
+	if (rw != (size_t)ctx->png.length)
+		goto err;
 
 	return 0;
 
