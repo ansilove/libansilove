@@ -25,13 +25,15 @@ ansilove_savefile(struct ansilove_ctx *ctx, char *output)
 
 	FILE *file = fopen(output, "wb");
 
-	if (file) {
-		fwrite(ctx->png.buffer, ctx->png.length, 1, file);
-		fclose(file);
-	} else {
-		ctx->error = ANSILOVE_FILE_WRITE_ERROR;
-		return -1;
-	}
+	if (!file)
+		goto err;
+
+	fwrite(ctx->png.buffer, ctx->png.length, 1, file);
+	fclose(file);
 
 	return 0;
+
+err:
+	ctx->error = ANSILOVE_FILE_WRITE_ERROR;
+	return -1;
 }
