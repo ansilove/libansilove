@@ -10,7 +10,6 @@
  * See LICENSE file for details.
  */
 
-#include <inttypes.h>
 #include <gd.h>
 
 #include "drawchar.h"
