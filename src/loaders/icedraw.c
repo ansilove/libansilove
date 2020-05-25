@@ -13,7 +13,6 @@
 #include <gd.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <string.h>
 #include "ansilove.h"
 #include "drawchar.h"
 #include "output.h"
