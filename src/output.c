@@ -18,8 +18,6 @@ int
 output(struct ansilove_ctx *ctx, struct ansilove_options *options,
     gdImagePtr source)
 {
-	/* XXX The caller must invoke gdFree() */
-
 	/* Handle DOS aspect ratio */
 	if (options->dos) {
 		gdImagePtr dos = gdImageCreateTrueColor(source->sx,
