@@ -1,3 +1,12 @@
+libansilove 1.2.3 (2020-05-25)
+
+- Call memset() to set all fontData struct fields to zero in all loaders
+- Refactor error handling in ansilove_savefile()
+- Add error handling for fwrite() in ansilove_savefile()
+- Fix includes in various source files
+
+
+
 libansilove 1.2.2 (2020-04-30)
 
 - Refactor the output function, to allow combining DOS aspect ratio and Retina
