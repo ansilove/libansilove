@@ -394,10 +394,10 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 							switch (seqValue) {
 							case 0:
-								background24 = (color_R << 16) | (color_G << 8) | (color_B);
+								background24 = color_R << 16 | color_G << 8 | color_B;
 								break;
 							case 1:
-								foreground24 = (color_R << 16) | (color_G << 8) | (color_B);
+								foreground24 = color_R << 16 | color_G << 8 | color_B;
 								break;
 							}
 
