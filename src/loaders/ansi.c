@@ -489,8 +489,6 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		ced_foreground = gdImageColorAllocate(canvas, 0, 0, 0);
 		gdImageFill(canvas, 0, 0, ced_background);
 	} else if (workbench) {
-		gdImageFill(canvas, 0, 0, 0);
-
 		for (size_t i = 0; i < 16; i++)
 			colors[i] = gdImageColorAllocate(canvas, workbench_palette[i*3],
 			    workbench_palette[i*3+1],
