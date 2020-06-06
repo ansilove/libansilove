@@ -93,7 +93,7 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 		offset += XBIN_PALETTE_LENGTH;
 	} else {
-		for (int i = 0; i < 16; i++) {
+		for (size_t i = 0; i < 16; i++) {
 			colors[i] = gdImageColorAllocate(canvas,
 			    vga_palette[i*3], vga_palette[i*3+1],
 			    vga_palette[i*3+2]);
