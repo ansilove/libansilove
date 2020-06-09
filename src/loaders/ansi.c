@@ -10,9 +10,6 @@
  * See LICENSE file for details.
  */
 
-#define _XOPEN_SOURCE 700
-#define _NETBSD_SOURCE
-
 #include <gd.h>
 #include <limits.h>
 #include <math.h>
