@@ -79,7 +79,7 @@ GitHub: https://github.com/ansilove/libansilove
 [1]: https://api.travis-ci.org/ansilove/libansilove.png?branch=master
 [2]: https://travis-ci.org/ansilove/libansilove
 [3]: https://cvsweb.openbsd.org/cgi-bin/cvsweb/ports/graphics/libansilove
-[4]: http://pkgsrc.se/graphics/libansilove
+[4]: https://pkgsrc.se/graphics/libansilove
 [5]: https://www.freshports.org/graphics/libansilove/
 [6]: https://packages.debian.org/search?keywords=libansilove
 [7]: https://packages.ubuntu.com/search?keywords=libansilove
