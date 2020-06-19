@@ -486,16 +486,17 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		gdImageFill(canvas, 0, 0, ced_background);
 	} else if (workbench) {
 		for (size_t i = 0; i < 16; i++)
-			colors[i] = gdImageColorAllocate(canvas, workbench_palette[i*3],
-			    workbench_palette[i*3+1],
-			    workbench_palette[i*3+2]);
+			colors[i] = gdImageColorAllocate(canvas,
+			    workbench_palette_red[i],
+			    workbench_palette_green[i],
+			    workbench_palette_blue[i]);
 	} else {
 		/* Allocate standard ANSi color palette */
 
 		for (size_t i = 0; i < 16; i++)
-			colors[i] = gdImageColorAllocate(canvas, ansi_palette[i*3],
-			    ansi_palette[i*3+1],
-			    ansi_palette[i*3+2]);
+			colors[i] = gdImageColorAllocate(canvas,
+			    ansi_palette_red[i], ansi_palette_green[i],
+			    ansi_palette_blue[i]);
 	}
 
 	/* render ANSi */
