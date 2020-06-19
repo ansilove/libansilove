@@ -74,8 +74,7 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* palette */
 	if ((xbin_flags & 1) == 1) {
-		uint32_t loop;
-		uint32_t index;
+		size_t index, loop;
 
 		if (offset + XBIN_PALETTE_LENGTH > ctx->length) {
 			ctx->error = ANSILOVE_FORMAT_ERROR;

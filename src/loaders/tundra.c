@@ -68,7 +68,7 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* read tundra file a first time to find the image size */
 	uint32_t cursor, character, background = 0, foreground = 0;
-	uint32_t loop = TUNDRA_HEADER_LENGTH;
+	size_t loop = TUNDRA_HEADER_LENGTH;
 	int32_t column = 0, row = 1;
 
 	while (loop < ctx->length) {

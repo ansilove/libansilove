@@ -85,8 +85,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	gdImagePtr canvas;
 
 	/* ANSi processing loops */
-	size_t loop = 0;
-	uint32_t ansi_sequence_loop;
+	size_t loop = 0, ansi_sequence_loop;
 
 	/* character definitions */
 	uint8_t current_character, character;

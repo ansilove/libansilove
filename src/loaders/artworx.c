@@ -47,8 +47,7 @@ ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* ADF color palette array */
 	uint32_t adf_colors[16] = { 0, 1, 2, 3, 4, 5, 20, 7, 56, 57, 58, 59, 60, 61, 62, 63 };
 
-	uint32_t loop;
-	uint32_t index;
+	size_t index, loop;
 
 	/* process ADF palette */
 	for (loop = 0; loop < 16; loop++) {
