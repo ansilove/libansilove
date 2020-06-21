@@ -1,3 +1,15 @@
+libansilove 1.2.4 (2020-06-21)
+
+- Use size_t in for loops setting color palettes
+- Remove unneeded gdImageFill() call when using Workbench mode
+- Define _GNU_SOURCE in CMakeLists.txt to avoid cluttering source files
+- Use size_t type for variables used to loop over arrays
+- Separate RGB values for palettes, makes color allocation code more
+  readable and efficient
+- Move ADF color mapping array to config.h
+
+
+
 libansilove 1.2.3 (2020-05-25)
 
 - Call memset() to set all fontData struct fields to zero in all loaders
