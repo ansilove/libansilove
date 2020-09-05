@@ -39,7 +39,7 @@ output(struct ansilove_ctx *ctx, struct ansilove_options *options,
 	if (options->scale_factor) {
 		gdImagePtr retina;
 
-		if gdImageTrueColor(source) {
+		if (gdImageTrueColor(source)) {
 			retina = gdImageCreateTrueColor(source->sx *
 			     options->scale_factor, source->sy * options->scale_factor);
 		} else {
