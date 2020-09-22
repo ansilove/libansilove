@@ -91,6 +91,12 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				background = ctx->buffer[loop+2];
 				foreground = ctx->buffer[loop+3];
 				loop += 3;
+
+				if (background > PCB_COLORS ||
+				    foreground > PCB_COLORS) {
+					ctx->error = ANSILOVE_FORMAT_ERROR;
+					goto error;
+				}
 			}
 
 			if (!memcmp(cursor, "CLS", 3)) {
