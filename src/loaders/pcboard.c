@@ -106,17 +106,6 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				loop += 4;
 			}
 
-			if (!memcmp(cursor, "POS:", 4)) {
-				/* cursor position */
-				if (ctx->buffer[loop+6] == '@')
-				{
-					column = ((ctx->buffer[loop+5])-48)-1;
-					loop += 5;
-				} else {
-					column = (10 * ((ctx->buffer[loop+5])-48) + (ctx->buffer[loop+6])-48)-1;
-					loop += 6;
-				}
-			}
 			break;
 		default:
 			/* reallocate structure array memory */
