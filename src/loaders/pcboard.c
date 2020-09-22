@@ -123,8 +123,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			ptr = realloc(pcboard_buffer, (structIndex + 1) * sizeof (struct pcbChar));
 			if (ptr == NULL) {
 				ctx->error = ANSILOVE_MEMORY_ERROR;
-				free(pcboard_buffer);
-				return -1;
+				goto error;
 			} else {
 				pcboard_buffer = ptr;
 			}
@@ -153,8 +152,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;
-		free(pcboard_buffer);
-		return -1;
+		goto error;
 	}
 
 	/* allocate color palette */
@@ -179,12 +177,13 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	/* create output image */
-	if (output(ctx, options, canvas) != 0) {
-		free(pcboard_buffer);
-		return -1;
-	}
+	if (output(ctx, options, canvas) != 0)
+		goto error;
 
 	free(pcboard_buffer);
-
 	return 0;
+
+error:
+	free(pcboard_buffer);
+	return -1;
 }
