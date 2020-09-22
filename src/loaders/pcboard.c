@@ -20,10 +20,6 @@
 #include "fonts.h"
 #include "output.h"
 
-#define LF	'\n'
-#define CR	'\r'
-#define TAB	'\t'
-#define SUB	26
 
 /* Character structure */
 struct pcbChar {

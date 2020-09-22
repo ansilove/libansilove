@@ -30,12 +30,6 @@
 #define ANSI_SEQUENCE_MAX_LENGTH 14
 #define ANSI_BUFFER_SIZE 65536
 
-#define LF	'\n'
-#define CR	'\r'
-#define TAB	'\t'
-#define SUB	26
-#define ESC	27
-
 /* Character structure */
 struct ansiChar {
 	int32_t column;
