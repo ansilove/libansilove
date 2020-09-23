@@ -20,6 +20,9 @@
 #include "fonts.h"
 #include "output.h"
 
+#define STATE_TEXT	0
+#define STATE_SEQUENCE	1
+#define STATE_END	2
 
 /* Character structure */
 struct pcbChar {
@@ -53,7 +56,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* libgd image pointers */
 	gdImagePtr canvas;
 
-	uint8_t character, *cursor;
+	uint8_t character, *cursor, state = STATE_TEXT;
 	uint32_t background = '0', foreground = '7';
 	uint32_t column = 0, row = 0, rowMax = 0;
 
@@ -71,26 +74,60 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			column = 0;
 		}
 
-		switch (*cursor) {
-		case LF:
-			row++;
-			column = 0;
+		switch (state) {
+		case STATE_TEXT:
+			switch (*cursor) {
+			case LF:
+				row++;
+				column = 0;
+				break;
+			case CR:
+				break;
+			case TAB:
+				column += 8;
+				break;
+			case SUB:
+				state = STATE_END;
+				break;
+			case '@':
+				/* PCB sequence */
+				state = STATE_SEQUENCE;
+				break;
+			default:
+				/* record number of lines used */
+				if (row > rowMax)
+					rowMax = row;
+
+				/* reallocate structure array memory */
+				ptr = realloc(pcboard_buffer, (structIndex + 1) * sizeof (struct pcbChar));
+				if (ptr == NULL) {
+					ctx->error = ANSILOVE_MEMORY_ERROR;
+					goto error;
+				} else {
+					pcboard_buffer = ptr;
+				}
+
+				/* write current character in pcbChar structure */
+				pcboard_buffer[structIndex].column = column;
+				pcboard_buffer[structIndex].row = row;
+				pcboard_buffer[structIndex].background = pcb_colors[background];
+				pcboard_buffer[structIndex].foreground = pcb_colors[foreground];
+				pcboard_buffer[structIndex].character = *cursor;
+
+				column++;
+				structIndex++;
+			};
+			loop++;
 			break;
-		case CR:
-			break;
-		case TAB:
-			column += 8;
-			break;
-		case SUB:
-			loop = ctx->length;
-			break;
-		case '@':
-			/* PCB sequence */
-			if (*++cursor == 'X') {
+		case STATE_SEQUENCE:
+			if (*cursor == 'X') {
 				/* set graphics rendition */
-				background = ctx->buffer[loop+2];
-				foreground = ctx->buffer[loop+3];
-				loop += 3;
+				if (loop + 2 < ctx->length) {
+					background = *++cursor;
+					foreground = *++cursor;
+
+					loop += 3;
+				}
 
 				if (background > PCB_COLORS ||
 				    foreground > PCB_COLORS) {
@@ -99,7 +136,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				}
 			}
 
-			if (!memcmp(cursor, "CLS", 3)) {
+			if (loop + 3 < ctx->length && !memcmp(cursor, "CLS@", 4)) {
 				/* erase display */
 				column = 0;
 				row = 0;
@@ -112,33 +149,12 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				loop += 4;
 			}
 
+			state = STATE_TEXT;
 			break;
-		default:
-			/* record number of lines used */
-			if (row > rowMax)
-				rowMax = row;
-
-			/* reallocate structure array memory */
-			ptr = realloc(pcboard_buffer, (structIndex + 1) * sizeof (struct pcbChar));
-			if (ptr == NULL) {
-				ctx->error = ANSILOVE_MEMORY_ERROR;
-				goto error;
-			} else {
-				pcboard_buffer = ptr;
-			}
-
-			/* write current character in pcbChar structure */
-			pcboard_buffer[structIndex].column = column;
-			pcboard_buffer[structIndex].row = row;
-			pcboard_buffer[structIndex].background = pcb_colors[background];
-			pcboard_buffer[structIndex].foreground = pcb_colors[foreground];
-			pcboard_buffer[structIndex].character = *cursor;
-
-			column++;
-			structIndex++;
+		case STATE_END:
+			loop = ctx->length;
+			break;
 		}
-
-		loop++;
 	}
 	rowMax++;
 
