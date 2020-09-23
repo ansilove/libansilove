@@ -47,7 +47,7 @@ ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* allocate buffer image memory */
 	canvas = gdImageCreate(options->columns * options->bits,
-	    ((ctx->length / 2) / options->columns * fontData.height));
+	    (ctx->length / 2) / options->columns * fontData.height);
 
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;
@@ -85,7 +85,7 @@ ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			attribute = *cursor;
 
 			background = (attribute & 240) >> 4;
-			foreground = (attribute & 15);
+			foreground = attribute & 15;
 
 			if (background > 8 && !options->icecolors)
 				background -= 8;

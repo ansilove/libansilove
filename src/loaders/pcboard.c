@@ -159,7 +159,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	rowMax++;
 
 	/* allocate buffer image memory */
-	canvas = gdImageCreate(columns * options->bits, (rowMax)*fontData.height);
+	canvas = gdImageCreate(columns * options->bits, rowMax*fontData.height);
 
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;

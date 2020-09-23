@@ -42,7 +42,7 @@ ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	gdImagePtr canvas;
 
 	/* create ADF instance */
-	canvas = gdImageCreate(640, (((ctx->length - ADF_HEADER_LENGTH) / 2) / 80) * 16);
+	canvas = gdImageCreate(640, (ctx->length - ADF_HEADER_LENGTH) / 2 / 80 * 16);
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;
 		return -1;
@@ -53,9 +53,9 @@ ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* process ADF palette */
 	for (loop = 0; loop < 16; loop++) {
 		index = (adf_colors[loop] * 3) + 1;
-		gdImageColorAllocate(canvas, (ctx->buffer[index] << 2 | ctx->buffer[index] >> 4),
-		    (ctx->buffer[index + 1] << 2 | ctx->buffer[index + 1] >> 4),
-		    (ctx->buffer[index + 2] << 2 | ctx->buffer[index + 2] >> 4));
+		gdImageColorAllocate(canvas, ctx->buffer[index] << 2 | ctx->buffer[index] >> 4,
+		    ctx->buffer[index + 1] << 2 | ctx->buffer[index + 1] >> 4,
+		    ctx->buffer[index + 2] << 2 | ctx->buffer[index + 2] >> 4);
 	}
 
 	/* process ADF */
