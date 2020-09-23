@@ -20,6 +20,9 @@
 #include "fonts.h"
 #include "output.h"
 
+#define STATE_CHARACTER 0
+#define STATE_ATTRIBUTE 1
+
 int
 ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
@@ -60,20 +63,26 @@ ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	/* process binary */
-	uint32_t character, attribute, background, foreground;
+	uint8_t character, attribute, *cursor, state = STATE_CHARACTER;
+	uint32_t background, foreground;
 	size_t loop = 0;
 	int32_t column = 0, row = 0;
 
 	while (loop < ctx->length) {
+		cursor = &ctx->buffer[loop];
+
 		if (column == options->columns) {
 			column = 0;
 			row++;
 		}
 
-		character = ctx->buffer[loop];
-
-		if (ctx->length > loop) {
-			attribute = ctx->buffer[loop+1];
+		switch (state) {
+		case STATE_CHARACTER:
+			character = *cursor;
+			state = STATE_ATTRIBUTE;
+			break;
+		case STATE_ATTRIBUTE:
+			attribute = *cursor;
 
 			background = (attribute & 240) >> 4;
 			foreground = (attribute & 15);
@@ -86,8 +95,12 @@ ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			    colors[foreground], character);
 
 			column++;
-			loop += 2;
+
+			state = STATE_CHARACTER;
+			break;
 		}
+
+		loop++;
 	}
 
 	/* create output image */
