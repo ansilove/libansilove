@@ -402,6 +402,13 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			}
 			break;
 		default:
+			/* record number of columns and lines used */
+			if (column > columnMax)
+				columnMax = column;
+
+			if (row > rowMax)
+				rowMax = row;
+
 			/* write current character in ansiChar structure */
 			if (!fontData.isAmigaFont || (current_character != 12 && current_character != 13)) {
 				/* reallocate structure array memory */
@@ -437,13 +444,6 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				column++;
 			}
 		}
-
-		/* record number of columns and lines used */
-		if (column > columnMax)
-			columnMax = column;
-
-		if (row > rowMax)
-			rowMax = row;
 
 		loop++;
 	}

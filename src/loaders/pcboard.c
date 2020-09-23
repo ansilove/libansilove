@@ -114,6 +114,10 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 			break;
 		default:
+			/* record number of lines used */
+			if (row > rowMax)
+				rowMax = row;
+
 			/* reallocate structure array memory */
 			ptr = realloc(pcboard_buffer, (structIndex + 1) * sizeof (struct pcbChar));
 			if (ptr == NULL) {
@@ -133,10 +137,6 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			column++;
 			structIndex++;
 		}
-
-		/* record number of lines used */
-		if (row > rowMax)
-			rowMax = row;
 
 		loop++;
 	}
