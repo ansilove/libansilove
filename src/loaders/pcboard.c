@@ -54,7 +54,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	gdImagePtr canvas;
 
 	uint8_t character, *cursor;
-	uint32_t background = 0, foreground = 7;
+	uint32_t background = '0', foreground = '7';
 	uint32_t column = 0, row = 0, rowMax = 0;
 
 	/* PCB buffer structure array definition */
