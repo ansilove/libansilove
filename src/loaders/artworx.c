@@ -20,6 +20,9 @@
 
 #define ADF_HEADER_LENGTH 4289 /* 192 + 4096 + 1 */
 
+#define STATE_CHARACTER 0
+#define STATE_ATTRIBUTE 1
+
 int
 ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
@@ -56,26 +59,39 @@ ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	/* process ADF */
+	uint8_t character, attribute, *cursor, state = STATE_CHARACTER;
 	uint32_t column = 0, row = 0;
-	uint32_t character, attribute, foreground, background;
+	uint32_t foreground, background;
 	loop = ADF_HEADER_LENGTH;
 
 	while (loop < ctx->length) {
+		cursor = &ctx->buffer[loop];
+
 		if (column == 80) {
 			column = 0;
 			row++;
 		}
 
-		character = ctx->buffer[loop];
-		attribute = ctx->buffer[loop+1];
+		switch (state) {
+		case STATE_CHARACTER:
+			character = *cursor;
+			state = STATE_ATTRIBUTE;
+			break;
+		case STATE_ATTRIBUTE:
+			attribute = *cursor;
 
-		background = (attribute & 240) >> 4;
-		foreground = attribute & 15;
+			background = (attribute & 240) >> 4;
+			foreground = attribute & 15;
 
-		drawchar(canvas, ctx->buffer+193, 8, 16, column, row, background, foreground, character);
+			drawchar(canvas, ctx->buffer+193, 8, 16, column, row, background, foreground, character);
 
-		column++;
-		loop += 2;
+			column++;
+
+			state = STATE_CHARACTER;
+			break;
+		}
+
+		loop++;
 	}
 
 	/* create output file */
