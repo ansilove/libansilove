@@ -85,9 +85,9 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			index = (loop * 3) + offset;
 
 			colors[loop] = gdImageColorAllocate(canvas,
-			    (ctx->buffer[index] << 2 | ctx->buffer[index] >> 4),
-			    (ctx->buffer[index + 1] << 2 | ctx->buffer[index + 1] >> 4),
-			    (ctx->buffer[index + 2] << 2 | ctx->buffer[index + 2] >> 4));
+			    ctx->buffer[index] << 2 | ctx->buffer[index] >> 4,
+			    ctx->buffer[index + 1] << 2 | ctx->buffer[index + 1] >> 4,
+			    ctx->buffer[index + 2] << 2 | ctx->buffer[index + 2] >> 4);
 		}
 
 		offset += XBIN_PALETTE_LENGTH;
