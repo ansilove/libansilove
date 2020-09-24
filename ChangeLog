@@ -1,3 +1,18 @@
+libansilove 1.2.5 (2020-09-24)
+
+- Add missing parentheses in an if statement in output()
+- Define CR, LF, TAB, SUB, and ESC macros only once
+- Refactor error handling in the PCBoard loader
+- Stop parsing for PCBoard cursor position sequences
+- Add bound checks for {back,fore}ground color values in the PCBoard loader
+- Fix default background and foreground colors in the PCBoard loader
+- Refactor the PCBoard loader to use a state machine
+- Refactor the Binary loader to use a state machine
+- Refactor the Artworx loader to use a state machine
+- Add some file format integrity checks in the XBin loader
+
+
+
 libansilove 1.2.4 (2020-06-21)
 
 - Use size_t in for loops setting color palettes
