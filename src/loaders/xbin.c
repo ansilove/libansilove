@@ -132,7 +132,7 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* read compressed xbin */
 	if ((xbin_flags & 4) == 4) {
-		while (offset < ctx->length && row != xbin_height) {
+		while (offset + 1 < ctx->length && row != xbin_height) {
 			uint32_t ctype = ctx->buffer[offset] & 0xC0;
 			uint32_t counter = (ctx->buffer[offset] & 0x3F) + 1;
 
@@ -194,7 +194,7 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		}
 	} else {
 		/* read uncompressed xbin */
-		while (offset < ctx->length && row != xbin_height) {
+		while (offset + 1 < ctx->length && row != xbin_height) {
 			if (column == xbin_width) {
 				column = 0;
 				row++;
