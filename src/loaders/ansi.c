@@ -505,19 +505,19 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		row = ansi_buffer[loop].row;
 
 		if (ced) {
-			drawchar(canvas, fontData.font_data, options->bits, fontData.height,
-			    column, row, ced_background, ced_foreground, character);
+			background = ced_background;
+			foreground = ced_foreground;
 		} else {
 			if (background < 16)
 				background = colors[background];
 
 			if (foreground < 16)
 				foreground = colors[foreground];
-
-			drawchar(canvas, fontData.font_data, options->bits, fontData.height,
-			    column, row, background, foreground, character);
 		}
 
+		drawchar(canvas, fontData.font_data, options->bits,
+		    fontData.height, column, row, background, foreground,
+		    character);
 	}
 
 	/* create output image */
