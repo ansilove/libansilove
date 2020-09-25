@@ -95,10 +95,6 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			break;
 
 		case TUNDRA_COLOR_FOREGROUND:
-			loop += 5;
-			column++;
-			break;
-
 		case TUNDRA_COLOR_BACKGROUND:
 			loop += 5;
 			column++;
