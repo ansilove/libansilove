@@ -25,8 +25,8 @@
 #define TUNDRA_HEADER_LENGTH 9 /* 8 + 1 */
 
 #define TUNDRA_POSITION 1
-#define TUNDRA_COLOR_BACKGROUND 2
-#define TUNDRA_COLOR_FOREGROUND 4
+#define TUNDRA_COLOR_FOREGROUND 2
+#define TUNDRA_COLOR_BACKGROUND 4
 #define TUNDRA_COLOR_BOTH 6
 
 int
@@ -94,12 +94,12 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			loop += 8;
 			break;
 
-		case TUNDRA_COLOR_BACKGROUND:
+		case TUNDRA_COLOR_FOREGROUND:
 			loop += 5;
 			column++;
 			break;
 
-		case TUNDRA_COLOR_FOREGROUND:
+		case TUNDRA_COLOR_BACKGROUND:
 			loop += 5;
 			column++;
 			break;
@@ -156,7 +156,7 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			loop += 8;
 			break;
 
-		case TUNDRA_COLOR_BACKGROUND:
+		case TUNDRA_COLOR_FOREGROUND:
 			foreground =
 			    (ctx->buffer[loop + 3] << 16) +
 			    (ctx->buffer[loop + 4] << 8) +
@@ -167,7 +167,7 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			loop += 5;
 			break;
 
-		case TUNDRA_COLOR_FOREGROUND:
+		case TUNDRA_COLOR_BACKGROUND:
 			background = (ctx->buffer[loop + 3] << 16) +
 			    (ctx->buffer[loop + 4] << 8) +
 			    ctx->buffer[loop + 5];
