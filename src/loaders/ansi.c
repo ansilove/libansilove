@@ -86,7 +86,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	size_t loop = 0, ansi_sequence_loop;
 
 	/* character definitions */
-	uint8_t current_character, character;
+	uint8_t character;
 	uint8_t *cursor, state = STATE_TEXT;
 	uint8_t ansi_sequence_character;
 
@@ -118,7 +118,6 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* ANSi interpreter */
 	while (loop < ctx->length) {
-		current_character = ctx->buffer[loop];
 		cursor = &ctx->buffer[loop];
 
 		if (column == options->columns) {
@@ -182,7 +181,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					ansi_buffer[structIndex].foreground =
 					    foreground24 ? foreground24 : foreground;
 				}
-				ansi_buffer[structIndex].character = current_character;
+				ansi_buffer[structIndex].character = *cursor;
 				ansi_buffer[structIndex].column = column;
 				ansi_buffer[structIndex].row = row;
 
