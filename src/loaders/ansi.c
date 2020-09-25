@@ -458,11 +458,13 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	if (options->diz)
 		columns = fmin(columnMax, options->columns);
 
+	uint32_t canvas_width = columns * options->bits;
+	uint32_t canvas_height = rowMax * fontData.height;
+
 	/* create that damn thingy */
-	if (!options->truecolor)
-		canvas = gdImageCreate(columns * options->bits, rowMax * fontData.height);
-	else
-		canvas = gdImageCreateTrueColor(columns * options->bits, rowMax * fontData.height);
+	canvas = options->truecolor ?
+	    gdImageCreateTrueColor(canvas_width, canvas_height) :
+	    gdImageCreate(canvas_width, canvas_height);
 
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;
