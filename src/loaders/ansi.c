@@ -157,39 +157,37 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					rowMax = row;
 
 				/* write current character in ansiChar structure */
-				if (!fontData.isAmigaFont || (current_character != 12)) {
-					/* reallocate structure array memory */
-					if (structIndex == ansi_buffer_size) {
-						ansi_buffer_size += ANSI_BUFFER_SIZE;
+				/* reallocate structure array memory */
+				if (structIndex == ansi_buffer_size) {
+					ansi_buffer_size += ANSI_BUFFER_SIZE;
 
-						ptr = realloc(ansi_buffer, ansi_buffer_size * sizeof(struct ansiChar));
+					ptr = realloc(ansi_buffer, ansi_buffer_size * sizeof(struct ansiChar));
 
-						if (ptr == NULL) {
-							ctx->error = ANSILOVE_MEMORY_ERROR;
-							free(ansi_buffer);
-							return -1;
-						} else {
-							ansi_buffer = ptr;
-						}
-					}
-
-					if (invert) {
-						ansi_buffer[structIndex].background = foreground % 8;
-						ansi_buffer[structIndex].foreground = background + (foreground & 8);
+					if (ptr == NULL) {
+						ctx->error = ANSILOVE_MEMORY_ERROR;
+						free(ansi_buffer);
+						return -1;
 					} else {
-						ansi_buffer[structIndex].background =
-						    background24 ? background24 : background;
-
-						ansi_buffer[structIndex].foreground =
-						    foreground24 ? foreground24 : foreground;
+						ansi_buffer = ptr;
 					}
-					ansi_buffer[structIndex].character = current_character;
-					ansi_buffer[structIndex].column = column;
-					ansi_buffer[structIndex].row = row;
-
-					structIndex++;
-					column++;
 				}
+
+				if (invert) {
+					ansi_buffer[structIndex].background = foreground % 8;
+					ansi_buffer[structIndex].foreground = background + (foreground & 8);
+				} else {
+					ansi_buffer[structIndex].background =
+					    background24 ? background24 : background;
+
+					ansi_buffer[structIndex].foreground =
+					    foreground24 ? foreground24 : foreground;
+				}
+				ansi_buffer[structIndex].character = current_character;
+				ansi_buffer[structIndex].column = column;
+				ansi_buffer[structIndex].row = row;
+
+				structIndex++;
+				column++;
 			}
 			break;
 		case STATE_SEQUENCE:
