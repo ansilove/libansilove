@@ -157,7 +157,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					rowMax = row;
 
 				/* write current character in ansiChar structure */
-				if (!fontData.isAmigaFont || (current_character != 12 && current_character != 13)) {
+				if (!fontData.isAmigaFont || (current_character != 12)) {
 					/* reallocate structure array memory */
 					if (structIndex == ansi_buffer_size) {
 						ansi_buffer_size += ANSI_BUFFER_SIZE;
