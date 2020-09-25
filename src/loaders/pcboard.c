@@ -169,10 +169,9 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* allocate color palette */
 	uint32_t colors[16];
 
-	for (size_t i = 0; i < 16; i++) {
+	for (size_t i = 0; i < 16; i++)
 		colors[i] = gdImageColorAllocate(canvas, ansi_palette_red[i],
 		    ansi_palette_green[i], ansi_palette_blue[i]);
-	}
 
 	/* render PCB */
 	for (loop = 0; loop < structIndex; loop++) {

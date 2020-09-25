@@ -92,11 +92,10 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 		offset += XBIN_PALETTE_LENGTH;
 	} else {
-		for (size_t i = 0; i < 16; i++) {
+		for (size_t i = 0; i < 16; i++)
 			colors[i] = gdImageColorAllocate(canvas,
 			    vga_palette_red[i], vga_palette_green[i],
 			    vga_palette_blue[i]);
-		}
 	}
 
 	/* font */
