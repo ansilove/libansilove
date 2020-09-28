@@ -27,6 +27,10 @@
 #include "strtonum.h"
 #endif
 
+#ifndef HAVE_REALLOCARRAY
+#include "reallocarray.h"
+#endif
+
 #define ANSI_SEQUENCE_MAX_LENGTH 14
 #define ANSI_BUFFER_SIZE 65536
 

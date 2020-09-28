@@ -20,6 +20,10 @@
 #include "fonts.h"
 #include "output.h"
 
+#ifndef HAVE_REALLOCARRAY
+#include "reallocarray.h"
+#endif
+
 #define STATE_TEXT	0
 #define STATE_SEQUENCE	1
 #define STATE_END	2

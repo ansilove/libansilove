@@ -20,6 +20,7 @@ Fonts:
 Code:
 
 - Ted Unangst and Todd Miller for strtonum.c
+- Otto Moerbeek for reallocarray.c
 
 
 

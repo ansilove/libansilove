@@ -12,6 +12,7 @@ include(GNUInstallDirs)
 
 # Check if system has strtonum
 check_function_exists(strtonum HAVE_STRTONUM)
+check_function_exists(reallocarray HAVE_REALLOCARRAY)
 
 # Additional include directories for compat functions and headers
 include_directories("compat" "include" "src")
@@ -26,6 +27,10 @@ set(LOADERS src/loaders/ansi.c src/loaders/artworx.c src/loaders/binary.c src/lo
 
 if(NOT HAVE_STRTONUM)
   set (SRC ${SRC} compat/strtonum.c)
+endif()
+
+if(NOT HAVE_REALLOCARRAY)
+  set (SRC ${SRC} compat/reallocarray.c)
 endif()
 
 add_definitions(-D_GNU_SOURCE -Wall -Wextra -std=c99 -pedantic)
