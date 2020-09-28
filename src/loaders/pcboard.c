@@ -107,9 +107,9 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				if (ptr == NULL) {
 					ctx->error = ANSILOVE_MEMORY_ERROR;
 					goto error;
-				} else {
-					pcboard_buffer = ptr;
 				}
+
+				pcboard_buffer = ptr;
 
 				/* write current character in pcbChar struct */
 				pcboard_buffer[structIndex] = (struct pcbChar) {

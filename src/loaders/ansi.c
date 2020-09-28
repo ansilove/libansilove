@@ -170,9 +170,9 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 						ctx->error = ANSILOVE_MEMORY_ERROR;
 						free(ansi_buffer);
 						return -1;
-					} else {
-						ansi_buffer = ptr;
 					}
+
+					ansi_buffer = ptr;
 				}
 
 				if (invert) {

@@ -65,9 +65,9 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					ctx->error = ANSILOVE_MEMORY_ERROR;
 					free(idf_buffer);
 					return -1;
-				} else {
-					idf_buffer = ptr;
 				}
+
+				idf_buffer = ptr;
 
 				idf_buffer[i] = ctx->buffer[loop + 4];
 				idf_buffer[i+1] = ctx->buffer[loop + 5];
@@ -81,9 +81,9 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				ctx->error = ANSILOVE_MEMORY_ERROR;
 				free(idf_buffer);
 				return -1;
-			} else {
-				idf_buffer = ptr;
 			}
+
+			idf_buffer = ptr;
 
 			/* normal character */
 			idf_buffer[i] = ctx->buffer[loop];
