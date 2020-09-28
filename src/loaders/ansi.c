@@ -160,7 +160,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				if (structIndex == ansi_buffer_size) {
 					ansi_buffer_size += ANSI_BUFFER_SIZE;
 
-					ptr = realloc(ansi_buffer, ansi_buffer_size * sizeof(struct ansiChar));
+					ptr = reallocarray(ansi_buffer, ansi_buffer_size, sizeof(struct ansiChar));
 
 					if (ptr == NULL) {
 						ctx->error = ANSILOVE_MEMORY_ERROR;

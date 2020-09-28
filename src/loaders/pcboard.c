@@ -99,7 +99,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					rowMax = row;
 
 				/* reallocate structure array memory */
-				ptr = realloc(pcboard_buffer, (structIndex + 1) * sizeof (struct pcbChar));
+				ptr = reallocarray(pcboard_buffer, structIndex + 1, sizeof(struct pcbChar));
 				if (ptr == NULL) {
 					ctx->error = ANSILOVE_MEMORY_ERROR;
 					goto error;
