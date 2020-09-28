@@ -37,15 +37,15 @@ output(struct ansilove_ctx *ctx, struct ansilove_options *options,
 
 	/* Handle resizing */
 	if (options->scale_factor) {
+		uint32_t width, height;
 		gdImagePtr retina;
 
-		if (gdImageTrueColor(source)) {
-			retina = gdImageCreateTrueColor(source->sx *
-			     options->scale_factor, source->sy * options->scale_factor);
-		} else {
-			retina = gdImageCreate(source->sx *
-			     options->scale_factor, source->sy * options->scale_factor);
-		}
+		width = source->sx * options->scale_factor;
+		height = source->sy * options->scale_factor;
+
+		retina = gdImageTrueColor(source) ?
+			gdImageCreateTrueColor(width, height) :
+			gdImageCreate(width, height);
 
 		if (!retina) {
 			ctx->error = ANSILOVE_GD_ERROR;
