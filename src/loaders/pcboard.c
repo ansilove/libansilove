@@ -56,7 +56,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* libgd image pointers */
 	gdImagePtr canvas;
 
-	uint8_t character, *cursor, state = STATE_TEXT;
+	uint8_t *cursor, state = STATE_TEXT;
 	uint32_t background = '0', foreground = '7';
 	uint32_t column = 0, row = 0, rowMax = 0;
 
