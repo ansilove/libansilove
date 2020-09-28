@@ -177,15 +177,12 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* render PCB */
 	for (loop = 0; loop < structIndex; loop++) {
-		/* grab our chars out of the structure */
-		column = pcboard_buffer[loop].column;
-		row = pcboard_buffer[loop].row;
-		background = pcboard_buffer[loop].background;
-		foreground = pcboard_buffer[loop].foreground;
-		character = pcboard_buffer[loop].character;
-
 		drawchar(canvas, fontData.font_data, options->bits, fontData.height,
-		    column, row, colors[background], colors[foreground], character);
+		    pcboard_buffer[loop].column,
+		    pcboard_buffer[loop].row,
+		    colors[pcboard_buffer[loop].background],
+		    colors[pcboard_buffer[loop].foreground],
+		    pcboard_buffer[loop].character);
 	}
 
 	/* create output image */
