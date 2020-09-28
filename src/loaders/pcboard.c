@@ -107,12 +107,14 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					pcboard_buffer = ptr;
 				}
 
-				/* write current character in pcbChar structure */
-				pcboard_buffer[structIndex].column = column;
-				pcboard_buffer[structIndex].row = row;
-				pcboard_buffer[structIndex].background = pcb_colors[background];
-				pcboard_buffer[structIndex].foreground = pcb_colors[foreground];
-				pcboard_buffer[structIndex].character = *cursor;
+				/* write current character in pcbChar struct */
+				pcboard_buffer[structIndex] = (struct pcbChar) {
+					.column = column,
+					.row = row,
+					.background = pcb_colors[background],
+					.foreground = pcb_colors[foreground],
+					.character = *cursor
+				};
 
 				column++;
 				structIndex++;
