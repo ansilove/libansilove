@@ -45,12 +45,12 @@ ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* Default to 160 columns if columns option wasn't set */
 	options->columns = options->columns ? options->columns : 160;
 
-	uint32_t canvas_width, canvas_height;
-	canvas_width = options->columns * options->bits;
-	canvas_height = (ctx->length / 2) / options->columns * fontData.height;
+	uint32_t width, height;
+	width = options->columns * options->bits;
+	height = ctx->length / 2 / options->columns * fontData.height;
 
 	/* allocate buffer image memory */
-	canvas = gdImageCreate(canvas_width, canvas_height);
+	canvas = gdImageCreate(width, height);
 
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;
