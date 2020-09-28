@@ -107,9 +107,9 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	for (loop = 0; loop < 16; loop++) {
 		index = (loop * 3) + ctx->length - IDF_PALETTE_LENGTH;
 		colors[loop] = gdImageColorAllocate(canvas,
-		    (ctx->buffer[index] << 2 | ctx->buffer[index] >> 4),
-		    (ctx->buffer[index + 1] << 2 | ctx->buffer[index + 1] >> 4),
-		    (ctx->buffer[index + 2] << 2 | ctx->buffer[index + 2] >> 4));
+		    ctx->buffer[index] << 2 | ctx->buffer[index] >> 4,
+		    ctx->buffer[index + 1] << 2 | ctx->buffer[index + 1] >> 4,
+		    ctx->buffer[index + 2] << 2 | ctx->buffer[index + 2] >> 4);
 	}
 
 	/* render IDF */
