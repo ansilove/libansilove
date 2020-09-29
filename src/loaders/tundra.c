@@ -39,10 +39,8 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	if (ctx->length < TUNDRA_HEADER_LENGTH) {
-		ctx->error = ANSILOVE_FORMAT_ERROR;
-		return -1;
-	}
+	if (ctx->length < TUNDRA_HEADER_LENGTH)
+		goto error;
 
 	struct fontStruct fontData;
 	char tundra_version;
@@ -61,10 +59,8 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	tundra_version = ctx->buffer[0];
 
 	if (tundra_version != TUNDRA_VERSION ||
-	    strncmp((const char *)ctx->buffer + 1, TUNDRA_STRING, 8)) {
-		ctx->error = ANSILOVE_FORMAT_ERROR;
-		return -1;
-	}
+	    strncmp((const char *)ctx->buffer + 1, TUNDRA_STRING, 8))
+		goto error;
 
 	/* read tundra file a first time to find the image size */
 	uint32_t cursor, character, background = 0, foreground = 0;
@@ -94,8 +90,7 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 				loop += 8;
 			} else {
-				ctx->error = ANSILOVE_FORMAT_ERROR;
-				return -1;
+				goto error;
 			}
 
 			break;
@@ -122,10 +117,8 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	width = columns * options->bits;
 	height = row * fontData.height;
 
-	if (!width || !height) {
-		ctx->error = ANSILOVE_FORMAT_ERROR;
-		return -1;
-	}
+	if (!width || !height)
+		goto error;
 
 	/* allocate buffer image memory */
 	canvas = gdImageCreateTrueColor(width, height);
@@ -165,8 +158,7 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 				loop += 8;
 			} else {
-				ctx->error = ANSILOVE_FORMAT_ERROR;
-				return -1;
+				goto error;
 			}
 
 			break;
@@ -182,8 +174,7 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 				loop += 5;
 			} else {
-				ctx->error = ANSILOVE_FORMAT_ERROR;
-				return -1;
+				goto error;
 			}
 
 			break;
@@ -198,8 +189,7 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 				loop += 5;
 			} else {
-				ctx->error = ANSILOVE_FORMAT_ERROR;
-				return -1;
+				goto error;
 			}
 
 			break;
@@ -220,8 +210,7 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 				loop += 9;
 			} else {
-				ctx->error = ANSILOVE_FORMAT_ERROR;
-				return -1;
+				goto error;
 			}
 
 			break;
@@ -243,4 +232,8 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* create output image */
 	return output(ctx, options, canvas);
+
+error:
+	ctx->error = ANSILOVE_FORMAT_ERROR;
+	return -1;
 }
