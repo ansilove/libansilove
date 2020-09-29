@@ -93,8 +93,18 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		loop += 2;
 	}
 
+	uint32_t width, height;
+	width = x2 * 8;
+	height = i / 2 / 80 * 16;
+
+	if (!width || !height) {
+		ctx->error = ANSILOVE_FORMAT_ERROR;
+		free(idf_buffer);
+		return -1;
+	}
+
 	/* create IDF instance */
-	canvas = gdImageCreate(x2 * 8, i / 2 / 80 * 16);
+	canvas = gdImageCreate(width, height);
 
 	/* error output */
 	if (!canvas) {

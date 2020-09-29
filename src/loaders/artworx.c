@@ -42,8 +42,17 @@ ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	gdImagePtr canvas;
 
 	/* create ADF instance */
-	canvas =
-	    gdImageCreate(640, (ctx->length - ADF_HEADER_LENGTH) / 2 / 80 * 16);
+
+	uint32_t width, height;
+	width = 640;
+	height = (ctx->length - ADF_HEADER_LENGTH) / 2 / 80 * 16;
+
+	if (!width || !height) {
+		ctx->error = ANSILOVE_FORMAT_ERROR;
+		return -1;
+	}
+
+	canvas = gdImageCreate(width, height);
 
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;

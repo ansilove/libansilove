@@ -481,6 +481,12 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	uint32_t width = columns * options->bits;
 	uint32_t height = rowMax * fontData.height;
 
+	if (!width || !height) {
+		ctx->error = ANSILOVE_FORMAT_ERROR;
+		free(ansi_buffer);
+		return -1;
+	}
+
 	/* create that damn thingy */
 	canvas = options->truecolor ?
 	    gdImageCreateTrueColor(width, height) :

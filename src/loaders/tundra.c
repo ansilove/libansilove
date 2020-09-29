@@ -112,10 +112,17 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		loop++;
 	}
 
+	uint32_t width, height;
+	width = columns * options->bits;
+	height = row * fontData.height;
+
+	if (!width || !height) {
+		ctx->error = ANSILOVE_FORMAT_ERROR;
+		return -1;
+	}
 
 	/* allocate buffer image memory */
-	canvas = gdImageCreateTrueColor(columns * options->bits,
-	    row * fontData.height);
+	canvas = gdImageCreate(width, height);
 
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;

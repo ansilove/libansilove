@@ -62,7 +62,16 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	gdImagePtr canvas;
 
-	canvas = gdImageCreate(8 * xbin_width, xbin_fontsize * xbin_height);
+	uint32_t width, height;
+	width = 8 * xbin_width;
+	height = xbin_fontsize * xbin_height;
+
+	if (!width || !height) {
+		ctx->error = ANSILOVE_FORMAT_ERROR;
+		return -1;
+	}
+
+	canvas = gdImageCreate(width, height);
 
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;

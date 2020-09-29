@@ -164,8 +164,18 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 	rowMax++;
 
+	uint32_t width, height;
+	width = columns * options->bits;
+	height = rowMax * fontData.height;
+
+	if (!width || !height) {
+		ctx->error = ANSILOVE_FORMAT_ERROR;
+		free(pcboard_buffer);
+		return -1;
+	}
+
 	/* allocate buffer image memory */
-	canvas = gdImageCreate(columns * options->bits, rowMax*fontData.height);
+	canvas = gdImageCreate(width, height);
 
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;

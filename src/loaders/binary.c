@@ -49,6 +49,11 @@ ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	width = options->columns * options->bits;
 	height = ctx->length / 2 / options->columns * fontData.height;
 
+	if (!width || !height) {
+		ctx->error = ANSILOVE_FORMAT_ERROR;
+		return -1;
+	}
+
 	/* allocate buffer image memory */
 	canvas = gdImageCreate(width, height);
 
