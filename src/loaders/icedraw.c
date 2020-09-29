@@ -68,8 +68,7 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				ptr = realloc(idf_buffer, i + 2);
 				if (ptr == NULL) {
 					ctx->error = ANSILOVE_MEMORY_ERROR;
-					free(idf_buffer);
-					return -1;
+					goto error;
 				}
 
 				idf_buffer = ptr;
@@ -84,8 +83,7 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			ptr = realloc(idf_buffer, i + 2);
 			if (ptr == NULL) {
 				ctx->error = ANSILOVE_MEMORY_ERROR;
-				free(idf_buffer);
-				return -1;
+				goto error;
 			}
 
 			idf_buffer = ptr;
@@ -104,8 +102,7 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	if (!width || !height) {
 		ctx->error = ANSILOVE_FORMAT_ERROR;
-		free(idf_buffer);
-		return -1;
+		goto error;
 	}
 
 	/* create IDF instance */
@@ -114,8 +111,7 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* error output */
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;
-		free(idf_buffer);
-		return -1;
+		goto error;
 	}
 
 	/* process IDF palette */
@@ -151,12 +147,13 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	/* create output file */
-	if (output(ctx, options, canvas) != 0) {
-		free(idf_buffer);
-		return -1;
-	}
+	if (output(ctx, options, canvas) != 0)
+		goto error;
 
 	free(idf_buffer);
-
 	return 0;
+
+error:
+	free(idf_buffer);
+	return -1;
 }

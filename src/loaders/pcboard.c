@@ -175,8 +175,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	if (!width || !height) {
 		ctx->error = ANSILOVE_FORMAT_ERROR;
-		free(pcboard_buffer);
-		return -1;
+		goto error;
 	}
 
 	/* allocate buffer image memory */

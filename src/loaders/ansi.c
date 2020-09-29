@@ -173,8 +173,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 					if (ptr == NULL) {
 						ctx->error = ANSILOVE_MEMORY_ERROR;
-						free(ansi_buffer);
-						return -1;
+						goto error;
 					}
 
 					ansi_buffer = ptr;
@@ -488,8 +487,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	if (!width || !height) {
 		ctx->error = ANSILOVE_FORMAT_ERROR;
-		free(ansi_buffer);
-		return -1;
+		goto error;
 	}
 
 	/* create that damn thingy */
@@ -499,8 +497,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;
-		free(ansi_buffer);
-		return -1;
+		goto error;
 	}
 
 	uint32_t colors[16];
@@ -552,13 +549,14 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	/* create output image */
-	if (output(ctx, options, canvas) != 0) {
-		free(ansi_buffer);
-		return -1;
-	}
+	if (output(ctx, options, canvas) != 0)
+		goto error;
 
 	/* free memory */
 	free(ansi_buffer);
-
 	return 0;
+
+error:
+	free(ansi_buffer);
+	return -1;
 }
