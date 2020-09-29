@@ -81,17 +81,23 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 		switch (cursor) {
 		case TUNDRA_POSITION:
-			row = (ctx->buffer[loop + 1] << 24) +
-			    (ctx->buffer[loop + 2] << 16) +
-			    (ctx->buffer[loop + 3] << 8) +
-			    ctx->buffer[loop + 4];
+			if (loop + 8 < ctx->length) {
+				row = (ctx->buffer[loop + 1] << 24) +
+				    (ctx->buffer[loop + 2] << 16) +
+				    (ctx->buffer[loop + 3] << 8) +
+				    ctx->buffer[loop + 4];
 
-			column = (ctx->buffer[loop + 5] << 24) +
-			    (ctx->buffer[loop + 6] << 16) +
-			    (ctx->buffer[loop + 7] << 8) +
-			    ctx->buffer[loop + 8];
+				column = (ctx->buffer[loop + 5] << 24) +
+				    (ctx->buffer[loop + 6] << 16) +
+				    (ctx->buffer[loop + 7] << 8) +
+				    ctx->buffer[loop + 8];
 
-			loop += 8;
+				loop += 8;
+			} else {
+				ctx->error = ANSILOVE_FORMAT_ERROR;
+				return -1;
+			}
+
 			break;
 
 		case TUNDRA_COLOR_FOREGROUND:
@@ -145,55 +151,79 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 		switch (cursor) {
 		case TUNDRA_POSITION:
-			row = (ctx->buffer[loop + 1] << 24) +
-			    (ctx->buffer[loop + 2] << 16) +
-			    (ctx->buffer[loop + 3] << 8) +
-			    ctx->buffer[loop + 4];
+			if (loop + 8 < ctx->length) {
+				row = (ctx->buffer[loop + 1] << 24) +
+				    (ctx->buffer[loop + 2] << 16) +
+				    (ctx->buffer[loop + 3] << 8) +
+				    ctx->buffer[loop + 4];
 
-			column =
-			    (ctx->buffer[loop + 5] << 24) +
-			    (ctx->buffer[loop + 6] << 16) +
-			    (ctx->buffer[loop + 7] << 8) +
-			    ctx->buffer[loop + 8];
+				column =
+				    (ctx->buffer[loop + 5] << 24) +
+				    (ctx->buffer[loop + 6] << 16) +
+				    (ctx->buffer[loop + 7] << 8) +
+				    ctx->buffer[loop + 8];
 
-			loop += 8;
+				loop += 8;
+			} else {
+				ctx->error = ANSILOVE_FORMAT_ERROR;
+				return -1;
+			}
+
 			break;
 
 		case TUNDRA_COLOR_FOREGROUND:
-			foreground =
-			    (ctx->buffer[loop + 3] << 16) +
-			    (ctx->buffer[loop + 4] << 8) +
-			    ctx->buffer[loop + 5];
+			if (loop + 5 < ctx->length) {
+				foreground =
+				    (ctx->buffer[loop + 3] << 16) +
+				    (ctx->buffer[loop + 4] << 8) +
+				    ctx->buffer[loop + 5];
 
-			character = ctx->buffer[loop+1];
+				character = ctx->buffer[loop+1];
 
-			loop += 5;
+				loop += 5;
+			} else {
+				ctx->error = ANSILOVE_FORMAT_ERROR;
+				return -1;
+			}
+
 			break;
 
 		case TUNDRA_COLOR_BACKGROUND:
-			background = (ctx->buffer[loop + 3] << 16) +
-			    (ctx->buffer[loop + 4] << 8) +
-			    ctx->buffer[loop + 5];
+			if (loop + 5 < ctx->length) {
+				background = (ctx->buffer[loop + 3] << 16) +
+				    (ctx->buffer[loop + 4] << 8) +
+				    ctx->buffer[loop + 5];
 
-			character = ctx->buffer[loop + 1];
+				character = ctx->buffer[loop + 1];
 
-			loop += 5;
+				loop += 5;
+			} else {
+				ctx->error = ANSILOVE_FORMAT_ERROR;
+				return -1;
+			}
+
 			break;
 
 		case TUNDRA_COLOR_BOTH:
-			foreground =
-			    (ctx->buffer[loop + 3] << 16) +
-			    (ctx->buffer[loop + 4] << 8) +
-			    ctx->buffer[loop + 5];
+			if (loop + 9 < ctx->length) {
+				foreground =
+				    (ctx->buffer[loop + 3] << 16) +
+				    (ctx->buffer[loop + 4] << 8) +
+				    ctx->buffer[loop + 5];
 
-			background =
-			    (ctx->buffer[loop + 7] << 16) +
-			    (ctx->buffer[loop + 8] << 8) +
-			    ctx->buffer[loop + 9];
+				background =
+				    (ctx->buffer[loop + 7] << 16) +
+				    (ctx->buffer[loop + 8] << 8) +
+				    ctx->buffer[loop + 9];
 
-			character = ctx->buffer[loop + 1];
+				character = ctx->buffer[loop + 1];
 
-			loop += 9;
+				loop += 9;
+			} else {
+				ctx->error = ANSILOVE_FORMAT_ERROR;
+				return -1;
+			}
+
 			break;
 		}
 
