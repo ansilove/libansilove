@@ -120,6 +120,11 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* ANSi buffer dynamic memory allocation */
 	ansi_buffer = malloc(ansi_buffer_size * sizeof(struct ansiChar));
 
+	if (ansi_buffer == NULL) {
+		ctx->error = ANSILOVE_MEMORY_ERROR;
+		return -1;
+	}
+
 	/* ANSi interpreter */
 	while (loop < ctx->length) {
 		cursor = &ctx->buffer[loop];

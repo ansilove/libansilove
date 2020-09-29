@@ -52,6 +52,11 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	uint8_t *ptr, *idf_buffer;
 	idf_buffer = malloc(2);
 
+	if (idf_buffer == NULL) {
+		ctx->error = ANSILOVE_MEMORY_ERROR;
+		return -1;
+	}
+
 	while (loop < ctx->length - IDF_FONT_LENGTH - IDF_PALETTE_LENGTH) {
 		/* RLE compressed data */
 		if (ctx->buffer[loop] == 1) {

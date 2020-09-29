@@ -70,6 +70,11 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* PCB buffer dynamic memory allocation */
 	pcboard_buffer = malloc(sizeof (struct pcbChar));
 
+	if (pcboard_buffer == NULL) {
+		ctx->error = ANSILOVE_MEMORY_ERROR;
+		return -1;
+	}
+
 	while (loop < ctx->length) {
 		cursor = &ctx->buffer[loop];
 
