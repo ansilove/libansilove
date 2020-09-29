@@ -122,7 +122,7 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	/* allocate buffer image memory */
-	canvas = gdImageCreate(width, height);
+	canvas = gdImageCreateTrueColor(width, height);
 
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;
