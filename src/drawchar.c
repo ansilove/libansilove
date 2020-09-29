@@ -27,7 +27,7 @@ drawchar(gdImagePtr im, const uint8_t *font_data, uint32_t bits,
 	for (y = 0; y < height; y++) {
 		for (x = 0; x < bits; x++) {
 
-			if ((font_data[y+character*height] & (0x80 >> x)) != 0) {
+			if (font_data[y+character*height] & (0x80 >> x)) {
 				gdImageSetPixel(im, column * bits + x,
 				    row*height + y, foreground);
 
