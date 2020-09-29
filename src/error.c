@@ -29,6 +29,9 @@ ansilove_error(struct ansilove_ctx *ctx)
 	case ANSILOVE_MEMORY_ERROR:
 		return "Memory allocation error.";
 		break;
+	case ANSILOVE_RANGE_ERROR:
+		return "Value out of allowed range.";
+		break;
 	case ANSILOVE_FILE_READ_ERROR:
 		return "Error reading file.";
 		break;
