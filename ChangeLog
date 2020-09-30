@@ -1,3 +1,21 @@
+libansilove 1.2.6 (2020-09-30)
+
+- Introduce canvas' width/height variables and refactor canvas creation
+- Refactor calls to drawchar() in the ANSI loader
+- Refactor the ANSI loader to use a state machine
+- Remove systematic filtering of Form Feed characters in Amiga mode
+- Correct values for TUNDRA_COLOR_FOREGROUND and TUNDRA_COLOR_BACKGROUND
+- Switch to using reallocarray(3) in the ANSI and PCBoard loaders
+- Add a compat layer for systems which do not have reallocarray(3)
+- Refactor canvas allocation for retina output
+- Introduce the ANSILOVE_RANGE_ERROR macro, for values out of allowed range
+- Error gracefully if canvas' width or height is equal to zero
+- Remove an useless comparison in drawchar()
+- Add some file format integrity checks in the Tundra loader
+- Refactor error handling in several loaders
+
+
+
 libansilove 1.2.5 (2020-09-24)
 
 - Add missing parentheses in an if statement in output()
