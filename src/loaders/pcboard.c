@@ -49,7 +49,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	struct fontStruct fontData;
 
 	/* PCB buffer structure array definition */
-	struct pcbChar *ptr, *pcboard_buffer;
+	struct pcbChar *ptr, *pcboard_buffer = NULL;
 
 	/* libgd image pointers */
 	gdImagePtr canvas;

@@ -80,7 +80,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* ANSi buffer structure array definition */
 	size_t structIndex = 0;
-	struct ansiChar *ptr, *ansi_buffer;
+	struct ansiChar *ptr, *ansi_buffer = NULL;
 	struct fontStruct fontData;
 
 	size_t ansi_buffer_size = ANSI_BUFFER_SIZE;
