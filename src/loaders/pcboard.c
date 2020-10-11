@@ -47,6 +47,11 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
+	if (!ctx->length) {
+		ctx->error = ANSILOVE_FORMAT_ERROR;
+		goto error;
+	}
+
 	struct fontStruct fontData;
 	size_t loop = 0, structIndex = 0;
 

@@ -57,6 +57,11 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
+	if (!ctx->length) {
+		ctx->error = ANSILOVE_FORMAT_ERROR;
+		goto error;
+	}
+
 	/* ladies and gentlemen, it's type declaration time */
 	struct fontStruct fontData;
 

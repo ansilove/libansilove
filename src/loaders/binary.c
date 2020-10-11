@@ -33,6 +33,11 @@ ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
+	if (!ctx->length) {
+		ctx->error = ANSILOVE_FORMAT_ERROR;
+		return -1;
+	}
+
 	struct fontStruct fontData;
 
 	/* font selection */
