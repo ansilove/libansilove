@@ -26,6 +26,16 @@
 int
 ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
+	const uint8_t *font_data;
+	uint8_t *font_data_xbin = NULL;
+	uint32_t width, height;
+	uint32_t colors[16];
+	uint32_t offset = XBIN_HEADER_LENGTH;
+	uint32_t column = 0, row = 0, foreground, background;
+	int32_t character, attribute;
+
+	gdImagePtr canvas;
+
 	if (ctx == NULL || options == NULL) {
 		if (ctx)
 			ctx->error = ANSILOVE_INVALID_PARAM;
@@ -37,9 +47,6 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		ctx->error = ANSILOVE_FORMAT_ERROR;
 		return -1;
 	}
-
-	const uint8_t *font_data;
-	uint8_t *font_data_xbin = NULL;
 
 	if (strncmp((char *)ctx->buffer, "XBIN\x1a", 5) != 0) {
 		ctx->error = ANSILOVE_FORMAT_ERROR;
@@ -60,9 +67,6 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	gdImagePtr canvas;
-
-	uint32_t width, height;
 	width = 8 * xbin_width;
 	height = xbin_fontsize * xbin_height;
 
@@ -77,9 +81,6 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		ctx->error = ANSILOVE_GD_ERROR;
 		return -1;
 	}
-
-	uint32_t colors[16];
-	uint32_t offset = XBIN_HEADER_LENGTH;
 
 	/* palette */
 	if ((xbin_flags & 1) == 1) {
@@ -134,9 +135,6 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		font_data = font_pc_80x25;
 		xbin_fontsize = 16;
 	}
-
-	uint32_t column = 0, row = 0, foreground, background;
-	int32_t character, attribute;
 
 	/* read compressed xbin */
 	if ((xbin_flags & 4) == 4) {

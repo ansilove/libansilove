@@ -26,6 +26,15 @@
 int
 ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
+	uint8_t character, attribute, *cursor, state = STATE_CHARACTER;
+	uint32_t column = 0, row = 0;
+	uint32_t foreground, background;
+	uint32_t width, height;
+	size_t index, loop;
+
+	/* libgd image pointers */
+	gdImagePtr canvas;
+
 	if (ctx == NULL || options == NULL) {
 		if (ctx)
 			ctx->error = ANSILOVE_INVALID_PARAM;
@@ -38,12 +47,7 @@ ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	/* libgd image pointers */
-	gdImagePtr canvas;
-
 	/* create ADF instance */
-
-	uint32_t width, height;
 	width = 640;
 	height = (ctx->length - ADF_HEADER_LENGTH) / 2 / 80 * 16;
 
@@ -59,7 +63,6 @@ ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
-	size_t index, loop;
 
 	/* process ADF palette */
 	for (loop = 0; loop < 16; loop++) {
@@ -71,9 +74,6 @@ ansilove_artworx(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	/* process ADF */
-	uint8_t character, attribute, *cursor, state = STATE_CHARACTER;
-	uint32_t column = 0, row = 0;
-	uint32_t foreground, background;
 	loop = ADF_HEADER_LENGTH;
 
 	while (loop < ctx->length) {

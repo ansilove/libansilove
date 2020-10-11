@@ -50,46 +50,7 @@ struct ansiChar {
 int
 ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
-	if (ctx == NULL || options == NULL) {
-		if (ctx)
-			ctx->error = ANSILOVE_INVALID_PARAM;
-
-		return -1;
-	}
-
-	if (!ctx->length) {
-		ctx->error = ANSILOVE_FORMAT_ERROR;
-		goto error;
-	}
-
-	/* ladies and gentlemen, it's type declaration time */
-	struct fontStruct fontData;
-
-	/* Default to 80 columns if columns option wasn't set */
-	options->columns = options->columns ? options->columns : 80;
-
-	int16_t columns = options->columns;
-
-	bool ced = false;
-	bool workbench = false;
-
 	const char *errstr;
-
-	/* font selection */
-	memset(&fontData, 0, sizeof(struct fontStruct));
-	select_font(&fontData, options->font);
-
-	switch (options->mode) {
-	case ANSILOVE_MODE_CED:
-		ced = true;
-		break;
-	case ANSILOVE_MODE_WORKBENCH:
-		workbench = true;
-		break;
-	}
-
-	/* libgd image pointers */
-	gdImagePtr canvas;
 
 	/* ANSi processing loops */
 	size_t loop = 0, ansi_sequence_loop;
@@ -102,6 +63,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* default color values */
 	uint32_t background = 0, foreground = 7;
 	uint32_t background24 = 0, foreground24 = 0;
+	uint32_t colors[16];
 
 	/* text attributes */
 	bool bold = false, blink = false, invert = false;
@@ -119,8 +81,45 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* ANSi buffer structure array definition */
 	size_t structIndex = 0;
 	struct ansiChar *ptr, *ansi_buffer;
+	struct fontStruct fontData;
 
 	size_t ansi_buffer_size = ANSI_BUFFER_SIZE;
+
+	/* libgd image pointers */
+	gdImagePtr canvas;
+
+	if (ctx == NULL || options == NULL) {
+		if (ctx)
+			ctx->error = ANSILOVE_INVALID_PARAM;
+
+		return -1;
+	}
+
+	if (!ctx->length) {
+		ctx->error = ANSILOVE_FORMAT_ERROR;
+		goto error;
+	}
+
+	/* Default to 80 columns if columns option wasn't set */
+	options->columns = options->columns ? options->columns : 80;
+
+	int16_t columns = options->columns;
+
+	bool ced = false;
+	bool workbench = false;
+
+	/* font selection */
+	memset(&fontData, 0, sizeof(struct fontStruct));
+	select_font(&fontData, options->font);
+
+	switch (options->mode) {
+	case ANSILOVE_MODE_CED:
+		ced = true;
+		break;
+	case ANSILOVE_MODE_WORKBENCH:
+		workbench = true;
+		break;
+	}
 
 	/* ANSi buffer dynamic memory allocation */
 	ansi_buffer = malloc(ansi_buffer_size * sizeof(struct ansiChar));
@@ -504,8 +503,6 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		ctx->error = ANSILOVE_GD_ERROR;
 		goto error;
 	}
-
-	uint32_t colors[16];
 
 	uint32_t ced_background = 0, ced_foreground = 0;
 

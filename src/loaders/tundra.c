@@ -32,6 +32,16 @@
 int
 ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
+	char tundra_version;
+	int32_t column = 0, row = 1;
+	uint32_t cursor, character, background = 0, foreground = 0;
+	uint32_t width, height;
+	size_t loop = TUNDRA_HEADER_LENGTH;
+	struct fontStruct fontData;
+
+	/* libgd image pointers */
+	gdImagePtr canvas;
+
 	if (ctx == NULL || options == NULL) {
 		if (ctx)
 			ctx->error = ANSILOVE_INVALID_PARAM;
@@ -42,18 +52,12 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	if (ctx->length < TUNDRA_HEADER_LENGTH)
 		goto error;
 
-	struct fontStruct fontData;
-	char tundra_version;
-
 	options->columns = options->columns ? options->columns : 80;
 	int16_t columns = options->columns;
 
 	/* font selection */
 	memset(&fontData, 0, sizeof(struct fontStruct));
 	select_font(&fontData, options->font);
-
-	/* libgd image pointers */
-	gdImagePtr canvas;
 
 	/* extract tundra header */
 	tundra_version = ctx->buffer[0];
@@ -63,10 +67,6 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		goto error;
 
 	/* read tundra file a first time to find the image size */
-	uint32_t cursor, character, background = 0, foreground = 0;
-	size_t loop = TUNDRA_HEADER_LENGTH;
-	int32_t column = 0, row = 1;
-
 	while (loop < ctx->length) {
 		if (column == columns) {
 			column = 0;
@@ -113,7 +113,6 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		loop++;
 	}
 
-	uint32_t width, height;
 	width = columns * options->bits;
 	height = row * fontData.height;
 

@@ -40,6 +40,20 @@ struct pcbChar {
 int
 ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
+	uint8_t *cursor, state = STATE_TEXT;
+	uint32_t background = '0', foreground = '7';
+	uint32_t column = 0, row = 0, rowMax = 0;
+	uint32_t width, height;
+	uint32_t colors[16];
+	size_t loop = 0, structIndex = 0;
+	struct fontStruct fontData;
+
+	/* PCB buffer structure array definition */
+	struct pcbChar *ptr, *pcboard_buffer;
+
+	/* libgd image pointers */
+	gdImagePtr canvas;
+
 	if (ctx == NULL || options == NULL) {
 		if (ctx)
 			ctx->error = ANSILOVE_INVALID_PARAM;
@@ -52,25 +66,12 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		goto error;
 	}
 
-	struct fontStruct fontData;
-	size_t loop = 0, structIndex = 0;
-
 	options->columns = options->columns ? options->columns : 80;
 	uint16_t columns = options->columns;
 
 	/* font selection */
 	memset(&fontData, 0, sizeof(struct fontStruct));
 	select_font(&fontData, options->font);
-
-	/* libgd image pointers */
-	gdImagePtr canvas;
-
-	uint8_t *cursor, state = STATE_TEXT;
-	uint32_t background = '0', foreground = '7';
-	uint32_t column = 0, row = 0, rowMax = 0;
-
-	/* PCB buffer structure array definition */
-	struct pcbChar *ptr, *pcboard_buffer;
 
 	/* PCB buffer dynamic memory allocation */
 	pcboard_buffer = malloc(sizeof (struct pcbChar));
@@ -174,7 +175,6 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 	rowMax++;
 
-	uint32_t width, height;
 	width = columns * options->bits;
 	height = rowMax * fontData.height;
 
@@ -192,8 +192,6 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	/* allocate color palette */
-	uint32_t colors[16];
-
 	for (size_t i = 0; i < 16; i++)
 		colors[i] = gdImageColorAllocate(canvas, ansi_palette_red[i],
 		    ansi_palette_green[i], ansi_palette_blue[i]);

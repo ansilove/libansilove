@@ -24,6 +24,17 @@
 int
 ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
+	size_t index, loop = IDF_HEADER_LENGTH;
+	uint8_t *ptr, *idf_buffer;
+	uint32_t width, height;
+	uint32_t column = 0, row = 0;
+	uint32_t character, attribute, foreground, background;
+	uint32_t colors[16];
+	uint32_t idf_sequence_length, i = 0;
+
+	/* libgd image pointers */
+	gdImagePtr canvas;
+
 	if (ctx == NULL || options == NULL) {
 		if (ctx)
 			ctx->error = ANSILOVE_INVALID_PARAM;
@@ -39,17 +50,8 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* Get number of columns, 16-bit endian unsigned short */
 	uint32_t x2 = (ctx->buffer[9] << 8) + ctx->buffer[8] + 1;
 
-	/* libgd image pointers */
-	gdImagePtr canvas;
-
-	size_t index, loop = IDF_HEADER_LENGTH;
-	uint32_t colors[16];
-
 	/* process IDF */
-	uint32_t idf_sequence_length, i = 0;
-
 	/* dynamically allocated memory buffer for IDF data */
-	uint8_t *ptr, *idf_buffer;
 	idf_buffer = malloc(2);
 
 	if (idf_buffer == NULL) {
@@ -96,7 +98,6 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		loop += 2;
 	}
 
-	uint32_t width, height;
 	width = x2 * 8;
 	height = i / 2 / 80 * 16;
 
@@ -124,9 +125,6 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	/* render IDF */
-	uint32_t column = 0, row = 0;
-	uint32_t character, attribute, foreground, background;
-
 	for (loop = 0; loop < i; loop += 2) {
 		if (column == x2) {
 			column = 0;
