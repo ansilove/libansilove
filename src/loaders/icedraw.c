@@ -21,11 +21,16 @@
 #define IDF_FONT_LENGTH 4096
 #define IDF_PALETTE_LENGTH 48
 
+#define STATE_CHARACTER 0
+#define STATE_ATTRIBUTE 1
+#define STATE_RLE 2
+
 int
 ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
 	size_t index, loop = IDF_HEADER_LENGTH;
 	uint8_t *ptr, *idf_buffer;
+	uint8_t *cursor, state = STATE_CHARACTER;
 	uint32_t width, height;
 	uint32_t column = 0, row = 0;
 	uint32_t character, attribute, foreground, background;
@@ -60,9 +65,39 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	while (loop < ctx->length - IDF_FONT_LENGTH - IDF_PALETTE_LENGTH) {
-		/* RLE compressed data */
-		if (ctx->buffer[loop] == 1) {
-			idf_sequence_length = ctx->buffer[loop+2];
+		cursor = &ctx->buffer[loop];
+
+		switch (state) {
+		case STATE_CHARACTER:
+			if (*cursor == 1) {
+				state = STATE_RLE;
+				loop++;
+			} else {
+				ptr = realloc(idf_buffer, i + 2);
+				if (ptr == NULL) {
+					ctx->error = ANSILOVE_MEMORY_ERROR;
+					goto error;
+				}
+
+				idf_buffer = ptr;
+				idf_buffer[i] = *cursor;
+				i++;
+				state = STATE_ATTRIBUTE;
+			}
+
+			loop++;
+			break;
+		case STATE_ATTRIBUTE:
+			idf_buffer[i] = *cursor;
+			i++;
+
+			state = STATE_CHARACTER;
+
+			loop++;
+			break;
+		case STATE_RLE:
+			/* RLE compressed data */
+			idf_sequence_length = *cursor;
 
 			while (idf_sequence_length--)
 			{
@@ -75,27 +110,14 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 				idf_buffer = ptr;
 
-				idf_buffer[i] = ctx->buffer[loop + 4];
-				idf_buffer[i+1] = ctx->buffer[loop + 5];
+				idf_buffer[i] = ctx->buffer[loop +2];
+				idf_buffer[i+1] = ctx->buffer[loop + 3];
 				i += 2;
 			}
+
 			loop += 4;
-		} else {
-			/* reallocate IDF buffer memory */
-			ptr = realloc(idf_buffer, i + 2);
-			if (ptr == NULL) {
-				ctx->error = ANSILOVE_MEMORY_ERROR;
-				goto error;
-			}
-
-			idf_buffer = ptr;
-
-			/* normal character */
-			idf_buffer[i] = ctx->buffer[loop];
-			idf_buffer[i+1] = ctx->buffer[loop + 1];
-			i += 2;
+			state = STATE_CHARACTER;
 		}
-		loop += 2;
 	}
 
 	width = x2 * 8;
