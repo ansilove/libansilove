@@ -212,6 +212,10 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					seq_line = 1;
 					seq_column = 1;
 					seqGrab = strndup((char *)cursor, ansi_sequence_loop);
+					if (!seqGrab) {
+						ctx->error = ANSILOVE_MEMORY_ERROR;
+						goto error;
+					}
 
 					if (!strncmp(seqGrab, ";", 1)) {
 						seq_line = 1;
@@ -242,6 +246,10 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				if (ansi_sequence_character == 'A') {
 					/* create substring from the sequence's content */
 					seqGrab = strndup((char *)cursor, ansi_sequence_loop);
+					if (!seqGrab) {
+						ctx->error = ANSILOVE_MEMORY_ERROR;
+						goto error;
+					}
 
 					/* now get escape sequence's position value */
 					uint32_t seq_line = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
@@ -260,6 +268,10 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				if (ansi_sequence_character == 'B') {
 					/* create substring from the sequence's content */
 					seqGrab = strndup((char *)cursor, ansi_sequence_loop);
+					if (!seqGrab) {
+						ctx->error = ANSILOVE_MEMORY_ERROR;
+						goto error;
+					}
 
 					/* now get escape sequence's position value */
 					uint32_t seq_line = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
@@ -275,6 +287,10 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				if (ansi_sequence_character == 'C') {
 					/* create substring from the sequence's content */
 					seqGrab = strndup((char *)cursor, ansi_sequence_loop);
+					if (!seqGrab) {
+						ctx->error = ANSILOVE_MEMORY_ERROR;
+						goto error;
+					}
 
 					/* now get escape sequence's position value */
 					uint32_t seq_column = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
@@ -293,6 +309,10 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				if (ansi_sequence_character == 'D') {
 					/* create substring from the sequence's content */
 					seqGrab = strndup((char *)cursor, ansi_sequence_loop);
+					if (!seqGrab) {
+						ctx->error = ANSILOVE_MEMORY_ERROR;
+						goto error;
+					}
 
 					/* now get escape sequence's content length */
 					uint32_t seq_column = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
@@ -329,6 +349,10 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				if (ansi_sequence_character == 'J') {
 					/* create substring from the sequence's content */
 					seqGrab = strndup((char *)cursor, ansi_sequence_loop);
+					if (!seqGrab) {
+						ctx->error = ANSILOVE_MEMORY_ERROR;
+						goto error;
+					}
 
 					/* convert grab to an integer */
 					uint32_t eraseDisplayInt = strtonum(seqGrab, 0, UINT32_MAX, &errstr);
@@ -352,6 +376,10 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				if (ansi_sequence_character == 'm') {
 					/* create substring from the sequence's content */
 					seqGrab = strndup((char *)cursor, ansi_sequence_loop);
+					if (!seqGrab) {
+						ctx->error = ANSILOVE_MEMORY_ERROR;
+						goto error;
+					}
 
 					seqTok = strtok(seqGrab, ";");
 					while (seqTok) {
@@ -437,6 +465,10 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 					/* create substring from the sequence's content */
 					seqGrab = strndup((char *)cursor, ansi_sequence_loop);
+					if (!seqGrab) {
+						ctx->error = ANSILOVE_MEMORY_ERROR;
+						goto error;
+					}
 
 					seqTok = strtok(seqGrab, ";");
 					if (seqTok) {
