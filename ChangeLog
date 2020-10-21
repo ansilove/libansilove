@@ -1,3 +1,21 @@
+libansilove 1.2.7 (2020-10-21)
+
+- Error out early with ANSILOVE_FORMAT_ERROR in case ctx->length is 0
+- Enable FORTIFY_SOURCE level 2
+- Set CMAKE_BUILD_TYPE to "Release" in CMakeLists.txt
+- Move variables declaration to the top of each loader function
+- Initialize ansi_buffer and pcboard_buffer to NULL
+- Refactor the IceDraw loader to use a state machine
+- Check strndup() return value and error out on failed allocations
+- Add some file format integrity checks in the IceDraw loader
+- Add range integrity checks for scale_factor values in the output() function
+- Return error code directly if ctx->length is 0 in the ANSI and PCBoard loaders
+- Add range integrity checks for columns value in relevant loaders
+- Add range integrity checks for bits value in relevant loaders
+- Add additional file format integrity check in the XBin loader
+
+
+
 libansilove 1.2.6 (2020-09-30)
 
 - Introduce canvas' width/height variables and refactor canvas creation
