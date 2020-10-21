@@ -55,6 +55,11 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	options->columns = options->columns ? options->columns : 80;
 	int16_t columns = options->columns;
 
+	if (columns < 1 || columns > 4096) {
+		ctx->error = ANSILOVE_RANGE_ERROR;
+		return -1;
+	}
+
 	/* font selection */
 	memset(&fontData, 0, sizeof(struct fontStruct));
 	select_font(&fontData, options->font);

@@ -56,6 +56,11 @@ ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* Default to 160 columns if columns option wasn't set */
 	options->columns = options->columns ? options->columns : 160;
 
+	if (options->columns < 1 || options->columns > 4096) {
+		ctx->error = ANSILOVE_RANGE_ERROR;
+		return -1;
+	}
+
 	width = options->columns * options->bits;
 	height = ctx->length / 2 / options->columns * fontData.height;
 

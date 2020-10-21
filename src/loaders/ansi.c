@@ -105,6 +105,11 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	int16_t columns = options->columns;
 
+	if (columns < 1 || columns > 4096) {
+		ctx->error = ANSILOVE_RANGE_ERROR;
+		return -1;
+	}
+
 	bool ced = false;
 	bool workbench = false;
 

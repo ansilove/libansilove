@@ -67,6 +67,11 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
+	if (xbin_width < 1 || xbin_width > 4096) {
+		ctx->error = ANSILOVE_RANGE_ERROR;
+		return -1;
+	}
+
 	width = 8 * xbin_width;
 	height = xbin_fontsize * xbin_height;
 

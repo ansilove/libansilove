@@ -55,6 +55,11 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* Get number of columns, 16-bit endian unsigned short */
 	uint32_t x2 = (ctx->buffer[9] << 8) + ctx->buffer[8] + 1;
 
+	if (x2 < 1 || x2 > 4096) {
+		ctx->error = ANSILOVE_RANGE_ERROR;
+		return -1;
+	}
+
 	/* process IDF */
 	/* dynamically allocated memory buffer for IDF data */
 	idf_buffer = malloc(2);
