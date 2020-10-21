@@ -37,6 +37,11 @@ output(struct ansilove_ctx *ctx, struct ansilove_options *options,
 
 	/* Handle resizing */
 	if (options->scale_factor) {
+		if (options->scale_factor < 2 || options->scale_factor > 8) {
+			ctx->error = ANSILOVE_RANGE_ERROR;
+			return -1;
+		}
+
 		uint32_t width, height;
 		gdImagePtr retina;
 
