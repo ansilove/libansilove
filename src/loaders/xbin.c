@@ -154,9 +154,15 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			while (counter--) {
 				/* none */
 				if (ctype == 0) {
-					character = ctx->buffer[offset];
-					attribute = ctx->buffer[offset + 1];
-					offset += 2;
+					if (offset + 1 < ctx->length) {
+						character = ctx->buffer[offset];
+						attribute = ctx->buffer[offset + 1];
+						offset += 2;
+					} else {
+						ctx->error = ANSILOVE_FORMAT_ERROR;
+						free(font_data_xbin);
+						return -1;
+					}
 				}
 				/* char */
 				else if (ctype == 0x40) {
