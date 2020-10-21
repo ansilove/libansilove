@@ -31,7 +31,7 @@ addons:
   coverity_scan:
     project:
       name: "ansilove/libansilove"
-      version: 1.2.6
+      version: 1.2.7
       description: "Library for converting ANSI, ASCII, and other formats to PNG"
     notification_email: fred@statdns.com
     build_command_prepend: cmake .
