@@ -97,7 +97,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	if (!ctx->length) {
 		ctx->error = ANSILOVE_FORMAT_ERROR;
-		goto error;
+		return -1;
 	}
 
 	/* Default to 80 columns if columns option wasn't set */

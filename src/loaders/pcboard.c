@@ -63,7 +63,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	if (!ctx->length) {
 		ctx->error = ANSILOVE_FORMAT_ERROR;
-		goto error;
+		return -1;
 	}
 
 	options->columns = options->columns ? options->columns : 80;
