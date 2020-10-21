@@ -52,6 +52,11 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	if (ctx->length < TUNDRA_HEADER_LENGTH)
 		goto error;
 
+	if (options->bits != 8 && options->bits !=9) {
+		ctx->error = ANSILOVE_RANGE_ERROR;
+		return -1;
+	}
+
 	options->columns = options->columns ? options->columns : 80;
 	int16_t columns = options->columns;
 

@@ -66,6 +66,11 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
+	if (options->bits != 8 && options->bits !=9) {
+		ctx->error = ANSILOVE_RANGE_ERROR;
+		return -1;
+	}
+
 	options->columns = options->columns ? options->columns : 80;
 	uint16_t columns = options->columns;
 

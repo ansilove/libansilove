@@ -100,6 +100,11 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
+	if (options->bits != 8 && options->bits !=9) {
+		ctx->error = ANSILOVE_RANGE_ERROR;
+		return -1;
+	}
+
 	/* Default to 80 columns if columns option wasn't set */
 	options->columns = options->columns ? options->columns : 80;
 

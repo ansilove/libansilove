@@ -49,6 +49,11 @@ ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		return -1;
 	}
 
+	if (options->bits != 8 && options->bits !=9) {
+		ctx->error = ANSILOVE_RANGE_ERROR;
+		return -1;
+	}
+
 	/* font selection */
 	memset(&fontData, 0, sizeof(struct fontStruct));
 	select_font(&fontData, options->font);
