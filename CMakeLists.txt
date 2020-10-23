@@ -33,7 +33,8 @@ if(NOT HAVE_REALLOCARRAY)
   set (SRC ${SRC} compat/reallocarray.c)
 endif()
 
-add_definitions(-D_GNU_SOURCE -D_FORTIFY_SOURCE=2 -Wall -Wextra -std=c99 -pedantic)
+set(CMAKE_C_FLAGS_RELEASE "-D_FORTIFY_SOURCE=2")
+add_definitions(-D_GNU_SOURCE -Wall -Wextra -std=c99 -pedantic)
 add_library(ansilove SHARED ${SRC} ${LOADERS})
 
 target_link_libraries(ansilove ${GD_LIBRARIES} m)
