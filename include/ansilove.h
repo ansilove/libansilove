@@ -17,6 +17,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define ANSILOVE_EXTERN __attribute__((visibility("default")))
 
 /* Version number */
@@ -106,5 +110,9 @@ ANSILOVE_EXTERN int	 ansilove_icedraw(struct ansilove_ctx *, struct ansilove_opt
 ANSILOVE_EXTERN int	 ansilove_pcboard(struct ansilove_ctx *, struct ansilove_options *);
 ANSILOVE_EXTERN int	 ansilove_tundra(struct ansilove_ctx *, struct ansilove_options *);
 ANSILOVE_EXTERN int	 ansilove_xbin(struct ansilove_ctx *, struct ansilove_options *);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* ANSILOVE_H */
