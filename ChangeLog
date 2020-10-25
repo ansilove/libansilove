@@ -1,3 +1,14 @@
+libansilove 1.2.8 (2020-10-25)
+
+- Add LibFuzzer-based fuzzers for each supported format
+- Do not hardcode CMAKE_BUILD_TYPE to "Release" in CMakeLists.txt
+- Only enable FORTIFY_SOURCE level 2 for release builds
+- Add #ifdef __cplusplus extern "C" to allow calling library functions from C++
+- Constify input and output arguments of ansilove_loadfile() and
+  ansilove_savefile()
+
+
+
 libansilove 1.2.7 (2020-10-21)
 
 - Error out early with ANSILOVE_FORMAT_ERROR in case ctx->length is 0
