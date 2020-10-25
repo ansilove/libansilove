@@ -99,8 +99,8 @@ struct ansilove_options {
 
 ANSILOVE_EXTERN int	 ansilove_init(struct ansilove_ctx *, struct ansilove_options *);
 ANSILOVE_EXTERN char	*ansilove_error(struct ansilove_ctx *);
-ANSILOVE_EXTERN int	 ansilove_loadfile(struct ansilove_ctx *, char *);
-ANSILOVE_EXTERN int	 ansilove_savefile(struct ansilove_ctx *, char *);
+ANSILOVE_EXTERN int	 ansilove_loadfile(struct ansilove_ctx *, const char *);
+ANSILOVE_EXTERN int	 ansilove_savefile(struct ansilove_ctx *, const char *);
 ANSILOVE_EXTERN int	 ansilove_clean(struct ansilove_ctx *);
 
 ANSILOVE_EXTERN int	 ansilove_ansi(struct ansilove_ctx *, struct ansilove_options *);
