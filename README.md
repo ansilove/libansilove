@@ -15,7 +15,7 @@ header files.
 - OpenBSD: `pkg_add -r cmake gd`
 - NetBSD: `pkgin install cmake gd`
 - FreeBSD: `pkg install cmake gd`
-- Mac OS X: `brew install cmake gd`
+- macOS: `brew install cmake gd`
 - Alpine Linux: `apk add cmake gcc make musl-dev gd-dev`
 - Debian / Ubuntu / Mint: `apt-get install build-essential cmake libgd-dev`
 - Fedora: `dnf install cmake gcc make gd-devel`
