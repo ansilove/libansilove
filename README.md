@@ -1,7 +1,5 @@
 # libansilove
 
-[![Build Status][1]][2]
-
 libansilove is a library to convert ANSi and artscene related file formats
 into PNG images.
 
@@ -36,13 +34,13 @@ header files.
 
 Packages are available for the following operating systems:
 
-- [OpenBSD][3]
-- [NetBSD][4]
-- [FreeBSD][5]
-- [Debian][6]
-- [Ubuntu][7]
-- [openSUSE][8]
-- [Solus][9]
+- [OpenBSD][1]
+- [NetBSD][2]
+- [FreeBSD][3]
+- [Debian][4]
+- [Ubuntu][5]
+- [openSUSE][6]
+- [Solus][7]
 
 # Features
 
@@ -65,8 +63,8 @@ convert a file to PNG.
 
 # Who pulls the strings
 
-libansilove is developed by Stefan Vogt ([@ByteProject][10]), Brian Cassidy
-([@bricas][11]) and Frederic Cambus ([@fcambus][12]).
+libansilove is developed by Stefan Vogt ([@ByteProject][8]), Brian Cassidy
+([@bricas][9]) and Frederic Cambus ([@fcambus][10]).
 
 # License
 
@@ -76,15 +74,13 @@ libansilove is released under the BSD 2-Clause License. See the file `LICENSE` f
 
 GitHub: https://github.com/ansilove/libansilove
 
-[1]: https://api.travis-ci.org/ansilove/libansilove.png?branch=master
-[2]: https://travis-ci.org/ansilove/libansilove
-[3]: https://cvsweb.openbsd.org/cgi-bin/cvsweb/ports/graphics/libansilove
-[4]: https://pkgsrc.se/graphics/libansilove
-[5]: https://www.freshports.org/graphics/libansilove/
-[6]: https://packages.debian.org/search?keywords=libansilove
-[7]: https://packages.ubuntu.com/search?keywords=libansilove
-[8]: https://software.opensuse.org/package/libansilove
-[9]: https://dev.getsol.us/source/libansilove/
-[10]: https://github.com/ByteProject
-[11]: https://github.com/bricas
-[12]: https://github.com/fcambus
+[1]: https://cvsweb.openbsd.org/cgi-bin/cvsweb/ports/graphics/libansilove
+[2]: https://pkgsrc.se/graphics/libansilove
+[3]: https://www.freshports.org/graphics/libansilove/
+[4]: https://packages.debian.org/search?keywords=libansilove
+[5]: https://packages.ubuntu.com/search?keywords=libansilove
+[6]: https://software.opensuse.org/package/libansilove
+[7]: https://dev.getsol.us/source/libansilove/
+[8]: https://github.com/ByteProject
+[9]: https://github.com/bricas
+[10]: https://github.com/fcambus
