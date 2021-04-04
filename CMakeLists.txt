@@ -1,11 +1,11 @@
-cmake_minimum_required (VERSION 2.8.12)
+cmake_minimum_required(VERSION 2.8.12)
 
 set(LIB_VERSION_MAJOR 1)
 set(LIB_VERSION_MINOR 2)
 set(LIB_VERSION_PATCH 8)
 set(LIB_VERSION_STRING ${LIB_VERSION_MAJOR}.${LIB_VERSION_MINOR}.${LIB_VERSION_PATCH})
 
-project (ansilove C)
+project(ansilove C)
 
 include(CheckFunctionExists)
 include(GNUInstallDirs)
@@ -26,11 +26,11 @@ set(SRC src/clean.c src/drawchar.c src/fonts.c src/error.c src/loadfile.c src/in
 set(LOADERS src/loaders/ansi.c src/loaders/artworx.c src/loaders/binary.c src/loaders/icedraw.c src/loaders/pcboard.c src/loaders/tundra.c src/loaders/xbin.c)
 
 if(NOT HAVE_STRTONUM)
-  set (SRC ${SRC} compat/strtonum.c)
+  set(SRC ${SRC} compat/strtonum.c)
 endif()
 
 if(NOT HAVE_REALLOCARRAY)
-  set (SRC ${SRC} compat/reallocarray.c)
+  set(SRC ${SRC} compat/reallocarray.c)
 endif()
 
 add_definitions(-D_GNU_SOURCE -Wall -Wextra -std=c99 -pedantic)

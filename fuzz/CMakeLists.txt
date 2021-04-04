@@ -1,8 +1,8 @@
-cmake_minimum_required (VERSION 2.8.12)
+cmake_minimum_required(VERSION 2.8.12)
 
 set(CMAKE_C_COMPILER clang)
 
-project (fuzz C)
+project(fuzz C)
 
 # Ansilove library
 find_path(ANSILOVE_INCLUDE_DIRS ansilove.h)
