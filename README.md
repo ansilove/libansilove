@@ -68,7 +68,7 @@ libansilove is developed by Stefan Vogt ([@ByteProject][8]), Brian Cassidy
 
 # License
 
-libansilove is released under the BSD 2-Clause License. See the file `LICENSE` for details.
+libansilove is released under the BSD 2-Clause license. See the file `LICENSE` for details.
 
 # Resources
 
