@@ -70,6 +70,12 @@ libansilove is developed by Stefan Vogt ([@ByteProject][8]), Brian Cassidy
 
 libansilove is released under the BSD 2-Clause license. See the file `LICENSE` for details.
 
+# Bindings
+
+Bindings for programming languages:
+
+- [Racket][11]
+
 # Resources
 
 GitHub: https://github.com/ansilove/libansilove
@@ -84,3 +90,4 @@ GitHub: https://github.com/ansilove/libansilove
 [8]: https://github.com/ByteProject
 [9]: https://github.com/bricas
 [10]: https://github.com/fcambus
+[11]: https://gitlab.com/xgqt/racket-libansilove
