@@ -1,4 +1,8 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.1)
+
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
 
 project(example C)
 
@@ -9,7 +13,7 @@ include_directories(${ANSILOVE_INCLUDE_DIRS})
 
 set(SRC example.c)
 
-add_definitions(-Wall -Wextra -std=c99 -pedantic)
+add_definitions(-Wall -Wextra -pedantic)
 add_executable(example ${SRC})
 
 target_link_libraries(example ${ANSILOVE_LIBRARIES})

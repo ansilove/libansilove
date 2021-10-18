@@ -1,6 +1,10 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.1)
 
 set(CMAKE_C_COMPILER clang)
+
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF)
 
 project(fuzz C)
 
@@ -17,7 +21,7 @@ set(SRC_PCBOARD pcboard.c)
 set(SRC_TUNDRA tundra.c)
 set(SRC_XBIN xbin.c)
 
-add_definitions(-Wall -Wextra -std=c99 -pedantic -fsanitize=fuzzer)
+add_definitions(-Wall -Wextra -pedantic -fsanitize=fuzzer)
 add_executable(ansi ${SRC_ANSI})
 add_executable(artworx ${SRC_ANSI})
 add_executable(binary ${SRC_BINARY})
