@@ -1,6 +1,6 @@
 /*
  * ansilove.h
- * libansilove 1.2.8
+ * libansilove 1.2.9
  * https://www.ansilove.org
  *
  * Copyright (c) 2011-2022 Stefan Vogt, Brian Cassidy, and Frederic Cambus
@@ -26,11 +26,11 @@ extern "C" {
 #define ANSILOVE_EXTERN __attribute__((visibility("default")))
 
 /* Version number */
-#define ANSILOVE_VERSION "1.2.8"
+#define ANSILOVE_VERSION "1.2.9"
 
 #define ANSILOVE_VERSION_MAJOR		1
 #define ANSILOVE_VERSION_MINOR		2
-#define ANSILOVE_VERSION_PATCH		8
+#define ANSILOVE_VERSION_PATCH		9
 
 /* Error codes */
 #define ANSILOVE_INVALID_PARAM		1
