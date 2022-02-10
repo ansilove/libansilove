@@ -1,3 +1,13 @@
+libansilove 1.2.9 (2022-02-10)
+
+- Stop forcing FORTIFY_SOURCE=2, it should be package builders decision.
+- Bump CMake minimum required version to 3.1.
+- Add SPDX short license identifier in source files.
+- Use CMAKE_C_STANDARD instead of hardcoding compiler flags.
+- Add missing <stdint.h> include.
+
+
+
 libansilove 1.2.8 (2020-10-25)
 
 - Add LibFuzzer-based fuzzers for each supported format
