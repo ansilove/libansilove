@@ -30,6 +30,7 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 {
 	const uint8_t *font_data;
 	uint8_t *font_data_xbin = NULL;
+	uint8_t *high_font_data_xbin = NULL;
 	uint32_t width, height;
 	uint32_t colors[16];
 	uint32_t offset = XBIN_HEADER_LENGTH;
@@ -117,8 +118,7 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* font */
 	if ((xbin_flags & 2) == 2) {
-		uint32_t numchars = (xbin_flags & 0x10 ? 512 : 256);
-		size_t fontsz = xbin_fontsize * numchars;
+		size_t fontsz = xbin_fontsize * 256;
 
 		if (offset + fontsz > ctx->length) {
 			ctx->error = ANSILOVE_FORMAT_ERROR;
@@ -137,6 +137,26 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		font_data = font_data_xbin;
 
 		offset += fontsz;
+
+                /* 512 char font */
+		if (xbin_flags & 0x10) {
+			if (offset + fontsz > ctx->length) {
+				ctx->error = ANSILOVE_FORMAT_ERROR;
+				return -1;
+			}
+
+			/* allocate memory to contain the XBin font */
+			high_font_data_xbin = (uint8_t *)malloc(fontsz);
+			if (high_font_data_xbin == NULL) {
+				ctx->error = ANSILOVE_MEMORY_ERROR;
+				return -1;
+			}
+
+			memcpy(high_font_data_xbin, ctx->buffer+offset, fontsz);
+
+			offset += fontsz;
+                }
+
 	} else {
 		/* using default 80x25 font */
 		font_data = font_pc_80x25;
@@ -199,9 +219,16 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				background = (attribute & 240) >> 4;
 				foreground = attribute & 15;
 
-				drawchar(canvas, font_data, 8, xbin_fontsize,
-				    column, row, colors[background],
-				    colors[foreground], character);
+				if (xbin_flags & 0x10 && attribute & 8) {
+					drawchar(canvas, high_font_data_xbin, 8, xbin_fontsize,
+					    column, row, colors[background],
+					    colors[foreground], character);
+				}
+				else {
+					drawchar(canvas, font_data, 8, xbin_fontsize,
+					    column, row, colors[background],
+					    colors[foreground], character);
+				}
 
 				column++;
 
@@ -225,9 +252,16 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			background = (attribute & 240) >> 4;
 			foreground = attribute & 15;
 
-			drawchar(canvas, font_data, 8, xbin_fontsize,
-			    column, row, colors[background],
-			    colors[foreground], character);
+			if (xbin_flags & 0x10 && attribute & 8) {
+				drawchar(canvas, high_font_data_xbin, 8, xbin_fontsize,
+				    column, row, colors[background],
+				    colors[foreground], character);
+			}
+			else {
+				drawchar(canvas, font_data, 8, xbin_fontsize,
+				    column, row, colors[background],
+				    colors[foreground], character);
+			}
 
 			column++;
 			offset += 2;
@@ -237,11 +271,13 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	/* create output file */
 	if (output(ctx, options, canvas) != 0) {
 		free(font_data_xbin);
+		free(high_font_data_xbin);
 		font_data = NULL;
 		return -1;
 	}
 
 	free(font_data_xbin);
+	free(high_font_data_xbin);
 
 	return 0;
 }
