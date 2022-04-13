@@ -41,6 +41,7 @@ Packages are available for the following operating systems:
 - [Ubuntu][5]
 - [openSUSE][6]
 - [Solus][7]
+- [Gentoo][8]
 
 # Features
 
@@ -63,8 +64,8 @@ convert a file to PNG.
 
 # Who pulls the strings
 
-libansilove is developed by Stefan Vogt ([@ByteProject][8]), Brian Cassidy
-([@bricas][9]) and Frederic Cambus ([@fcambus][10]).
+libansilove is developed by Stefan Vogt ([@ByteProject][9]), Brian Cassidy
+([@bricas][10]) and Frederic Cambus ([@fcambus][11]).
 
 # License
 
@@ -74,7 +75,7 @@ libansilove is released under the BSD 2-Clause license. See the file `LICENSE` f
 
 Bindings for programming languages:
 
-- [Racket][11]
+- [Racket][12]
 
 # Resources
 
@@ -87,7 +88,8 @@ GitHub: https://github.com/ansilove/libansilove
 [5]: https://packages.ubuntu.com/search?keywords=libansilove
 [6]: https://software.opensuse.org/package/libansilove
 [7]: https://dev.getsol.us/source/libansilove/
-[8]: https://github.com/ByteProject
-[9]: https://github.com/bricas
-[10]: https://github.com/fcambus
-[11]: https://gitlab.com/xgqt/racket-libansilove
+[8]: https://packages.gentoo.org/packages/dev-libs/libansilove
+[9]: https://github.com/ByteProject
+[10]: https://github.com/bricas
+[11]: https://github.com/fcambus
+[12]: https://gitlab.com/xgqt/racket-libansilove
