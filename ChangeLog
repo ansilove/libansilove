@@ -1,3 +1,12 @@
+libansilove 1.3.0 (2022-04-14)
+
+- Properly handle 512 characters XBin fonts
+- Add a link to the Gentoo package in the README
+- Also build and install libansilove as a static library
+- List projects using libansilove in the README
+
+
+
 libansilove 1.2.9 (2022-02-10)
 
 - Stop forcing FORTIFY_SOURCE=2, it should be package builders decision
