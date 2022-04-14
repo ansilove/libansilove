@@ -38,7 +38,12 @@ if(NOT HAVE_REALLOCARRAY)
 endif()
 
 add_definitions(-D_GNU_SOURCE -Wall -Wextra -pedantic)
-add_library(ansilove SHARED ${SRC} ${LOADERS})
+
+add_library(objlib OBJECT ${SRC} ${LOADERS})
+set_property(TARGET objlib PROPERTY POSITION_INDEPENDENT_CODE ON)
+
+add_library(ansilove SHARED $<TARGET_OBJECTS:objlib>)
+add_library(ansilove-static STATIC $<TARGET_OBJECTS:objlib>)
 
 target_link_libraries(ansilove ${GD_LIBRARIES} m)
 
@@ -47,6 +52,7 @@ set_target_properties(ansilove PROPERTIES
   C_VISIBILITY_PRESET hidden)
 
 install(TARGETS ansilove DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(TARGETS ansilove-static DESTINATION ${CMAKE_INSTALL_LIBDIR})
 install(FILES include/ansilove.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(FILES man/libansilove.3 DESTINATION ${CMAKE_INSTALL_MANDIR}/man3/)
 install(FILES man/ansilove_clean.3 DESTINATION ${CMAKE_INSTALL_MANDIR}/man3/)
