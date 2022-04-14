@@ -62,22 +62,24 @@ The following formats are supported:
 See the `example` directory for an example showing how to use the library to
 convert a file to PNG.
 
-# Who pulls the strings
+# Bindings
 
-libansilove is developed by Stefan Vogt ([@ByteProject][9]), Brian Cassidy
-([@bricas][10]) and Frederic Cambus ([@fcambus][11]).
+Bindings for other programming languages:
+
+- [Racket][12]
 
 # License
 
 libansilove is released under the BSD 2-Clause license. See the file `LICENSE` for details.
 
-# Bindings
+# Authors
 
-Bindings for programming languages:
-
-- [Racket][12]
+libansilove is developed by Stefan Vogt ([@ByteProject][9]), Brian Cassidy
+([@bricas][10]) and Frederic Cambus ([@fcambus][11]).
 
 # Resources
+
+Project homepage: https://www.ansilove.org
 
 GitHub: https://github.com/ansilove/libansilove
 
