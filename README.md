@@ -62,11 +62,16 @@ The following formats are supported:
 See the `example` directory for an example showing how to use the library to
 convert a file to PNG.
 
+# Projects using libansilove
+
+- [Ansilove][9] - ASCII / ANSI art to PNG converter, also supporting several artscene file formats
+- [ANSi View (PS3)][10] - ANSi and artscene related file formats viewer for the PlayStation 3
+
 # Bindings
 
 Bindings for other programming languages:
 
-- [Racket][12]
+- [Racket][11]
 
 # License
 
@@ -74,8 +79,8 @@ libansilove is released under the BSD 2-Clause license. See the file `LICENSE` f
 
 # Authors
 
-libansilove is developed by Stefan Vogt ([@ByteProject][9]), Brian Cassidy
-([@bricas][10]) and Frederic Cambus ([@fcambus][11]).
+libansilove is developed by Stefan Vogt ([@ByteProject][12]), Brian Cassidy
+([@bricas][13]) and Frederic Cambus ([@fcambus][14]).
 
 # Resources
 
@@ -91,7 +96,9 @@ GitHub: https://github.com/ansilove/libansilove
 [6]: https://software.opensuse.org/package/libansilove
 [7]: https://dev.getsol.us/source/libansilove/
 [8]: https://packages.gentoo.org/packages/dev-libs/libansilove
-[9]: https://github.com/ByteProject
-[10]: https://github.com/bricas
-[11]: https://github.com/fcambus
-[12]: https://gitlab.com/xgqt/racket-libansilove
+[9]: https://github.com/ansilove/ansilove
+[10]: https://github.com/bucanero/ansiview-ps3
+[11]: https://gitlab.com/xgqt/racket-libansilove
+[12]: https://github.com/ByteProject
+[13]: https://github.com/bricas
+[14]: https://github.com/fcambus
