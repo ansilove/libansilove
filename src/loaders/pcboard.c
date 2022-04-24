@@ -26,6 +26,8 @@
 #include "reallocarray.h"
 #endif
 
+#define PCB_BUFFER_SIZE 4096
+
 #define STATE_TEXT	0
 #define STATE_SEQUENCE	1
 #define STATE_END	2
@@ -52,6 +54,8 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* PCB buffer structure array definition */
 	struct pcbChar *ptr, *pcboard_buffer = NULL;
+
+	size_t pcb_buffer_size = PCB_BUFFER_SIZE;
 
 	/* libgd image pointers */
 	gdImagePtr canvas;
@@ -86,7 +90,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	select_font(&fontData, options->font);
 
 	/* PCB buffer dynamic memory allocation */
-	pcboard_buffer = malloc(sizeof (struct pcbChar));
+	pcboard_buffer = malloc(pcb_buffer_size * sizeof(struct pcbChar));
 
 	if (pcboard_buffer == NULL) {
 		ctx->error = ANSILOVE_MEMORY_ERROR;
@@ -126,13 +130,17 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					rowMax = row;
 
 				/* reallocate structure array memory */
-				ptr = reallocarray(pcboard_buffer, structIndex + 1, sizeof(struct pcbChar));
-				if (ptr == NULL) {
-					ctx->error = ANSILOVE_MEMORY_ERROR;
-					goto error;
-				}
+				if (structIndex == pcb_buffer_size) {
+					pcb_buffer_size += PCB_BUFFER_SIZE;
 
-				pcboard_buffer = ptr;
+					ptr = reallocarray(pcboard_buffer, pcb_buffer_size, sizeof(struct pcbChar));
+					if (ptr == NULL) {
+						ctx->error = ANSILOVE_MEMORY_ERROR;
+						goto error;
+					}
+
+					pcboard_buffer = ptr;
+				}
 
 				/* write current character in pcbChar struct */
 				pcboard_buffer[structIndex] = (struct pcbChar) {
