@@ -180,13 +180,11 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				if (row > rowMax)
 					rowMax = row;
 
-				/* write current character in ansiChar structure */
 				/* reallocate structure array memory */
 				if (structIndex == ansi_buffer_size) {
 					ansi_buffer_size += ANSI_BUFFER_SIZE;
 
 					ptr = reallocarray(ansi_buffer, ansi_buffer_size, sizeof(struct ansiChar));
-
 					if (ptr == NULL) {
 						ctx->error = ANSILOVE_MEMORY_ERROR;
 						goto error;
@@ -195,6 +193,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					ansi_buffer = ptr;
 				}
 
+				/* write current character in ansiChar structure */
 				if (invert) {
 					ansi_buffer[structIndex].background = foreground % 8;
 					ansi_buffer[structIndex].foreground = background + (foreground & 8);
