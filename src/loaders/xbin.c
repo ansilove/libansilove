@@ -142,6 +142,7 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		if (xbin_flags & 0x10) {
 			if (offset + fontsz > ctx->length) {
 				ctx->error = ANSILOVE_FORMAT_ERROR;
+				free(font_data_xbin);
 				return -1;
 			}
 
@@ -149,6 +150,7 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			high_font_data_xbin = (uint8_t *)malloc(fontsz);
 			if (high_font_data_xbin == NULL) {
 				ctx->error = ANSILOVE_MEMORY_ERROR;
+				free(font_data_xbin);
 				return -1;
 			}
 
@@ -183,6 +185,7 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					} else {
 						ctx->error = ANSILOVE_FORMAT_ERROR;
 						free(font_data_xbin);
+						free(high_font_data_xbin);
 						return -1;
 					}
 				}
