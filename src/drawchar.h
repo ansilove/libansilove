@@ -1,6 +1,6 @@
 /*
  * drawchar.h
- * libansilove 1.3.0
+ * libansilove 1.3.1
  * https://www.ansilove.org
  *
  * Copyright (c) 2011-2022 Stefan Vogt, Brian Cassidy, and Frederic Cambus
