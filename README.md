@@ -88,7 +88,7 @@ Project homepage: https://www.ansilove.org
 
 GitHub: https://github.com/ansilove/libansilove
 
-[1]: https://cvsweb.openbsd.org/cgi-bin/cvsweb/ports/graphics/libansilove
+[1]: https://openports.pl/path/graphics/libansilove
 [2]: https://pkgsrc.se/graphics/libansilove
 [3]: https://www.freshports.org/graphics/libansilove/
 [4]: https://packages.debian.org/search?keywords=libansilove
