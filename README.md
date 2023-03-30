@@ -32,7 +32,7 @@ header files.
 
 # Packages
 
-Packages are available for the following operating systems:
+libansilove packages are available for:
 
 - [OpenBSD][1]
 - [NetBSD][2]
