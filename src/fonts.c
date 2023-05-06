@@ -29,6 +29,7 @@
 #include "fonts/font_pc_nordic.h"
 #include "fonts/font_pc_portuguese.h"
 #include "fonts/font_pc_russian.h"
+#include "fonts/font_pc_spleen.h"
 #include "fonts/font_pc_terminus.h"
 #include "fonts/font_pc_turkish.h"
 #include "fonts/font_amiga_microknight.h"
@@ -111,6 +112,11 @@ select_font(struct fontStruct *fontData, int font)
 		break;
 	case ANSILOVE_FONT_CP869:
 		fontData->font_data = font_pc_greek_869;
+		fontData->width = 9;
+		fontData->height = 16;
+		break;
+	case ANSILOVE_FONT_SPLEEN:
+		fontData->font_data = font_pc_spleen;
 		fontData->width = 9;
 		fontData->height = 16;
 		break;

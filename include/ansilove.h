@@ -58,6 +58,7 @@ extern "C" {
 #define ANSILOVE_FONT_CP866		14	/* Russian */
 #define ANSILOVE_FONT_CP869		15	/* Greek */
 #define ANSILOVE_FONT_TERMINUS		20
+#define ANSILOVE_FONT_SPLEEN		21
 
 /* Amiga fonts */
 #define ANSILOVE_FONT_MICROKNIGHT	30

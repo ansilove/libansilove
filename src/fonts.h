@@ -41,6 +41,7 @@ extern const uint8_t font_pc_latin2[4096];
 extern const uint8_t font_pc_nordic[4096];
 extern const uint8_t font_pc_portuguese[4096];
 extern const uint8_t font_pc_russian[4096];
+extern const uint8_t font_pc_spleen[4096];
 extern const uint8_t font_pc_terminus[4096];
 extern const uint8_t font_pc_turkish[4096];
 
