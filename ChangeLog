@@ -1,3 +1,10 @@
+libansilove 1.4.0 (2023-05-23)
+
+- Add initial RPM spec file
+- Add font data for Spleen 8x16, it now has full CP437 support
+
+
+
 libansilove 1.3.1 (2022-04-26)
 
 - Increment pcboard_buffer by more than one element at a time
