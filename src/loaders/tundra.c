@@ -1,6 +1,6 @@
 /*
  * tundra.c
- * libansilove 1.3.1
+ * libansilove 1.4.0
  * https://www.ansilove.org
  *
  * Copyright (c) 2011-2023 Stefan Vogt, Brian Cassidy, and Frederic Cambus

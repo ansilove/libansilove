@@ -1,5 +1,5 @@
 Name:           libansilove
-Version:        1.3.1
+Version:        1.4.0
 Release:        1%{?dist}
 Summary:        Library for converting ANSI, ASCII, and other formats to PNG
 
