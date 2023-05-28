@@ -1,3 +1,10 @@
+libansilove 1.4.1 (2023-05-28)
+
+- Sync embedded Spleen 8x16 version to Spleen 2.0.0 (this swap arrows at
+  positions 1A and 1B)
+
+
+
 libansilove 1.4.0 (2023-05-23)
 
 - Add initial RPM spec file
