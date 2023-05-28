@@ -1,6 +1,6 @@
 /*
  * artworx.c
- * libansilove 1.4.0
+ * libansilove 1.4.1
  * https://www.ansilove.org
  *
  * Copyright (c) 2011-2023 Stefan Vogt, Brian Cassidy, and Frederic Cambus
