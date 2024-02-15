@@ -42,6 +42,8 @@ libansilove packages are available for:
 - [openSUSE][6]
 - [Solus][7]
 - [Gentoo][8]
+- [Homebrew][9]
+- [Guix][10]
 
 # Features
 
@@ -64,14 +66,14 @@ convert a file to PNG.
 
 # Projects using libansilove
 
-- [Ansilove][9] - ASCII / ANSI art to PNG converter, also supporting several artscene file formats
-- [ANSi View (PS3)][10] - ANSi and artscene related file formats viewer for the PlayStation 3
+- [Ansilove][11] - ASCII / ANSI art to PNG converter, also supporting several artscene file formats
+- [ANSi View (PS3)][12] - ANSi and artscene related file formats viewer for the PlayStation 3
 
 # Bindings
 
 Bindings for other programming languages:
 
-- [Racket][11]
+- [Racket][13]
 
 # License
 
@@ -79,8 +81,8 @@ libansilove is released under the BSD 2-Clause license. See the file `LICENSE` f
 
 # Authors
 
-libansilove is developed by Stefan Vogt ([@ByteProject][12]), Brian Cassidy
-([@bricas][13]) and Frederic Cambus ([@fcambus][14]).
+libansilove is developed by Stefan Vogt ([@ByteProject][14]), Brian Cassidy
+([@bricas][15]) and Frederic Cambus ([@fcambus][16]).
 
 # Resources
 
@@ -96,9 +98,11 @@ GitHub: https://github.com/ansilove/libansilove
 [6]: https://software.opensuse.org/package/libansilove
 [7]: https://dev.getsol.us/source/libansilove/
 [8]: https://packages.gentoo.org/packages/dev-libs/libansilove
-[9]: https://github.com/ansilove/ansilove
-[10]: https://github.com/bucanero/ansiview-ps3
-[11]: https://gitlab.com/xgqt/racket-libansilove
-[12]: https://github.com/ByteProject
-[13]: https://github.com/bricas
-[14]: https://github.com/fcambus
+[9]: https://formulae.brew.sh/formula/libansilove
+[10]: https://packages.guix.gnu.org/packages/libansilove/
+[11]: https://github.com/ansilove/ansilove
+[12]: https://github.com/bucanero/ansiview-ps3
+[13]: https://gitlab.com/xgqt/racket-libansilove
+[14]: https://github.com/ByteProject
+[15]: https://github.com/bricas
+[16]: https://github.com/fcambus
