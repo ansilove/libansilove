@@ -23,7 +23,9 @@
 extern "C" {
 #endif
 
+#ifndef ANSILOVE_EXTERN
 #define ANSILOVE_EXTERN __attribute__((visibility("default")))
+#endif
 
 /* Version number */
 #define ANSILOVE_VERSION "1.4.1"
