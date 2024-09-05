@@ -15,6 +15,7 @@ include(CheckFunctionExists)
 include(GNUInstallDirs)
 
 # Check if system has strtonum
+check_function_exists(strndup HAVE_STRNDUP)
 check_function_exists(strtonum HAVE_STRTONUM)
 check_function_exists(reallocarray HAVE_REALLOCARRAY)
 
@@ -28,6 +29,10 @@ include_directories(${GD_INCLUDE_DIRS})
 
 set(SRC src/clean.c src/drawchar.c src/fonts.c src/error.c src/loadfile.c src/init.c src/output.c src/savefile.c)
 set(LOADERS src/loaders/ansi.c src/loaders/artworx.c src/loaders/binary.c src/loaders/icedraw.c src/loaders/pcboard.c src/loaders/tundra.c src/loaders/xbin.c)
+
+if(NOT HAVE_STRNDUP)
+  set(SRC ${SRC} compat/strndup.c)
+endif()
 
 if(NOT HAVE_STRTONUM)
   set(SRC ${SRC} compat/strtonum.c)

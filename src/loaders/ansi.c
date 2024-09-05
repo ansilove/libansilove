@@ -25,6 +25,10 @@
 #include "fonts.h"
 #include "output.h"
 
+#ifndef HAVE_STRNDUP
+#include "strndup.h"
+#endif
+
 #ifndef HAVE_STRTONUM
 #include "strtonum.h"
 #endif
