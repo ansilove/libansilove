@@ -68,12 +68,13 @@ convert a file to PNG.
 
 - [Ansilove][11] - ASCII / ANSI art to PNG converter, also supporting several artscene file formats
 - [ANSi View (PS3)][12] - ANSi and artscene related file formats viewer for the PlayStation 3
+- [Abydos][13] - Image loading library which handles both raster and vector graphics
 
 # Bindings
 
 Bindings for other programming languages:
 
-- [Racket][13]
+- [Racket][14]
 
 # License
 
@@ -81,8 +82,8 @@ libansilove is released under the BSD 2-Clause license. See the file `LICENSE` f
 
 # Authors
 
-libansilove is developed by Stefan Vogt ([@ByteProject][14]), Brian Cassidy
-([@bricas][15]) and Frederic Cambus ([@fcambus][16]).
+libansilove is developed by Stefan Vogt ([@ByteProject][15]), Brian Cassidy
+([@bricas][16]) and Frederic Cambus ([@fcambus][17]).
 
 # Resources
 
@@ -102,7 +103,8 @@ GitHub: https://github.com/ansilove/libansilove
 [10]: https://packages.guix.gnu.org/packages/libansilove/
 [11]: https://github.com/ansilove/ansilove
 [12]: https://github.com/bucanero/ansiview-ps3
-[13]: https://gitlab.com/xgqt/racket-libansilove
-[14]: https://github.com/ByteProject
-[15]: https://github.com/bricas
-[16]: https://github.com/fcambus
+[13]: https://snisurset.net/code/abydos/
+[14]: https://gitlab.com/xgqt/racket-libansilove
+[15]: https://github.com/ByteProject
+[16]: https://github.com/bricas
+[17]: https://github.com/fcambus
