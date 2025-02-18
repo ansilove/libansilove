@@ -70,6 +70,9 @@ extern "C" {
 #define ANSILOVE_FONT_TOPAZ500		36
 #define ANSILOVE_FONT_TOPAZ500_PLUS	37
 
+/* Atari fonts */
+#define ANSILOVE_FONT_ANSITERM	40
+
 /* Rendering modes */
 #define ANSILOVE_MODE_CED		1
 #define ANSILOVE_MODE_TRANSPARENT	2
