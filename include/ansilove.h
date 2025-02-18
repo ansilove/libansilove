@@ -77,6 +77,7 @@ extern "C" {
 #define ANSILOVE_MODE_CED		1
 #define ANSILOVE_MODE_TRANSPARENT	2
 #define ANSILOVE_MODE_WORKBENCH		3
+#define ANSILOVE_MODE_ANSITERM		4
 
 struct ansilove_png {
 	uint8_t *buffer;
