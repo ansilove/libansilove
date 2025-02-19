@@ -132,7 +132,6 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	case ANSILOVE_MODE_WORKBENCH:
 		workbench = true;
 		break;
-	}
 	case ANSILOVE_MODE_ANSITERM:
 		ansiterm = true;
 		break;
@@ -412,7 +411,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 						}
 
 						if (seqValue == 1) {
-							if (!workbench && !ansiterm) {
+							if (!workbench) {
 								foreground += 8;
 							}
 							bold = true;
@@ -420,7 +419,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 						}
 
 						if (seqValue == 5) {
-							if (!workbench && !ansiterm && options->icecolors)
+							if (!workbench && options->icecolors)
 								background += 8;
 
 							blink = true;
