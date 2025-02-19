@@ -119,7 +119,9 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	bool ced = false;
 	bool workbench = false;
-	bool ansiterm = false;
+	bool ansiterm1 = false;
+	bool ansiterm3 = false;
+	bool fansi = false;
 
 	/* font selection */
 	memset(&fontData, 0, sizeof(struct fontStruct));
@@ -132,8 +134,14 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	case ANSILOVE_MODE_WORKBENCH:
 		workbench = true;
 		break;
-	case ANSILOVE_MODE_ANSITERM:
-		ansiterm = true;
+	case ANSILOVE_MODE_ANSITERM1:
+		ansiterm1 = true;
+		break;
+	case ANSILOVE_MODE_ANSITERM3:
+		ansiterm3 = true;
+		break;
+	case ANSILOVE_MODE_FANSI:
+		fansi = true;
 		break;
 	}
 
@@ -563,12 +571,24 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				workbench_palette_red[i],
 				workbench_palette_green[i],
 				workbench_palette_blue[i]);
-	} else if (ansiterm) {
+	} else if (ansiterm1) {
 		for (size_t i = 0; i < 16; i++)
 			colors[i] = gdImageColorAllocate(canvas,
-				ansiterm_palette_red[i],
-				ansiterm_palette_green[i],
-				ansiterm_palette_blue[i]);
+				ansiterm1_palette_red[i],
+				ansiterm1_palette_green[i],
+				ansiterm1_palette_blue[i]);
+	} else if (ansiterm3) {
+		for (size_t i = 0; i < 16; i++)
+			colors[i] = gdImageColorAllocate(canvas,
+				ansiterm3_palette_red[i],
+				ansiterm3_palette_green[i],
+				ansiterm3_palette_blue[i]);
+	} else if (fansi) {
+		for (size_t i = 0; i < 16; i++)
+			colors[i] = gdImageColorAllocate(canvas,
+				fansi_palette_red[i],
+				fansi_palette_green[i],
+				fansi_palette_blue[i]);
 	} else {
 		/* Allocate standard ANSi color palette */
 

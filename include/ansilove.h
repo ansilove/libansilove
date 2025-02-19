@@ -71,13 +71,15 @@ extern "C" {
 #define ANSILOVE_FONT_TOPAZ500_PLUS	37
 
 /* Atari fonts */
-#define ANSILOVE_FONT_ANSITERM	40
+#define ANSILOVE_FONT_ANSITERM		40
 
 /* Rendering modes */
 #define ANSILOVE_MODE_CED		1
 #define ANSILOVE_MODE_TRANSPARENT	2
 #define ANSILOVE_MODE_WORKBENCH		3
-#define ANSILOVE_MODE_ANSITERM		4
+#define ANSILOVE_MODE_ANSITERM1		4	/* ANSIterm default palette (#1), muted high colors */
+#define ANSILOVE_MODE_ANSITERM3		5	/* ANSIterm palette #3, intense/saturated high colors */
+#define ANSILOVE_MODE_FANSI		6	/* FANSI default palette, slightly brighter, weird cyan */
 
 struct ansilove_png {
 	uint8_t *buffer;
