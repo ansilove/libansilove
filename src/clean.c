@@ -1,6 +1,6 @@
 /*
  * clean.c
- * libansilove 1.4.1
+ * libansilove 1.4.2
  * https://www.ansilove.org
  *
  * Copyright (c) 2011-2025 Stefan Vogt, Brian Cassidy, and Frederic Cambus
