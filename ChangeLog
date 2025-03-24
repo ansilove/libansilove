@@ -1,3 +1,12 @@
+libansilove 1.4.2 (2025-03-24)
+
+- Add links to the Homebrew and Guix packages in the README
+- Add a link to Abydos in the list of projects using libansilove
+- Bump cmake_minimum_required to 3.5, to allow building with CMake 4.0
+- Bump cmake_minimum_required to 3.10 to be more future proof
+
+
+
 libansilove 1.4.1 (2023-05-28)
 
 - Sync embedded Spleen 8x16 version to Spleen 2.0.0 (this swap arrows at
