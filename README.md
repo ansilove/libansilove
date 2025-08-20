@@ -44,6 +44,7 @@ libansilove packages are available for:
 - [Gentoo][8]
 - [Homebrew][9]
 - [Guix][10]
+- [Nix][11]
 
 # Features
 
@@ -66,15 +67,15 @@ convert a file to PNG.
 
 # Projects using libansilove
 
-- [Ansilove][11] - ASCII / ANSI art to PNG converter, also supporting several artscene file formats
-- [ANSi View (PS3)][12] - ANSi and artscene related file formats viewer for the PlayStation 3
-- [Abydos][13] - Image loading library which handles both raster and vector graphics
+- [Ansilove][12] - ASCII / ANSI art to PNG converter, also supporting several artscene file formats
+- [ANSi View (PS3)][13] - ANSi and artscene related file formats viewer for the PlayStation 3
+- [Abydos][14] - Image loading library which handles both raster and vector graphics
 
 # Bindings
 
 Bindings for other programming languages:
 
-- [Racket][14]
+- [Racket][15]
 
 # License
 
@@ -82,8 +83,8 @@ libansilove is released under the BSD 2-Clause license. See the file `LICENSE` f
 
 # Authors
 
-libansilove is developed by Stefan Vogt ([@ByteProject][15]), Brian Cassidy
-([@bricas][16]) and Frederic Cambus ([@fcambus][17]).
+libansilove is developed by Stefan Vogt ([@ByteProject][16]), Brian Cassidy
+([@bricas][17]) and Frederic Cambus ([@fcambus][18]).
 
 # Resources
 
@@ -101,10 +102,11 @@ GitHub: https://github.com/ansilove/libansilove
 [8]: https://packages.gentoo.org/packages/dev-libs/libansilove
 [9]: https://formulae.brew.sh/formula/libansilove
 [10]: https://packages.guix.gnu.org/packages/libansilove/
-[11]: https://github.com/ansilove/ansilove
-[12]: https://github.com/bucanero/ansiview-ps3
-[13]: https://snisurset.net/code/abydos/
-[14]: https://gitlab.com/xgqt/racket-libansilove
-[15]: https://github.com/ByteProject
-[16]: https://github.com/bricas
-[17]: https://github.com/fcambus
+[11]: https://github.com/NixOS/nixpkgs/tree/master/pkgs/by-name/li/libansilove
+[12]: https://github.com/ansilove/ansilove
+[13]: https://github.com/bucanero/ansiview-ps3
+[14]: https://snisurset.net/code/abydos/
+[15]: https://gitlab.com/xgqt/racket-libansilove
+[16]: https://github.com/ByteProject
+[17]: https://github.com/bricas
+[18]: https://github.com/fcambus
