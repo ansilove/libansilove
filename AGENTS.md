@@ -9,6 +9,9 @@ libansilove is a C library that converts ANSI and related art files to PNG. Core
 - `cmake --build build --target install`: install artifacts into the default prefix.
 - `cmake -S fuzz -B fuzz-build`: set up clang-based libFuzzer targets.
 - `cmake --build fuzz-build`: produce fuzz binaries such as `ansi` and `tundra`.
+- `nix develop`: enter the flake-backed dev shell with clang, pkg-config, GD, and platform-appropriate debugger preinstalled.
+- `nix build`: build the default flake package (shared/static library) without touching your host toolchain.
+- `nix flake check`: validate the flake packages and dev shell evaluate cleanly across supported systems.
 
 ## Coding Style & Naming Conventions
 - Target C99 with the default warning set (`-Wall -Wextra -pedantic`).
@@ -21,6 +24,7 @@ libansilove is a C library that converts ANSI and related art files to PNG. Core
 - After building, run `build/example/ansilove_example <input.ans>` to confirm PNG output.
 - For fuzzing, execute `./fuzz-build/ansi -runs=10000 corpus/` (seed the corpus with representative art files). Investigate sanitizer reports immediately and add reproducer samples.
 - Ensure new formats or options ship with updated example inputs or fuzz seeds that exercise the paths.
+- If you touch the flake, rerun `nix build` and `nix flake check` and commit the updated `flake.lock` (keep changes reproducible).
 
 ## Commit & Pull Request Guidelines
 - Commit messages follow sentence case with concise statements ending in a period (for example, `Update ChangeLog.`).
