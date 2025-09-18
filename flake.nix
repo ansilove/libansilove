@@ -25,7 +25,7 @@
             pkgs.pkg-config
           ];
           buildInputs = [
-            pkgs.libgd
+            pkgs.gd
           ];
           cmakeFlags = [
             "-DCMAKE_BUILD_TYPE=Release"
@@ -40,15 +40,21 @@
         };
 
         devShells.default = pkgs.mkShell {
-          packages = [
-            pkgs.cmake
-            pkgs.ninja
-            pkgs.pkg-config
-            pkgs.libgd
-            pkgs.clang
-            pkgs.clang-tools
-            pkgs.gdb
-          ];
+          packages =
+            [
+              pkgs.cmake
+              pkgs.ninja
+              pkgs.pkg-config
+              pkgs.gd
+              pkgs.clang
+              pkgs.clang-tools
+            ]
+            ++ pkgs.lib.optionals (!pkgs.stdenv.isDarwin) [
+              pkgs.gdb
+            ]
+            ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
+              pkgs.lldb
+            ];
           shellHook = ''
             export CC=${pkgs.clang}/bin/clang
             export CXX=${pkgs.clang}/bin/clang++
