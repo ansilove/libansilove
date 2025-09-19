@@ -2,6 +2,32 @@
 const fs = require('fs');
 const path = require('path');
 const { TextEncoder } = require('util');
+const { pathToFileURL } = require('url');
+
+async function loadFactory(factoryPath) {
+  try {
+    const required = require(factoryPath);
+    if (typeof required === 'function') {
+      return required;
+    }
+    if (required && typeof required.default === 'function') {
+      return required.default;
+    }
+  } catch (error) {
+    if (error && error.code !== 'ERR_REQUIRE_ESM') {
+      throw error;
+    }
+  }
+
+  const imported = await import(pathToFileURL(factoryPath).href);
+  if (imported && typeof imported.default === 'function') {
+    return imported.default;
+  }
+  if (typeof imported === 'function') {
+    return imported;
+  }
+  throw new Error('libansilove.js did not export an initialization function');
+}
 
 async function main() {
   const buildDir = path.resolve(process.argv[2] || 'build-wasm/wasm');
@@ -12,11 +38,7 @@ async function main() {
     throw new Error(`expected ${factoryPath} (run scripts/test-wasm.sh first)`);
   }
 
-  const factory = require(factoryPath);
-  if (typeof factory !== 'function') {
-    throw new Error('libansilove.js did not export an initialization function');
-  }
-
+  const factory = await loadFactory(factoryPath);
   const Module = await factory();
   const getVersion = Module.cwrap('ansilove_wasm_version', 'string', []);
   const renderAnsi = Module.cwrap('ansilove_wasm_render_ansi', 'number', ['number', 'number', 'number', 'number', 'number', 'number']);

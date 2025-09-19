@@ -20,7 +20,7 @@ if [ ! -f "${DOC_ROOT}/libansilove.js" ]; then
   exit 3
 fi
 
-LOG_FILE=$(mktemp -t ansilove-wasm-http.XXXXXX.log)
+LOG_FILE=$(mktemp -t libansilove-wasm-http.XXXXXX.log)
 cleanup() {
   if [ -n "${SERVER_PID:-}" ]; then
     kill "${SERVER_PID}" 2>/dev/null || true

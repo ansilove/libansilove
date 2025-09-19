@@ -60,6 +60,24 @@ Additional helpers:
   JXA, ensuring the demo page renders successfully (requires the Safari
   automation toggle mentioned above).
 
+# npm package
+
+The `npm/libansilove-wasm` directory contains a TypeScript wrapper and packaging
+scripts for distributing the WebAssembly build on npm:
+
+```
+nix develop --command bash scripts/test-wasm.sh
+cd npm/libansilove-wasm
+npm install
+npm run build
+npm run verify
+```
+
+`npm run sync-version` keeps the package version aligned with
+`include/ansilove.h`. Use `npm run version:patch` to bump the patch level when
+preparing a publication. The `prepack` hook rebuilds and verifies artefacts to
+ensure the tarball is reproducible.
+
 # Packages
 
 libansilove packages are available for:
