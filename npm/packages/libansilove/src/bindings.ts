@@ -15,6 +15,25 @@ const DEFAULT_RENDER_ARGS: Required<RenderOptions> = {
 	iceColors: 0,
 };
 
+const toDisposable = (fn: () => void) => ({
+	[Symbol.dispose]() {
+		fn();
+	},
+});
+
+const allocateBuffer = (Module: EmscriptenModule, data: Uint8Array) => {
+	const ptr = Module._malloc(data.length || 1);
+	if (data.length > 0) {
+		Module.HEAPU8.set(data, ptr);
+	}
+	return {
+		ptr,
+	[Symbol.dispose]() {
+		Module._free(ptr);
+	},
+	};
+};
+
 export function createBindings(Module: EmscriptenModule): LibansiloveBindings {
 	const getVersion = Module.cwrap("ansilove_wasm_version", "string", []) as () => string;
 	const renderAnsiFn = Module.cwrap("ansilove_wasm_render_ansi", "number", [
@@ -31,18 +50,14 @@ export function createBindings(Module: EmscriptenModule): LibansiloveBindings {
 
 	const renderAnsi = (input: RenderInput, options: RenderOptions = {}): RenderResult => {
 		const data = typeof input === "string" ? encoder.encode(input) : input;
-		const ptr = Module._malloc(data.length || 1);
-		if (data.length > 0) {
-			Module.HEAPU8.set(data, ptr);
-		}
+		using buffer = allocateBuffer(Module, data);
 
 		const cols = options.columns ?? DEFAULT_RENDER_ARGS.columns;
 		const bits = options.bits ?? DEFAULT_RENDER_ARGS.bits;
 		const mode = options.mode ?? DEFAULT_RENDER_ARGS.mode;
 		const ice = options.iceColors ?? DEFAULT_RENDER_ARGS.iceColors;
 
-		const code = renderAnsiFn(ptr, data.length, cols, bits, mode, ice);
-		Module._free(ptr);
+		const code = renderAnsiFn(buffer.ptr, data.length, cols, bits, mode, ice);
 		if (code !== 0) {
 			throw new Error(`ansilove_wasm_render_ansi failed with exit code ${code}`);
 		}
@@ -53,8 +68,8 @@ export function createBindings(Module: EmscriptenModule): LibansiloveBindings {
 			throw new Error("libansilove returned an empty PNG buffer");
 		}
 
+		using pngHandle = toDisposable(freePng);
 		const png = Module.HEAPU8.slice(pngPtr, pngPtr + pngLength);
-		freePng();
 
 		return { png };
 	};

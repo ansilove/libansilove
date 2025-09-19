@@ -8,6 +8,7 @@ const pkgDir = resolve(scriptDir, "..");
 const rootDir = resolve(pkgDir, "../../..");
 const distDir = resolve(pkgDir, "dist");
 const generatedDir = resolve(pkgDir, "generated");
+const distGeneratedDir = resolve(distDir, "generated");
 
 const REQUIRED_ARTIFACTS = [
 	"libansilove.js",
@@ -28,9 +29,11 @@ async function ensureArtifacts() {
 }
 
 async function copyAssets() {
+	await rm(distGeneratedDir, { recursive: true, force: true });
+	await mkdir(distGeneratedDir, { recursive: true });
 	await Promise.all(
 		REQUIRED_ARTIFACTS.map((artifact) =>
-			copyFile(join(generatedDir, artifact), join(distDir, artifact))
+			copyFile(join(generatedDir, artifact), join(distGeneratedDir, artifact))
 		),
 	);
 

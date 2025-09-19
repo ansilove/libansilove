@@ -12,8 +12,8 @@
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./libansilove.js": "./dist/libansilove.js",
-    "./libansilove.wasm": "./dist/libansilove.wasm",
+    "./libansilove.js": "./dist/generated/libansilove.js",
+    "./libansilove.wasm": "./dist/generated/libansilove.wasm",
     "./package.json": "./package.json"
   },
   "files": [
