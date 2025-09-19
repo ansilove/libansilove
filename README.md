@@ -52,6 +52,14 @@ Then open `http://localhost:8765/` in a browser (Safari requires the developer
 setting “Allow JavaScript from Apple Events” for scripted verification) to see
 the PNG preview rendered via WebAssembly.
 
+Additional helpers:
+
+- `node scripts/test-wasm-node.js build-wasm/wasm` reruns the Node smoke test on
+  an existing wasm build and refreshes `test-output.png`.
+- `scripts/test-wasm-browser.sh` starts a local server and drives Safari via
+  JXA, ensuring the demo page renders successfully (requires the Safari
+  automation toggle mentioned above).
+
 # Packages
 
 libansilove packages are available for:
