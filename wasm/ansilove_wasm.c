@@ -1,5 +1,13 @@
 #include "ansilove.h"
+
+#if defined(__EMSCRIPTEN__)
 #include <emscripten/emscripten.h>
+#else
+/* Allow building the wasm shim with a host clang toolchain. */
+#ifndef EMSCRIPTEN_KEEPALIVE
+#define EMSCRIPTEN_KEEPALIVE
+#endif
+#endif
 
 #include <stdbool.h>
 #include <stddef.h>
