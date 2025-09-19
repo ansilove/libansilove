@@ -25,3 +25,4 @@ cmake_install.cmake
 node_modules/
 npm/packages/*/dist/
 tmp.png
+wasm/*.o
