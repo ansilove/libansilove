@@ -5,6 +5,12 @@
 export type RenderBits = 8 | 9;
 
 /**
+ * Supported retina scale factors. Matches libansilove's `--scale` flag where
+ * values 2–8 upscale the raster output while preserving the pixel grid.
+ */
+export type RenderScaleFactor = 2 | 3 | 4 | 5 | 6 | 7 | 8;
+
+/**
  * Optional rendering presets that mirror libansilove's C-side mode constants.
  *
  * - `"ced"` clamps width to 78 columns and draws with the classic CED
@@ -17,7 +23,12 @@ export type RenderBits = 8 | 9;
  * These options are mutually exclusive; omit the field (or pass
  * `undefined`) to keep the default ANSI rendering path.
  */
-export type RenderMode = "ced" | "transparent" | "workbench";
+export type RenderMode =
+	| undefined
+	| "standard"
+	| "ced"
+	| "transparent"
+	| "workbench";
 
 /**
  * Accepted column width overrides. `"auto"` defers to libansilove's
@@ -48,6 +59,12 @@ export interface RenderOptions {
 	 * blink behaviour (`false`). Mirrors the `-i/--icecolors` CLI flag.
 	 */
 	readonly iceColors?: boolean;
+	/**
+	 * Retina upscale factor applied after rendering. Accepts integers 2 through
+	 * 8, mirroring the native `--scale` flag. Leave undefined to disable
+	 * post-scaling.
+	 */
+	readonly scaleFactor?: RenderScaleFactor;
 }
 
 export type RenderInput = string | ArrayBuffer | ArrayBufferView;

@@ -42,7 +42,7 @@ ansilove_wasm_version(void)
 EMSCRIPTEN_KEEPALIVE
 int
 ansilove_wasm_render_ansi(uintptr_t data_ptr, size_t length, int columns,
-	int icecolors, int dos, int scale_factor)
+	int bits, int mode, int icecolors, int dos, int scale_factor)
 {
 	struct ansilove_ctx ctx;
 	struct ansilove_options options;
@@ -59,6 +59,10 @@ ansilove_wasm_render_ansi(uintptr_t data_ptr, size_t length, int columns,
 
 	if (columns > 0)
 		options.columns = columns;
+	if (bits == 8 || bits == 9)
+		options.bits = (uint8_t)bits;
+	if (mode >= ANSILOVE_MODE_CED && mode <= ANSILOVE_MODE_WORKBENCH)
+		options.mode = (uint8_t)mode;
 	options.icecolors = icecolors ? true : false;
 	options.dos = dos ? true : false;
 	if (scale_factor >= 0 && scale_factor <= 8)

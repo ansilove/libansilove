@@ -5,7 +5,9 @@ import type {
 	RenderMode,
 	RenderOptions,
 	RenderResult,
+	RenderScaleFactor,
 } from "./types";
+import { createErrorFromCode } from "./errors";
 
 const encoder = new TextEncoder();
 
@@ -14,11 +16,13 @@ const DEFAULT_RENDER_ARGS: {
 	readonly bits?: RenderOptions["bits"];
 	readonly mode?: RenderMode;
 	readonly iceColors: boolean;
+	readonly scaleFactor?: RenderScaleFactor;
 } = {
 	columns: 0,
 	bits: undefined,
 	mode: undefined,
 	iceColors: false,
+	scaleFactor: undefined,
 };
 
 const toUint8Array = (input: RenderInput): Uint8Array => {
@@ -56,6 +60,8 @@ const normaliseMode = (mode: RenderMode | undefined): number => {
 			return 2;
 		case "workbench":
 			return 3;
+		case "standard":
+			return 0;
 		case undefined:
 			return 0;
 		default:
@@ -85,14 +91,16 @@ export function createBindings(Module: EmscriptenModule): LibansiloveBindings {
 		"string",
 		[],
 	) as () => string;
-	const renderAnsiFn = Module.cwrap("ansilove_wasm_render_ansi", "number", [
-		"number",
-		"number",
-		"number",
-		"number",
-		"number",
-		"number",
-	]) as (...args: number[]) => number;
+const renderAnsiFn = Module.cwrap("ansilove_wasm_render_ansi", "number", [
+	"number",
+	"number",
+	"number",
+	"number",
+	"number",
+	"number",
+	"number",
+	"number",
+]) as (...args: number[]) => number;
 	const getPngPtr = Module.cwrap(
 		"ansilove_wasm_get_png_ptr",
 		"number",
@@ -120,6 +128,8 @@ export function createBindings(Module: EmscriptenModule): LibansiloveBindings {
 		const bits = options.bits ?? DEFAULT_RENDER_ARGS.bits;
 		const mode = normaliseMode(options.mode ?? DEFAULT_RENDER_ARGS.mode);
 		const ice = options.iceColors ?? DEFAULT_RENDER_ARGS.iceColors;
+		const scaleFactor = options.scaleFactor ?? DEFAULT_RENDER_ARGS.scaleFactor;
+		const dos = 0;
 
 		const code = renderAnsiFn(
 			buffer.ptr,
@@ -128,11 +138,11 @@ export function createBindings(Module: EmscriptenModule): LibansiloveBindings {
 			bits ?? 0,
 			mode,
 			ice ? 1 : 0,
+			dos,
+			scaleFactor ?? 0,
 		);
 		if (code !== 0) {
-			throw new Error(
-				`ansilove_wasm_render_ansi failed with exit code ${code}`,
-			);
+			throw createErrorFromCode(code);
 		}
 
 		const pngPtr = getPngPtr();

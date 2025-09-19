@@ -43,8 +43,20 @@ export type {
 	RenderInput,
 	RenderMode,
 	RenderOptions,
+	RenderScaleFactor,
 	RenderResult,
 } from "./types";
 export { createBindings };
+export {
+	AnsiloveErrorCodes,
+	AnsiloveFileReadError,
+	AnsiloveFileWriteError,
+	AnsiloveFormatError,
+	AnsiloveGdError,
+	AnsiloveInvalidParamError,
+	AnsiloveMemoryError,
+	AnsiloveRangeError,
+	AnsiloveWasmError,
+} from "./errors";
 
 export default load;
