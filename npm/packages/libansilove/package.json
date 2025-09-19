@@ -1,14 +1,70 @@
 {
   "name": "libansilove",
-  "module": "index.ts",
+  "version": "1.4.2",
+  "description": "Universal WebAssembly bindings for libansilove.",
+  "license": "BSD-2-Clause",
   "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./browser": {
+      "types": "./dist/browser.d.ts",
+      "import": "./dist/browser.js"
+    },
+    "./node": {
+      "types": "./dist/node.d.ts",
+      "import": "./dist/node.js"
+    },
+    "./wasm/browser": {
+      "default": "./dist/wasm/libansilove.browser.mjs"
+    },
+    "./wasm/node": {
+      "default": "./dist/wasm/libansilove.node.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/"
+  ],
   "scripts": {
-    "build": "bun run scripts/build-wasm.bun.ts"
+    "clean": "rm -rf dist",
+    "build:wasm": "bun run scripts/build-wasm.bun.ts",
+    "build:ts": "bunx tsc -p tsconfig.build.json",
+    "prepare:package": "bun run scripts/prepare-package.ts",
+    "build": "bun run clean && bun run build:wasm && bun run build:ts && bun run prepare:package",
+    "check": "bunx tsc --noEmit",
+    "verify": "bun run scripts/verify-dist.ts",
+    "test": "node ../../scripts/test-wasm-node.js npm/packages/libansilove/generated",
+    "prepare": "bun run build"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "typescript": "^5.3.3"
   },
-  "peerDependencies": {
-    "typescript": "^5"
-  }
+  "keywords": [
+    "ansi",
+    "ansilove",
+    "artscene",
+    "png",
+    "wasm",
+    "emscripten"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ansilove/libansilove.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ansilove/libansilove/issues"
+  },
+  "homepage": "https://www.ansilove.org/",
+  "author": "ANSILOVE Project",
+  "engines": {
+    "node": ">=18"
+  },
+  "sideEffects": false
 }

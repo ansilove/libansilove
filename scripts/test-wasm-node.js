@@ -14,7 +14,7 @@ async function loadFactory(factoryPath) {
 }
 
 async function main() {
-  const buildDir = path.resolve(process.argv[2] || 'build-wasm/wasm');
+  const buildDir = path.resolve(process.argv[2] || 'npm/packages/libansilove/generated');
   const outputPath = path.resolve(process.argv[3] || path.join(buildDir, 'test-output.png'));
   const factoryPath = path.resolve(process.argv[4] || path.join(buildDir, 'libansilove.node.mjs'));
   const sampleText = process.argv[5] || 'Hello from libansilove!\r\n';

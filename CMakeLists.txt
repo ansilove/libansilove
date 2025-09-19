@@ -14,8 +14,6 @@ project(ansilove C)
 include(CheckFunctionExists)
 include(GNUInstallDirs)
 
-option(ANSILOVE_BUILD_WASM "Build the WebAssembly wrapper" OFF)
-
 set(IS_EMSCRIPTEN OFF)
 if(CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
   set(IS_EMSCRIPTEN ON)
@@ -77,54 +75,4 @@ if(NOT IS_EMSCRIPTEN)
   install(FILES man/ansilove_pcboard.3 DESTINATION ${CMAKE_INSTALL_MANDIR}/man3/)
   install(FILES man/ansilove_tundra.3 DESTINATION ${CMAKE_INSTALL_MANDIR}/man3/)
   install(FILES man/ansilove_xbin.3 DESTINATION ${CMAKE_INSTALL_MANDIR}/man3/)
-endif()
-
-if(ANSILOVE_BUILD_WASM)
-  if(NOT CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
-    message(FATAL_ERROR "ANSILOVE_BUILD_WASM requires the Emscripten toolchain (use emcmake).")
-  endif()
-
-  add_library(objlib_wasm OBJECT ${SRC} ${LOADERS})
-  target_include_directories(objlib_wasm PRIVATE include src compat wasm)
-  target_compile_definitions(objlib_wasm PRIVATE ANSILOVE_WASM)
-
-  add_executable(ansilove_wasm_browser
-    wasm/ansilove_wasm.c
-    wasm/minigd.c
-    $<TARGET_OBJECTS:objlib_wasm>)
-  target_include_directories(ansilove_wasm_browser PRIVATE include src compat wasm)
-  target_compile_definitions(ansilove_wasm_browser PRIVATE ANSILOVE_WASM)
-  set_target_properties(ansilove_wasm_browser PROPERTIES
-    OUTPUT_NAME "libansilove.browser"
-    SUFFIX ".mjs"
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/wasm")
-  target_link_options(ansilove_wasm_browser PRIVATE
-    "-sMODULARIZE=1"
-    "-sEXPORT_NAME=LibansiloveBrowser"
-    "-sEXPORT_ES6=1"
-    "-sUSE_ES6_IMPORT_META=1"
-    "-sEXPORTED_FUNCTIONS=['_ansilove_wasm_version','_ansilove_wasm_render_ansi','_ansilove_wasm_get_png_ptr','_ansilove_wasm_get_png_length','_ansilove_wasm_free_png','_malloc','_free']"
-    "-sEXPORTED_RUNTIME_METHODS=['cwrap','ccall','UTF8ToString']"
-    "-sENVIRONMENT=web,worker"
-    "-sALLOW_MEMORY_GROWTH=1")
-
-  add_executable(ansilove_wasm_node
-    wasm/ansilove_wasm.c
-    wasm/minigd.c
-    $<TARGET_OBJECTS:objlib_wasm>)
-  target_include_directories(ansilove_wasm_node PRIVATE include src compat wasm)
-  target_compile_definitions(ansilove_wasm_node PRIVATE ANSILOVE_WASM)
-  set_target_properties(ansilove_wasm_node PROPERTIES
-    OUTPUT_NAME "libansilove.node"
-    SUFFIX ".mjs"
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/wasm")
-  target_link_options(ansilove_wasm_node PRIVATE
-    "-sMODULARIZE=1"
-    "-sEXPORT_NAME=LibansiloveNode"
-    "-sEXPORT_ES6=1"
-    "-sUSE_ES6_IMPORT_META=1"
-    "-sEXPORTED_FUNCTIONS=['_ansilove_wasm_version','_ansilove_wasm_render_ansi','_ansilove_wasm_get_png_ptr','_ansilove_wasm_get_png_length','_ansilove_wasm_free_png','_malloc','_free']"
-    "-sEXPORTED_RUNTIME_METHODS=['cwrap','ccall','UTF8ToString']"
-    "-sENVIRONMENT=node"
-    "-sALLOW_MEMORY_GROWTH=1")
 endif()
