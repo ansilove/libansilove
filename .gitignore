@@ -26,6 +26,5 @@ example/wasm/libansilove.wasm
 build-wasm/wasm/test-output.png
 
 # npm package build
-npm/libansilove-wasm/node_modules/
-npm/libansilove-wasm/dist/
-npm/libansilove-wasm/package-lock.json
+node_modules/
+npm/packages/*/dist/

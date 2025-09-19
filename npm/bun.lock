@@ -27,11 +27,9 @@
     "packages/libansilove-wasm": {
       "name": "libansilove",
       "version": "1.4.2",
-      "dependencies": {
-        "ts-node": "^10.9.2",
-      },
       "devDependencies": {
         "@types/node": "^20.10.0",
+        "ts-node": "^10.9.2",
         "typescript": "^5.4.0",
       },
     },

@@ -1,29 +1,39 @@
-# @effect-native/libansilove-wasm
+# libansilove
 
 WebAssembly build of [libansilove](https://www.ansilove.org) packaged for Node.js
 and modern bundlers. The package re-exports the generated Emscripten module along
 with a small TypeScript helper that renders ANSI art to PNG buffers.
 
-## Usage
+## Usage (Node.js)
 
 ```ts
-import { load } from '@effect-native/libansilove-wasm';
+import { load } from 'libansilove';
 
-const wasm = await load();
-const result = wasm.renderAnsi('Hello from libansilove!\r\n');
-console.log(`Generated ${result.png.length} bytes from libansilove ${wasm.version}`);
+async function main() {
+  const wasm = await load();
+  const { png } = wasm.renderAnsi('\u001b[1;36mHello from libansilove!\u001b[0m\r\n');
+  console.log(`libansilove ${wasm.version} produced ${png.byteLength} bytes.`);
+}
+
+main();
 ```
 
-### Rendering options
+See `examples/node-render.mjs` for a full script that writes the PNG to disk.
+
+## Usage (browser / bundlers)
 
 ```ts
-const output = wasm.renderAnsi(ansiText, {
-  columns: 80,
-  icecolors: true,
-  dos: false,
-  scaleFactor: 2,
-});
+import { loadBrowser } from 'libansilove/browser';
+
+const wasm = await loadBrowser();
+const { png } = wasm.renderAnsi('Hello from libansilove!\r\n');
+const blob = new Blob([png], { type: 'image/png' });
+const url = URL.createObjectURL(blob);
 ```
+
+By default `loadBrowser` resolves the wasm binary via `new URL('./libansilove.wasm',
+import.meta.url)`, so bundlers that understand `import.meta.url` will copy the
+asset automatically.
 
 ## Development
 
@@ -37,8 +47,9 @@ const output = wasm.renderAnsi(ansiText, {
    npm install
    npm run build
    ```
-3. Verify the distribution before publishing:
+3. Run the example test and verification suite before publishing:
    ```
+   npm test
    npm run verify
    ```
 

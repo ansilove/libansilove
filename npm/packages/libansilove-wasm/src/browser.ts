@@ -1,12 +1,9 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { TextEncoder } from 'node:util';
-import type { LoadOptions, RenderOptions, AnsiloveWasm, RenderResult } from './types.js';
+import type { AnsiloveWasm, RenderOptions, RenderResult } from './types.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+type ModuleOverrides = Record<string, unknown>;
 
-// Minimal shape of the Emscripten factory output we rely on.
+type Factory = (overrides?: ModuleOverrides) => Promise<LibansiloveModule>;
+
 interface LibansiloveModule {
   readonly HEAPU8: Uint8Array;
   _malloc(size: number): number;
@@ -18,11 +15,9 @@ interface LibansiloveModule {
   ): (...args: number[]) => number | string | void;
 }
 
-type LibansiloveFactory = (overrides?: Record<string, unknown>) => Promise<LibansiloveModule>;
-
-function resolveWasmPath(file: string, wasmDir?: string): string {
-  const base = wasmDir ?? __dirname;
-  return path.join(base, file);
+export interface BrowserLoadOptions {
+  moduleOverrides?: ModuleOverrides;
+  locateFile?: (file: string) => string;
 }
 
 function toUint8Array(input: string | Uint8Array): Uint8Array {
@@ -32,20 +27,23 @@ function toUint8Array(input: string | Uint8Array): Uint8Array {
   return input;
 }
 
-async function loadFactory(): Promise<LibansiloveFactory> {
+async function loadFactory(): Promise<Factory> {
   const factoryModule = await import('./libansilove.js');
   const factory = (factoryModule as { default?: unknown }).default ?? factoryModule;
   if (typeof factory !== 'function') {
-    throw new Error('Failed to load libansilove wasm factory.');
+    throw new Error('Failed to load libansilove wasm factory for browser.');
   }
-  return factory as LibansiloveFactory;
+  return factory as Factory;
 }
 
-export async function load(options: LoadOptions = {}): Promise<AnsiloveWasm> {
-  const factory = await loadFactory();
+function defaultLocateFile(file: string): string {
+  return new URL(`./${file}`, import.meta.url).href;
+}
 
+export async function loadBrowser(options: BrowserLoadOptions = {}): Promise<AnsiloveWasm> {
+  const factory = await loadFactory();
   const module = await factory({
-    locateFile: (file: string) => resolveWasmPath(file, options.wasmDir),
+    locateFile: (file: string) => (options.locateFile ?? defaultLocateFile)(file),
     ...(options.moduleOverrides ?? {}),
   });
 
@@ -96,4 +94,4 @@ export async function load(options: LoadOptions = {}): Promise<AnsiloveWasm> {
   };
 }
 
-export type { AnsiloveWasm, LoadOptions, RenderOptions, RenderResult } from './types.js';
+export type { RenderOptions, RenderResult } from './types.js';

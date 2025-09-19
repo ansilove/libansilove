@@ -17,8 +17,9 @@ libansilove is a C library that converts ANSI and related art files to PNG. Core
 - `scripts/test-wasm-browser.sh`: launch a local server and exercise the Safari smoke test end-to-end.
 - `python3 -m http.server 8765 --directory example/wasm`: manual alternative to serve the browser demo (after running `scripts/test-wasm.sh`).
 - `cd npm/libansilove-wasm && npm install && npm run build`: compile the TypeScript wrapper and stage artefacts for publishing.
-- `cd npm/libansilove-wasm && npm run verify`: ensure the npm distribution passes file and runtime checks before publishing.
+- `cd npm/libansilove-wasm && npm test && npm run verify`: run the Node smoke test and distribution checks before publishing.
 - `cd npm/libansilove-wasm && npm run sync-version`: align the npm package version with `ANSILOVE_VERSION` (use `--bump-patch` to increment the patch component).
+- `cd npm/libansilove-wasm && npm run build && npm test`: build the package and run the Node smoke test (see `examples/node-render.mjs`).
 
 ## Coding Style & Naming Conventions
 - Target C99 with the default warning set (`-Wall -Wextra -pedantic`).

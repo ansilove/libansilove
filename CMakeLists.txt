@@ -101,6 +101,8 @@ if(ANSILOVE_BUILD_WASM)
   target_link_options(ansilove_wasm PRIVATE
     "-sMODULARIZE=1"
     "-sEXPORT_NAME=Libansilove"
+    "-sEXPORT_ES6=1"
+    "-sUSE_ES6_IMPORT_META=1"
     "-sEXPORTED_FUNCTIONS=['_ansilove_wasm_version','_ansilove_wasm_render_ansi','_ansilove_wasm_get_png_ptr','_ansilove_wasm_get_png_length','_ansilove_wasm_free_png','_malloc','_free']"
     "-sEXPORTED_RUNTIME_METHODS=['cwrap','ccall','UTF8ToString']"
     "-sENVIRONMENT=web,worker,node"

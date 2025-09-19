@@ -18,7 +18,6 @@ await Promise.all([
   ensure('index.js'),
   ensure('index.d.ts'),
   ensure('libansilove.js'),
-  ensure('libansilove.cjs'),
   ensure('libansilove.wasm'),
   ensure('LICENSE'),
 ]);

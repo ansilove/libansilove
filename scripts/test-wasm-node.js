@@ -5,28 +5,12 @@ const { TextEncoder } = require('util');
 const { pathToFileURL } = require('url');
 
 async function loadFactory(factoryPath) {
-  try {
-    const required = require(factoryPath);
-    if (typeof required === 'function') {
-      return required;
-    }
-    if (required && typeof required.default === 'function') {
-      return required.default;
-    }
-  } catch (error) {
-    if (error && error.code !== 'ERR_REQUIRE_ESM') {
-      throw error;
-    }
+  const module = await import(pathToFileURL(factoryPath).href);
+  const factory = module.default ?? module;
+  if (typeof factory !== 'function') {
+    throw new Error('libansilove.js did not export an initialization function');
   }
-
-  const imported = await import(pathToFileURL(factoryPath).href);
-  if (imported && typeof imported.default === 'function') {
-    return imported.default;
-  }
-  if (typeof imported === 'function') {
-    return imported;
-  }
-  throw new Error('libansilove.js did not export an initialization function');
+  return factory;
 }
 
 async function main() {

@@ -62,16 +62,22 @@ Additional helpers:
 
 # npm package
 
-The `npm/libansilove-wasm` directory contains a TypeScript wrapper and packaging
-scripts for distributing the WebAssembly build on npm:
+The `npm/packages/libansilove-wasm` directory contains a TypeScript wrapper and
+packaging scripts for distributing the WebAssembly build on npm:
 
 ```
 nix develop --command bash scripts/test-wasm.sh
 cd npm/libansilove-wasm
 npm install
 npm run build
+npm test
 npm run verify
 ```
+
+- Node usage: `import { load } from 'libansilove';` (see
+  `npm/packages/libansilove-wasm/examples/node-render.mjs`).
+- Browser usage: `import { loadBrowser } from 'libansilove/browser';` which
+  auto-resolves the wasm asset via `import.meta.url`.
 
 `npm run sync-version` keeps the package version aligned with
 `include/ansilove.h`. Use `npm run version:patch` to bump the patch level when
