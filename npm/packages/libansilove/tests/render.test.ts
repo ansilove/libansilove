@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
 import { Buffer } from "node:buffer";
 import { PNG } from "pngjs";
-import * as libansilove from "../src/index";
+import { libansilove } from "../src/index";
 
 const SAMPLE = "\u001b[1;36mHello from libansilove!\u001b[0m\r\n";
 
@@ -28,7 +28,7 @@ describe("libansilove wasm bindings", () => {
 
 	it("renders the same as ansilove", async () => {
 		const bindings = await libansilove.load();
-		const { png } = bindings.renderAnsi(await example.ans.arrayBuffer());
+		const { png } = bindings.renderAnsi(await example.ans.arrayBuffer(),{bits:8,columns:'auto',iceColors:true,mode:0});
 		const control = new Uint8Array(await example.png.arrayBuffer());
 		const rendered = decodePng(png);
 		const baseline = decodePng(control);
