@@ -2,6 +2,7 @@ import { loadBrowser } from "libansilove/browser";
 import { useEffect, useState } from "react";
 
 import "./index.css";
+import Ansiove from "./Ansiove";
 
 const SAMPLE_ANSI = `\x1b[1;36mHello from libansilove!\x1b[0m\r\n`;
 
@@ -44,6 +45,7 @@ export default function App() {
 
 			<section className="demo">
 				<h2>libansilove WebAssembly demo</h2>
+				<Ansiove ansi={SAMPLE_ANSI} />
 				{error ? (
 					<p className="error">Failed to render ANSI art: {error}</p>
 				) : pngUrl ? (
