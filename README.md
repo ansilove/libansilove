@@ -30,6 +30,49 @@ header files.
 
 	make install
 
+# WebAssembly
+
+A unified WebAssembly wrapper now lives in `npm/packages/libansilove`. Use the flake-backed
+development shell so Emscripten and Bun are on `PATH`:
+
+	nix develop --command bash -lc 'cd npm/packages/libansilove && bun run build'
+
+The build performs a fresh `emcc` compile, emits TypeScript shims, and stages the publishable
+artefacts under `npm/packages/libansilove/dist/`. Consumers load the module with:
+
+```
+import { load } from 'libansilove';
+
+const lib = await load();
+const { png } = lib.renderAnsi('Hello from libansilove!\r\n');
+```
+
+Overwrite the default `locateFile` if your bundler serves the `.wasm` payload from a custom URL:
+
+```
+await load({ locateFile: (path) => new URL(`/static/${path}`, window.location.href).toString() });
+```
+
+`bun run verify` executes a smoke test against the packaged output and ensures the PNG pipeline
+still works. Use `npm pack` after a build to inspect the final publishing tarball.
+
+# npm package
+
+The `npm/packages/libansilove` workspace contains everything required for publishing. The
+important commands:
+
+```
+bun install
+bun run build
+bun test
+bun run verify
+```
+
+The build step regenerates the WebAssembly artefacts (stored in
+`npm/packages/libansilove/generated/`) and copies them into `dist/` alongside the compiled
+JavaScript and declaration files.
+
+
 # Packages
 
 libansilove packages are available for:

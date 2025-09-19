@@ -1,0 +1,61 @@
+{
+  "name": "libansilove",
+  "version": "1.4.2",
+  "description": "Universal WebAssembly bindings for libansilove.",
+  "license": "BSD-2-Clause",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./libansilove.js": "./dist/generated/libansilove.js",
+    "./libansilove.wasm": "./dist/generated/libansilove.wasm",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build:wasm": "bun run scripts/build-wasm.bun.ts",
+    "build:ts": "bunx tsc -p tsconfig.build.json",
+    "prepare:package": "bun run scripts/prepare-package.ts",
+    "build": "bun run clean && bun run build:wasm && bun run build:ts && bun run prepare:package",
+    "check": "bunx tsc --noEmit",
+    "verify": "bun run scripts/verify-dist.ts",
+    "test": "bun run build:wasm && bun test",
+    "prepare": "bun run build"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^20",
+    "@types/pngjs": "^6.0.5",
+    "pngjs": "^7.0.0",
+    "typescript": "^5.3.3"
+  },
+  "keywords": [
+    "ansi",
+    "ansilove",
+    "artscene",
+    "png",
+    "wasm",
+    "emscripten"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ansilove/libansilove.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ansilove/libansilove/issues"
+  },
+  "homepage": "https://www.ansilove.org/",
+  "author": "ANSILOVE Project",
+  "engines": {
+    "node": ">=18"
+  },
+  "sideEffects": false
+}
