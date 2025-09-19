@@ -38,8 +38,19 @@ environment to ensure Emscripten is available:
 	nix develop --command bash scripts/test-wasm.sh
 
 The script configures the project via `emcmake`, produces
-`build-wasm/wasm/libansilove.{js,wasm}`, and exports
-`ansilove_wasm_version()` for browser consumers. It also runs a Node-based
+`build-wasm/wasm/libansilove.browser.{mjs,wasm}`, and exports
+`ansilove_wasm_version()` for browser consumers. The browser bundle is emitted
+as an ES module factory (`-sMODULARIZE=1 -sEXPORT_ES6=1`), so import the default
+export and await the resulting instance before calling into the runtime:
+
+```
+import createLibansilove from './libansilove.browser.mjs';
+
+const Module = await createLibansilove({ locateFile: (path) => path });
+const getVersion = Module.cwrap('ansilove_wasm_version', 'string', []);
+```
+
+The helper also runs a Node-based
 smoke test that renders a sample ANSI string to
 `build-wasm/wasm/test-output.png` and copies the runtime artefacts into
 `example/wasm/`.

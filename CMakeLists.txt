@@ -96,7 +96,7 @@ if(ANSILOVE_BUILD_WASM)
   target_compile_definitions(ansilove_wasm_browser PRIVATE ANSILOVE_WASM)
   set_target_properties(ansilove_wasm_browser PROPERTIES
     OUTPUT_NAME "libansilove.browser"
-    SUFFIX ".js"
+    SUFFIX ".mjs"
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/wasm")
   target_link_options(ansilove_wasm_browser PRIVATE
     "-sMODULARIZE=1"

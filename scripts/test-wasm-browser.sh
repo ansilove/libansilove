@@ -15,8 +15,8 @@ if ! command -v python3 >/dev/null; then
   exit 2
 fi
 
-if [ ! -f "${DOC_ROOT}/libansilove.js" ]; then
-  echo "error: ${DOC_ROOT}/libansilove.js not found; run scripts/test-wasm.sh first." >&2
+if [ ! -f "${DOC_ROOT}/libansilove.browser.mjs" ]; then
+  echo "error: ${DOC_ROOT}/libansilove.browser.mjs not found; run scripts/test-wasm.sh first." >&2
   exit 3
 fi
 

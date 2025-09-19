@@ -4,14 +4,15 @@
   <meta charset="utf-8">
   <title>libansilove wasm smoke test</title>
   <script type="module">
-    import LibansiloveBrowser from './libansilove.browser.js';
+    import createLibansilove from './libansilove.browser.mjs';
 
     const status = document.getElementById('status');
     const preview = document.getElementById('preview');
 
     async function render() {
       try {
-        const Module = await LibansiloveBrowser({ locateFile: (path) => path });
+        const Module = await createLibansilove({ locateFile: (path) => path });
+
         const getVersion = Module.cwrap('ansilove_wasm_version', 'string', []);
         const renderAnsi = Module.cwrap('ansilove_wasm_render_ansi', 'number', ['number', 'number', 'number', 'number', 'number', 'number']);
         const getPtr = Module.cwrap('ansilove_wasm_get_png_ptr', 'number', []);

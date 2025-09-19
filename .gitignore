@@ -6,6 +6,7 @@
 # build products
 build/
 build-wasm/
+npm/packages/libansilove/.wasm-build/
 
 # Nix
 result

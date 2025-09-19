@@ -1,0 +1,14 @@
+{
+  "name": "libansilove",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "bun run scripts/build-wasm.bun.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

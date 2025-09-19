@@ -47,6 +47,7 @@
               pkgs.pkg-config
               pkgs.gd
               pkgs.emscripten
+              pkgs.bun
               pkgs.clang
               pkgs.clang-tools
             ]
