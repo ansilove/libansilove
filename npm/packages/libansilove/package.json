@@ -33,7 +33,7 @@
   "devDependencies": {
     "@types/bun": "latest",
     "@types/node": "^20",
-    "@types/pngjs": "^7.2.0",
+    "@types/pngjs": "^6.0.5",
     "pngjs": "^7.0.0",
     "typescript": "^5.3.3"
   },
