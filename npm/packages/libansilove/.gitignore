@@ -4,6 +4,8 @@ node_modules
 # output
 out
 dist
+generated/
+!generated/README.md
 *.tgz
 
 # code coverage

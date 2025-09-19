@@ -116,11 +116,13 @@ if(ANSILOVE_BUILD_WASM)
   target_compile_definitions(ansilove_wasm_node PRIVATE ANSILOVE_WASM)
   set_target_properties(ansilove_wasm_node PROPERTIES
     OUTPUT_NAME "libansilove.node"
-    SUFFIX ".cjs"
+    SUFFIX ".mjs"
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/wasm")
   target_link_options(ansilove_wasm_node PRIVATE
     "-sMODULARIZE=1"
     "-sEXPORT_NAME=LibansiloveNode"
+    "-sEXPORT_ES6=1"
+    "-sUSE_ES6_IMPORT_META=1"
     "-sEXPORTED_FUNCTIONS=['_ansilove_wasm_version','_ansilove_wasm_render_ansi','_ansilove_wasm_get_png_ptr','_ansilove_wasm_get_png_length','_ansilove_wasm_free_png','_malloc','_free']"
     "-sEXPORTED_RUNTIME_METHODS=['cwrap','ccall','UTF8ToString']"
     "-sENVIRONMENT=node"

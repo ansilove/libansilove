@@ -15,7 +15,7 @@ cmake --build "$build_dir" --target ansilove_wasm_browser ansilove_wasm_node
 
 browser_js="$artifacts_dir/libansilove.browser.mjs"
 browser_wasm="$artifacts_dir/libansilove.browser.wasm"
-node_js="$artifacts_dir/libansilove.node.cjs"
+node_js="$artifacts_dir/libansilove.node.mjs"
 node_wasm="$artifacts_dir/libansilove.node.wasm"
 
 if [ ! -f "$browser_js" ] || [ ! -f "$browser_wasm" ]; then
