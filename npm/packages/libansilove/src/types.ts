@@ -5,7 +5,7 @@ export interface RenderOptions {
 	readonly iceColors?: number;
 }
 
-export type RenderInput = string | Uint8Array;
+export type RenderInput = string | Uint8Array | ArrayBuffer;
 
 export interface RenderResult {
 	readonly png: Uint8Array;
@@ -25,7 +25,11 @@ export interface LoadOptions {
 export type ModuleOverrides = Record<string, unknown>;
 
 export interface EmscriptenModule {
-	cwrap(name: string, returnType: string | null, argTypes: string[]): (...args: unknown[]) => any;
+	cwrap(
+		name: string,
+		returnType: string | null,
+		argTypes: string[],
+	): (...args: unknown[]) => any;
 	HEAPU8: Uint8Array;
 	_malloc(size: number): number;
 	_free(ptr: number): void;
