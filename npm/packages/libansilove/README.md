@@ -14,43 +14,29 @@ bun add libansilove
 
 ## Usage
 
-### Node.js / Bun
-
 ```ts
-import { loadNode } from "libansilove";
+import { load } from "libansilove";
 
-const lib = await loadNode();
+const lib = await load();
 const { png } = lib.renderAnsi("Hello from libansilove!\r\n");
 console.log(`PNG size: ${png.byteLength} bytes`);
 ```
 
-### Browser / Worker
+The loader automatically works in browsers, workers, Node.js (>=18), Deno, and
+Bun. If your bundler relocates the `.wasm` payload, provide a `locateFile`
+override:
 
 ```ts
-import { loadBrowser } from "libansilove";
-
-const lib = await loadBrowser();
-const { png } = lib.renderAnsi("Hello from libansilove!\r\n");
-const blob = new Blob([png], { type: "image/png" });
-document.querySelector("img")!.src = URL.createObjectURL(blob);
-```
-
-Both loaders accept an optional `locateFile` override if your bundler moves the
-`.wasm` payloads:
-
-```ts
-const lib = await loadBrowser({
+const lib = await load({
   locateFile: (path) => new URL(`/static/wasm/${path}`, window.location.href).toString(),
 });
 ```
 
 ## API
 
-- `loadNode(options?)` – returns an object with the Emscripten module instance,
-  the detected libansilove version, and a `renderAnsi()` helper that yields a
+- `load(options?)` – returns an object with the Emscripten module instance, the
+  detected libansilove version, and a `renderAnsi()` helper that yields a
   `Uint8Array` containing the PNG bytes.
-- `loadBrowser(options?)` – same contract as `loadNode` but tuned for browser,
-  worker, and Deno style environments.
 - `createBindings(module)` – wrap a raw Emscripten module if you are managing
   instantiation yourself.
 

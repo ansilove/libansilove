@@ -21,15 +21,6 @@ CMakeCache.txt
 Makefile
 cmake_install.cmake
 
-# WASM artefacts
-example/wasm/libansilove.browser.mjs
-example/wasm/libansilove.browser.wasm
-build-wasm/wasm/test-output.png
-build-wasm/wasm/libansilove.browser.mjs
-build-wasm/wasm/libansilove.browser.wasm
-build-wasm/wasm/libansilove.node.mjs
-build-wasm/wasm/libansilove.node.wasm
-
 # npm package build
 node_modules/
 npm/packages/*/dist/

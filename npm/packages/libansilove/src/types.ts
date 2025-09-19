@@ -1,18 +1,13 @@
 export interface RenderOptions {
-	/** Number of columns to assume when rendering (0 lets libansilove decide). */
 	readonly columns?: number;
-	/** Bits per pixel mode (0 = default). */
 	readonly bits?: number;
-	/** Rendering mode flag (0 = default). */
 	readonly mode?: number;
-	/** Whether to enable ICE colors (0 = disabled). */
 	readonly iceColors?: number;
 }
 
 export type RenderInput = string | Uint8Array;
 
 export interface RenderResult {
-	/** PNG payload produced by the conversion. */
 	readonly png: Uint8Array;
 }
 
@@ -36,6 +31,8 @@ export interface EmscriptenModule {
 	_free(ptr: number): void;
 }
 
-export type ModuleFactory<T extends EmscriptenModule = EmscriptenModule> = (overrides?: ModuleOverrides & {
-	locateFile?: (path: string) => string;
-}) => Promise<T>;
+export type ModuleFactory<T extends EmscriptenModule = EmscriptenModule> = (
+	overrides?: ModuleOverrides & {
+		locateFile?: (path: string) => string;
+	},
+) => Promise<T>;

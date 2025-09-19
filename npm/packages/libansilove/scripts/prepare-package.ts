@@ -7,14 +7,11 @@ const scriptDir = dirname(fileURLToPath(import.meta.url));
 const pkgDir = resolve(scriptDir, "..");
 const rootDir = resolve(pkgDir, "../../..");
 const distDir = resolve(pkgDir, "dist");
-const wasmDir = resolve(distDir, "wasm");
 const generatedDir = resolve(pkgDir, "generated");
 
 const REQUIRED_ARTIFACTS = [
-	"libansilove.browser.mjs",
-	"libansilove.browser.wasm",
-	"libansilove.node.mjs",
-	"libansilove.node.wasm",
+	"libansilove.js",
+	"libansilove.wasm",
 ];
 
 async function ensureArtifacts() {
@@ -31,12 +28,9 @@ async function ensureArtifacts() {
 }
 
 async function copyAssets() {
-	await rm(wasmDir, { recursive: true, force: true });
-	await mkdir(wasmDir, { recursive: true });
-
 	await Promise.all(
 		REQUIRED_ARTIFACTS.map((artifact) =>
-			copyFile(join(generatedDir, artifact), join(wasmDir, artifact))
+			copyFile(join(generatedDir, artifact), join(distDir, artifact))
 		),
 	);
 

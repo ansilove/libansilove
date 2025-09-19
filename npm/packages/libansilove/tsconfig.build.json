@@ -9,7 +9,6 @@
     "sourceMap": true,
     "emitDeclarationOnly": false,
     "stripInternal": true,
-    "allowImportingTsExtensions": false,
     "allowArbitraryExtensions": true
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts"],

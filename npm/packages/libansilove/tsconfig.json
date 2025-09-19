@@ -6,7 +6,6 @@
     "moduleResolution": "bundler",
     "moduleDetection": "force",
     "verbatimModuleSyntax": true,
-    "allowImportingTsExtensions": true,
     "allowArbitraryExtensions": true,
     "noEmit": true,
     "strict": true,
@@ -21,6 +20,7 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
-    "scripts/**/*.ts"
+    "scripts/**/*.ts",
+    "tests/**/*.ts"
   ]
 }

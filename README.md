@@ -32,61 +32,46 @@ header files.
 
 # WebAssembly
 
-An experimental WebAssembly wrapper ships in `wasm/`. Use the Nix
-environment to ensure Emscripten is available:
+A unified WebAssembly wrapper now lives in `npm/packages/libansilove`. Use the flake-backed
+development shell so Emscripten and Bun are on `PATH`:
 
-	nix develop --command bash scripts/test-wasm.sh
+	nix develop --command bash -lc 'cd npm/packages/libansilove && bun run build'
 
-The helper script drives the Bun-based build harness
-(`npm/packages/libansilove/scripts/build-wasm.bun.ts`), which shells out to
-`emcc` and produces
-`npm/packages/libansilove/generated/libansilove.browser.{mjs,wasm}` and
-`npm/packages/libansilove/generated/libansilove.node.{mjs,wasm}` while exporting
-`ansilove_wasm_version()` for browser consumers. The browser bundle is emitted
-as an ES module factory (`-sMODULARIZE=1 -sEXPORT_ES6=1`), so import the default
-export and await the resulting instance before calling into the runtime:
+The build performs a fresh `emcc` compile, emits TypeScript shims, and stages the publishable
+artefacts under `npm/packages/libansilove/dist/`. Consumers load the module with:
 
 ```
-import createLibansilove from './libansilove.browser.mjs';
+import { load } from 'libansilove';
 
-const Module = await createLibansilove({ locateFile: (path) => path });
-const getVersion = Module.cwrap('ansilove_wasm_version', 'string', []);
+const lib = await load();
+const { png } = lib.renderAnsi('Hello from libansilove!\r\n');
 ```
 
-The helper also runs a Node-based smoke test that renders a sample ANSI string
-to `npm/packages/libansilove/generated/test-output.png` and copies the runtime
-artefacts into `example/wasm/`.
+Overwrite the default `locateFile` if your bundler serves the `.wasm` payload from a custom URL:
 
-Serve the demo page with, for example,
+```
+await load({ locateFile: (path) => new URL(`/static/${path}`, window.location.href).toString() });
+```
 
-	python3 -m http.server 8765 --directory example/wasm
-
-Then open `http://localhost:8765/` in a browser (Safari requires the developer
-setting “Allow JavaScript from Apple Events” for scripted verification) to see
-the PNG preview rendered via WebAssembly.
-
-Additional helpers:
-
-- `node scripts/test-wasm-node.js npm/packages/libansilove/generated` reruns the
-  Node smoke test on an existing wasm build and refreshes `test-output.png`.
-- `scripts/test-wasm-browser.sh` starts a local server and drives Safari via
-  JXA, ensuring the demo page renders successfully (requires the Safari
-  automation toggle mentioned above).
+`bun run verify` executes a smoke test against the packaged output and ensures the PNG pipeline
+still works. Use `npm pack` after a build to inspect the final publishing tarball.
 
 # npm package
 
-The `npm/packages/libansilove` workspace hosts the Bun-based tooling that
-drives the WebAssembly build and will eventually publish the generated
-artefacts to npm. From within that directory you can run:
+The `npm/packages/libansilove` workspace contains everything required for publishing. The
+important commands:
 
 ```
 bun install
-bun run scripts/build-wasm.bun.ts
+bun run build
+bun test
+bun run verify
 ```
 
-The build script writes outputs to `npm/packages/libansilove/generated/`, which
-you can consume from Node (see `scripts/test-wasm-node.js`) or copy into the
-browser demo under `example/wasm/`.
+The build step regenerates the WebAssembly artefacts (stored in
+`npm/packages/libansilove/generated/`) and copies them into `dist/` alongside the compiled
+JavaScript and declaration files.
+
 
 # Packages
 

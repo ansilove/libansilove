@@ -83,6 +83,7 @@ const main = async () => {
 	}) => {
 		const { outputName, exportName, environment } = options;
 		const outputPath = join(outDir, outputName);
+		const wasmPath = outputPath.replace(/\.js$/, ".wasm");
 		const args = [
 			...includeFlags,
 			"-O3",
@@ -111,8 +112,6 @@ const main = async () => {
 				typeof code === "number" ? code : 1,
 			);
 		}
-
-		const wasmPath = outputPath.replace(/\.mjs$/, ".wasm");
 
 		try {
 			await Promise.all([

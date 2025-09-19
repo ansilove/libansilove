@@ -1,3 +1,5 @@
+// TODO: refactor this Safari automation to align with the new demo build.
+// TODO: ensure the script derives URLs from the Bun dev server dynamically.
 #!/usr/bin/osascript -l JavaScript
 ObjC.import('Foundation');
 

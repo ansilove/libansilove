@@ -12,12 +12,10 @@ libansilove is a C library that converts ANSI and related art files to PNG. Core
 - `nix develop`: enter the flake-backed dev shell with clang, pkg-config, GD, and platform-appropriate debugger preinstalled.
 - `nix build`: build the default flake package (shared/static library) without touching your host toolchain.
 - `nix flake check`: validate the flake packages and dev shell evaluate cleanly across supported systems.
-- `nix develop --command bash scripts/test-wasm.sh`: run the Bun-driven `emcc` build and assert the JS/WASM artefacts exist.
-- `scripts/test-wasm-browser.sh`: launch a local server and exercise the Safari smoke test end-to-end.
-- `python3 -m http.server 8765 --directory example/wasm`: manual alternative to serve the browser demo (after running `scripts/test-wasm.sh`).
-- `cd npm/packages/libansilove && bun install && bun run scripts/build-wasm.bun.ts`: rebuild the npm artefacts.
-- `node scripts/test-wasm-node.js npm/packages/libansilove/generated`: rerun the Node smoke test on an existing build.
-- `npm version patch` within `npm/packages/libansilove` (once publishing is wired) to bump metadata in step with `ANSILOVE_VERSION`.
+- `nix develop --command bash -lc 'cd npm/packages/libansilove && bun run build'`: rebuild the WebAssembly artefacts and stage the publishable dist folder.
+- `cd npm/packages/libansilove && bun test`: run the smoke test suite (includes wasm build).
+- `cd npm/packages/libansilove && bun run verify`: load the packaged output and ensure PNG rendering still works.
+- `cd npm/packages/libansilove && npm pack`: inspect the npm tarball after a successful build.
 
 ## Coding Style & Naming Conventions
 - Target C99 with the default warning set (`-Wall -Wextra -pedantic`).
@@ -31,8 +29,8 @@ libansilove is a C library that converts ANSI and related art files to PNG. Core
 - For fuzzing, execute `./fuzz-build/ansi -runs=10000 corpus/` (seed the corpus with representative art files). Investigate sanitizer reports immediately and add reproducer samples.
 - Ensure new formats or options ship with updated example inputs or fuzz seeds that exercise the paths.
 - If you touch the flake, rerun `nix build` and `nix flake check` and commit the updated `flake.lock` (keep changes reproducible).
-- For the wasm target, keep `scripts/test-wasm.sh` passing under `nix develop`; it rebuilds the Bun-driven artefacts via `emcc` every run.
-- Safari automation relies on “Allow JavaScript from Apple Events” in Preferences ▸ Advanced. The helper scripts copy `libansilove.browser.{mjs,wasm}` into `example/wasm/` so you can smoke-test via the provided browser script or a manual `python3 -m http.server` session.
+- For the wasm target, keep `bun run build` passing inside `npm/packages/libansilove` under `nix develop`; it rebuilds the WebAssembly artefacts every run.
+- Safari automation relies on “Allow JavaScript from Apple Events” in Preferences ▸ Advanced. The JXA harness (now in `npm/packages/libansilove-demo-bun/scripts`) should be updated to target the Bun dev server when the demo is rebuilt.
 
 ## Commit & Pull Request Guidelines
 - Commit messages follow sentence case with concise statements ending in a period (for example, `Update ChangeLog.`).

@@ -9,23 +9,11 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     },
-    "./browser": {
-      "types": "./dist/browser.d.ts",
-      "import": "./dist/browser.js"
-    },
-    "./node": {
-      "types": "./dist/node.d.ts",
-      "import": "./dist/node.js"
-    },
-    "./wasm/browser": {
-      "default": "./dist/wasm/libansilove.browser.mjs"
-    },
-    "./wasm/node": {
-      "default": "./dist/wasm/libansilove.node.mjs"
-    },
+    "./libansilove.js": "./dist/libansilove.js",
+    "./libansilove.wasm": "./dist/libansilove.wasm",
     "./package.json": "./package.json"
   },
   "files": [
@@ -39,11 +27,12 @@
     "build": "bun run clean && bun run build:wasm && bun run build:ts && bun run prepare:package",
     "check": "bunx tsc --noEmit",
     "verify": "bun run scripts/verify-dist.ts",
-    "test": "node ../../scripts/test-wasm-node.js npm/packages/libansilove/generated",
+    "test": "bun run build:wasm && bun test",
     "prepare": "bun run build"
   },
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/node": "^20",
     "typescript": "^5.3.3"
   },
   "keywords": [

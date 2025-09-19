@@ -2,8 +2,8 @@
 const moduleURL = new URL("../dist/index.js", import.meta.url).href;
 
 async function main() {
-	const mod = (await import(moduleURL)) as { loadNode: typeof import("../src/node").loadNode };
-	const bindings = await mod.loadNode();
+	const mod = await import(moduleURL) as { load: typeof import("../src/index").load };
+	const bindings = await mod.load();
 	const { png } = bindings.renderAnsi("Hello from libansilove!\r\n");
 	if (!png.byteLength) {
 		throw new Error("renderAnsi returned an empty buffer");

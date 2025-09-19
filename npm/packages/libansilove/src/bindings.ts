@@ -1,13 +1,19 @@
-import type { EmscriptenModule, LibansiloveBindings, RenderInput, RenderOptions, RenderResult } from "./types";
+import type {
+	EmscriptenModule,
+	LibansiloveBindings,
+	RenderInput,
+	RenderOptions,
+	RenderResult,
+} from "./types";
 
 const encoder = new TextEncoder();
 
-const DEFAULT_RENDER_ARGS = {
+const DEFAULT_RENDER_ARGS: Required<RenderOptions> = {
 	columns: 0,
 	bits: 0,
 	mode: 0,
 	iceColors: 0,
-} as const;
+};
 
 export function createBindings(Module: EmscriptenModule): LibansiloveBindings {
 	const getVersion = Module.cwrap("ansilove_wasm_version", "string", []) as () => string;
@@ -26,7 +32,9 @@ export function createBindings(Module: EmscriptenModule): LibansiloveBindings {
 	const renderAnsi = (input: RenderInput, options: RenderOptions = {}): RenderResult => {
 		const data = typeof input === "string" ? encoder.encode(input) : input;
 		const ptr = Module._malloc(data.length || 1);
-		Module.HEAPU8.set(data, ptr);
+		if (data.length > 0) {
+			Module.HEAPU8.set(data, ptr);
+		}
 
 		const cols = options.columns ?? DEFAULT_RENDER_ARGS.columns;
 		const bits = options.bits ?? DEFAULT_RENDER_ARGS.bits;
@@ -44,6 +52,7 @@ export function createBindings(Module: EmscriptenModule): LibansiloveBindings {
 		if (!pngPtr || pngLength <= 0) {
 			throw new Error("libansilove returned an empty PNG buffer");
 		}
+
 		const png = Module.HEAPU8.slice(pngPtr, pngPtr + pngLength);
 		freePng();
 
