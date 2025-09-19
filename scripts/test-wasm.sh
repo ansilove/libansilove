@@ -11,21 +11,26 @@ artifacts_dir="$build_dir/wasm"
 rm -rf "$build_dir"
 
 emcmake cmake -S . -B "$build_dir" -DANSILOVE_BUILD_WASM=ON
-cmake --build "$build_dir" --target ansilove_wasm
+cmake --build "$build_dir" --target ansilove_wasm_browser ansilove_wasm_node
 
-if [ ! -f "$artifacts_dir/libansilove.wasm" ]; then
-  echo "error: expected $artifacts_dir/libansilove.wasm to exist" >&2
+browser_js="$artifacts_dir/libansilove.browser.js"
+browser_wasm="$artifacts_dir/libansilove.browser.wasm"
+node_js="$artifacts_dir/libansilove.node.cjs"
+node_wasm="$artifacts_dir/libansilove.node.wasm"
+
+if [ ! -f "$browser_js" ] || [ ! -f "$browser_wasm" ]; then
+  echo "error: expected browser artefacts ($browser_js, $browser_wasm)" >&2
   exit 3
 fi
 
-if [ ! -f "$artifacts_dir/libansilove.js" ]; then
-  echo "error: expected $artifacts_dir/libansilove.js to exist" >&2
+if [ ! -f "$node_js" ] || [ ! -f "$node_wasm" ]; then
+  echo "error: expected node artefacts ($node_js, $node_wasm)" >&2
   exit 4
 fi
 
-node scripts/test-wasm-node.js "$artifacts_dir" "$artifacts_dir/test-output.png"
+node scripts/test-wasm-node.js "$artifacts_dir" "$artifacts_dir/test-output.png" "$node_js"
 
-cp "$artifacts_dir/libansilove.js" example/wasm/
-cp "$artifacts_dir/libansilove.wasm" example/wasm/
+cp "$browser_js" example/wasm/libansilove.browser.js
+cp "$browser_wasm" example/wasm/libansilove.browser.wasm
 
 echo "WASM artefacts found in $artifacts_dir" >&2

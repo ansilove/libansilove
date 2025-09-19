@@ -21,9 +21,13 @@ Makefile
 cmake_install.cmake
 
 # WASM artefacts
-example/wasm/libansilove.js
-example/wasm/libansilove.wasm
+example/wasm/libansilove.browser.js
+example/wasm/libansilove.browser.wasm
 build-wasm/wasm/test-output.png
+build-wasm/wasm/libansilove.browser.js
+build-wasm/wasm/libansilove.browser.wasm
+build-wasm/wasm/libansilove.node.cjs
+build-wasm/wasm/libansilove.node.wasm
 
 # npm package build
 node_modules/

@@ -28,12 +28,24 @@ function toUint8Array(input: string | Uint8Array): Uint8Array {
 }
 
 async function loadFactory(): Promise<Factory> {
-  const factoryModule = await import('./libansilove.js');
-  const factory = (factoryModule as { default?: unknown }).default ?? factoryModule;
-  if (typeof factory !== 'function') {
-    throw new Error('Failed to load libansilove wasm factory for browser.');
+  const previousProcess = (globalThis as { process?: unknown }).process;
+  const hadProcess = Object.prototype.hasOwnProperty.call(globalThis, 'process');
+  (globalThis as { process?: unknown }).process = undefined;
+
+  try {
+    const factoryModule = await import('./libansilove.js');
+    const factory = (factoryModule as { default?: unknown }).default ?? factoryModule;
+    if (typeof factory !== 'function') {
+      throw new Error('Failed to load libansilove wasm factory for browser.');
+    }
+    return factory as Factory;
+  } finally {
+    if (hadProcess) {
+      (globalThis as { process?: unknown }).process = previousProcess;
+    } else {
+      delete (globalThis as { process?: unknown }).process;
+    }
   }
-  return factory as Factory;
 }
 
 function defaultLocateFile(file: string): string {
@@ -42,6 +54,7 @@ function defaultLocateFile(file: string): string {
 
 export async function loadBrowser(options: BrowserLoadOptions = {}): Promise<AnsiloveWasm> {
   const factory = await loadFactory();
+
   const module = await factory({
     locateFile: (file: string) => (options.locateFile ?? defaultLocateFile)(file),
     ...(options.moduleOverrides ?? {}),

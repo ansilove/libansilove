@@ -17,7 +17,11 @@ async function ensure(file) {
 await Promise.all([
   ensure('index.js'),
   ensure('index.d.ts'),
-  ensure('libansilove.js'),
-  ensure('libansilove.wasm'),
+  ensure('browser.js'),
+  ensure('browser.d.ts'),
+  ensure('libansilove.browser.js'),
+  ensure('libansilove.browser.wasm'),
+  ensure('libansilove.node.cjs'),
+  ensure('libansilove.node.wasm'),
   ensure('LICENSE'),
 ]);

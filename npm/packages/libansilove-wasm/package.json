@@ -22,8 +22,10 @@
 		"dist/index.d.ts",
 		"dist/browser.js",
 		"dist/browser.d.ts",
-		"dist/libansilove.js",
-		"dist/libansilove.wasm",
+		"dist/libansilove.browser.js",
+		"dist/libansilove.browser.wasm",
+		"dist/libansilove.node.cjs",
+		"dist/libansilove.node.wasm",
 		"dist/LICENSE"
 	],
 	"scripts": {

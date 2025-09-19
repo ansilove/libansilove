@@ -22,8 +22,10 @@ async function copyArtefact(file, target) {
   }
 }
 
-await copyArtefact('libansilove.wasm', resolve(distDir, 'libansilove.wasm'));
-await copyArtefact('libansilove.js', resolve(distDir, 'libansilove.js'));
+await copyArtefact('libansilove.browser.wasm', resolve(distDir, 'libansilove.browser.wasm'));
+await copyArtefact('libansilove.browser.js', resolve(distDir, 'libansilove.browser.js'));
+await copyArtefact('libansilove.node.wasm', resolve(distDir, 'libansilove.node.wasm'));
+await copyArtefact('libansilove.node.cjs', resolve(distDir, 'libansilove.node.cjs'));
 
 try {
   await copyFile(resolve(projectRoot, 'LICENSE'), resolve(distDir, 'LICENSE'));

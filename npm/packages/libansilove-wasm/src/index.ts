@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 import { TextEncoder } from 'node:util';
 import type { LoadOptions, RenderOptions, AnsiloveWasm, RenderResult } from './types.js';
 
@@ -32,8 +33,10 @@ function toUint8Array(input: string | Uint8Array): Uint8Array {
   return input;
 }
 
+const require = createRequire(import.meta.url);
+
 async function loadFactory(): Promise<LibansiloveFactory> {
-  const factoryModule = await import('./libansilove.js');
+  const factoryModule = require('./libansilove.node.cjs');
   const factory = (factoryModule as { default?: unknown }).default ?? factoryModule;
   if (typeof factory !== 'function') {
     throw new Error('Failed to load libansilove wasm factory.');

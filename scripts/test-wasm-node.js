@@ -8,7 +8,7 @@ async function loadFactory(factoryPath) {
   const module = await import(pathToFileURL(factoryPath).href);
   const factory = module.default ?? module;
   if (typeof factory !== 'function') {
-    throw new Error('libansilove.js did not export an initialization function');
+    throw new Error('libansilove module did not export an initialization function');
   }
   return factory;
 }
@@ -16,10 +16,11 @@ async function loadFactory(factoryPath) {
 async function main() {
   const buildDir = path.resolve(process.argv[2] || 'build-wasm/wasm');
   const outputPath = path.resolve(process.argv[3] || path.join(buildDir, 'test-output.png'));
-  const factoryPath = path.join(buildDir, 'libansilove.js');
+  const factoryPath = path.resolve(process.argv[4] || path.join(buildDir, 'libansilove.node.cjs'));
+  const sampleText = process.argv[5] || 'Hello from libansilove!\r\n';
 
   if (!fs.existsSync(factoryPath)) {
-    throw new Error(`expected ${factoryPath} (run scripts/test-wasm.sh first)`);
+    throw new Error(`expected wasm factory at ${factoryPath} (run scripts/test-wasm.sh first)`);
   }
 
   const factory = await loadFactory(factoryPath);
@@ -30,9 +31,8 @@ async function main() {
   const getLen = Module.cwrap('ansilove_wasm_get_png_length', 'number', []);
   const freePng = Module.cwrap('ansilove_wasm_free_png', null, []);
 
-  const sample = process.argv[4] || 'Hello from libansilove!\r\n';
   const encoder = new TextEncoder();
-  const input = encoder.encode(sample);
+  const input = encoder.encode(sampleText);
   const ptr = Module._malloc(input.length);
   Module.HEAPU8.set(input, ptr);
 

@@ -88,23 +88,41 @@ if(ANSILOVE_BUILD_WASM)
   target_include_directories(objlib_wasm PRIVATE include src compat wasm)
   target_compile_definitions(objlib_wasm PRIVATE ANSILOVE_WASM)
 
-  add_executable(ansilove_wasm
+  add_executable(ansilove_wasm_browser
     wasm/ansilove_wasm.c
     wasm/minigd.c
     $<TARGET_OBJECTS:objlib_wasm>)
-  target_include_directories(ansilove_wasm PRIVATE include src compat wasm)
-  target_compile_definitions(ansilove_wasm PRIVATE ANSILOVE_WASM)
-  set_target_properties(ansilove_wasm PROPERTIES
-    OUTPUT_NAME "libansilove"
+  target_include_directories(ansilove_wasm_browser PRIVATE include src compat wasm)
+  target_compile_definitions(ansilove_wasm_browser PRIVATE ANSILOVE_WASM)
+  set_target_properties(ansilove_wasm_browser PROPERTIES
+    OUTPUT_NAME "libansilove.browser"
     SUFFIX ".js"
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/wasm")
-  target_link_options(ansilove_wasm PRIVATE
+  target_link_options(ansilove_wasm_browser PRIVATE
     "-sMODULARIZE=1"
-    "-sEXPORT_NAME=Libansilove"
+    "-sEXPORT_NAME=LibansiloveBrowser"
     "-sEXPORT_ES6=1"
     "-sUSE_ES6_IMPORT_META=1"
     "-sEXPORTED_FUNCTIONS=['_ansilove_wasm_version','_ansilove_wasm_render_ansi','_ansilove_wasm_get_png_ptr','_ansilove_wasm_get_png_length','_ansilove_wasm_free_png','_malloc','_free']"
     "-sEXPORTED_RUNTIME_METHODS=['cwrap','ccall','UTF8ToString']"
-    "-sENVIRONMENT=web,worker,node"
+    "-sENVIRONMENT=web,worker"
+    "-sALLOW_MEMORY_GROWTH=1")
+
+  add_executable(ansilove_wasm_node
+    wasm/ansilove_wasm.c
+    wasm/minigd.c
+    $<TARGET_OBJECTS:objlib_wasm>)
+  target_include_directories(ansilove_wasm_node PRIVATE include src compat wasm)
+  target_compile_definitions(ansilove_wasm_node PRIVATE ANSILOVE_WASM)
+  set_target_properties(ansilove_wasm_node PROPERTIES
+    OUTPUT_NAME "libansilove.node"
+    SUFFIX ".cjs"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/wasm")
+  target_link_options(ansilove_wasm_node PRIVATE
+    "-sMODULARIZE=1"
+    "-sEXPORT_NAME=LibansiloveNode"
+    "-sEXPORTED_FUNCTIONS=['_ansilove_wasm_version','_ansilove_wasm_render_ansi','_ansilove_wasm_get_png_ptr','_ansilove_wasm_get_png_length','_ansilove_wasm_free_png','_malloc','_free']"
+    "-sEXPORTED_RUNTIME_METHODS=['cwrap','ccall','UTF8ToString']"
+    "-sENVIRONMENT=node"
     "-sALLOW_MEMORY_GROWTH=1")
 endif()
