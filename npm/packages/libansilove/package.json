@@ -33,6 +33,8 @@
   "devDependencies": {
     "@types/bun": "latest",
     "@types/node": "^20",
+    "@types/pngjs": "^7.2.0",
+    "pngjs": "^7.0.0",
     "typescript": "^5.3.3"
   },
   "keywords": [

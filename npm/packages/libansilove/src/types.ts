@@ -5,7 +5,7 @@ export interface RenderOptions {
 	readonly iceColors?: number;
 }
 
-export type RenderInput = string | Uint8Array | ArrayBuffer;
+export type RenderInput = string | ArrayBuffer | ArrayBufferView;
 
 export interface RenderResult {
 	readonly png: Uint8Array;

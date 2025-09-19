@@ -15,6 +15,26 @@ const DEFAULT_RENDER_ARGS: Required<RenderOptions> = {
 	iceColors: 0,
 };
 
+const toUint8Array = (input: RenderInput): Uint8Array => {
+	if (typeof input === "string") {
+		return encoder.encode(input);
+	}
+
+	if (ArrayBuffer.isView(input)) {
+		const view = input as ArrayBufferView;
+		if (view instanceof Uint8Array) {
+			return view;
+		}
+		return new Uint8Array(view.buffer, view.byteOffset, view.byteLength);
+	}
+
+	if (input instanceof ArrayBuffer) {
+		return new Uint8Array(input);
+	}
+
+	throw new TypeError("Unsupported render input type");
+};
+
 const toDisposable = (fn: () => void) => ({
 	[Symbol.dispose]() {
 		fn();
@@ -22,8 +42,9 @@ const toDisposable = (fn: () => void) => ({
 });
 
 const allocateBuffer = (Module: EmscriptenModule, data: Uint8Array) => {
-	const ptr = Module._malloc(data.length || 1);
-	if (data.length > 0) {
+	const length = data.byteLength;
+	const ptr = Module._malloc(length || 1);
+	if (length > 0) {
 		Module.HEAPU8.set(data, ptr);
 	}
 	return {
@@ -49,7 +70,7 @@ export function createBindings(Module: EmscriptenModule): LibansiloveBindings {
 	const freePng = Module.cwrap("ansilove_wasm_free_png", null, []) as () => void;
 
 	const renderAnsi = (input: RenderInput, options: RenderOptions = {}): RenderResult => {
-		const data = typeof input === "string" ? encoder.encode(input) : input;
+		const data = toUint8Array(input);
 		using buffer = allocateBuffer(Module, data);
 
 		const cols = options.columns ?? DEFAULT_RENDER_ARGS.columns;
@@ -57,7 +78,7 @@ export function createBindings(Module: EmscriptenModule): LibansiloveBindings {
 		const mode = options.mode ?? DEFAULT_RENDER_ARGS.mode;
 		const ice = options.iceColors ?? DEFAULT_RENDER_ARGS.iceColors;
 
-		const code = renderAnsiFn(buffer.ptr, data.length, cols, bits, mode, ice);
+		const code = renderAnsiFn(buffer.ptr, data.byteLength, cols, bits, mode, ice);
 		if (code !== 0) {
 			throw new Error(`ansilove_wasm_render_ansi failed with exit code ${code}`);
 		}
