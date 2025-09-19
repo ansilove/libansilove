@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>libansilove wasm smoke test</title>
+  <script src="libansilove.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var status = document.getElementById('status');
+      var preview = document.getElementById('preview');
+
+      function boot() {
+        if (typeof Libansilove !== 'function') {
+          status.textContent = 'Waiting for Libansilove factory…';
+          setTimeout(boot, 100);
+          return;
+        }
+
+        Libansilove({ locateFile: function (path) { return path; } })
+          .then(function (Module) {
+            var getVersion = Module.cwrap('ansilove_wasm_version', 'string', []);
+            var renderAnsi = Module.cwrap('ansilove_wasm_render_ansi', 'number', ['number', 'number', 'number', 'number', 'number', 'number']);
+            var getPtr = Module.cwrap('ansilove_wasm_get_png_ptr', 'number', []);
+            var getLength = Module.cwrap('ansilove_wasm_get_png_length', 'number', []);
+            var freePng = Module.cwrap('ansilove_wasm_free_png', null, []);
+
+            status.textContent = 'libansilove wasm version: ' + getVersion();
+
+            var encoder = new TextEncoder();
+            var input = encoder.encode('Hello from libansilove!\r\n');
+            var ptr = Module._malloc(input.length);
+            Module.HEAPU8.set(input, ptr);
+
+            var rc = renderAnsi(ptr, input.length, 0, 0, 0, 0);
+            Module._free(ptr);
+            if (rc !== 0) {
+              status.textContent = 'Render failed with error code ' + rc;
+              return;
+            }
+
+            var pngPtr = getPtr();
+            var pngLen = getLength();
+            var pngData = Module.HEAPU8.slice(pngPtr, pngPtr + pngLen);
+            freePng();
+
+            var blob = new Blob([pngData], { type: 'image/png' });
+            var url = URL.createObjectURL(blob);
+            preview.src = url;
+            preview.alt = 'Rendered ANSI sample';
+          })
+          .catch(function (error) {
+            status.textContent = 'Libansilove failed: ' + error;
+          });
+      }
+
+      boot();
+    });
+  </script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; margin: 2rem; }
+    main { max-width: 40rem; }
+    #status { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>libansilove wasm smoke test</h1>
+    <p id="status">waiting for module…</p>
+    <img id="preview" alt="" style="display:block; margin-top: 1rem; max-width: 100%;" />
+  </main>
+</body>
+</html>

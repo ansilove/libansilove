@@ -30,6 +30,28 @@ header files.
 
 	make install
 
+# WebAssembly
+
+An experimental WebAssembly wrapper ships in `wasm/`. Use the Nix
+environment to ensure Emscripten is available:
+
+	nix develop --command bash scripts/test-wasm.sh
+
+The script configures the project via `emcmake`, produces
+`build-wasm/wasm/libansilove.{js,wasm}`, and exports
+`ansilove_wasm_version()` for browser consumers. It also runs a Node-based
+smoke test that renders a sample ANSI string to
+`build-wasm/wasm/test-output.png` and copies the runtime artefacts into
+`example/wasm/`.
+
+Serve the demo page with, for example,
+
+	python3 -m http.server 8765 --directory example/wasm
+
+Then open `http://localhost:8765/` in a browser (Safari requires the developer
+setting “Allow JavaScript from Apple Events” for scripted verification) to see
+the PNG preview rendered via WebAssembly.
+
 # Packages
 
 libansilove packages are available for:

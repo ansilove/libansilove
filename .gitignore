@@ -5,6 +5,7 @@
 
 # build products
 build/
+build-wasm/
 
 # Nix
 result
@@ -18,3 +19,8 @@ CMakeFiles
 CMakeCache.txt
 Makefile
 cmake_install.cmake
+
+# WASM artefacts
+example/wasm/libansilove.js
+example/wasm/libansilove.wasm
+build-wasm/wasm/test-output.png

@@ -12,7 +12,9 @@
  * SPDX-License-Identifier: BSD-2-Clause
  */
 
+#ifndef ANSILOVE_WASM
 #include <sys/mman.h>
+#endif
 
 #include <string.h>
 #include "ansilove.h"
@@ -30,7 +32,11 @@ ansilove_init(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	memset(ctx, 0, sizeof(*ctx));
 	memset(options, 0, sizeof(*options));
 
+#ifdef ANSILOVE_WASM
+	ctx->buffer = NULL;
+#else
 	ctx->buffer = MAP_FAILED;
+#endif
 
 	/* default to 8 if bits option is not specified */
 	options->bits = 8;

@@ -46,6 +46,7 @@
               pkgs.ninja
               pkgs.pkg-config
               pkgs.gd
+              pkgs.emscripten
               pkgs.clang
               pkgs.clang-tools
             ]

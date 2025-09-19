@@ -12,6 +12,8 @@ libansilove is a C library that converts ANSI and related art files to PNG. Core
 - `nix develop`: enter the flake-backed dev shell with clang, pkg-config, GD, and platform-appropriate debugger preinstalled.
 - `nix build`: build the default flake package (shared/static library) without touching your host toolchain.
 - `nix flake check`: validate the flake packages and dev shell evaluate cleanly across supported systems.
+- `nix develop --command bash scripts/test-wasm.sh`: configure via `emcmake`, build the wasm wrapper, and assert the JS/WASM artefacts exist.
+- `python3 -m http.server 8765 --directory example/wasm`: serve the browser demo locally (after running `scripts/test-wasm.sh`).
 
 ## Coding Style & Naming Conventions
 - Target C99 with the default warning set (`-Wall -Wextra -pedantic`).
@@ -25,6 +27,8 @@ libansilove is a C library that converts ANSI and related art files to PNG. Core
 - For fuzzing, execute `./fuzz-build/ansi -runs=10000 corpus/` (seed the corpus with representative art files). Investigate sanitizer reports immediately and add reproducer samples.
 - Ensure new formats or options ship with updated example inputs or fuzz seeds that exercise the paths.
 - If you touch the flake, rerun `nix build` and `nix flake check` and commit the updated `flake.lock` (keep changes reproducible).
+- For the wasm target, keep `scripts/test-wasm.sh` passing under `nix develop`; it wipes `build-wasm/` on each invocation.
+- Safari automation relies on “Allow JavaScript from Apple Events” in Preferences ▸ Advanced. The helper script in `scripts/test-wasm.sh` copies `libansilove.{js,wasm}` into `example/wasm/` so you can smoke-test via `python3 -m http.server` and the JXA snippet from this branch.
 
 ## Commit & Pull Request Guidelines
 - Commit messages follow sentence case with concise statements ending in a period (for example, `Update ChangeLog.`).
