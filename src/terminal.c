@@ -202,7 +202,11 @@ terminal_emit_cell(uint8_t **out, size_t *out_len, size_t *out_pos,
 		}
 	}
 
-	utf8_len = cp437_to_utf8(cell->character, utf8_char);
+	uint8_t ch = cell->character;
+	if (ch == 0)
+		ch = 0x20;
+	
+	utf8_len = cp437_to_utf8(ch, utf8_char);
 	if (utf8_len <= 0 || utf8_len > 4)
 		return -1;
 
