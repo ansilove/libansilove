@@ -470,20 +470,27 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	struct terminal_cell *prev_cell = NULL;
 
 	for (int32_t r = 0; r <= grid->max_row; r++) {
-		for (int32_t c = 0; c <= grid->max_column + 1; c++) {
-			if (c <= grid->max_column) {
-				if (terminal_emit_cell(&ctx->buffer, &ctx->maplen, &out_pos,
-						       &grid->cells[r][c], prev_cell) < 0) {
-					ctx->error = ANSILOVE_MEMORY_ERROR;
-					terminal_grid_free(grid);
-					return -1;
-				}
-
-				prev_cell = &grid->cells[r][c];
-			} else {
-				ctx->buffer[out_pos++] = '\n';
+		int32_t last_non_empty = -1;
+		for (int32_t c = 0; c <= grid->max_column; c++) {
+			if (grid->cells[r][c].character != 0 && 
+			    grid->cells[r][c].character != 0x20) {
+				last_non_empty = c;
 			}
 		}
+
+		for (int32_t c = 0; c <= last_non_empty; c++) {
+			if (terminal_emit_cell(&ctx->buffer, &ctx->maplen, &out_pos,
+					       &grid->cells[r][c], prev_cell) < 0) {
+				ctx->error = ANSILOVE_MEMORY_ERROR;
+				terminal_grid_free(grid);
+				return -1;
+			}
+
+			prev_cell = &grid->cells[r][c];
+		}
+		
+		ctx->buffer[out_pos++] = '\n';
+		prev_cell = NULL;
 	}
 
 	ctx->length = out_pos;
