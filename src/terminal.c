@@ -444,7 +444,7 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	if (seqGrab)
 		free(seqGrab);
 
-	ctx->maplen = (grid->max_row + 1) * (grid->max_column + 2) * 8;
+	ctx->maplen = (grid->max_row + 1) * (grid->max_column + 2) * 50;
 
 	if (ctx->maplen == 0)
 		ctx->maplen = 1024;
