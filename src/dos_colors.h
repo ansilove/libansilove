@@ -46,48 +46,7 @@ dos_palette_init(uint32_t colors[16])
 }
 
 /*
- * Convert DOS color index (0-15) to ANSI 256-color code
- * Uses nearest-color approximation to ANSI 256 palette
- */
-static inline uint8_t
-dos_color_to_ansi256(uint8_t dos_index)
-{
-	if (dos_index >= 16)
-		return 7; /* Default to light gray on invalid input */
-
-	/* For simple colors (0-7), map directly to ANSI standard colors */
-	if (dos_index < 8) {
-		switch (dos_index) {
-		case 0: return 16; /* Black */
-		case 1: return 18; /* Blue */
-		case 2: return 22; /* Green */
-		case 3: return 30; /* Cyan */
-		case 4: return 124; /* Red */
-		case 5: return 127; /* Magenta */
-		case 6: return 130; /* Brown/Orange */
-		case 7: return 246; /* Light Gray */
-		}
-	}
-
-	/* For bright colors (8-15), map to bright variants */
-	if (dos_index >= 8) {
-		switch (dos_index) {
-		case 8: return 59; /* Dark Gray */
-		case 9: return 27; /* Light Blue */
-		case 10: return 47; /* Light Green */
-		case 11: return 51; /* Light Cyan */
-		case 12: return 203; /* Light Red */
-		case 13: return 207; /* Light Magenta */
-		case 14: return 226; /* Yellow */
-		case 15: return 231; /* White */
-		}
-	}
-
-	return 7;
-}
-
-/*
- * Alternative: RGB to ANSI 256 conversion (more accurate)
+ * RGB to ANSI 256 conversion
  * Uses 6x6x6 color cube for values in range 0-255
  */
 static inline uint8_t
@@ -116,6 +75,20 @@ rgb_to_ansi256(uint8_t r, uint8_t g, uint8_t b)
 		      ((b < 195) ? 3 : ((b < 235) ? 4 : 5))));
 
 	return 16 + (36 * r6) + (6 * g6) + b6;
+}
+
+/*
+ * Convert DOS color index (0-15) to ANSI 256-color code
+ * Uses RGB conversion for accurate color matching
+ */
+static inline uint8_t
+dos_color_to_ansi256(uint8_t dos_index)
+{
+	if (dos_index >= 16)
+		return 7;
+
+	const struct rgb_color *rgb = &dos_palette[dos_index];
+	return rgb_to_ansi256(rgb->r, rgb->g, rgb->b);
 }
 
 #endif /* DOS_COLORS_H */
