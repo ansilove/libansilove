@@ -82,16 +82,14 @@ cat output.utf8ansi
 ```bash
 # Test with multiple files
 for f in /path/to/fire-43/*.ANS; do
-    echo "Testing: $f"
-    ./ansilove-utf8ansi "$f" > /tmp/test.utf8ansi 2>/dev/null
-    wc -l /tmp/test.utf8ansi
+    echo -n "$(basename "$f"): "
+    ./ansilove-utf8ansi "$f" >/dev/null 2>&1 && echo "✓" || echo "✗"
 done
 ```
 
 **Expected:**
-- 19/20 files convert successfully
-- 1 file (AVG-LARA.ANS) fails with known memory bug
-- Each file produces readable UTF-8+ANSI output
+- 26/26 files convert successfully ✓
+- All files produce readable UTF-8+ANSI output
 
 ## What to Review
 
@@ -154,19 +152,13 @@ Check that DOS colors map correctly:
 
 ## Known Issues
 
-### 1. AVG-LARA.ANS Memory Bug
-- File: `/Downloads/fire-43/AVG-LARA.ANS`
-- Error: "Memory allocation error"
-- Status: Known bug, affects 1/20 files
-- Impact: Not blocking for terminal mode
-
-### 2. ansee PNG Rendering
+### 1. ansee PNG Rendering
 - ansee uses anti-aliased TrueType rendering
 - Creates gradient colors instead of pure DOS palette
 - Not pixel-perfect compared to ansilove CLI PNG output
 - Documented in `.specs/utf8ansi/ansee-comparison.md`
 
-### 3. Bold SGR Warnings
+### 2. Bold SGR Warnings
 - ansee may emit "Skipped graphics mode: [1]" warnings
 - Bold attribute is parsed but may not render
 - PNG is still created
@@ -178,7 +170,7 @@ Check that DOS colors map correctly:
 2. CP437 characters render correctly in terminal
 3. Colors display accurately (DOS palette → ANSI256)
 4. Output can be saved and replayed with `cat`
-5. Works with fire-43 collection (19/20 files)
+5. Works with fire-43 collection (26/26 files) ✓
 
 ✅ **Nice to Have:**
 1. ansee PNG rendering (with known limitations)
