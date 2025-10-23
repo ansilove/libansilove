@@ -422,13 +422,15 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 							blink = true;
 						} else if (seqValue == 7) {
 							invert = true;
-						} else if (seqValue >= 30 &&
-							   seqValue <= 37) {
-							foreground = seqValue - 30;
-						} else if (seqValue >= 40 &&
-							   seqValue <= 47) {
-							background = seqValue - 40;
-						}
+					} else if (seqValue >= 30 &&
+						   seqValue <= 37) {
+						static const uint8_t sgr_to_dos[8] = {0, 4, 2, 6, 1, 5, 3, 7};
+						foreground = sgr_to_dos[seqValue - 30];
+					} else if (seqValue >= 40 &&
+						   seqValue <= 47) {
+						static const uint8_t sgr_to_dos_bg[8] = {0, 4, 2, 6, 1, 5, 3, 7};
+						background = sgr_to_dos_bg[seqValue - 40];
+					}
 
 						seqTok = strtok(NULL, ";");
 					}
