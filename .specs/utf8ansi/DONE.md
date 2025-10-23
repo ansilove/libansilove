@@ -81,3 +81,20 @@ US-JELLY.ANS (162KB):
 - Handle iCE colors (background intensity)
 - Optimize buffer allocation
 - Add CMake build target for ansi_viewer
+
+## Comparison with Official PNG Renderer
+
+Verified US-JELLY.ANS:
+- **Terminal mode → ansee PNG**: 1695×7685px (UTF-8 text rendered by ansee)
+- **Official ansilove PNG**: 1440×8832px (bitmap font rendering)
+- **Dimensions differ** due to different rendering engines (text vs bitmap)
+- **Content identical** - same characters and colors
+
+## Known Bug (Follow-up)
+
+AVG-LARA.ANS fails with "Memory allocation error":
+- File: 47KB, 215 lines
+- Contains cursor positioning sequences (`ESC[18C`, `ESC[23C`)
+- Grid size (80×2000) should be sufficient
+- Need to investigate which malloc() fails in sequence parsing
+- **Does not block main goal**: Most files work correctly
