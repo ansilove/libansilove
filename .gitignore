@@ -1,13 +1,19 @@
-#gitignore for libansilove
+# Build artifacts
+*.o
+*.so
+*.a
+ansi_viewer
+example_terminal
+test_*
+!test_*.c
+!test_*.md
 
-# Mac OS X Finder
+# Temporary files
+*.orig
+*~
+build/
 .DS_Store
 
-# build products
-build/
-
-# CMake
-CMakeFiles
-CMakeCache.txt
-Makefile
-cmake_install.cmake
+# IDE
+.vscode/
+.idea/

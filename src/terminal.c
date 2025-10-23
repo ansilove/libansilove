@@ -37,7 +37,8 @@
 
 #define STATE_TEXT	0
 #define STATE_SEQUENCE	1
-#define STATE_END	2
+#define STATE_SEQUENCE_PARAM	2
+#define STATE_END	3
 
 struct terminal_cell {
 	uint8_t character;
@@ -313,9 +314,9 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					return -1;
 				}
 
-				memset(seqGrab, 0, ANSI_SEQUENCE_MAX_LENGTH);
-				ansi_sequence_loop = 0;
-				state = 2;
+			memset(seqGrab, 0, ANSI_SEQUENCE_MAX_LENGTH);
+			ansi_sequence_loop = 0;
+			state = STATE_SEQUENCE_PARAM;
 			} else {
 				state = STATE_TEXT;
 			}
@@ -330,7 +331,6 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				}
 			} else if (character >= 0x40 && character <= 0x7E) {
 				ansi_sequence_character = character;
-				seqGrab[ansi_sequence_loop] = character;
 
 				if (ansi_sequence_character == 'H' ||
 				    ansi_sequence_character == 'f') {
