@@ -290,8 +290,12 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				if (row >= grid->height - 1)
 					state = STATE_END;
 			} else if (character >= 0x20) {
+				uint32_t actual_fg = foreground;
+				if (bold && foreground < 8)
+					actual_fg = foreground + 8;
+				
 				terminal_grid_set_cell(grid, column, row, character,
-						       foreground, background,
+						       actual_fg, background,
 						       bold, blink, invert);
 				column++;
 
