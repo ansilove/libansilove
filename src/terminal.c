@@ -180,9 +180,9 @@ terminal_emit_cell(uint8_t **out, size_t *out_len, size_t *out_pos,
 		}
 
 		if (!cell->invert) {
-			ansi_code = dos_color_to_ansi256(cell->foreground);
-			sgr_len = snprintf(sgr, sizeof(sgr), "\033[38;5;%dm",
-					   ansi_code);
+			const struct rgb_color *fg_rgb = &dos_palette[cell->foreground];
+			sgr_len = snprintf(sgr, sizeof(sgr), "\033[38;2;%d;%d;%dm",
+					   fg_rgb->r, fg_rgb->g, fg_rgb->b);
 			if (sgr_len > 0 && sgr_len < (int)sizeof(sgr)) {
 				if (*out_pos + sgr_len >= *out_len)
 					return -2;
@@ -191,9 +191,9 @@ terminal_emit_cell(uint8_t **out, size_t *out_len, size_t *out_pos,
 			}
 		}
 
-		ansi_code = dos_color_to_ansi256(cell->background);
-		sgr_len = snprintf(sgr, sizeof(sgr), "\033[48;5;%dm",
-				   ansi_code);
+		const struct rgb_color *bg_rgb = &dos_palette[cell->background];
+		sgr_len = snprintf(sgr, sizeof(sgr), "\033[48;2;%d;%d;%dm",
+				   bg_rgb->r, bg_rgb->g, bg_rgb->b);
 		if (sgr_len > 0 && sgr_len < (int)sizeof(sgr)) {
 			if (*out_pos + sgr_len >= *out_len)
 				return -2;
