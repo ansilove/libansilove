@@ -46,49 +46,37 @@ dos_palette_init(uint32_t colors[16])
 }
 
 /*
- * RGB to ANSI 256 conversion
- * Uses 6x6x6 color cube for values in range 0-255
- */
-static inline uint8_t
-rgb_to_ansi256(uint8_t r, uint8_t g, uint8_t b)
-{
-	/* Grayscale check: if R == G == B, use grayscale range (232-255) */
-	if (r == g && g == b) {
-		if (r < 48)
-			return 16; /* Black */
-		else if (r < 100)
-			return 59; /* Dark gray */
-		else if (r < 155)
-			return 102; /* Medium gray */
-		else if (r < 205)
-			return 188; /* Light gray */
-		else
-			return 231; /* White */
-	}
-
-	/* Map to 6x6x6 color cube (16-231) */
-	uint8_t r6 = (r < 48) ? 0 : ((r < 115) ? 1 : ((r < 155) ? 2 :
-		      ((r < 195) ? 3 : ((r < 235) ? 4 : 5))));
-	uint8_t g6 = (g < 48) ? 0 : ((g < 115) ? 1 : ((g < 155) ? 2 :
-		      ((g < 195) ? 3 : ((g < 235) ? 4 : 5))));
-	uint8_t b6 = (b < 48) ? 0 : ((b < 115) ? 1 : ((b < 155) ? 2 :
-		      ((b < 195) ? 3 : ((b < 235) ? 4 : 5))));
-
-	return 16 + (36 * r6) + (6 * g6) + b6;
-}
-
-/*
- * Convert DOS color index (0-15) to ANSI 256-color code
- * Uses RGB conversion for accurate color matching
+ * Convert DOS color index (0-15) to closest ANSI 256-color code
+ * Pre-calculated best matches from 256-color palette
  */
 static inline uint8_t
 dos_color_to_ansi256(uint8_t dos_index)
 {
+	static const uint8_t dos_to_ansi256[16] = {
+		16,  /* 0:  Black      #000000 -> ANSI 16  */
+		19,  /* 1:  Blue       #0000AA -> ANSI 19  */
+		34,  /* 2:  Green      #00AA00 -> ANSI 34  */
+		37,  /* 3:  Cyan       #00AAAA -> ANSI 37  */
+		124, /* 4:  Red        #AA0000 -> ANSI 124 */
+		127, /* 5:  Magenta    #AA00AA -> ANSI 127 */
+		136, /* 6:  Brown      #AA5500 -> ANSI 136 */
+		248, /* 7:  Light Gray #AAAAAA -> ANSI 248 */
+		240, /* 8:  Dark Gray  #555555 -> ANSI 240 */
+		105, /* 9:  Light Blue #5555FF -> ANSI 105 */
+		120, /* 10: Light Green#55FF55 -> ANSI 120 */
+		123, /* 11: Light Cyan #55FFFF -> ANSI 123 */
+		210, /* 12: Light Red  #FF5555 -> ANSI 210 */
+		213, /* 13: Light Mag. #FF55FF -> ANSI 213 */
+		228, /* 14: Yellow     #FFFF55 -> ANSI 228 */
+		231, /* 15: White      #FFFFFF -> ANSI 231 */
+	};
+
 	if (dos_index >= 16)
 		return 7;
 
-	const struct rgb_color *rgb = &dos_palette[dos_index];
-	return rgb_to_ansi256(rgb->r, rgb->g, rgb->b);
+	return dos_to_ansi256[dos_index];
 }
+
+
 
 #endif /* DOS_COLORS_H */
