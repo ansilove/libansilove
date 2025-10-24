@@ -192,14 +192,7 @@ terminal_emit_cell(uint8_t **out, size_t *out_len, size_t *out_pos,
 			}
 		}
 
-		if (cell->background == 0) {
-			const char *ansi_black = "\033[40m";
-			size_t ansi_len = 5;
-			if (*out_pos + ansi_len >= *out_len)
-				return -2;
-			memcpy(*out + *out_pos, ansi_black, ansi_len);
-			*out_pos += ansi_len;
-		} else {
+		if (cell->background != 0) {
 			const struct rgb_color *bg_rgb = &dos_palette[cell->background];
 			sgr_len = snprintf(sgr, sizeof(sgr), "\033[48;2;%d;%d;%dm",
 					   bg_rgb->r, bg_rgb->g, bg_rgb->b);
