@@ -26,7 +26,7 @@
 #include "sauce.h"
 
 #ifndef HAVE_STRTONUM
-#include "strtonum.h"
+#include "../compat/strtonum.h"
 #endif
 
 #ifndef HAVE_REALLOCARRAY
