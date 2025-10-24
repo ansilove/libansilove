@@ -23,6 +23,7 @@
 #include "config.h"
 #include "cp437_unicode.h"
 #include "dos_colors.h"
+#include "sauce.h"
 
 #ifndef HAVE_STRTONUM
 #include "strtonum.h"
@@ -55,6 +56,7 @@ struct terminal_grid {
 	int32_t max_row;
 	int32_t width;
 	int32_t height;
+	bool truecolor;
 };
 
 static struct terminal_grid *
@@ -127,7 +129,8 @@ terminal_grid_set_cell(struct terminal_grid *grid, int32_t col, int32_t row,
 
 static int
 terminal_emit_cell(uint8_t **out, size_t *out_len, size_t *out_pos,
-		   struct terminal_cell *cell, struct terminal_cell *prev_cell)
+		   struct terminal_cell *cell, struct terminal_cell *prev_cell,
+		   bool truecolor)
 {
 	uint8_t utf8_char[4];
 	int utf8_len;
@@ -179,18 +182,26 @@ terminal_emit_cell(uint8_t **out, size_t *out_len, size_t *out_pos,
 			(*out)[(*out_pos)++] = 'm';
 		}
 
-		if (!cell->invert) {
-			const struct rgb_color *fg_rgb = &dos_palette[cell->foreground];
-			sgr_len = snprintf(sgr, sizeof(sgr), "\033[38;2;%d;%d;%dm",
-					   fg_rgb->r, fg_rgb->g, fg_rgb->b);
-			if (sgr_len > 0 && sgr_len < (int)sizeof(sgr)) {
-				if (*out_pos + sgr_len >= *out_len)
-					return -2;
-				memcpy(*out + *out_pos, sgr, sgr_len);
-				*out_pos += sgr_len;
-			}
+	if (!cell->invert) {
+		const struct rgb_color *fg_rgb = &dos_palette[cell->foreground];
+		sgr_len = snprintf(sgr, sizeof(sgr), "\033[38;2;%d;%d;%dm",
+				   fg_rgb->r, fg_rgb->g, fg_rgb->b);
+		if (sgr_len > 0 && sgr_len < (int)sizeof(sgr)) {
+			if (*out_pos + sgr_len >= *out_len)
+				return -2;
+			memcpy(*out + *out_pos, sgr, sgr_len);
+			*out_pos += sgr_len;
 		}
+	}
 
+	if (!truecolor && cell->background == 0) {
+		const char *ansi_black = "\033[40m";
+		size_t ansi_len = 5;
+		if (*out_pos + ansi_len >= *out_len)
+			return -2;
+		memcpy(*out + *out_pos, ansi_black, ansi_len);
+		*out_pos += ansi_len;
+	} else {
 		const struct rgb_color *bg_rgb = &dos_palette[cell->background];
 		sgr_len = snprintf(sgr, sizeof(sgr), "\033[48;2;%d;%d;%dm",
 				   bg_rgb->r, bg_rgb->g, bg_rgb->b);
@@ -200,6 +211,7 @@ terminal_emit_cell(uint8_t **out, size_t *out_len, size_t *out_pos,
 			memcpy(*out + *out_pos, sgr, sgr_len);
 			*out_pos += sgr_len;
 		}
+	}
 	}
 
 	uint8_t ch = cell->character;
@@ -260,6 +272,12 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	uint32_t columns = 80;
+	
+	sauce_record_t sauce;
+	if (sauce_read(ctx->buffer, ctx->length, &sauce) && sauce.tinfo1 > 0) {
+		columns = sauce.tinfo1;
+	}
+	
 	if (options->columns > 0)
 		columns = options->columns;
 
@@ -268,6 +286,7 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		ctx->error = ANSILOVE_MEMORY_ERROR;
 		return -1;
 	}
+	grid->truecolor = options->truecolor;
 
 	old_buffer = ctx->buffer;
 	old_length = ctx->length;
@@ -488,7 +507,8 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 		for (int32_t c = 0; c <= last_non_empty; c++) {
 			if (terminal_emit_cell(&ctx->buffer, &ctx->maplen, &out_pos,
-					       &grid->cells[r][c], prev_cell) < 0) {
+					       &grid->cells[r][c], prev_cell,
+					       grid->truecolor) < 0) {
 				ctx->error = ANSILOVE_MEMORY_ERROR;
 				terminal_grid_free(grid);
 				return -1;
