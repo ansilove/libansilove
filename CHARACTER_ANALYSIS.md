@@ -81,11 +81,12 @@ These map directly to ASCII/Unicode:
 - 0xFD: `²` → U+00B2
 - 0xFE: `■` → U+25A0
 
-#### Control Characters (not displayed in file, but part of structure)
-- 0x06: `♠` (Spade) → U+2660
-- 0x0E: `♬` (Music Note) → U+266C
-- 0x16: `▬` (Box Horizontal) → U+25AC
-- 0x1C: `∟` (Right Angle) → U+221F
+#### Control Characters (rendered as visible CP437 graphics) ✓ FIXED
+These were previously ignored but are valid DOS ANSI art characters:
+- 0x06: `♠` (Spade) → U+2660 (26 occurrences in H4-2017.ANS)
+- 0x0E: `♬` (Music Note) → U+266C (13 occurrences in H4-2017.ANS)
+- 0x16: `▬` (Box Horizontal) → U+25AC (17 occurrences in H4-2017.ANS)
+- 0x1C: `∟` (Right Angle) → U+221F (1 occurrence in H4-2017.ANS)
 
 ## Test File Generation
 
@@ -102,11 +103,16 @@ A comprehensive test file (`test_all_chars.ans`) has been created with all 256 D
 
 ## Key Findings
 
-1. **Character 0x98 Bug (FIXED)**: Was rendering as ⌂ (house, U+2302) but should be ÿ (U+00FF)
-   - Root cause: Incorrect table indexing in cp437_to_utf8 function
-   - Status: ✓ FIXED - now correctly shows as ÿ
+1. **Control Characters Bug (FIXED)**: DOS art files use control characters (0x06, 0x0E, 0x16, 0x1C) as visible graphics
+   - Root cause: Parser was filtering out all characters < 0x20 as non-displayable
+   - Status: ✓ FIXED - changed filter from >= 0x20 to >= 0x01, added explicit 0x1A EOF check
+   - Now correctly renders: ♠, ♬, ▬, ∟
 
-2. **UTF-8 Encoding**: All characters are correctly converted to UTF-8 multibyte sequences:
+2. **Character 0x98 Bug (FIXED)**: Was rendering as ⌂ (house, U+2302) but should be ÿ (U+00FF)
+   - Root cause: Incorrect table indexing in cp437_to_utf8 function
+   - Status: ✓ FIXED - now correctly shows as ÿ (43 occurrences in H4-2017.ANS)
+
+3. **UTF-8 Encoding**: All characters are correctly converted to UTF-8 multibyte sequences:
    - ASCII (0x00-0x7F): 1 byte
    - Latin Extended (0x80-0xFF): 2-3 bytes
    - Symbols: 3 bytes
