@@ -9,13 +9,12 @@ void print_help(const char *progname) {
     fprintf(stderr, "\n");
     fprintf(stderr, "Options:\n");
     fprintf(stderr, "  --speed=BAUD       Simulate modem speed (300, 1200, 2400, 9600, 14400, 28800, 33600, 56000)\n");
-    fprintf(stderr, "  --truecolor        Use 24-bit RGB for black backgrounds instead of ANSI black\n");
     fprintf(stderr, "  --help             Show this help message\n");
     fprintf(stderr, "\n");
     fprintf(stderr, "Examples:\n");
     fprintf(stderr, "  %s file.ans                      # Display ANSI art\n", progname);
     fprintf(stderr, "  %s --speed=2400 file.ans         # Simulate 2400 baud modem\n", progname);
-    fprintf(stderr, "  %s --truecolor file.ans          # Use opaque 24-bit RGB black\n", progname);
+
     fprintf(stderr, "  %s file1.ans file2.ans           # Display multiple files\n", progname);
     fprintf(stderr, "  %s file.ans > output.utf8ansi    # Save to file\n", progname);
     fprintf(stderr, "\n");
@@ -34,15 +33,11 @@ int main(int argc, char *argv[]) {
 
     int columns = 0;
     int baud_rate = 0;
-    int truecolor = 0;
     int first_file = 1;
     
     for (int i = 1; i < argc && argv[i][0] == '-'; i++) {
         if (strncmp(argv[i], "--speed=", 8) == 0) {
             baud_rate = atoi(argv[i] + 8);
-            first_file++;
-        } else if (strcmp(argv[i], "--truecolor") == 0) {
-            truecolor = 1;
             first_file++;
         } else if (strcmp(argv[i], "--help") != 0 && strcmp(argv[i], "-h") != 0) {
             break;
@@ -80,7 +75,6 @@ int main(int argc, char *argv[]) {
         }
 
         opts.mode = ANSILOVE_MODE_TERMINAL;
-        opts.truecolor = truecolor;
         if (columns > 0) {
             opts.columns = columns;
         }
