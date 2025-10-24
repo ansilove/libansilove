@@ -505,7 +505,27 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			}
 		}
 
+		int32_t output_col = 0;
 		for (int32_t c = 0; c <= last_non_empty; c++) {
+			if (grid->cells[r][c].character == 0 || 
+			    grid->cells[r][c].character == 0x20) {
+				continue;
+			}
+			
+			if (c > output_col) {
+				char cursor_fwd[16];
+				int len = snprintf(cursor_fwd, sizeof(cursor_fwd), 
+						   "\033[%dC", c - output_col);
+				if (out_pos + len >= ctx->maplen) {
+					ctx->error = ANSILOVE_MEMORY_ERROR;
+					terminal_grid_free(grid);
+					return -1;
+				}
+				memcpy(ctx->buffer + out_pos, cursor_fwd, len);
+				out_pos += len;
+				prev_cell = NULL;
+			}
+			
 			if (terminal_emit_cell(&ctx->buffer, &ctx->maplen, &out_pos,
 					       &grid->cells[r][c], prev_cell,
 					       grid->truecolor) < 0) {
@@ -515,6 +535,7 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			}
 
 			prev_cell = &grid->cells[r][c];
+			output_col = c + 1;
 		}
 		
 		ctx->buffer[out_pos++] = '\033';

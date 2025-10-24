@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
         }
 
         opts.mode = ANSILOVE_MODE_TERMINAL;
-        opts.truecolor = transparent_bg ? 0 : 1;
+        opts.truecolor = transparent_bg ? 1 : 0;
         if (columns > 0) {
             opts.columns = columns;
         }
