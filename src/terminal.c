@@ -515,17 +515,40 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			}
 			
 			if (c > output_col) {
-				char cursor_fwd[16];
-				int len = snprintf(cursor_fwd, sizeof(cursor_fwd), 
-						   "\033[%dC", c - output_col);
-				if (out_pos + len >= ctx->maplen) {
-					ctx->error = ANSILOVE_MEMORY_ERROR;
-					terminal_grid_free(grid);
-					return -1;
+				int32_t gap = c - output_col;
+				bool has_background = false;
+				for (int32_t g = output_col; g < c; g++) {
+					if (grid->cells[r][g].background != 0) {
+						has_background = true;
+						break;
+					}
 				}
-				memcpy(ctx->buffer + out_pos, cursor_fwd, len);
-				out_pos += len;
-				prev_cell = NULL;
+				
+				if (has_background) {
+					for (int32_t g = output_col; g < c; g++) {
+						struct terminal_cell space_cell = grid->cells[r][g];
+						space_cell.character = 0x20;
+						if (terminal_emit_cell(&ctx->buffer, &ctx->maplen, &out_pos,
+								       &space_cell, prev_cell) < 0) {
+							ctx->error = ANSILOVE_MEMORY_ERROR;
+							terminal_grid_free(grid);
+							return -1;
+						}
+						prev_cell = &grid->cells[r][g];
+					}
+				} else {
+					char cursor_fwd[16];
+					int len = snprintf(cursor_fwd, sizeof(cursor_fwd), 
+							   "\033[%dC", gap);
+					if (out_pos + len >= ctx->maplen) {
+						ctx->error = ANSILOVE_MEMORY_ERROR;
+						terminal_grid_free(grid);
+						return -1;
+					}
+					memcpy(ctx->buffer + out_pos, cursor_fwd, len);
+					out_pos += len;
+					prev_cell = NULL;
+				}
 			}
 			
 			if (terminal_emit_cell(&ctx->buffer, &ctx->maplen, &out_pos,
