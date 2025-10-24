@@ -85,7 +85,9 @@ int main(int argc, char *argv[]) {
         
         if (output && output_len > 0) {
             if (baud_rate > 0) {
-                int delay_us = 10000000 / baud_rate;
+                int effective_baud = (int)(baud_rate * 4.73);
+                int bytes_per_sec = effective_baud / 10;
+                int delay_us = 1000000 / bytes_per_sec;
                 for (size_t j = 0; j < output_len; j++) {
                     putchar(output[j]);
                     fflush(stdout);
