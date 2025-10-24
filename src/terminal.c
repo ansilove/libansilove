@@ -515,15 +515,16 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			}
 			
 			if (c > output_col) {
-				int32_t gap = c - output_col;
-				if (out_pos + gap >= ctx->maplen) {
+				char cursor_fwd[16];
+				int len = snprintf(cursor_fwd, sizeof(cursor_fwd), 
+						   "\033[%dC", c - output_col);
+				if (out_pos + len >= ctx->maplen) {
 					ctx->error = ANSILOVE_MEMORY_ERROR;
 					terminal_grid_free(grid);
 					return -1;
 				}
-				for (int32_t i = 0; i < gap; i++) {
-					ctx->buffer[out_pos++] = ' ';
-				}
+				memcpy(ctx->buffer + out_pos, cursor_fwd, len);
+				out_pos += len;
 				prev_cell = NULL;
 			}
 			
@@ -536,18 +537,6 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 			prev_cell = &grid->cells[r][c];
 			output_col = c + 1;
-		}
-		
-		if (output_col < (int32_t)columns) {
-			int32_t pad = columns - output_col;
-			if (out_pos + pad >= ctx->maplen) {
-				ctx->error = ANSILOVE_MEMORY_ERROR;
-				terminal_grid_free(grid);
-				return -1;
-			}
-			for (int32_t i = 0; i < pad; i++) {
-				ctx->buffer[out_pos++] = ' ';
-			}
 		}
 		
 		ctx->buffer[out_pos++] = '\033';
