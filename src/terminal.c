@@ -320,7 +320,9 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 				if (row >= grid->height - 1)
 					state = STATE_END;
-			} else if (character >= 0x20) {
+			} else if (character == 0x1A) {
+				state = STATE_END;
+			} else if (character >= 0x01) {
 				uint32_t actual_fg = foreground;
 				if (bold && foreground < 8)
 					actual_fg = foreground + 8;
