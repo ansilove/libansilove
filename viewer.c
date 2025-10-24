@@ -1,27 +1,57 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include "ansilove.h"
+
+void print_help(const char *progname) {
+    fprintf(stderr, "Usage: %s [OPTIONS] <ansi-file>... [columns]\n", progname);
+    fprintf(stderr, "\n");
+    fprintf(stderr, "Options:\n");
+    fprintf(stderr, "  --speed=BAUD  Simulate modem speed (300, 1200, 2400, 9600, 14400, 28800, 33600, 56000)\n");
+    fprintf(stderr, "  --help        Show this help message\n");
+    fprintf(stderr, "\n");
+    fprintf(stderr, "Examples:\n");
+    fprintf(stderr, "  %s file.ans                      # Display ANSI art\n", progname);
+    fprintf(stderr, "  %s --speed=2400 file.ans         # Simulate 2400 baud modem\n", progname);
+    fprintf(stderr, "  %s file1.ans file2.ans           # Display multiple files\n", progname);
+    fprintf(stderr, "  %s file.ans > output.utf8ansi    # Save to file\n", progname);
+    fprintf(stderr, "\n");
+}
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {
-        fprintf(stderr, "Usage: %s <ansi-file>... [columns]\n", argv[0]);
+        print_help(argv[0]);
         return 1;
     }
 
+    if (strcmp(argv[1], "--help") == 0 || strcmp(argv[1], "-h") == 0) {
+        print_help(argv[0]);
+        return 0;
+    }
+
     int columns = 0;
-    int file_count = argc - 1;
+    int baud_rate = 0;
+    int first_file = 1;
     
-    if (argc >= 3) {
+    if (argc >= 2 && strncmp(argv[1], "--speed=", 8) == 0) {
+        baud_rate = atoi(argv[1] + 8);
+        first_file = 2;
+    }
+    
+    int file_count = argc - first_file;
+    
+    if (argc >= first_file + 2) {
         char *endptr;
         long val = strtol(argv[argc - 1], &endptr, 10);
         if (*endptr == '\0' && val > 0 && val < 10000) {
             columns = val;
-            file_count = argc - 2;
+            file_count--;
         }
     }
 
-    for (int i = 1; i <= file_count; i++) {
+    for (int i = 0; i < file_count; i++) {
+        int file_idx = first_file + i;
         struct ansilove_ctx ctx;
         struct ansilove_options opts;
 
@@ -29,12 +59,12 @@ int main(int argc, char *argv[]) {
         memset(&opts, 0, sizeof(opts));
 
         if (ansilove_init(&ctx, &opts) != 0) {
-            fprintf(stderr, "Init failed: %s\n", argv[i]);
+            fprintf(stderr, "Init failed: %s\n", argv[file_idx]);
             continue;
         }
 
-        if (ansilove_loadfile(&ctx, argv[i]) != 0) {
-            fprintf(stderr, "Load failed: %s\n", argv[i]);
+        if (ansilove_loadfile(&ctx, argv[file_idx]) != 0) {
+            fprintf(stderr, "Load failed: %s\n", argv[file_idx]);
             ansilove_clean(&ctx);
             continue;
         }
@@ -45,7 +75,7 @@ int main(int argc, char *argv[]) {
         }
         
         if (ansilove_terminal(&ctx, &opts) != 0) {
-            fprintf(stderr, "Terminal conversion failed: %s\n", argv[i]);
+            fprintf(stderr, "Terminal conversion failed: %s\n", argv[file_idx]);
             ansilove_clean(&ctx);
             continue;
         }
@@ -54,7 +84,16 @@ int main(int argc, char *argv[]) {
         uint8_t *output = ansilove_terminal_emit(&ctx, &output_len);
         
         if (output && output_len > 0) {
-            fwrite(output, 1, output_len, stdout);
+            if (baud_rate > 0) {
+                int delay_us = 10000000 / baud_rate;
+                for (size_t j = 0; j < output_len; j++) {
+                    putchar(output[j]);
+                    fflush(stdout);
+                    usleep(delay_us);
+                }
+            } else {
+                fwrite(output, 1, output_len, stdout);
+            }
         }
 
         ansilove_clean(&ctx);
