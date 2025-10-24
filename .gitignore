@@ -6,6 +6,13 @@
 # build products
 build/
 
+# Nix
+result
+result-*/
+
+# direnv
+.direnv/
+
 # CMake
 CMakeFiles
 CMakeCache.txt
