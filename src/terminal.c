@@ -263,10 +263,20 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	}
 
 	uint32_t columns = 80;
+	int32_t sauce_height = -1;
 	
-	sauce_record_t sauce;
-	if (sauce_read(ctx->buffer, ctx->length, &sauce) && sauce.tinfo1 > 0) {
-		columns = sauce.tinfo1;
+	if (ctx->length >= 128) {
+		const uint8_t *sauce_block = ctx->buffer + ctx->length - 128;
+		if (sauce_block[0] == 'S' && sauce_block[1] == 'A' &&
+		    sauce_block[2] == 'U' && sauce_block[3] == 'C' &&
+		    sauce_block[4] == 'E') {
+			uint16_t width = sauce_block[96] | (sauce_block[97] << 8);
+			uint16_t height = sauce_block[98] | (sauce_block[99] << 8);
+			if (width > 0)
+				columns = width;
+			if (height > 0)
+				sauce_height = height;
+		}
 	}
 	
 	if (options->columns > 0)
