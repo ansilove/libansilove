@@ -489,6 +489,10 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			prev_cell = &grid->cells[r][c];
 		}
 		
+		ctx->buffer[out_pos++] = '\033';
+		ctx->buffer[out_pos++] = '[';
+		ctx->buffer[out_pos++] = '0';
+		ctx->buffer[out_pos++] = 'm';
 		ctx->buffer[out_pos++] = '\n';
 		prev_cell = NULL;
 	}
