@@ -271,6 +271,14 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	old_buffer = ctx->buffer;
 	old_length = ctx->length;
+	
+	for (size_t i = old_length; i > 0; i--) {
+		if (old_buffer[i - 1] == 0x1A) {
+			old_length = i - 1;
+			break;
+		}
+	}
+	
 	cursor = old_buffer;
 
 	dos_palette_init(colors);
