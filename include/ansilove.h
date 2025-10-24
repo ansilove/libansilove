@@ -74,6 +74,7 @@ extern "C" {
 #define ANSILOVE_MODE_CED		1
 #define ANSILOVE_MODE_TRANSPARENT	2
 #define ANSILOVE_MODE_WORKBENCH		3
+#define ANSILOVE_MODE_TERMINAL		4
 
 struct ansilove_png {
 	uint8_t *buffer;
@@ -113,6 +114,8 @@ ANSILOVE_EXTERN int	 ansilove_icedraw(struct ansilove_ctx *, struct ansilove_opt
 ANSILOVE_EXTERN int	 ansilove_pcboard(struct ansilove_ctx *, struct ansilove_options *);
 ANSILOVE_EXTERN int	 ansilove_tundra(struct ansilove_ctx *, struct ansilove_options *);
 ANSILOVE_EXTERN int	 ansilove_xbin(struct ansilove_ctx *, struct ansilove_options *);
+ANSILOVE_EXTERN int	 ansilove_terminal(struct ansilove_ctx *, struct ansilove_options *);
+ANSILOVE_EXTERN uint8_t *ansilove_terminal_emit(struct ansilove_ctx *, size_t *);
 
 #ifdef __cplusplus
 }
