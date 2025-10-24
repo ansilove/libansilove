@@ -506,15 +506,50 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		}
 
 		for (int32_t c = 0; c <= last_non_empty; c++) {
-			if (terminal_emit_cell(&ctx->buffer, &ctx->maplen, &out_pos,
-					       &grid->cells[r][c], prev_cell,
-					       grid->truecolor) < 0) {
-				ctx->error = ANSILOVE_MEMORY_ERROR;
-				terminal_grid_free(grid);
-				return -1;
+			int32_t space_count = 0;
+			while (c <= last_non_empty && 
+			       (grid->cells[r][c].character == 0 || 
+				grid->cells[r][c].character == 0x20)) {
+				space_count++;
+				c++;
 			}
-
-			prev_cell = &grid->cells[r][c];
+			
+			if (space_count > 3) {
+				char cursor_fwd[16];
+				int len = snprintf(cursor_fwd, sizeof(cursor_fwd), 
+						   "\033[%dC", space_count);
+				if (out_pos + len >= ctx->maplen) {
+					ctx->error = ANSILOVE_MEMORY_ERROR;
+					terminal_grid_free(grid);
+					return -1;
+				}
+				memcpy(ctx->buffer + out_pos, cursor_fwd, len);
+				out_pos += len;
+				prev_cell = NULL;
+			} else {
+				for (int32_t s = 0; s < space_count; s++) {
+					int32_t col = c - space_count + s;
+					if (terminal_emit_cell(&ctx->buffer, &ctx->maplen, &out_pos,
+							       &grid->cells[r][col], prev_cell,
+							       grid->truecolor) < 0) {
+						ctx->error = ANSILOVE_MEMORY_ERROR;
+						terminal_grid_free(grid);
+						return -1;
+					}
+					prev_cell = &grid->cells[r][col];
+				}
+			}
+			
+			if (c <= last_non_empty) {
+				if (terminal_emit_cell(&ctx->buffer, &ctx->maplen, &out_pos,
+						       &grid->cells[r][c], prev_cell,
+						       grid->truecolor) < 0) {
+					ctx->error = ANSILOVE_MEMORY_ERROR;
+					terminal_grid_free(grid);
+					return -1;
+				}
+				prev_cell = &grid->cells[r][c];
+			}
 		}
 		
 		ctx->buffer[out_pos++] = '\033';
