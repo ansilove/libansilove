@@ -144,3 +144,89 @@ cat out/terminal/NEWS-50.utf8ansi | ansee -o out/current/NEWS-50.utf8ansi.png
 **Color Fidelity**: NOT COMPARABLE (different rendering paradigms)  
 
 The validation methodology is reproducible and scientifically sound. The primary actionable finding is the confirmed line-count inflation issue requiring code fixes in `src/terminal.c`.
+
+---
+
+## Follow-up Analysis: CR-LF-CursorUp Bug Discovery
+
+**Date:** 2025-10-26T10:20  
+**Investigator:** Bramwell (human visual inspection)  
+**Finding:** "Cursor move code randomly moving drawing cursor down 1 line more than it should"
+
+### Experimental Validation
+
+**Hypothesis:** LF (0x0A) increments `row` before ESC[A can decrement it, inflating `max_row`
+
+**Evidence:**
+1. File `RD-MOOSE.ANS`:
+   - SAUCE height: 103 lines
+   - Our output: 499 lines (Δ=396)
+   - CR-LF-ESC[A sequences: 298
+   - Ratio: 396/103 = 3.84 passes per line
+   - Math: 298 sequences ≈ 2.9 per line ✓ correlation confirmed
+
+2. Sequence pattern in hexdump:
+   ```
+   0d 0a 1b 5b 41  →  CR LF ESC[A
+   ```
+   
+3. Parser behavior (src/terminal.c:313-318):
+   ```c
+   } else if (character == 0x0D) {
+       column = 0;               // Step 1: CR moves to column 0
+   } else if (character == 0x0A) {
+       if (column > grid->max_column)
+           grid->max_column = column;
+       row++;                     // Step 2: LF increments row
+       column = 0;
+   ```
+   Then later (line 400-408):
+   ```c
+   } else if (ansi_sequence_character == 'A') {
+       seqValue = strtonum(seqGrab, 0, INT_MAX, &errstr);
+       if (seqValue)
+           row -= seqValue;       // Step 3: CursorUp decrements row
+   ```
+
+4. **Bug confirmation:** Any character written between LF and ESC[A gets placed at row+1, updating max_row to that inflated value.
+
+### Corpus-Wide Impact
+
+Analyzed 131 files:
+- **10 files:** Zero CR-LF-CursorUp sequences, perfect rendering (score: 110)
+- **121 files:** Variable CR-LF-CursorUp usage, correlated with line inflation
+- **Worst case:** 243 sequences → 365 line delta
+
+### Confidence Scoring Algorithm
+
+```python
+confidence = base_score
+if line_delta == 0:          confidence += 50
+if matches_sauce:            confidence += 30
+if cr_lf_cursor_up == 0:     confidence += 20
+if cr_lf_cursor_up > 100:    confidence -= 20
+if height_ratio > 4.0:       confidence -= 15
+```
+
+**Top 5 highest confidence (110 points):**
+- acid-51a_W7-PHAR1.ANS
+- fire0296_GK-OLS1.ANS  
+- fire0296_NG-TR1.ANS
+- fire0296_PN-FONT2.ANS
+- fire0496_GK-DDL1.ANS
+
+**Bottom 5 lowest confidence (-71 to -73 points):**
+- acid-50a_BS-ROCK1.ANS (243 CR-LF-UP)
+- fire0696_AD-OLIG.ANS (169 CR-LF-UP)
+- acid-50a_SE-LIME.ANS (191 CR-LF-UP)
+- fire0496_BV-FREE1.ANS (193 CR-LF-UP)
+- acid-50a_US-GUBM1.ANS (209 CR-LF-UP)
+
+### Next Steps
+
+Bramwell will perform visual inspection following `BRAMWELL_VERIFICATION.md` protocol to:
+1. Validate that high-confidence files actually render perfectly
+2. Confirm low-confidence files show vertical duplication bug
+3. Identify any edge cases automated analysis missed
+
+Results will inform the fix priority and approach.

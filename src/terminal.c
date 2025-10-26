@@ -239,6 +239,7 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	int32_t column = 0, row = 0;
 	int32_t saved_row = 0, saved_column = 0;
+	bool pending_lf = false;
 
 	uint32_t seqValue, seq_line, seq_column;
 	char *seqGrab = NULL;
@@ -315,14 +316,17 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			} else if (character == 0x0A) {
 				if (column > grid->max_column)
 					grid->max_column = column;
-				row++;
+				pending_lf = true;
 				column = 0;
-
-				if (row >= grid->height - 1)
-					state = STATE_END;
 			} else if (character == 0x1A) {
 				state = STATE_END;
 			} else if (character >= 0x01) {
+				if (pending_lf) {
+					row++;
+					pending_lf = false;
+					if (row >= grid->height - 1)
+						state = STATE_END;
+				}
 				uint32_t actual_fg = foreground;
 				if (bold && foreground < 8)
 					actual_fg = foreground + 8;
@@ -371,6 +375,11 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 				if (ansi_sequence_character == 'H' ||
 				    ansi_sequence_character == 'f') {
+					if (pending_lf) {
+						row++;
+						pending_lf = false;
+					}
+					
 					seqTok = strtok(seqGrab, ";");
 
 					if (seqTok) {
@@ -397,6 +406,7 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 					row = seq_line;
 					column = seq_column;
+					pending_lf = false;
 				} else if (ansi_sequence_character == 'A') {
 					seqValue = strtonum(seqGrab, 0, INT_MAX,
 							    &errstr);
@@ -406,7 +416,14 @@ ansilove_terminal(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 					if (row < 0)
 						row = 0;
+					
+					pending_lf = false;
 				} else if (ansi_sequence_character == 'B') {
+					if (pending_lf) {
+						row++;
+						pending_lf = false;
+					}
+					
 					seqValue = strtonum(seqGrab, 0, INT_MAX,
 							    &errstr);
 

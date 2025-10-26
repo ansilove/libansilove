@@ -14,8 +14,8 @@ if [ ! -f "$CORPUS_LIST" ]; then
     exit 1
 fi
 
-if [ ! -x "./ansilove-utf8ansi" ]; then
-    echo "Error: ./ansilove-utf8ansi not found or not executable"
+if [ ! -x "./build/ansilove-utf8ansi" ]; then
+    echo "Error: ./build/ansilove-utf8ansi not found or not executable"
     exit 1
 fi
 
@@ -54,7 +54,7 @@ while IFS= read -r ansi_file; do
         sauce_height=$(grep "^Tinfo2:" "/tmp/${safe_name}_sauce.txt" | awk '{print $2}' || echo "")
     fi
     
-    ./ansilove-utf8ansi "$ansi_file" > "$utf8_file" 2>&1 || {
+    ./build/ansilove-utf8ansi "$ansi_file" > "$utf8_file" 2>&1 || {
         echo "ERROR: ansilove-utf8ansi failed on $ansi_file"
         continue
     }
