@@ -53,8 +53,14 @@
 - Downloaded 3 iCE artpacks (3.3M total)
 - Downloaded 3 Fire artpacks (4.5M total)
 
-#### Next Action
-- Extract artpacks and filter for ANSI files
+#### Extraction & Organization
+- Extracted all 9 artpacks successfully
+- Organized 137 ANSI/ASCII files into ansi_files/ directory
+- Note: iCE packs appear to use different format (.iCE extension) - only 1 .ans/.asc file found
+
+#### Final Status
+- Corpus successfully built with 137 ANSI art files from three major groups
+- Files ready for fuzzing and validation testing
 
 ## Downloaded Artpacks
 
@@ -76,15 +82,22 @@
 ## Directory Structure
 ```
 corpus/
-├── acid/
-├── ice/
-└── fire/
+├── acid/               # Downloaded artpacks (zips + extracted)
+├── ice/                # Downloaded artpacks (zips + extracted)
+├── fire/               # Downloaded artpacks (zips + extracted)
+└── ansi_files/         # Organized ANSI/ASCII files only
+    ├── acid/           # 40 ANSI files from ACID
+    ├── ice/            # 1 ANSI file from iCE
+    └── fire/           # 96 ANSI files from Fire
 ```
 
 ## Statistics
-- Total artpacks downloaded: 0
-- Total ANSI files extracted: 0
-- Disk space used: 0 MB
+- Total artpacks downloaded: 9 (3 ACID, 3 iCE, 3 Fire)
+- Total ANSI/ASCII files extracted: 137
+  - ACID: 40 files (.ans, .asc)
+  - iCE: 1 file (.ans, .asc)
+  - Fire: 96 files (.ans, .asc)
+- Disk space used: 35 MB total (3.2 MB ANSI files only)
 
 ## Notes
 - Focusing on .ANS, .ASC, .NFO files
