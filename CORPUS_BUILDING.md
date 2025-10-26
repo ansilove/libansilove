@@ -18,8 +18,13 @@
 - Set up todo list for corpus building
 - Researched sixteencolors-archive structure (organized by year: 1990-2024)
 
+#### Repository Access
+- Attempted full clone - repository too large (timed out)
+- Strategy: Download individual artpacks via direct URLs from GitHub
+
 #### Next Action
-- Cloning sixteencolors-archive repository to explore available artpacks
+- Creating corpus directory structure
+- Downloading specific ACID, iCE, and Fire artpacks from peak years (1995-1997)
 
 ## Downloaded Artpacks
 
