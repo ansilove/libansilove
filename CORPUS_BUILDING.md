@@ -22,8 +22,10 @@
 - Attempted full clone - repository too large (timed out)
 - Strategy: Download individual artpacks via direct URLs from GitHub
 
+#### Directory Setup
+- Created corpus/ directory with subdirectories: acid/, ice/, fire/
+
 #### Next Action
-- Creating corpus directory structure
 - Downloading specific ACID, iCE, and Fire artpacks from peak years (1995-1997)
 
 ## Downloaded Artpacks
