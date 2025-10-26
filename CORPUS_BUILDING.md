@@ -77,8 +77,31 @@
 - MISTAKE: Accidentally deleted downloaded artpacks during reorganization
 - ACTION: Re-downloading artpacks to rebuild with proper structure
 
-#### Next Action
-- Re-download artpacks into year-based structure
+#### Reorganization Completed
+- Re-downloaded all 9 artpacks into 1996/ directory
+- Extracted each pack into its own subdirectory (e.g., 1996/acid-50a/)
+- Structure now matches 16colo.rs: corpus/year/pack-name/files
+- All original files preserved (executables, docs, art files)
+
+## Final Status
+**SUCCESS**: Corpus organized following 16colo.rs structure with 142 ANSI/ASCII art files from 1996.
+
+### Usage Examples
+```bash
+# Fuzz with all packs
+./fuzz-build/ansi -runs=10000 corpus/1996/
+
+# Fuzz specific pack
+./fuzz-build/ansi -runs=10000 corpus/1996/acid-50a/
+
+# Test individual file
+./build/example/ansilove_example corpus/1996/acid-50a/BS-ROCK1.ANS
+
+# Browse like 16colors.net
+ls corpus/1996/                    # List all packs from 1996
+ls corpus/1996/acid-50a/           # List files in acid-50a pack
+cat corpus/1996/acid-50a/FILE_ID.DIZ  # Read pack description
+```
 
 ## Downloaded Artpacks
 
@@ -98,26 +121,45 @@
 - [x] fire0696.zip (2.2M)
 
 ## Directory Structure
+Organized to match 16colo.rs website structure:
 ```
 corpus/
-├── acid/               # Downloaded artpacks (zips + extracted)
-├── ice/                # Downloaded artpacks (zips + extracted)
-├── fire/               # Downloaded artpacks (zips + extracted)
-└── ansi_files/         # Organized ANSI/ASCII files only
-    ├── acid/           # 40 ANSI files from ACID
-    ├── ice/            # 1 ANSI file from iCE
-    └── fire/           # 96 ANSI files from Fire
+└── 1996/               # Year-based organization
+    ├── acid-50a.zip    # Original artpack archive
+    ├── acid-50a/       # Extracted pack (all files preserved)
+    │   ├── FILE_ID.DIZ
+    │   ├── NEWS-50.ANS
+    │   ├── BS-ROCK1.ANS
+    │   └── ... (28 ANSI files, 42 total files)
+    ├── acid-51a.zip
+    ├── acid-51a/       # (8 ANSI files, 27 total files)
+    ├── acid-52.zip
+    ├── acid-52/        # (4 ANSI files, 29 total files)
+    ├── fire0296.zip
+    ├── fire0296/       # (24 ANSI files, 52 total files)
+    ├── fire0496.zip
+    ├── fire0496/       # (27 ANSI files, 53 total files)
+    ├── fire0696.zip
+    ├── fire0696/       # (50 ANSI files, 78 total files)
+    ├── ice9601a.zip
+    ├── ice9601a/       # (1 ANSI file, 71 total files)
+    ├── ice9602a.zip
+    ├── ice9602a/       # (0 ANSI files, 75 total files)
+    ├── ice9603a.zip
+    └── ice9603a/       # (0 ANSI files, 86 total files)
 ```
 
 ## Statistics
-- Total artpacks downloaded: 9 (3 ACID, 3 iCE, 3 Fire)
-- Total ANSI/ASCII files extracted: 137
-  - ACID: 40 files (.ans, .asc)
-  - iCE: 1 file (.ans, .asc) [Note: iCE uses proprietary format]
-  - Fire: 96 files (.ans, .asc)
-- Disk space used: 15 MB (after cleanup)
+- Total artpacks: 9 (3 ACID, 3 iCE, 3 Fire)
+- Year: 1996
+- Total files extracted: 513 files
+- Total ANSI/ASCII files: 142 (.ans, .asc)
+  - ACID packs (acid-50a, acid-51a, acid-52): 40 ANSI files
+  - iCE packs (ice9601a, ice9602a, ice9603a): 1 ANSI file
+  - Fire packs (fire0296, fire0496, fire0696): 101 ANSI files
+- Disk space: 30 MB
   - Original .zip files: ~12 MB
-  - Organized ANSI files: 3.2 MB
+  - Extracted files: ~18 MB
 
 ## Notes
 - Focusing on .ANS, .ASC, .NFO files
