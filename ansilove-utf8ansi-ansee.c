@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
         dup2(pipefd[0], STDIN_FILENO);
         close(pipefd[0]);
         
-        execlp("/home/tom/.cargo/bin/ansee", "ansee", "-o", output_png, NULL);
+		execlp("ansee", "ansee", "-o", output_png, NULL);
         perror("execlp ansee");
         exit(1);
     } else {
