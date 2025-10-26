@@ -48,22 +48,30 @@
 - fire0596.zip, fire0696.zip, fire0796.zip
 - fire0896.zip, fire0996.zip, fire1096.zip
 
+#### Actual Downloads
+- Downloaded 3 ACID artpacks (3.8M total)
+- Downloaded 3 iCE artpacks (3.3M total)
+- Downloaded 3 Fire artpacks (4.5M total)
+
 #### Next Action
-- Clean up invalid downloads
-- Download actual artpack files
+- Extract artpacks and filter for ANSI files
 
 ## Downloaded Artpacks
 
 ### ACID (ACiD Productions)
-- [x] acid0996.zip (287K)
-- [x] acid1096.zip (287K)
-- [x] acid1295.zip (287K)
+- [x] acid-50a.zip (1.3M)
+- [x] acid-51a.zip (1.3M)
+- [x] acid-52.zip (1.2M)
 
 ### iCE (Insane Creators Enterprise)
-- [ ] To be downloaded
+- [x] ice9601a.zip (1.1M)
+- [x] ice9602a.zip (990K)
+- [x] ice9603a.zip (1.2M)
 
 ### Fire
-- [ ] To be downloaded
+- [x] fire0296.zip (875K)
+- [x] fire0496.zip (1.4M)
+- [x] fire0696.zip (2.2M)
 
 ## Directory Structure
 ```
