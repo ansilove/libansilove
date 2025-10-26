@@ -58,9 +58,13 @@
 - Organized 137 ANSI/ASCII files into ansi_files/ directory
 - Note: iCE packs appear to use different format (.iCE extension) - only 1 .ans/.asc file found
 
-#### Final Status
-- Corpus successfully built with 137 ANSI art files from three major groups
-- Files ready for fuzzing and validation testing
+#### Cleanup Plan
+- Keep: ansi_files/ directory (137 organized ANSI files)
+- Keep: Original .zip files for reference
+- Remove: Extracted directories (acid-*/, ice*/, fire*/) to save space
+
+#### Next Action
+- Clean up extracted directories
 
 ## Downloaded Artpacks
 
