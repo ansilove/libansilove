@@ -1,24 +1,31 @@
 # Start Here - Session Handoff Notes
 
-**Date**: Oct 24, 2025  
+**Date**: Oct 26, 2025  
 **Branch**: `utf8ansi-terminal`  
-**Status**: ✅ Background color gap fix COMPLETED and VERIFIED
+**Status**: ✅ CR-LF-ESC[A line-split bug FIXED and VERIFIED
 
 ---
 
 ## What Was Just Completed
 
-Fixed the "black gaps in colored backgrounds" issue in ANSI terminal output rendering.
+Fixed the "text splitting across lines" bug that affected 92% of ANSI art corpus.
 
-**Problem**: When rendering ANSI art with colored backgrounds, gaps between characters would show as black instead of preserving the background color.
+**Problem**: Text like "50th anniversary" would render as:
+```
+50t
+   h anniversary
+```
 
-**Solution**: Modified gap-handling logic in `src/terminal.c` (lines 517-552) to:
-- Detect if gaps have background colors
-- Emit actual space characters with backgrounds when needed
-- Use efficient cursor positioning only when no background present
-- Fixed critical dangling pointer bug on line 537
+**Discovered by**: Bramwell (human visual inspection)
 
-**Result**: All tests passing, background colors properly preserved throughout colored regions.
+**Root Cause**: CR-LF-ESC[A sequences (used for multi-pass drawing) caused the parser to increment `row` on LF, then decrement on ESC[A, but characters written *between* these operations landed on wrong rows.
+
+**Solution**: Defer row increment with `pending_lf` flag until confirming next character isn't a cursor positioning command.
+
+**Results**:
+- BS-ROCK1.ANS: 499→134 lines (near-perfect)
+- Corpus average: +114→-3.8 line delta (97% improvement)
+- Bramwell confirmed: "renders perfectly"
 
 ---
 
@@ -26,168 +33,167 @@ Fixed the "black gaps in colored backgrounds" issue in ANSI terminal output rend
 
 ### Repository
 - **Branch**: `utf8ansi-terminal`
-- **Latest commits**:
-  ```
-  14fc52d Add build instructions and remove empty binary files
-  ef875e9 Add comprehensive session notes for background color gap fix
-  14191a0 ++
-  ```
-- **Working tree**: Clean (nothing to commit)
-- **Unpushed commits**: 2 commits ahead of origin
+- **Latest commit**: `005eb2b` - CR-LF-ESC[A fix
+- **Unpushed commits**: 14 commits ahead of origin
+- **Working tree**: Clean (test artifacts in out/, corpus/ not tracked)
 
 ### Build Status
-- ✅ Library builds cleanly with no errors
-- ✅ All test binaries compile successfully
-- ✅ Background color gap tests passing
+- ✅ Library builds cleanly
+- ✅ All validation tests passing
+- ✅ 131-file corpus batch tested
 
-### Key Files
+### Key Programs
 
-#### Documentation (READ THESE FIRST)
-- **SESSION_NOTES_BACKGROUND_COLOR_FIX.md**: Complete technical details of the fix
-- **BUILD_INSTRUCTIONS.md**: How to build and test everything
-- **RENDERING_FIX_SUMMARY.md**: Previous rendering fixes
-- **TERMINAL_MODE.md**: Overall terminal mode documentation
+**Use `./viewer` for interactive viewing** (has argument parsing):
+```bash
+./viewer corpus/1996/acid-51a/W7-PHAR1.ANS
+./viewer --speed=9600 file.ans
+./viewer corpus/**/*.ANS  # Multiple files with glob
+./viewer --help
+```
 
-#### Implementation
-- **src/terminal.c**: Main implementation (gap fix at lines 517-552)
-- **test_terminal_output.c**: Test binary for UTF-8 ANSI output
-- **ansilove-utf8ansi-ansee.c**: PNG converter wrapper (pipes to ansee tool)
-
-#### Test Files
-- **ansi_test_files/**: Directory with test ANSI art files
-  - `simple_colors.ans`
-  - `box_drawing.ans`
-  - `cursor_test.ans`
-  - `palette.ans`
+**Use `./build/ansilove-utf8ansi` for scripting** (no arg parsing):
+```bash
+./build/ansilove-utf8ansi file.ans > output.utf8ansi
+```
 
 ---
 
 ## Quick Build & Test
 
 ```bash
+cd /home/tom/Work/libansilove
+
 # Build library
-cd /home/tom/libansilove
 rm -rf build && mkdir build && cd build
 cmake .. && cmake --build .
 
-# Build test binary
-gcc -o ansilove-utf8ansi ../test_terminal_output.c \
-    -I../include -I../src -L. -lansilove-static -lgd -lm
+# Build viewer (has full argument parsing)
+cd ..
+gcc -o viewer viewer.c -I./include -L./build -lansilove-static -lgd -lm -Wl,-rpath,./build
 
-# Test with colored backgrounds
-printf "\033[46mAB  CD\033[0m\n" > /tmp/test.ans
-./ansilove-utf8ansi /tmp/test.ans
-# Expected output: [0m[38;2;170;170;170m[48;2;0;170;170mAB  CD[0m
-# The [48;2;0;170;170m is cyan background - should cover the spaces!
+# Build simple test binary
+cd build
+gcc -o ansilove-utf8ansi ../test_terminal_output.c -I../include -I../src -L. -lansilove-static -lgd -lm
+
+# Test the fix
+cd ..
+./viewer corpus/1996/acid-50a/BS-ROCK1.ANS
+# Should show "50th anniversary pack" on ONE line, not split
 ```
+
+---
+
+## Validation Infrastructure
+
+### Corpus
+- **Location**: `corpus/1996/` (131 ANSI files from acid/fire/ice packs)
+- **Source**: sixteencolors-archive (1996 artpacks)
+- **Not tracked in git** (too large, in .gitignore)
+
+### Batch Testing
+```bash
+# Re-run full validation
+./tools/batch_validate.sh /tmp/corpus_ansi_files.txt
+
+# Analyze results
+python3 tools/analyze_batch.py
+
+# View confidence ranking
+cat out/metrics/confidence_ranking.txt
+```
+
+### Bramwell Protocol
+See `BRAMWELL_VERIFICATION.md` for human visual inspection workflow.
+
+---
+
+## Key Files & Docs
+
+### Documentation (READ THESE)
+- **UTF8ANSI_VALIDATION.md**: Scientific validation methodology + CR-LF bug analysis
+- **BRAMWELL_VERIFICATION.md**: Human verification protocol
+- **SESSION_NOTES_BACKGROUND_COLOR_FIX.md**: Previous fix (background colors)
+- **BUILD_INSTRUCTIONS.md**: Build and test guide
+
+### Implementation
+- **src/terminal.c**: Main renderer (CR-LF fix with `pending_lf` flag)
+- **viewer.c**: Full-featured viewer program (use this!)
+- **test_terminal_output.c**: Simple test binary (no arg parsing)
+
+### Tools
+- **tools/batch_validate.sh**: Run full corpus comparison
+- **tools/analyze_batch.py**: Statistical analysis
+- **tools/confidence_analysis.py**: Identify best/worst samples
 
 ---
 
 ## What Might Come Next
 
-### Potential Tasks
-1. **Push commits to remote** (2 commits pending)
-2. **Add automated tests** for background color gap scenarios
-3. **Performance optimization** of gap-checking loop (currently checks every cell)
-4. **Edge case testing** with blink/invert attributes in colored gaps
-5. **Integration testing** with real-world ANSI art files
+### Immediate
+1. **Investigate remaining outliers**: 3 files still have +34 to +143 line delta
+2. **Fix off-by-one**: Some files render N-1 lines instead of N (minor)
+3. **Test with real terminals**: Verify rendering in Alacritty, Ghostty, etc.
+
+### Medium Term
+1. **Expand corpus**: Add more artpacks beyond 1996
+2. **Automated regression**: CI pipeline for corpus validation
+3. **SAUCE height enforcement**: Some files ignore SAUCE metadata
 
 ### Known Issues
-None currently - all tests passing
-
-### Not Started / Out of Scope
-- Windows build support
-- Alternative color output formats (currently only RGB888)
-- ANSI art editor features
+- **Negative deltas**: Some files render fewer lines than expected (e.g., -80 lines)
+  - Need investigation - possibly over-aggressive LF deferral?
+- **Height ratio still >1.38x** for some files
+  - ansee uses taller font than bitmap reference
 
 ---
 
-## Critical Code Location
+## Critical Code: The Fix
 
-**The Fix**: `src/terminal.c` lines 517-552
+**File**: `src/terminal.c`  
+**Lines**: 242, 316-327, 404-414, 415-425, 376-408
 
-Key part (line 537):
+Key additions:
 ```c
-// Correct: stable pointer to grid cell
-prev_cell = &grid->cells[r][g];
+bool pending_lf = false;  // Line 242
 
-// NOT this (dangling pointer bug):
-// prev_cell = &space_cell;  // WRONG!
+// Line 316-319: Defer LF
+} else if (character == 0x0A) {
+    if (column > grid->max_column)
+        grid->max_column = column;
+    pending_lf = true;  // Don't increment yet
+    column = 0;
+
+// Line 320-325: Apply deferred LF when writing character
+} else if (character >= 0x01) {
+    if (pending_lf) {
+        row++;
+        pending_lf = false;
+        if (row >= grid->height - 1)
+            state = STATE_END;
+    }
+    
+// Line 404-414: Cancel LF on cursor up
+} else if (ansi_sequence_character == 'A') {
+    // ... cursor up logic ...
+    pending_lf = false;  // Cancel deferred LF
 ```
-
-This prevents dangling pointers to stack-allocated local variables.
-
----
-
-## How to Verify Everything is Working
-
-### Quick Test
-```bash
-cd /home/tom/libansilove/build
-./ansilove-utf8ansi ../ansi_test_files/simple_colors.ans | head -5
-```
-
-Should show ANSI color codes with no errors.
-
-### Comprehensive Test
-```bash
-cd /home/tom/libansilove
-
-# Create test file with all edge cases
-cat > /tmp/comprehensive.c << 'EOF'
-#include <stdio.h>
-int main() {
-    printf("\033[46mAB  CD\033[0m\n");  // Cyan bg with gap
-    printf("\033[45mX          Y\033[0m\n");  // Magenta with large gap
-    printf("\033[43m1  2  3  4\033[0m\n");  // Yellow with multiple gaps
-    return 0;
-}
-EOF
-
-gcc /tmp/comprehensive.c -o /tmp/comp && /tmp/comp > /tmp/test.ans
-build/ansilove-utf8ansi /tmp/test.ans
-```
-
-All lines should show background color codes covering the entire string including spaces.
-
----
-
-## Questions Future Me Might Have
-
-**Q: Where are the actual binary executables?**  
-A: In `build/` directory (not tracked in git). Root had empty files that were deleted.
-
-**Q: Why aren't binaries in git?**  
-A: They're build artifacts. The `build/` directory is in `.gitignore`. Source files are tracked.
-
-**Q: What's the difference between ansilove-utf8ansi and ansilove-utf8ansi-ansee?**  
-A: 
-- `ansilove-utf8ansi`: Outputs UTF-8 ANSI codes to stdout
-- `ansilove-utf8ansi-ansee`: Pipes UTF-8 ANSI to the `ansee` tool to generate PNG images
-
-**Q: Can I test without building?**  
-A: No, you need to build the library and test binaries. See BUILD_INSTRUCTIONS.md.
-
-**Q: What if tests fail?**  
-A: Check you're on `utf8ansi-terminal` branch with commit `14fc52d` or later.
-
-**Q: Should I push to remote?**  
-A: That's up to you. There are 2 unpushed commits with the session notes and build instructions.
 
 ---
 
 ## Dependencies
 
-- GCC (C compiler)
-- CMake
-- libgd (`libgd-dev` on Debian/Ubuntu)
-- libm (math library, usually standard)
-- ansee tool (optional, for PNG output) - at `/home/tom/.cargo/bin/ansee`
+- GCC
+- CMake  
+- libgd-dev
+- ansee (at ~/.cargo/bin/ansee, optional for PNG output)
+
+On Arch: `sudo pacman -S cmake gd`
 
 ---
 
 ## Final Notes
 
-The background color gap fix is **complete and verified**. The code is in a clean, working state with comprehensive documentation. All changes are committed to the `utf8ansi-terminal` branch. You can safely continue development or push to remote.
+The CR-LF-ESC[A bug is **FIXED**. Corpus validation shows 97% improvement. Bramwell confirmed visual quality is now correct. Ready to expand corpus or tackle remaining edge cases.
 
-Good luck! 🚀
+Next session: Run `./viewer --help` and start from there!
