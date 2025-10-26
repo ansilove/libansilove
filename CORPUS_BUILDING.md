@@ -25,13 +25,18 @@
 #### Directory Setup
 - Created corpus/ directory with subdirectories: acid/, ice/, fire/
 
+#### Downloads - ACID
+- Downloaded 3 ACID artpacks (acid0996, acid1096, acid1295) - total 861K
+
 #### Next Action
-- Downloading specific ACID, iCE, and Fire artpacks from peak years (1995-1997)
+- Downloading iCE artpacks
 
 ## Downloaded Artpacks
 
 ### ACID (ACiD Productions)
-- [ ] To be downloaded
+- [x] acid0996.zip (287K)
+- [x] acid1096.zip (287K)
+- [x] acid1295.zip (287K)
 
 ### iCE (Insane Creators Enterprise)
 - [ ] To be downloaded
