@@ -63,8 +63,18 @@
 - Keep: Original .zip files for reference
 - Remove: Extracted directories (acid-*/, ice*/, fire*/) to save space
 
+#### Cleanup Completed
+- Removed extracted directories (saved 20MB)
+- Final corpus size: 15MB (down from 35MB)
+- Kept original .zip files and organized ansi_files/
+
+#### Reorganization Request
+- User requested organizing files like 16colo.rs website
+- 16colors structure: year/pack-name/files (preserves original pack context)
+- Current structure: group/ansi_files/ (loses pack context)
+
 #### Next Action
-- Clean up extracted directories
+- Reorganize to match 16colors.net structure: year/pack-name/
 
 ## Downloaded Artpacks
 
@@ -99,9 +109,11 @@ corpus/
 - Total artpacks downloaded: 9 (3 ACID, 3 iCE, 3 Fire)
 - Total ANSI/ASCII files extracted: 137
   - ACID: 40 files (.ans, .asc)
-  - iCE: 1 file (.ans, .asc)
+  - iCE: 1 file (.ans, .asc) [Note: iCE uses proprietary format]
   - Fire: 96 files (.ans, .asc)
-- Disk space used: 35 MB total (3.2 MB ANSI files only)
+- Disk space used: 15 MB (after cleanup)
+  - Original .zip files: ~12 MB
+  - Organized ANSI files: 3.2 MB
 
 ## Notes
 - Focusing on .ANS, .ASC, .NFO files
