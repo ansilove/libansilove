@@ -16,6 +16,10 @@
 #### Initial Setup
 - Created progress tracking file
 - Set up todo list for corpus building
+- Researched sixteencolors-archive structure (organized by year: 1990-2024)
+
+#### Next Action
+- Cloning sixteencolors-archive repository to explore available artpacks
 
 ## Downloaded Artpacks
 
