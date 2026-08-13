@@ -40,6 +40,8 @@
 #include "fonts/font_amiga_topaz_1200_plus.h"
 #include "fonts/font_amiga_topaz_500.h"
 #include "fonts/font_amiga_topaz_500_plus.h"
+#include "fonts/font_atari_ansiterm.h"
+
 
 void
 select_font(struct fontStruct *fontData, int font)
@@ -173,6 +175,12 @@ select_font(struct fontStruct *fontData, int font)
 		fontData->width = 8;
 		fontData->height = 16;
 		break;
+	case ANSILOVE_FONT_ANSITERM:
+		fontData->font_data = font_atari_ansiterm;
+		fontData->width = 8;
+		fontData->height = 16;
+		break;
+
 	default:
 		/* in all other cases use the standard DOS font */
 		fontData->font_data = font_pc_80x25;

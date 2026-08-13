@@ -123,6 +123,9 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	bool ced = false;
 	bool workbench = false;
+	bool ansiterm1 = false;
+	bool ansiterm3 = false;
+	bool fansi = false;
 
 	/* font selection */
 	memset(&fontData, 0, sizeof(struct fontStruct));
@@ -134,6 +137,15 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		break;
 	case ANSILOVE_MODE_WORKBENCH:
 		workbench = true;
+		break;
+	case ANSILOVE_MODE_ANSITERM1:
+		ansiterm1 = true;
+		break;
+	case ANSILOVE_MODE_ANSITERM3:
+		ansiterm3 = true;
+		break;
+	case ANSILOVE_MODE_FANSI:
+		fansi = true;
 		break;
 	}
 
@@ -203,10 +215,10 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 					ansi_buffer[structIndex].foreground = background + (foreground & 8);
 				} else {
 					ansi_buffer[structIndex].background =
-					    background24 ? background24 : background;
+						background24 ? background24 : background;
 
 					ansi_buffer[structIndex].foreground =
-					    foreground24 ? foreground24 : foreground;
+						foreground24 ? foreground24 : foreground;
 				}
 				ansi_buffer[structIndex].character = *cursor;
 				ansi_buffer[structIndex].column = column;
@@ -543,8 +555,8 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 	/* create that damn thingy */
 	canvas = options->truecolor ?
-	    gdImageCreateTrueColor(width, height) :
-	    gdImageCreate(width, height);
+		gdImageCreateTrueColor(width, height) :
+		gdImageCreate(width, height);
 
 	if (!canvas) {
 		ctx->error = ANSILOVE_GD_ERROR;
@@ -560,16 +572,34 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	} else if (workbench) {
 		for (size_t i = 0; i < 16; i++)
 			colors[i] = gdImageColorAllocate(canvas,
-			    workbench_palette_red[i],
-			    workbench_palette_green[i],
-			    workbench_palette_blue[i]);
+				workbench_palette_red[i],
+				workbench_palette_green[i],
+				workbench_palette_blue[i]);
+	} else if (ansiterm1) {
+		for (size_t i = 0; i < 16; i++)
+			colors[i] = gdImageColorAllocate(canvas,
+				ansiterm1_palette_red[i],
+				ansiterm1_palette_green[i],
+				ansiterm1_palette_blue[i]);
+	} else if (ansiterm3) {
+		for (size_t i = 0; i < 16; i++)
+			colors[i] = gdImageColorAllocate(canvas,
+				ansiterm3_palette_red[i],
+				ansiterm3_palette_green[i],
+				ansiterm3_palette_blue[i]);
+	} else if (fansi) {
+		for (size_t i = 0; i < 16; i++)
+			colors[i] = gdImageColorAllocate(canvas,
+				fansi_palette_red[i],
+				fansi_palette_green[i],
+				fansi_palette_blue[i]);
 	} else {
 		/* Allocate standard ANSi color palette */
 
 		for (size_t i = 0; i < 16; i++)
 			colors[i] = gdImageColorAllocate(canvas,
-			    ansi_palette_red[i], ansi_palette_green[i],
-			    ansi_palette_blue[i]);
+				ansi_palette_red[i], ansi_palette_green[i],
+				ansi_palette_blue[i]);
 	}
 
 	/* render ANSi */
@@ -593,8 +623,8 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		}
 
 		drawchar(canvas, fontData.font_data, options->bits,
-		    fontData.height, column, row, background, foreground,
-		    character);
+			fontData.height, column, row, background, foreground,
+			character);
 	}
 
 	/* create output image */
