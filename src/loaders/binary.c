@@ -109,7 +109,7 @@ ansilove_binary(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			background = (attribute & 240) >> 4;
 			foreground = attribute & 15;
 
-			if (background > 8 && !options->icecolors)
+			if (background >= 8 && !options->icecolors)
 				background -= 8;
 
 			drawchar(canvas, fontData.font_data, options->bits,
