@@ -19,6 +19,7 @@ Fonts:
 
 Code:
 
+- Todd Miller for strndup.c
 - Ted Unangst and Todd Miller for strtonum.c
 - Otto Moerbeek for reallocarray.c
 
