@@ -164,7 +164,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			case CR:
 				break;
 			case TAB:
-				column += 8;
+				column += 8 - column % 8;
 				break;
 			case SUB:
 				state = STATE_END;
