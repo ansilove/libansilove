@@ -100,7 +100,7 @@ ansilove_pcboard(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	while (loop < ctx->length) {
 		cursor = &ctx->buffer[loop];
 
-		if (column == columns) {
+		if (column >= columns) {
 			row++;
 			column = 0;
 		}

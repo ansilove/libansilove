@@ -149,7 +149,7 @@ ansilove_ansi(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	while (loop < ctx->length) {
 		cursor = &ctx->buffer[loop];
 
-		if (column == options->columns) {
+		if (column >= options->columns) {
 			row++;
 			column = 0;
 		}
