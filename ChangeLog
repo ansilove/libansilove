@@ -1,3 +1,19 @@
+libansilove 1.4.3 (2026-10-21)
+
+- Update README to add a link to the Nix package
+- Allow overriding the definition of ANSILOVE_EXTERN (Thanks Martin Fiedler)
+- Provide a compatibility fallback implementation for strndup (Thanks Martin
+  Fiedler)
+- Document support for PabloDraw 24-bit ANSI sequences
+- Fix line wrapping when the cursor exceeds the column limit in ANSI and
+  PCBoard loaders
+- Advance TAB to the next tab stop in ANSI and PCBoard loaders
+  (Both issues were reported by Aaron Myles Landwehr, thanks!)
+- Fix black background with the blink bit in BinaryText files when iCE colors
+  are disabled (Thanks Joash Chee)
+
+
+
 libansilove 1.4.2 (2025-03-24)
 
 - Add links to the Homebrew and Guix packages in the README
