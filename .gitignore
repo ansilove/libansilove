@@ -5,9 +5,24 @@
 
 # build products
 build/
+build-wasm/
+npm/packages/libansilove/.wasm-build/
+
+# Nix
+result
+result-*/
+
+# direnv
+.direnv/
 
 # CMake
 CMakeFiles
 CMakeCache.txt
 Makefile
 cmake_install.cmake
+
+# npm package build
+node_modules/
+npm/packages/*/dist/
+tmp.png
+wasm/*.o
