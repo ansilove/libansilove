@@ -222,7 +222,7 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				background = (attribute & 240) >> 4;
 				foreground = attribute & 15;
 
-				if (xbin_flags & 0x10 && attribute & 8) {
+				if (high_font_data_xbin != NULL && attribute & 8) {
 					drawchar(canvas, high_font_data_xbin, 8, xbin_fontsize,
 					    column, row, colors[background],
 					    colors[foreground], character);
@@ -255,7 +255,7 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			background = (attribute & 240) >> 4;
 			foreground = attribute & 15;
 
-			if (xbin_flags & 0x10 && attribute & 8) {
+			if (high_font_data_xbin != NULL && attribute & 8) {
 				drawchar(canvas, high_font_data_xbin, 8, xbin_fontsize,
 				    column, row, colors[background],
 				    colors[foreground], character);
