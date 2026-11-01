@@ -187,6 +187,11 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				}
 				/* char */
 				else if (ctype == 0x40) {
+					if (offset + (character == -1) + 1 >
+					    ctx->length) {
+						ctx->error = ANSILOVE_FORMAT_ERROR;
+						goto error;
+					}
 					if (character == -1) {
 						character = ctx->buffer[offset];
 						offset++;
@@ -196,6 +201,11 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				}
 				/* attr */
 				else if (ctype == 0x80) {
+					if (offset + (attribute == -1) + 1 >
+					    ctx->length) {
+						ctx->error = ANSILOVE_FORMAT_ERROR;
+						goto error;
+					}
 					if (attribute == -1) {
 						attribute = ctx->buffer[offset];
 						offset++;
@@ -205,6 +215,11 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 				}
 				/* both */
 				else {
+					if (offset + (character == -1) +
+					    (attribute == -1) > ctx->length) {
+						ctx->error = ANSILOVE_FORMAT_ERROR;
+						goto error;
+					}
 					if (character == -1) {
 						character = ctx->buffer[offset];
 						offset++;
