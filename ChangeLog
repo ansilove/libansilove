@@ -1,3 +1,14 @@
+libansilove 1.4.4 (2026-11-02)
+
+- Check if high_font_data_xbin is set rather than trusting the xbin_flags
+  data (CVE-2026-111144, found by HaiND and reported by Alexander Shvedov)
+- Fix source files used by format fuzzers
+- Refactor the XBIN loader to use a common error label and fix canvas
+  memory leaks
+- Fix out-of-bounds reads in RLE decoder (CVE-2026-111143, found by HaiND)
+
+
+
 libansilove 1.4.3 (2026-10-21)
 
 - Update README to add a link to the Nix package
