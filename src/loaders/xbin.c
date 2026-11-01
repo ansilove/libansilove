@@ -96,7 +96,7 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 		if (offset + XBIN_PALETTE_LENGTH > ctx->length) {
 			ctx->error = ANSILOVE_FORMAT_ERROR;
-			return -1;
+			goto error;
 		}
 
 		for (loop = 0; loop < 16; loop++) {
@@ -122,14 +122,14 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 
 		if (offset + fontsz > ctx->length) {
 			ctx->error = ANSILOVE_FORMAT_ERROR;
-			return -1;
+			goto error;
 		}
 
 		/* allocate memory to contain the XBin font */
 		font_data_xbin = (uint8_t *)malloc(fontsz);
 		if (font_data_xbin == NULL) {
 			ctx->error = ANSILOVE_MEMORY_ERROR;
-			return -1;
+			goto error;
 		}
 
 		memcpy(font_data_xbin, ctx->buffer+offset, fontsz);
@@ -142,16 +142,14 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		if (xbin_flags & 0x10) {
 			if (offset + fontsz > ctx->length) {
 				ctx->error = ANSILOVE_FORMAT_ERROR;
-				free(font_data_xbin);
-				return -1;
+				goto error;
 			}
 
 			/* allocate memory to contain the XBin font */
 			high_font_data_xbin = (uint8_t *)malloc(fontsz);
 			if (high_font_data_xbin == NULL) {
 				ctx->error = ANSILOVE_MEMORY_ERROR;
-				free(font_data_xbin);
-				return -1;
+				goto error;
 			}
 
 			memcpy(high_font_data_xbin, ctx->buffer+offset, fontsz);
@@ -184,9 +182,7 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 						offset += 2;
 					} else {
 						ctx->error = ANSILOVE_FORMAT_ERROR;
-						free(font_data_xbin);
-						free(high_font_data_xbin);
-						return -1;
+						goto error;
 					}
 				}
 				/* char */
@@ -283,4 +279,10 @@ ansilove_xbin(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	free(high_font_data_xbin);
 
 	return 0;
+
+error:
+	gdImageDestroy(canvas);
+	free(font_data_xbin);
+	free(high_font_data_xbin);
+	return -1;
 }
