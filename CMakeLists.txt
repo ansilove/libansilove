@@ -11,6 +11,8 @@ set(CMAKE_C_EXTENSIONS OFF)
 
 project(ansilove C)
 
+option(BUILD_STATIC_LIBS "Build the static library" OFF)
+
 include(CheckFunctionExists)
 include(GNUInstallDirs)
 
@@ -48,8 +50,6 @@ add_library(objlib OBJECT ${SRC} ${LOADERS})
 set_property(TARGET objlib PROPERTY POSITION_INDEPENDENT_CODE ON)
 
 add_library(ansilove SHARED $<TARGET_OBJECTS:objlib>)
-add_library(ansilove-static STATIC $<TARGET_OBJECTS:objlib>)
-
 target_link_libraries(ansilove ${GD_LIBRARIES} m)
 
 set_target_properties(ansilove PROPERTIES
@@ -57,7 +57,15 @@ set_target_properties(ansilove PROPERTIES
   C_VISIBILITY_PRESET hidden)
 
 install(TARGETS ansilove DESTINATION ${CMAKE_INSTALL_LIBDIR})
-install(TARGETS ansilove-static DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+if(BUILD_STATIC_LIBS)
+  add_library(ansilove-static STATIC $<TARGET_OBJECTS:objlib>)
+  target_link_libraries(ansilove-static ${GD_LIBRARIES} m)
+  set_target_properties(ansilove-static PROPERTIES OUTPUT_NAME ansilove)
+
+  install(TARGETS ansilove-static DESTINATION ${CMAKE_INSTALL_LIBDIR})
+endif()
+
 install(FILES include/ansilove.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 install(FILES man/libansilove.3 DESTINATION ${CMAKE_INSTALL_MANDIR}/man3/)
 install(FILES man/ansilove_clean.3 DESTINATION ${CMAKE_INSTALL_MANDIR}/man3/)

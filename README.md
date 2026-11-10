@@ -26,6 +26,14 @@ header files.
 	cmake ..
 	make
 
+Only the shared library is built by default. To build both shared and static
+libraries, configure with:
+
+	cmake -DBUILD_STATIC_LIBS=ON ..
+
+The static library is installed as `libansilove.a`. Linking it into an
+application also requires GD and its dependencies.
+
 # Installation
 
 	make install
