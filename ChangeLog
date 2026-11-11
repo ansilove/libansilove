@@ -1,3 +1,12 @@
+libansilove 1.4.5 (2026-11-11)
+
+- Make the static library optional and rename its archive
+- Fix function name and return type in ansilove_clean(3) synopsis
+- Fix const qualifiers in ansilove_loadfile(3) and ansilove_savefile(3)
+- Reset buffer pointers in ansilove_clean() to make the function idempotent
+
+
+
 libansilove 1.4.4 (2026-11-02)
 
 - Check if high_font_data_xbin is set rather than trusting the xbin_flags
