@@ -1,6 +1,6 @@
 /*
  * output.h
- * libansilove 1.4.4
+ * libansilove 1.4.5
  * https://www.ansilove.org
  *
  * Copyright (c) 2011-2026 Stefan Vogt, Brian Cassidy, and Frederic Cambus
