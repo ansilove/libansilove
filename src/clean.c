@@ -30,7 +30,9 @@ ansilove_clean(struct ansilove_ctx *ctx)
 	if (ctx->buffer != MAP_FAILED)
 		(void)munmap(ctx->buffer, ctx->maplen);
 
+	ctx->buffer = MAP_FAILED;
 	ctx->maplen = ctx->length = 0;
+	ctx->png.buffer = NULL;
 	ctx->png.length = 0;
 
 	return 0;
