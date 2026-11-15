@@ -47,14 +47,15 @@ endif()
 add_definitions(-D_GNU_SOURCE -Wall -Wextra -pedantic)
 
 add_library(objlib OBJECT ${SRC} ${LOADERS})
-set_property(TARGET objlib PROPERTY POSITION_INDEPENDENT_CODE ON)
+set_target_properties(objlib PROPERTIES
+  POSITION_INDEPENDENT_CODE ON
+  C_VISIBILITY_PRESET hidden)
 
 add_library(ansilove SHARED $<TARGET_OBJECTS:objlib>)
 target_link_libraries(ansilove ${GD_LIBRARIES} m)
 
 set_target_properties(ansilove PROPERTIES
-  VERSION ${LIB_VERSION_STRING} SOVERSION ${LIB_VERSION_MAJOR}
-  C_VISIBILITY_PRESET hidden)
+  VERSION ${LIB_VERSION_STRING} SOVERSION ${LIB_VERSION_MAJOR})
 
 install(TARGETS ansilove DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
