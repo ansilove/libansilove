@@ -1,3 +1,13 @@
+libansilove 1.4.6 (2026-11-16)
+
+- Use IDF header width when calculating image height
+- Hide internal symbols in the shared library
+- Check fclose() return value in ansilove_savefile()
+- Handle PNG encoding failures in output()
+- Fix image leaks in output() error paths
+
+
+
 libansilove 1.4.5 (2026-11-11)
 
 - Make the static library optional and rename its archive
