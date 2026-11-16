@@ -1,6 +1,6 @@
 /*
  * ansi.c
- * libansilove 1.4.5
+ * libansilove 1.4.6
  * https://www.ansilove.org
  *
  * Copyright (c) 2011-2026 Stefan Vogt, Brian Cassidy, and Frederic Cambus
