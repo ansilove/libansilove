@@ -33,7 +33,8 @@ ansilove_savefile(struct ansilove_ctx *ctx, const char *output)
 		goto err;
 
 	rw = fwrite(ctx->png.buffer, 1, ctx->png.length, file);
-	fclose(file);
+	if (fclose(file) != 0)
+		goto err;
 
 	if (rw != (size_t)ctx->png.length)
 		goto err;
