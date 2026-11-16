@@ -75,5 +75,11 @@ output(struct ansilove_ctx *ctx, struct ansilove_options *options,
 
 	gdImageDestroy(source);
 
+	if (ctx->png.buffer == NULL) {
+		ctx->png.length = 0;
+		ctx->error = ANSILOVE_GD_ERROR;
+		return -1;
+	}
+
 	return 0;
 }
