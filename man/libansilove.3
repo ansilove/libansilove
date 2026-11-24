@@ -71,6 +71,30 @@ struct ansilove_options {
         uint8_t scale_factor;
 };
 .Ed
+.Ss Context lifecycle
+Allocate a context and options structure, then call
+.Xr ansilove_init 3 .
+Set rendering options, load an input file with
+.Xr ansilove_loadfile 3 ,
+and call the renderer for its format.
+The library does not automatically select a renderer from a filename.
+After successful rendering, save the PNG with
+.Xr ansilove_savefile 3
+or consume
+.Va ctx->png.buffer
+and
+.Va ctx->png.length
+directly.
+.Pp
+Once
+.Xr ansilove_init 3
+has succeeded, release resources with
+.Xr ansilove_clean 3
+after each conversion, including if loading or rendering fails.
+Loading or rendering again does not release the previous mapping or PNG
+buffer.
+Clean and reinitialize the context before starting another conversion.
+Pointers into either buffer must not be used after cleanup.
 .Ss Rendering options
 The options structure is initialized to zero, except for
 .Va bits ,
