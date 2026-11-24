@@ -34,6 +34,21 @@
 .In ansilove.h
 .Ft int
 .Fn ansilove_savefile "struct ansilove_ctx *ctx" "const char *output"
+.Sh DESCRIPTION
+The
+.Fn ansilove_savefile
+function writes the
+.Va ctx->png.length
+bytes at
+.Va ctx->png.buffer
+to the file named by
+.Fa output .
+Call a rendering function successfully before saving its output.
+.Pp
+The output file is created if it does not exist and truncated if it does.
+A failure may leave an empty or partially written file.
+The PNG buffer remains owned by the context and is released by
+.Xr ansilove_clean 3 .
 .Sh RETURN VALUES
 The
 .Fn ansilove_savefile
