@@ -30,6 +30,8 @@
 .Sh NAME
 .Nm libansilove
 .Nd Library for converting ANSI, ASCII, and other formats to PNG
+.Sh SYNOPSIS
+.In ansilove.h
 .Sh DESCRIPTION
 .Nm
 is a library to convert ANSi and artscene related file formats into PNG
@@ -43,7 +45,7 @@ charsets), Amiga fonts, and iCE colors.
 All library functions take a context, defined as an
 .Em ansilove_ctx
 structure in
-.Pa include/ansilove.h :
+.In ansilove.h :
 .Bd -literal
 struct ansilove_ctx {
         uint8_t *buffer;
@@ -57,7 +59,7 @@ struct ansilove_ctx {
 Options are passed to the different loaders using the
 .Em ansilove_options
 structure in
-.Pa include/ansilove.h :
+.In ansilove.h :
 .Bd -literal
 struct ansilove_options {
         bool diz;
