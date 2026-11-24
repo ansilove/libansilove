@@ -34,6 +34,28 @@
 .In ansilove.h
 .Ft int
 .Fn ansilove_clean "struct ansilove_ctx *ctx"
+.Sh DESCRIPTION
+The
+.Fn ansilove_clean
+function releases the input file mapping and PNG buffer owned by
+.Fa ctx .
+The context must have been initialized with
+.Xr ansilove_init 3 .
+Call this function after conversion, including when loading, rendering,
+or saving fails.
+.Pp
+The
+.Va ctx->buffer
+pointer is reset to
+.Dv MAP_FAILED ,
+and
+.Va ctx->png.buffer
+is reset to
+.Dv NULL .
+Their associated lengths are reset to zero.
+The error code is preserved.
+The context structure itself is not freed.
+Calling this function again on the same initialized context is safe.
 .Sh RETURN VALUES
 The
 .Fn ansilove_clean
