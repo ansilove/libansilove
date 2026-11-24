@@ -38,9 +38,10 @@ is a library to convert ANSi and artscene related file formats into PNG
 images, supporting ANSI (.ANS), PCBoard (.PCB), Binary (.BIN), Artworx
 (.ADF), iCE Draw (.IDF), Tundra (.TND) and XBin (.XB) formats.
 .Pp
-It creates size-optimized 4-bit PNG files by default, with support for
-truecolor rendering, 80x25 and 80x50 PC fonts (including all the 14 MS-DOS
-charsets), Amiga fonts, and iCE colors.
+It produces size-optimized indexed-color PNG images for most formats,
+with truecolor output when requested or required.
+It also supports 80x25 and 80x50 PC fonts (including all 14 MS-DOS
+character sets), Amiga fonts, and iCE colors.
 .Pp
 All library functions take a context, defined as an
 .Em ansilove_ctx
