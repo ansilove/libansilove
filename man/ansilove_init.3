@@ -34,6 +34,33 @@
 .In ansilove.h
 .Ft int
 .Fn ansilove_init "struct ansilove_ctx *ctx" "struct ansilove_options *options"
+.Sh DESCRIPTION
+The
+.Fn ansilove_init
+function initializes the caller-allocated structures pointed to by
+.Fa ctx
+and
+.Fa options .
+Neither
+.Fa ctx
+nor
+.Fa options
+may be
+.Dv NULL .
+.Pp
+All fields are cleared, except that
+.Va ctx->buffer
+is set to
+.Dv MAP_FAILED
+and
+.Va options->bits
+is set to 8.
+Set any desired options after calling this function.
+.Pp
+This function does not release existing resources.
+Before reinitializing a context that owns an input mapping or PNG buffer,
+release those resources with
+.Xr ansilove_clean 3 .
 .Sh RETURN VALUES
 The
 .Fn ansilove_init
