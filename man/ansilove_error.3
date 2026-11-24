@@ -40,6 +40,8 @@ The
 function returns a description of the error code stored in
 .Va ctx->error .
 The returned string must not be modified or freed.
+Successful operations do not generally clear a previous error code.
+Check each function's return value before consulting this function.
 .Pp
 The following error codes are defined in
 .In ansilove.h :
