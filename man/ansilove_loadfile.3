@@ -34,6 +34,32 @@
 .In ansilove.h
 .Ft int
 .Fn ansilove_loadfile "struct ansilove_ctx *ctx" "const char *input"
+.Sh DESCRIPTION
+The
+.Fn ansilove_loadfile
+function opens
+.Fa input
+for reading and maps its contents into memory.
+The context
+.Fa ctx
+must have been initialized with
+.Xr ansilove_init 3 .
+.Pp
+On success,
+.Va ctx->buffer
+points to a read-only mapping, and
+.Va ctx->maplen
+and
+.Va ctx->length
+contain the file size in bytes.
+The file descriptor is closed before the function returns.
+An empty file cannot be mapped and causes this function to fail.
+.Pp
+This function does not detect the file format or render the input.
+Call the appropriate rendering function after loading the file.
+Release the mapping with
+.Xr ansilove_clean 3
+before loading another file into the same context.
 .Sh RETURN VALUES
 The
 .Fn ansilove_loadfile
