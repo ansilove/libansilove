@@ -34,6 +34,32 @@
 .In ansilove.h
 .Ft char *
 .Fn ansilove_error "struct ansilove_ctx *ctx"
+.Sh DESCRIPTION
+The
+.Fn ansilove_error
+function returns a description of the error code stored in
+.Va ctx->error .
+The returned string must not be modified or freed.
+.Pp
+The following error codes are defined in
+.In ansilove.h :
+.Bl -tag -width ANSILOVE_FILE_WRITE_ERROR
+.It Dv ANSILOVE_INVALID_PARAM
+A required pointer argument is
+.Dv NULL .
+.It Dv ANSILOVE_FORMAT_ERROR
+The input is empty, malformed, or invalid for the selected renderer.
+.It Dv ANSILOVE_MEMORY_ERROR
+Memory allocation or input file mapping failed.
+.It Dv ANSILOVE_RANGE_ERROR
+A value is outside the supported range.
+.It Dv ANSILOVE_FILE_READ_ERROR
+Opening the input file or obtaining its status failed.
+.It Dv ANSILOVE_FILE_WRITE_ERROR
+Opening, writing, or closing the output file failed.
+.It Dv ANSILOVE_GD_ERROR
+A GD image operation or PNG encoding failed.
+.El
 .Sh RETURN VALUES
 The
 .Fn ansilove_error
