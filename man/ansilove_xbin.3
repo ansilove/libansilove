@@ -34,6 +34,31 @@
 .In ansilove.h
 .Ft int
 .Fn ansilove_xbin "struct ansilove_ctx *ctx" "struct ansilove_options *options"
+.Sh DESCRIPTION
+The
+.Fn ansilove_xbin
+function renders XBin data from
+.Va ctx->buffer ,
+using
+.Va ctx->length
+bytes of input and the settings in
+.Fa options .
+Initialize both structures with
+.Xr ansilove_init 3
+and load the input with
+.Xr ansilove_loadfile 3
+before calling this function.
+.Pp
+On success,
+.Va ctx->png.buffer
+contains the encoded PNG image and
+.Va ctx->png.length
+contains its size in bytes.
+Use
+.Xr ansilove_savefile 3
+to write the image to disk, or read the PNG buffer directly.
+The buffer belongs to the context and is released by
+.Xr ansilove_clean 3 .
 .Sh RETURN VALUES
 The
 .Fn ansilove_xbin
