@@ -57,6 +57,16 @@ struct ansilove_ctx {
 };
 .Ed
 .Pp
+The
+.Va ctx->png
+member stores the encoded PNG image and its length in bytes:
+.Bd -literal
+struct ansilove_png {
+        uint8_t *buffer;
+        int length;
+};
+.Ed
+.Pp
 Options are passed to the different loaders using the
 .Em ansilove_options
 structure in
