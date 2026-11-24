@@ -99,9 +99,11 @@ buffer.
 Clean and reinitialize the context before starting another conversion.
 Pointers into either buffer must not be used after cleanup.
 .Ss Rendering options
-The options structure is initialized to zero, except for
+The
+.Xr ansilove_init 3
+function initializes the options structure to zero, except for
 .Va bits ,
-which defaults to 8.
+which is set to 8.
 Renderers may update option fields, including filling in a default column
 count and enabling truecolor when ANSI input requests RGB colors.
 .Bl -tag -width scale_factor
