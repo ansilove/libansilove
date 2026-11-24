@@ -38,6 +38,13 @@
 The
 .Fn ansilove_pcboard
 function returns 0 on success and \-1 on failure.
+On failure, if
+.Fa ctx
+is not
+.Dv NULL ,
+.Va ctx->error
+is set to an error code described in
+.Xr ansilove_error 3 .
 .Sh SEE ALSO
 .Xr ansilove_ansi 3 ,
 .Xr ansilove_artworx 3 ,
