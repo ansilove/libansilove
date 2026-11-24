@@ -42,7 +42,7 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	struct fontStruct fontData;
 
 	/* libgd image pointers */
-	gdImagePtr canvas;
+	gdImagePtr canvas = NULL;
 
 	if (ctx == NULL || options == NULL) {
 		if (ctx)
@@ -245,6 +245,9 @@ ansilove_tundra(struct ansilove_ctx *ctx, struct ansilove_options *options)
 	return output(ctx, options, canvas);
 
 error:
+	if (canvas != NULL)
+		gdImageDestroy(canvas);
+
 	ctx->error = ANSILOVE_FORMAT_ERROR;
 	return -1;
 }
