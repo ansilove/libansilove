@@ -71,6 +71,55 @@ struct ansilove_options {
         uint8_t scale_factor;
 };
 .Ed
+.Ss Rendering options
+The options structure is initialized to zero, except for
+.Va bits ,
+which defaults to 8.
+Renderers may update option fields, including filling in a default column
+count and enabling truecolor when ANSI input requests RGB colors.
+.Bl -tag -width scale_factor
+.It Va diz
+Crop ANSI output to the used columns, up to the configured column count.
+.It Va dos
+Apply DOS aspect ratio correction by vertically resampling the image
+by a factor of 1.35.
+.It Va icecolors
+Enable high-intensity background colors in ANSI and Binary input.
+.It Va truecolor
+Use a truecolor canvas for ANSI rendering.
+RGB color sequences also enable this option automatically.
+.It Va columns
+Number of character columns for ANSI, Binary, PCBoard, and TundraDraw.
+Zero selects 80 columns, except for Binary, which defaults to 160.
+Explicit values must be between 1 and 4096.
+Other formats derive their dimensions from the input.
+.It Va font
+Select a built-in font using an
+.Dv ANSILOVE_FONT_*
+constant from
+.In ansilove.h .
+Used by ANSI, Binary, PCBoard, and TundraDraw.
+Zero selects the standard IBM PC 80x25 font.
+.It Va bits
+Character cell width, in pixels, for ANSI, Binary, PCBoard, and TundraDraw.
+Must be 8 or 9.
+.It Va mode
+Zero selects normal rendering.
+.Dv ANSILOVE_MODE_CED
+and
+.Dv ANSILOVE_MODE_WORKBENCH
+select alternative rendering modes for ANSI input.
+CED mode uses black text on a gray background and a width of 78 columns,
+unless
+.Va diz
+is enabled.
+Workbench mode uses the Amiga Workbench palette.
+.Dv ANSILOVE_MODE_TRANSPARENT
+marks color zero as transparent during output processing.
+.It Va scale_factor
+Integer image scaling factor, applied after DOS aspect ratio correction.
+Zero disables scaling; supported factors are 2 through 8.
+.El
 .Sh SEE ALSO
 .Xr ansilove_ansi 3 ,
 .Xr ansilove_artworx 3 ,
