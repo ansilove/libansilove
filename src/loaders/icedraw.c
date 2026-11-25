@@ -132,6 +132,11 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 		}
 	}
 
+	if (state != STATE_CHARACTER) {
+		ctx->error = ANSILOVE_FORMAT_ERROR;
+		goto error;
+	}
+
 	width = x2 * 8;
 	height = i / 2 / x2 * 16;
 
