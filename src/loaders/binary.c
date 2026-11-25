@@ -1,6 +1,6 @@
 /*
  * binary.c
- * libansilove 1.4.6
+ * libansilove 1.4.7
  * https://www.ansilove.org
  *
  * Copyright (c) 2011-2026 Stefan Vogt, Brian Cassidy, and Frederic Cambus
