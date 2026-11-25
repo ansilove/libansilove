@@ -106,7 +106,7 @@ ansilove_icedraw(struct ansilove_ctx *ctx, struct ansilove_options *options)
 			/* RLE compressed data */
 			idf_sequence_length = *cursor;
 
-			if (loop + 3 >= ctx->length) {
+			if (loop + 3 >= ctx->length - IDF_FONT_LENGTH - IDF_PALETTE_LENGTH) {
 				ctx->error = ANSILOVE_FORMAT_ERROR;
 				goto error;
 			}
